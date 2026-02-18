@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nyura Motors - Iniciar sesión</title>
+    <link rel="stylesheet" href="EstiloPrincipal.css">
+    <link rel="stylesheet" href="auth.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
+    <style>
+        main { margin-top: 0; }
+    </style>
+</head>
+<body>
+    <main>
+        <section class="auth-page">
+            <div class="auth-card" style="max-width: 520px; grid-template-columns: 1fr;">
+                <div class="auth-content" style="background: transparent;">
+                    <div class="auth-row" style="justify-content: flex-start; margin-bottom: 0.5rem;">
+                        <a class="auth-link" href="home.html" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+                            <span aria-hidden="true">←</span>
+                            <span>Volver</span>
+                        </a>
+                    </div>
+
+                    <p class="auth-kicker">Nyura Motors</p>
+                    <h1 class="auth-title" style="font-size: 1.85rem;">Iniciar sesión</h1>
+
+                    <form class="auth-form" action="#" method="post" novalidate>
+                        <label>
+                            <span>Email</span>
+                            <input class="auth-input" type="email" name="email" autocomplete="email" placeholder="nombre@correo.com" required>
+                        </label>
+
+                        <label>
+                            <span>Contraseña</span>
+                            <input class="auth-input" type="password" name="contrasena" autocomplete="current-password" placeholder="Tu contraseña" required>
+                        </label>
+
+                        <div class="auth-row">
+                            <a class="auth-link" href="#">¿Olvidaste tu contraseña?</a>
+                        </div>
+
+                        <button class="auth-submit" type="submit">Entrar</button>
+
+                        <p class="auth-alt">¿No tienes cuenta? <a class="auth-link" href="Registro.html">Regístrate</a></p>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('.auth-form');
+            const emailInput = form.querySelector('[name="email"]');
+            const passwordInput = form.querySelector('[name="contrasena"]');
+
+            // Validación completa del formulario
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Limpiar errores anteriores
+                document.querySelectorAll('.field-error').forEach(el => el.remove());
+                
+                let hasErrors = false;
+                
+                // Validar email obligatorio
+                if (!emailInput.value.trim()) {
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'field-error';
+                    errorDiv.style.cssText = 'color: #e74c3c; font-size: 0.85rem; margin-top: 0.25rem;';
+                    errorDiv.textContent = 'El email es obligatorio';
+                    emailInput.parentNode.appendChild(errorDiv);
+                    hasErrors = true;
+                } else {
+                    // Validar formato de email
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(emailInput.value)) {
+                        const errorDiv = document.createElement('div');
+                        errorDiv.className = 'field-error';
+                        errorDiv.style.cssText = 'color: #e74c3c; font-size: 0.85rem; margin-top: 0.25rem;';
+                        errorDiv.textContent = 'El email no es válido';
+                        emailInput.parentNode.appendChild(errorDiv);
+                        hasErrors = true;
+                    }
+                }
+                
+                // Validar contraseña obligatoria
+                if (!passwordInput.value.trim()) {
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'field-error';
+                    errorDiv.style.cssText = 'color: #e74c3c; font-size: 0.85rem; margin-top: 0.25rem;';
+                    errorDiv.textContent = 'La contraseña es obligatoria';
+                    passwordInput.parentNode.appendChild(errorDiv);
+                    hasErrors = true;
+                }
+                
+                // Si no hay errores, enviar formulario
+                if (!hasErrors) {
+                    // Aquí iría la lógica de autenticación
+                    alert('Inicio de sesión correcto');
+                    // form.submit(); // Descomentar para enviar realmente
+                }
+            });
+
+            // Limpiar errores al escribir
+            emailInput.addEventListener('input', function() {
+                const error = this.parentNode.querySelector('.field-error');
+                if (error) error.remove();
+            });
+
+            passwordInput.addEventListener('input', function() {
+                const error = this.parentNode.querySelector('.field-error');
+                if (error) error.remove();
+            });
+        });
+    </script>
+</body>
+</html>
