@@ -1,4 +1,65 @@
 /* ESTILO PRINCIPAL - NYURA MOTORS */
+
+/* Estilos para el menú desplegable de autenticación */
+.auth-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.auth-dropdown-toggle {
+    background: none;
+    border: none;
+    color: #111318;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    font-family: 'Inter', 'Roboto', sans-serif;
+    transition: background-color 0.2s;
+    text-decoration: none;
+}
+
+.auth-dropdown-toggle:hover {
+    background-color: #f0f2f5;
+}
+
+.auth-dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    border: 1px solid #e1e5e9;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    min-width: 180px;
+    z-index: 1000;
+    margin-top: 4px;
+}
+
+.auth-dropdown-menu a {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    color: #111318;
+    text-decoration: none;
+    font-size: 14px;
+    font-family: 'Inter', 'Roboto', sans-serif;
+    transition: background-color 0.2s;
+    border-bottom: 1px solid #f0f2f5;
+}
+
+.auth-dropdown-menu a:last-child {
+    border-bottom: none;
+}
+
+.auth-dropdown-menu a:hover {
+    background-color: #f8f9fa;
+}
+
+/* Estilos existentes */
 * {
     margin: 0;
     padding: 0;

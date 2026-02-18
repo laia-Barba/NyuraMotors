@@ -19,7 +19,7 @@
                 <li><a href="Gama.html">Gamas</a></li>
                 <li><a href="Configurador3D.html">Configurador 3D</a></li>
                 <li><a href="contacto.html">Contacto</a></li>
-                <li><a href="InicioSesion.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; vertical-align: -2px; margin-right: 6px;"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.41 0-8 2-8 4.5V21h16v-2.5c0-2.5-3.59-4.5-8-4.5Z"/></svg>Iniciar sesión</a></li>
+                <li id="authMenu"><a href="InicioSesion.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; vertical-align: -2px; margin-right: 6px;"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.41 0-8 2-8 4.5V21h16v-2.5c0-2.5-3.59-4.5-8-4.5Z"/></svg>Iniciar sesión</a></li>
             </ul>
         </nav>
     </header>
@@ -73,5 +73,129 @@
     </div>
 </footer>
 
+<script type="module">
+        import { getCurrentUser, createOrUpdateUserProfile, onAuthStateChange, signOut } from '../controlador/BBDD/SupabaseCliente.js';
+        
+        document.addEventListener('DOMContentLoaded', async function() {
+            const authMenu = document.getElementById('authMenu');
+            
+            // Función para actualizar el menú de autenticación
+            function updateAuthMenu(user) {
+                if (user) {
+                    const displayName = user.user_metadata?.nombre || user.email.split('@')[0];
+                    authMenu.innerHTML = `
+                        <div class="auth-dropdown">
+                            <button class="auth-dropdown-toggle" onclick="toggleAuthMenu()">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; vertical-align: -2px; margin-right: 6px;">
+                                    <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.41 0-8 2-8 4.5V21h16v-2.5c0-2.5-3.59-4.5-8-4.5Z"/>
+                                </svg>
+                                ${displayName}
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 12px; height: 12px; margin-left: 4px;">
+                                    <path d="M7 10l5 5 5-5z"/>
+                                </svg>
+                            </button>
+                            <div class="auth-dropdown-menu" id="authDropdownMenu">
+                                <a href="#" onclick="viewProfile()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; margin-right: 8px;">
+                                        <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.41 0-8 2-8 4.5V21h16v-2.5c0-2.5-3.59-4.5-8-4.5Z"/>
+                                    </svg>
+                                    Ver perfil
+                                </a>
+                                <a href="#" onclick="handleSignOut()" style="color: #dc3545;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; margin-right: 8px;">
+                                        <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5-5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+                                    </svg>
+                                    Cerrar sesión
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    authMenu.innerHTML = `
+                        <a href="InicioSesion.html">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; vertical-align: -2px; margin-right: 6px;">
+                                <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.41 0-8 2-8 4.5V21h16v-2.5c0-2.5-3.59-4.5-8-4.5Z"/>
+                            </svg>
+                            Iniciar sesión
+                        </a>
+                    `;
+                }
+            }
+            
+            // Función para toggle del menú desplegable
+            window.toggleAuthMenu = function() {
+                const menu = document.getElementById('authDropdownMenu');
+                menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+            };
+            
+            // Función para ver perfil
+            window.viewProfile = function() {
+                const currentUser = getCurrentUser();
+                if (currentUser) {
+                    const displayName = currentUser.user_metadata?.nombre || currentUser.email.split('@')[0];
+                    alert(`Perfil de ${displayName}\n\nEmail: ${currentUser.email}\nTeléfono: ${currentUser.user_metadata?.telefono || 'No especificado'}`);
+                }
+                toggleAuthMenu(); // Cerrar el menú
+            };
+            
+            // Función para cerrar sesión
+            window.handleSignOut = async function() {
+                try {
+                    const result = await signOut();
+                    if (result.success) {
+                        console.log('Sesión cerrada correctamente');
+                        updateAuthMenu(null);
+                        // Opcional: redirigir a página de login
+                        // window.location.href = 'InicioSesion.html';
+                    } else {
+                        console.error('Error al cerrar sesión:', result.error);
+                        alert('Error al cerrar sesión. Intenta de nuevo.');
+                    }
+                } catch (error) {
+                    console.error('Error inesperado al cerrar sesión:', error);
+                    alert('Error inesperado. Intenta de nuevo.');
+                }
+            };
+            
+            // Cerrar menú al hacer clic fuera
+            document.addEventListener('click', function(event) {
+                const dropdown = document.querySelector('.auth-dropdown');
+                if (dropdown && !dropdown.contains(event.target)) {
+                    const menu = document.getElementById('authDropdownMenu');
+                    if (menu) {
+                        menu.style.display = 'none';
+                    }
+                }
+            });
+            
+            // Verificar estado inicial
+            const currentUser = await getCurrentUser();
+            updateAuthMenu(currentUser);
+            
+            // Escuchar cambios en autenticación
+            onAuthStateChange(async (event, session) => {
+                if (event === 'SIGNED_IN' && session?.user) {
+                    console.log('Usuario autenticado:', session.user);
+                    
+                    // Crear o actualizar perfil en tabla users
+                    const profileResult = await createOrUpdateUserProfile(session.user);
+                    
+                    if (profileResult.success) {
+                        console.log('Perfil procesado:', profileResult.action);
+                        if (profileResult.action === 'created') {
+                            console.log('Nuevo perfil creado para usuario de Google');
+                        }
+                    } else {
+                        console.error('Error procesando perfil:', profileResult.error);
+                    }
+                    
+                    updateAuthMenu(session.user);
+                } else if (event === 'SIGNED_OUT') {
+                    console.log('Usuario cerró sesión');
+                    updateAuthMenu(null);
+                }
+            });
+        });
+    </script>
 </body>
 </html>

@@ -72,7 +72,9 @@
             </div>
         </section>
     </main>
-    <script>
+    <script type="module">
+        import { signUp } from '../controlador/BBDD/SupabaseCliente.js';
+        
         document.addEventListener('DOMContentLoaded', function() {
             const termsCheckbox = document.getElementById('termsCheckbox');
             const submitBtn = document.getElementById('submitBtn');
@@ -137,7 +139,7 @@
             });
 
             // Validación completa del formulario
-            form.addEventListener('submit', function(e) {
+            form.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
                 // Limpiar errores anteriores
@@ -200,9 +202,38 @@
                 
                 // Si no hay errores, enviar formulario
                 if (!hasErrors) {
-                    // Aquí iría la lógica de envío al servidor
-                    alert('Registro completado correctamente');
-                    // form.submit(); // Descomentar para enviar realmente
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = 'Registrando...';
+                    
+                    const userData = {
+                        nombre: form.querySelector('[name="nombre"]').value,
+                        email: emailInput.value,
+                        telefono: phoneInput.value,
+                        contrasena: passwordInput.value
+                    };
+                    
+                    try {
+                        const result = await signUp(userData.email, userData.contrasena, userData);
+                        
+                        if (result.success) {
+                            alert(result.message || 'Registro exitoso');
+                            // Redirigir a página de confirmación o login
+                            window.location.href = 'InicioSesion.html';
+                        } else {
+                            // Mostrar error específico
+                            const errorDiv = document.createElement('div');
+                            errorDiv.className = 'field-error';
+                            errorDiv.style.cssText = 'color: #e74c3c; font-size: 0.85rem; margin-top: 0.25rem;';
+                            errorDiv.textContent = result.error;
+                            emailInput.parentNode.appendChild(errorDiv);
+                        }
+                    } catch (error) {
+                        console.error('Error en registro:', error);
+                        alert('Error inesperado durante el registro');
+                    } finally {
+                        submitBtn.disabled = !termsCheckbox.checked;
+                        submitBtn.textContent = 'Crear cuenta';
+                    }
                 }
             });
         });
