@@ -1,0 +1,245 @@
+/* ESTILO PRINCIPAL - NYURA MOTORS */
+
+/* Estilos para el menú desplegable de autenticación */
+.auth-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.auth-dropdown-toggle {
+    background: none;
+    border: none;
+    color: #111318;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    font-family: 'Inter', 'Roboto', sans-serif;
+    transition: background-color 0.2s;
+    text-decoration: none;
+}
+
+.auth-dropdown-toggle:hover {
+    background-color: #f0f2f5;
+}
+
+.auth-dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    border: 1px solid #e1e5e9;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    min-width: 180px;
+    z-index: 1000;
+    margin-top: 4px;
+}
+
+.auth-dropdown-menu a {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    color: #111318;
+    text-decoration: none;
+    font-size: 14px;
+    font-family: 'Inter', 'Roboto', sans-serif;
+    transition: background-color 0.2s;
+    border-bottom: 1px solid #f0f2f5;
+}
+
+.auth-dropdown-menu a:last-child {
+    border-bottom: none;
+}
+
+.auth-dropdown-menu a:hover {
+    background-color: #f8f9fa;
+}
+
+/* Estilos existentes */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', 'Roboto', sans-serif;
+    background-color: #F5F7FB;
+    color: #111318;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(245, 247, 251, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+}
+
+nav {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+}
+
+.logo-img {
+    height: 95px;  /* ← TU VALOR: Logo grande */
+    width: auto;
+    object-fit: contain;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+nav a {
+    text-decoration: none;
+    color: #111318;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+nav a:hover {
+    color: #4A6FFF;
+}
+
+nav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background: #4A6FFF;
+    transition: width 0.3s ease;
+}
+
+nav a:hover::after {
+    width: 100%;
+}
+
+main {
+    margin-top: 120px;  /* ← AJUSTADO para logo 95px */
+    margin-bottom: auto;
+    flex: 1;
+    padding: 2rem;
+}
+
+/* FOOTER COMPLETO */
+footer {
+    background: linear-gradient(135deg, #111318 0%, #1a1f2e 100%);
+    color: white;
+    padding: 4rem 2rem 2rem;
+    margin-top: auto;
+}
+
+.footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 3rem;
+    margin-bottom: 2rem;
+}
+
+.footer-section h3 {
+    color: #4A6FFF;
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.footer-section p, .footer-section a {
+    color: #b8bcc5;
+    text-decoration: none;
+    line-height: 1.8;
+    transition: color 0.3s ease;
+}
+
+.footer-section a:hover {
+    color: #4A6FFF;
+}
+
+.footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.social-links a {
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+    background: #4A6FFF;
+    transform: translateY(-2px);
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 2rem;
+    text-align: center;
+    color: #b8bcc5;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    footer {
+        padding: 2rem 1rem 1rem;
+    }
+    
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        text-align: center;
+    }
+}
+
+
+@media (max-width: 768px) {
+    nav ul {
+        display: none;
+    }
+    
+    nav {
+        padding: 0 1rem;
+    }
+    
+    .logo-img {
+        height: 75px;  /* ← AJUSTADO proporcional móvil */
+    }
+    
+    main {
+        margin-top: 100px;  /* ← AJUSTADO móvil */
+        padding: 1rem;
+    }
+}

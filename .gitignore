@@ -137,3 +137,9 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# Ignorar todos los SQL
+*.sql
+
+# Ignorar todos los JSON
+*.json

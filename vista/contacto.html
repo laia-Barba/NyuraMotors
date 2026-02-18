@@ -1,0 +1,316 @@
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contacto</title>
+    <link rel="stylesheet" href="contacto.css" />
+    <link rel="stylesheet" href="EstiloPrincipal.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <header>
+        <nav>
+            <!-- Logo como imagen -->
+            <a href="home.html"><img src="../Imagenes/NYURAlogopagina.png" alt="Nyura Motors" class="logo-img"></a>
+            
+            <ul>
+                <li><a href="home.html">Inicio</a></li>
+                <li><a href="Gama.html">Gamas</a></li>
+                <li><a href="Configurador3D.html">Configurador 3D</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+                <li id="authMenu"><a href="InicioSesion.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; vertical-align: -2px; margin-right: 6px;"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.41 0-8 2-8 4.5V21h16v-2.5c0-2.5-3.59-4.5-8-4.5Z"/></svg>Iniciar sesión</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="page">
+      <section class="shell">
+        <div class="hero">
+          <div class="hero__copy">
+            <p class="hero__kicker">Nyura Motors</p>
+            <h1 class="hero__title">Contacto</h1>
+            <p class="hero__subtitle">
+              ¿Tienes dudas sobre nuestros vehículos o quieres reservar una prueba? Escríbenos y
+              te responderemos lo antes posible.
+            </p>
+          </div>
+        </div>
+
+        <section class="grid">
+          <div class="panel">
+            <h2 class="panel__title">Información</h2>
+            <p class="panel__text">
+              Te atendemos de lunes a viernes. Si lo prefieres, también puedes contactarnos por
+              correo o visitarnos.
+            </p>
+
+            <div class="cards">
+              <div class="card">
+                <div class="card__icon" aria-hidden="true">@</div>
+                <div class="card__body">
+                  <p class="card__label">Email</p>
+                  <p class="card__value">contacto@nyuramotors.com</p>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card__icon" aria-hidden="true">☎</div>
+                <div class="card__body">
+                  <p class="card__label">Teléfono</p>
+                  <p class="card__value">+34 612 345 678</p>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card__icon" aria-hidden="true">⌂</div>
+                <div class="card__body">
+                  <p class="card__label">Dirección</p>
+                  <p class="card__value">Carrer de Caracas, 11. Sant Andreu, 08030 Barcelona</p>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card__icon" aria-hidden="true">⏱</div>
+                <div class="card__body">
+                  <p class="card__label">Horario</p>
+                  <p class="card__value">Lunes a Viernes · 09:00 — 13:00 / 15:00 — 19:00</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="note" role="note">
+              <p class="note__title">Nota</p>
+              <p class="note__text">
+                Este formulario es solo visual.
+              </p>
+            </div>
+          </div>
+
+          <div class="panel panel--form">
+            <h2 class="panel__title">Envíanos un mensaje</h2>
+            <form class="form" action="#" method="post" novalidate>
+              <div class="form__row">
+                <label class="field">
+                  <span class="field__label">Nombre</span>
+                  <input class="field__input" type="text" name="nombre" placeholder="Tu nombre" />
+                </label>
+
+                <label class="field">
+                  <span class="field__label">Apellidos</span>
+                  <input class="field__input" type="text" name="apellidos" placeholder="Tus apellidos" />
+                </label>
+              </div>
+
+              <div class="form__row">
+                <label class="field">
+                  <span class="field__label">Email</span>
+                  <input class="field__input" type="email" name="email" placeholder="nombre@correo.com" />
+                </label>
+
+                <label class="field">
+                  <span class="field__label">Teléfono</span>
+                  <input class="field__input" type="tel" name="telefono" placeholder="+34 600 000 000" />
+                </label>
+              </div>
+
+              <label class="field">
+                <span class="field__label">Asunto</span>
+                <input class="field__input" type="text" name="asunto" placeholder="¿Sobre qué quieres hablar?" />
+              </label>
+
+              <label class="field">
+                <span class="field__label">Mensaje</span>
+                <textarea
+                  class="field__input field__input--textarea"
+                  name="mensaje"
+                  rows="6"
+                  placeholder="Cuéntanos qué necesitas..."
+                ></textarea>
+              </label>
+
+              <label class="check">
+                <input class="check__input" type="checkbox" />
+                <span class="check__box" aria-hidden="true"></span>
+                <span class="check__text">He leído y acepto la política de privacidad</span>
+              </label>
+
+              <div class="actions">
+                <button class="btn" type="button" aria-disabled="true">Enviar</button>
+              </div>
+            </form>
+          </div>
+        </section>
+      </section>
+    </main>
+    <footer>
+    <div class="footer-content">
+        <!-- Nyura Motors -->
+        <div class="footer-section">
+            <img src="../Imagenes/LogoBlancoNyura.png" alt="Nyura Motors" class="logo-img" style="height: 143px; opacity: 0.9;">
+            <p>El futur de la mobilitat elèctrica. Disseny innovador, rendiment superior i tecnologia punta.</p>
+        </div>
+
+        <!-- Enllaços principals -->
+        <div class="footer-section">
+            <h3>Paginas de Nyura Motors</h3>
+            <div class="footer-links">
+                <a href="home.html">Home</a>
+                <a href="Gama.html">Gamas</a>
+                <a href="Configurador3D.html">Configurador 3D</a>
+                <a href="contacto.html">Contacto</a>
+            </div>
+        </div>
+
+        
+
+        <!-- Contacte & Xarxes -->
+        <div class="footer-section">
+            <h3>Contacte</h3>
+            <p>📧 contacto@nyuramotors.com<br>
+               📱 +34 612 345 678<br>
+               📍 Carrer de Caracas, 11. Sant Andreu, 08030 Barcelona</p>
+            <div class="social-links">
+                <a href="#" aria-label="Twitter">𝕏</a>
+                <a href="#" aria-label="Instagram">📷</a>
+                <a href="#" aria-label="YouTube">📺</a>
+                <a href="#" aria-label="LinkedIn">💼</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p>&copy; 2026 Nyura Motors. Tots els drets reservats. | 
+           <a href="#" style="color: #4A6FFF;">Política de Privacitat</a> | 
+           <a href="#" style="color: #4A6FFF;">Condicions d'ús</a> | 
+           <a href="#" style="color: #4A6FFF;">Cookies</a>
+        </p>
+    </div>
+</footer>
+<script type="module">
+        import { getCurrentUser, createOrUpdateUserProfile, onAuthStateChange, signOut } from '../controlador/BBDD/SupabaseCliente.js';
+        
+        document.addEventListener('DOMContentLoaded', async function() {
+            const authMenu = document.getElementById('authMenu');
+            
+            // Función para actualizar el menú de autenticación
+            function updateAuthMenu(user) {
+                if (user) {
+                    const displayName = user.user_metadata?.nombre || user.email.split('@')[0];
+                    authMenu.innerHTML = `
+                        <div class="auth-dropdown">
+                            <button class="auth-dropdown-toggle" onclick="toggleAuthMenu()">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; vertical-align: -2px; margin-right: 6px;">
+                                    <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.41 0-8 2-8 4.5V21h16v-2.5c0-2.5-3.59-4.5-8-4.5Z"/>
+                                </svg>
+                                ${displayName}
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 12px; height: 12px; margin-left: 4px;">
+                                    <path d="M7 10l5 5 5-5z"/>
+                                </svg>
+                            </button>
+                            <div class="auth-dropdown-menu" id="authDropdownMenu">
+                                <a href="#" onclick="viewProfile()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; margin-right: 8px;">
+                                        <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.41 0-8 2-8 4.5V21h16v-2.5c0-2.5-3.59-4.5-8-4.5Z"/>
+                                    </svg>
+                                    Ver perfil
+                                </a>
+                                <a href="#" onclick="handleSignOut()" style="color: #dc3545;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; margin-right: 8px;">
+                                        <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5-5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+                                    </svg>
+                                    Cerrar sesión
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    authMenu.innerHTML = `
+                        <a href="InicioSesion.html">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; vertical-align: -2px; margin-right: 6px;">
+                                <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.41 0-8 2-8 4.5V21h16v-2.5c0-2.5-3.59-4.5-8-4.5Z"/>
+                            </svg>
+                            Iniciar sesión
+                        </a>
+                    `;
+                }
+            }
+            
+            // Función para toggle del menú desplegable
+            window.toggleAuthMenu = function() {
+                const menu = document.getElementById('authDropdownMenu');
+                menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+            };
+            
+            // Función para ver perfil
+            window.viewProfile = function() {
+                const currentUser = getCurrentUser();
+                if (currentUser) {
+                    const displayName = currentUser.user_metadata?.nombre || currentUser.email.split('@')[0];
+                    alert(`Perfil de ${displayName}\n\nEmail: ${currentUser.email}\nTeléfono: ${currentUser.user_metadata?.telefono || 'No especificado'}`);
+                }
+                toggleAuthMenu(); // Cerrar el menú
+            };
+            
+            // Función para cerrar sesión
+            window.handleSignOut = async function() {
+                try {
+                    const result = await signOut();
+                    if (result.success) {
+                        console.log('Sesión cerrada correctamente');
+                        updateAuthMenu(null);
+                        // Opcional: redirigir a página de login
+                        // window.location.href = 'InicioSesion.html';
+                    } else {
+                        console.error('Error al cerrar sesión:', result.error);
+                        alert('Error al cerrar sesión. Intenta de nuevo.');
+                    }
+                } catch (error) {
+                    console.error('Error inesperado al cerrar sesión:', error);
+                    alert('Error inesperado. Intenta de nuevo.');
+                }
+            };
+            
+            // Cerrar menú al hacer clic fuera
+            document.addEventListener('click', function(event) {
+                const dropdown = document.querySelector('.auth-dropdown');
+                if (dropdown && !dropdown.contains(event.target)) {
+                    const menu = document.getElementById('authDropdownMenu');
+                    if (menu) {
+                        menu.style.display = 'none';
+                    }
+                }
+            });
+            
+            // Verificar estado inicial
+            const currentUser = await getCurrentUser();
+            updateAuthMenu(currentUser);
+            
+            // Escuchar cambios en autenticación
+            onAuthStateChange(async (event, session) => {
+                if (event === 'SIGNED_IN' && session?.user) {
+                    console.log('Usuario autenticado:', session.user);
+                    
+                    // Crear o actualizar perfil en tabla users
+                    const profileResult = await createOrUpdateUserProfile(session.user);
+                    
+                    if (profileResult.success) {
+                        console.log('Perfil procesado:', profileResult.action);
+                        if (profileResult.action === 'created') {
+                            console.log('Nuevo perfil creado para usuario de Google');
+                        }
+                    } else {
+                        console.error('Error procesando perfil:', profileResult.error);
+                    }
+                    
+                    updateAuthMenu(session.user);
+                } else if (event === 'SIGNED_OUT') {
+                    console.log('Usuario cerró sesión');
+                    updateAuthMenu(null);
+                }
+            });
+        });
+    </script>
+  </body>
+</html>
+
