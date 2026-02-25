@@ -17,7 +17,7 @@
             
             <ul>
                 <li><a href="home.html">Inicio</a></li>
-                <li><a href="Gama.html">Gamas</a></li>
+                <li><a href="Gama.html">Modelos</a></li>
                 <li><a href="Configurador3D.html">Configurador 3D</a></li>
                 <li><a href="contacto.html">Contacto</a></li>
                 <li id="authMenu"><a href="InicioSesion.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; vertical-align: -2px; margin-right: 6px;"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.41 0-8 2-8 4.5V21h16v-2.5c0-2.5-3.59-4.5-8-4.5Z"/></svg>Iniciar sesión</a></li>
@@ -116,7 +116,7 @@
 
               <label class="field">
                 <span class="field__label">Asunto</span>
-                <input class="field__input" type="text" name="asunto" placeholder="¿Sobre qué quieres hablar?" />
+                <input class="field__input" type="text" name="asunto" placeholder="¿Sobre qué quieres hablar?" required />
               </label>
 
               <label class="field">
@@ -126,17 +126,18 @@
                   name="mensaje"
                   rows="6"
                   placeholder="Cuéntanos qué necesitas..."
+                  required
                 ></textarea>
               </label>
 
               <label class="check">
-                <input class="check__input" type="checkbox" />
+                <input class="check__input" type="checkbox" id="privacyCheck" required />
                 <span class="check__box" aria-hidden="true"></span>
                 <span class="check__text">He leído y acepto la política de privacidad</span>
               </label>
 
               <div class="actions">
-                <button class="btn" type="button" aria-disabled="true">Enviar</button>
+                <button class="btn" type="submit" id="submitBtn">Enviar</button>
               </div>
             </form>
           </div>
@@ -156,7 +157,7 @@
             <h3>Paginas de Nyura Motors</h3>
             <div class="footer-links">
                 <a href="home.html">Home</a>
-                <a href="Gama.html">Gamas</a>
+                <a href="Gama.html">Modelos</a>
                 <a href="Configurador3D.html">Configurador 3D</a>
                 <a href="contacto.html">Contacto</a>
             </div>
@@ -188,10 +189,13 @@
     </div>
 </footer>
 <script type="module">
-        import { getCurrentUser, createOrUpdateUserProfile, onAuthStateChange, signOut } from '../controlador/BBDD/SupabaseCliente.js';
+        import { getCurrentUser, createOrUpdateUserProfile, onAuthStateChange, signOut, createFormContacto, getUserByEmail } from '../controlador/BBDD/SupabaseCliente.js';
         
         document.addEventListener('DOMContentLoaded', async function() {
             const authMenu = document.getElementById('authMenu');
+            const contactForm = document.querySelector('.form');
+            const submitBtn = document.getElementById('submitBtn');
+            const privacyCheck = document.getElementById('privacyCheck');
             
             // Función para actualizar el menú de autenticación
             function updateAuthMenu(user) {
@@ -282,6 +286,155 @@
                 }
             });
             
+            // Manejo del formulario de contacto
+            if (contactForm) {
+                // Función para autorrellenar datos del usuario
+                async function autoFillUserData() {
+                    try {
+                        console.log('Intentando autorrellenar datos del usuario...');
+                        const currentUser = await getCurrentUser();
+                        if (currentUser) {
+                            console.log('Usuario logueado encontrado:', currentUser);
+                            
+                            // Obtener datos adicionales del usuario desde la tabla users
+                            const userData = await getUserByEmail(currentUser.email);
+                            console.log('Datos del usuario desde BD:', userData);
+                            
+                            // Rellenar nombre
+                            const nombreInput = contactForm.querySelector('input[name="nombre"]');
+                            const apellidosInput = contactForm.querySelector('input[name="apellidos"]');
+                            const emailInput = contactForm.querySelector('input[name="email"]');
+                            const telefonoInput = contactForm.querySelector('input[name="telefono"]');
+                            
+                            if (nombreInput && userData) {
+                                // Si tenemos datos de la tabla users, usar el nombre completo
+                                const nombreCompleto = userData.nombre || '';
+                                const partes = nombreCompleto.split(' ');
+                                nombreInput.value = partes[0] || '';
+                                if (apellidosInput && partes.length > 1) {
+                                    apellidosInput.value = partes.slice(1).join(' ');
+                                }
+                            } else if (nombreInput && currentUser.user_metadata?.nombre) {
+                                // Usar metadata de auth
+                                const nombreCompleto = currentUser.user_metadata.nombre;
+                                const partes = nombreCompleto.split(' ');
+                                nombreInput.value = partes[0] || '';
+                                if (apellidosInput && partes.length > 1) {
+                                    apellidosInput.value = partes.slice(1).join(' ');
+                                }
+                            }
+                            
+                            // Rellenar email
+                            if (emailInput) {
+                                emailInput.value = currentUser.email;
+                                emailInput.readOnly = true; // Hacer el campo de solo lectura
+                                emailInput.style.backgroundColor = '#f5f5f5';
+                            }
+                            
+                            // Rellenar teléfono si está disponible
+                            if (telefonoInput && userData?.telefono) {
+                                telefonoInput.value = userData.telefono;
+                            } else if (telefonoInput && currentUser.user_metadata?.telefono) {
+                                telefonoInput.value = currentUser.user_metadata.telefono;
+                            }
+                            
+                            console.log('Formulario autorrellenado correctamente');
+                        } else {
+                            console.log('No hay usuario logueado, formulario vacío');
+                        }
+                    } catch (error) {
+                        console.error('Error al autorrellenar formulario:', error);
+                    }
+                }
+                
+                // Llamar a autorrellenar cuando se carga la página
+                autoFillUserData();
+                
+                contactForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    
+                    // Validar checkbox de privacidad
+                    if (!privacyCheck.checked) {
+                        alert('Debes aceptar la política de privacidad para enviar el formulario.');
+                        return;
+                    }
+                    
+                    // Obtener datos del formulario
+                    const formData = new FormData(contactForm);
+                    const nombre = formData.get('nombre') + ' ' + formData.get('apellidos');
+                    const email = formData.get('email');
+                    const telefono = formData.get('telefono') || '';
+                    const asunto = formData.get('asunto');
+                    const mensaje = formData.get('mensaje');
+                    
+                    // Validar campos obligatorios
+                    if (!nombre || !email || !asunto || !mensaje) {
+                        alert('Por favor, completa todos los campos obligatorios.');
+                        return;
+                    }
+                    
+                    // Validar email
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(email)) {
+                        alert('Por favor, introduce un email válido.');
+                        return;
+                    }
+                    
+                    // Deshabilitar botón durante el envío
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = 'Enviando...';
+                    
+                    try {
+                        console.log('Iniciando envío del formulario...');
+                        
+                        // Obtener usuario actual si está logueado (con timeout)
+                        console.log('Llamando a getCurrentUser...');
+                        let currentUser = null;
+                        try {
+                            const timeoutPromise = new Promise((_, reject) => 
+                                setTimeout(() => reject(new Error('Timeout')), 3000)
+                            );
+                            currentUser = await Promise.race([getCurrentUser(), timeoutPromise]);
+                            console.log('Usuario actual recibido:', currentUser);
+                        } catch (error) {
+                            console.log('getCurrentUser falló o timeout, continuando sin usuario:', error.message);
+                            currentUser = null;
+                        }
+                        
+                        // Preparar datos para enviar
+                        const contactData = {
+                            user_id: currentUser?.id || null,
+                            nombre: nombre.trim(),
+                            email: email.trim(),
+                            telefono: telefono.trim(),
+                            asunto: asunto.trim(),
+                            message: mensaje.trim()
+                        };
+                        console.log('Datos a enviar:', contactData);
+                        
+                        // Enviar formulario
+                        console.log('Llamando a createFormContacto...');
+                        const result = await createFormContacto(contactData);
+                        console.log('Resultado de createFormContacto:', result);
+                        
+                        if (result.success) {
+                            alert('¡Formulario enviado correctamente! Nos pondremos en contacto contigo pronto.');
+                            contactForm.reset();
+                            privacyCheck.checked = false;
+                        } else {
+                            alert('Error al enviar el formulario: ' + result.error);
+                        }
+                    } catch (error) {
+                        console.error('Error al enviar formulario:', error);
+                        alert('Error inesperado al enviar el formulario. Por favor, intenta de nuevo.');
+                    } finally {
+                        // Rehabilitar botón
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Enviar';
+                    }
+                });
+            }
+            
             // Verificar estado inicial
             const currentUser = await getCurrentUser();
             updateAuthMenu(currentUser);
@@ -304,9 +457,21 @@
                     }
                     
                     updateAuthMenu(session.user);
+                    // Autorrellenar formulario cuando el usuario inicia sesión
+                    autoFillUserData();
                 } else if (event === 'SIGNED_OUT') {
                     console.log('Usuario cerró sesión');
                     updateAuthMenu(null);
+                    // Limpiar formulario cuando el usuario cierra sesión
+                    if (contactForm) {
+                        contactForm.reset();
+                        // Hacer el email editable de nuevo
+                        const emailInput = contactForm.querySelector('input[name="email"]');
+                        if (emailInput) {
+                            emailInput.readOnly = false;
+                            emailInput.style.backgroundColor = '';
+                        }
+                    }
                 }
             });
         });
