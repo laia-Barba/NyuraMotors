@@ -1,0 +1,596 @@
+/* Carrusel - Estilos específicos para home.html */
+
+/* Reset completo para carrusel full-width */
+* {
+    box-sizing: border-box;
+}
+
+/* Eliminar margen superior del main para carrusel pegado al header */
+main {
+    margin-top: 95px !important; /* Altura del header para no tapar el carrusel */
+    padding: 0;
+    width: 100%;
+}
+
+.carousel-section {
+    position: relative;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+    padding: 0;
+    left: 0;
+    right: 0;
+}
+
+.carousel-container {
+    position: relative;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 21/9; /* Proporción panorámica equilibrada */
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    min-height: 450px;
+}
+
+.carousel-track {
+    display: flex;
+    width: 200%;
+    height: 100%;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-slide {
+    width: 50%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+}
+
+.carousel-caption {
+    position: absolute;
+    top: 6rem;
+    left: 4rem;
+    right: 4rem;
+    text-align: left;
+    color: rgb(0, 0, 0);
+    z-index: 10;
+}
+
+.carousel-caption h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin: 0 0 1rem 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.carousel-caption p {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    margin: 0;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Responsive para caption */
+@media (max-width: 768px) {
+    .carousel-caption {
+        top: 3rem;
+        left: 2rem;
+        right: 2rem;
+    }
+    
+    .carousel-caption h2 {
+        font-size: 2rem;
+    }
+    
+    .carousel-caption p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .carousel-caption {
+        top: 2rem;
+        left: 1rem;
+        right: 1rem;
+    }
+    
+    .carousel-caption h2 {
+        font-size: 1.5rem;
+    }
+    
+    .carousel-caption p {
+        font-size: 0.9rem;
+    }
+}
+
+/* Botones de navegación */
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.carousel-btn:hover {
+    background: white;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.carousel-btn:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+.carousel-btn-left {
+    left: 1rem;
+}
+
+.carousel-btn-right {
+    right: 1rem;
+}
+
+.carousel-btn svg {
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.carousel-btn:hover svg {
+    color: #667eea;
+}
+
+/* Indicadores */
+.carousel-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+}
+
+.indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid #667eea;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.indicator.active {
+    background: #667eea;
+    transform: scale(1.2);
+}
+
+.indicator:hover {
+    background: rgba(102, 126, 234, 0.3);
+}
+
+/* Sección Introducción Modelos */
+.intro-section {
+    padding: 4rem 2rem;
+    background: white;
+    text-align: center;
+}
+
+.intro-container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.intro-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #111111;
+    margin: 0 0 1.5rem 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.intro-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.1rem;
+    color: #222222;
+    line-height: 1.6;
+    margin: 0 0 2.5rem 0;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.intro-features {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+}
+
+.feature-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.feature-icon-wrapper {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.feature-emoji {
+    font-size: 2rem;
+    line-height: 1;
+}
+
+.feature-item:hover .feature-icon-wrapper {
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+.feature-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Responsive para Intro */
+@media (max-width: 768px) {
+    .intro-section {
+        padding: 3rem 1rem;
+    }
+    
+    .intro-title {
+        font-size: 2rem;
+    }
+    
+    .intro-text {
+        font-size: 1rem;
+    margin: 0 0 2rem 0;
+    }
+    
+    .intro-features {
+        gap: 2rem;
+    }
+    
+    .feature-icon-wrapper {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .feature-emoji {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .intro-section {
+        padding: 2rem 1rem;
+    }
+    
+    .intro-title {
+        font-size: 1.8rem;
+    }
+    
+    .intro-features {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .feature-item {
+        flex-direction: row;
+        justify-content: center;
+        gap: 1rem;
+    }
+    
+    .feature-icon-wrapper {
+        width: 40px;
+        height: 40px;
+        margin-bottom: 0;
+    }
+    
+    .feature-emoji {
+        font-size: 1.2rem;
+    }
+}
+
+/* Sección de Modelos */
+.modelos-section {
+    padding: 4rem 1rem;
+    background: linear-gradient(135deg, #f8f9ff 0%, #e8f0ff 100%);
+    text-align: center;
+}
+
+.modelos-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.modelos-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: #000000;
+    margin: 0 0 0.5rem 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.modelos-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.3rem;
+    color: #666;
+    margin: 0 0 3rem 0;
+    font-weight: 400;
+}
+
+.modelos-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.modelo-placeholder {
+    background: white;
+    border-radius: 20px;
+    padding: 3rem 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.modelo-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.modelo-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+    border-color: #667eea;
+}
+
+.modelo-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.modelo-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+/* Etiqueta de tipo de combustible */
+.fuel-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+}
+
+.fuel-badge.electrico {
+    background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+    color: white;
+}
+
+.fuel-badge.gasolina {
+    background: linear-gradient(135deg, #ff6b6b 0%, #cc5555 100%);
+    color: white;
+}
+
+.fuel-badge.hibrido {
+    background: linear-gradient(135deg, #3adbd1 0%, #33ee7b 100%);
+    color: white;
+}
+
+.fuel-icon {
+    font-size: 0.9rem;
+}
+
+.fuel-text {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+}
+
+.modelo-card:hover .modelo-image img {
+    transform: scale(1.05);
+}
+
+.modelo-info {
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.modelo-info h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1a1a2e;
+    margin: 0 0 0.5rem 0;
+}
+
+.modelo-info p {
+    font-family: 'Inter', sans-serif;
+    color: #666;
+    margin: 0;
+    font-size: 1rem;
+}
+
+.modelo-placeholder:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+    border-color: #667eea;
+}
+
+.placeholder-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.modelo-placeholder h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #000000;
+    margin: 0 0 0.5rem 0;
+}
+
+.modelo-placeholder p {
+    font-family: 'Inter', sans-serif;
+    color: #666;
+    margin: 0;
+    font-size: 1rem;
+}
+
+/* Responsive para Modelos */
+@media (max-width: 1024px) {
+    .modelos-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.2rem;
+    }
+    
+    .modelo-image {
+        height: 180px;
+    }
+}
+
+@media (max-width: 768px) {
+    .modelos-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .modelo-image {
+        height: 200px;
+    }
+    
+    .modelo-card {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+}
+
+.modelo-image {
+    height: 180px;
+}
+
+.modelo-info {
+    padding: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .carousel-container {
+        height: 400px;
+    }
+    
+    .carousel-caption h2 {
+        font-size: 1.5rem;
+    }
+    
+    .carousel-caption p {
+        font-size: 1rem;
+    }
+    
+    .carousel-btn {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .carousel-btn-left {
+        left: 0.5rem;
+    }
+    
+    .carousel-btn-right {
+        right: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .carousel-container {
+        height: 300px;
+    }
+    
+    .carousel-caption {
+        bottom: 1rem;
+        left: 1rem;
+        right: 1rem;
+        padding: 1rem;
+    }
+    
+    .carousel-caption h2 {
+        font-size: 1.2rem;
+    }
+    
+    .carousel-caption p {
+        font-size: 0.9rem;
+    }
+    
+    .carousel-btn {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .carousel-btn svg {
+        width: 20px;
+        height: 20px;
+    }
+}
