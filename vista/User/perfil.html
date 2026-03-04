@@ -155,12 +155,10 @@
             
             // Función para activar modo edición
             function enableEditMode() {
-                const inputs = profileForm.querySelectorAll('input[type="text"], input[type="tel"]');
+                const inputs = profileForm.querySelectorAll('input[type="text"], input[type="tel"], input[type="email"]');
                 inputs.forEach(input => {
-                    if (input.name !== 'email') { // Email siempre readonly
-                        input.readOnly = false;
-                        input.style.backgroundColor = '#ffffff';
-                    }
+                    input.readOnly = false;
+                    input.style.backgroundColor = '#ffffff';
                 });
                 
                 viewActions.style.display = 'none';
@@ -169,7 +167,7 @@
             
             // Función para desactivar modo edición
             function disableEditMode() {
-                const inputs = profileForm.querySelectorAll('input[type="text"], input[type="tel"]');
+                const inputs = profileForm.querySelectorAll('input[type="text"], input[type="tel"], input[type="email"]');
                 inputs.forEach(input => {
                     input.readOnly = true;
                     input.style.backgroundColor = '#f5f5f5';
@@ -264,6 +262,21 @@
                         telefono: telefonoInput.value
                     };
                     
+                    // Establecer modo vista por defecto
+                    disableEditMode();
+                    
+                    // Agregar listeners a los botones
+                    editBtn.addEventListener('click', enableEditMode);
+                    saveBtn.addEventListener('click', async function(e) {
+                        e.preventDefault();
+                        await saveProfile();
+                    });
+                    cancelBtn.addEventListener('click', function() {
+                        if (confirm('¿Estás seguro de que quieres cancelar los cambios?')) {
+                            loadUserData(); // Recargar datos originales
+                        }
+                    });
+                    
                     // Cargar configuraciones del usuario
                     await loadConfigurations();
                     
@@ -307,46 +320,39 @@
                     const formData = new FormData(profileForm);
                     const nombreCompleto = formData.get('nombre') + ' ' + formData.get('apellidos');
                     const telefono = formData.get('telefono');
+                    const email = formData.get('email');
                     
                     // Validar campos
-                    if (!nombreCompleto.trim() || !telefono.trim()) {
+                    if (!nombreCompleto.trim() || !telefono.trim() || !email.trim()) {
                         alert('Por favor, completa todos los campos obligatorios.');
                         return;
                     }
                     
-                    // Actualizar en Supabase Auth
-                    const { error: authError } = await supabase.auth.updateUser({
-                        data: {
-                            nombre: nombreCompleto.trim(),
-                            telefono: telefono.trim()
-                        }
-                    });
-                    
-                    if (authError) {
-                        console.error('Error actualizando auth:', authError);
-                        alert('Error al actualizar tu perfil.');
+                    // Validar email
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(email)) {
+                        alert('Por favor, introduce un email válido.');
                         return;
                     }
                     
-                    // Actualizar en tabla users
+                    // Actualizar en tabla users usando createOrUpdateUserProfile
                     const updateData = {
                         nombre: nombreCompleto.trim(),
-                        telefono: telefono.trim()
+                        telefono: telefono.trim(),
+                        email: email.trim()
                     };
                     
-                    const { error: dbError } = await supabase
-                        .from('users')
-                        .update(updateData)
-                        .eq('id', currentUser.id);
+                    const result = await createOrUpdateUserProfile(currentUser.id, updateData);
                     
-                    if (dbError) {
-                        console.error('Error actualizando tabla users:', dbError);
-                        alert('Error al actualizar tu perfil en la base de datos.');
+                    if (!result.success) {
+                        console.error('Error actualizando perfil:', result.error);
+                        alert('Error al actualizar tu perfil: ' + result.error);
                         return;
                     }
                     
                     alert('¡Perfil actualizado correctamente!');
-                    originalUserData = { nombre: nombreCompleto, telefono };
+                    originalUserData = { nombre: nombreCompleto, telefono, email };
+                    disableEditMode(); // Volver al modo vista
                     
                 } catch (error) {
                     console.error('Error guardando perfil:', error);
