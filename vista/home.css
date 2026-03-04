@@ -1,15 +1,127 @@
 /* Carrusel - Estilos específicos para home.html */
 
-/* Reset completo para carrusel full-width */
-* {
-    box-sizing: border-box;
+/* Fondo azulado para toda la página */
+body {
+    background: linear-gradient(135deg, #f0f4ff 0%, #e6f0ff 50%, #dde8ff 100%) !important;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
 }
 
-/* Eliminar margen superior del main para carrusel pegado al header */
+/* Formas decorativas de fondo */
+body::before {
+    content: '';
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 20% 30%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 80% 70%, rgba(118, 75, 162, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 40% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+    animation: float 20s ease-in-out infinite;
+    z-index: -1;
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(102, 126, 234, 0.15) 0%, rgba(102, 126, 234, 0.05) 50%, transparent 70%);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulse 4s ease-in-out infinite;
+    z-index: -1;
+}
+
+/* Animación de entrada para el contenido */
 main {
     margin-top: 95px !important; /* Altura del header para no tapar el carrusel */
     padding: 0;
     width: 100%;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    33% {
+        transform: translate(30px, -30px) rotate(120deg);
+    }
+    66% {
+        transform: translate(-20px, 20px) rotate(240deg);
+    }
+}
+
+/* Barra de scroll azul sólido */
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(221, 221, 221, 0.1);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #45B049;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #667eea;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #45B049 #e0e0e0;
+}
+
+/* Scrollbar thumb para Firefox */
+::-moz-range-thumb {
+    background: #45B049;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #667eea;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.3;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.1);
+        opacity: 0.5;
+    }
+}
+
+/* Reset completo para carrusel full-width */
+* {
+    box-sizing: border-box;
 }
 
 .carousel-section {
@@ -193,7 +305,7 @@ main {
 /* Sección Introducción Modelos */
 .intro-section {
     padding: 4rem 2rem;
-    background: white;
+    background: transparent;
     text-align: center;
 }
 
@@ -331,7 +443,7 @@ main {
 /* Sección de Modelos */
 .modelos-section {
     padding: 4rem 1rem;
-    background: linear-gradient(135deg, #f8f9ff 0%, #e8f0ff 100%);
+    background: transparent;
     text-align: center;
 }
 
