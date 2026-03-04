@@ -213,20 +213,24 @@ export async function signOut() {
 // Obtener usuario actual
 export async function getCurrentUser() {
     try {
+        console.log('getCurrentUser: Iniciando obtención de usuario...');
         const { data: { user }, error } = await supabase.auth.getUser();
+        console.log('getCurrentUser: Respuesta de Supabase recibida', { user, error });
         
         if (error) {
             // No mostrar error si simplemente no hay sesión
             if (error.message?.includes('Auth session missing')) {
+                console.log('getCurrentUser: No hay sesión activa');
                 return null;
             }
-            console.error('Error obteniendo usuario actual:', error);
+            console.error('getCurrentUser: Error obteniendo usuario actual:', error);
             return null;
         }
         
+        console.log('getCurrentUser: Usuario obtenido exitosamente:', user);
         return user;
     } catch (error) {
-        console.error('Error en getCurrentUser:', error);
+        console.error('getCurrentUser: Error en la función:', error);
         return null;
     }
 }
@@ -306,15 +310,19 @@ export async function getData(table, columns = '*', filters = {}) {
 // Función genérica para insertar datos
 export async function insertData(table, data) {
     try {
-        const { result, error } = await supabase
+        console.log(`Insertando en tabla ${table}:`, data);
+        const { data: result, error } = await supabase
             .from(table)
             .insert([data]);
+        
+        console.log('Respuesta de Supabase:', { result, error });
         
         if (error) {
             console.error(`Error insertando en ${table}:`, error);
             return { success: false, error: error.message };
         }
         
+        console.log('Inserción exitosa:', result);
         return { success: true, data: result };
     } catch (error) {
         console.error(`Error en insertData para ${table}:`, error);
