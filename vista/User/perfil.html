@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mi Perfil - Nyura Motors</title>
+    <link rel="stylesheet" href="./perfil.css" />
+    <link rel="stylesheet" href="../EstiloPrincipal.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <header>
+        <nav>
+            <!-- Logo como imagen -->
+            <a href="../home.html"><img src="../../Imagenes/NYURAlogopagina.png" alt="Nyura Motors" class="logo-img"></a>
+            
+            <ul>
+                <li><a href="../home.html">Inicio</a></li>
+                <li><a href="../Gama.html">Modelos</a></li>
+                <li><a href="../Configurador3D.html">Configurador 3D</a></li>
+                <li><a href="../contacto.html">Contacto</a></li>
+                <li id="authMenu"><a href="../InicioSesion.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; vertical-align: -2px; margin-right: 6px;"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.41 0-8 2-8 4.5V21h16v-2.5c0-2.5-3.59-4.5-8-4.5Z"/></svg>Iniciar sesión</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="page">
+      <section class="shell">
+        <div class="hero">
+          <div class="hero__copy">
+            <p class="hero__kicker">Mi Perfil</p>
+            <h1 class="hero__title">Gestiona tu cuenta</h1>
+            <p class="hero__subtitle">
+              Actualiza tu información personal y revisa tus configuraciones guardadas.
+            </p>
+          </div>
+        </div>
+
+        <section class="grid">
+          <div class="panel">
+            <h2 class="panel__title">Información Personal</h2>
+            <form class="form" id="profileForm">
+              <div class="form__row">
+                <label class="field">
+                  <span class="field__label">Nombre</span>
+                  <input class="field__input" type="text" name="nombre" placeholder="Tu nombre" readonly />
+                </label>
+
+                <label class="field">
+                  <span class="field__label">Apellidos</span>
+                  <input class="field__input" type="text" name="apellidos" placeholder="Tus apellidos" readonly />
+                </label>
+              </div>
+
+              <div class="form__row">
+                <label class="field">
+                  <span class="field__label">Email</span>
+                  <input class="field__input" type="email" name="email" placeholder="nombre@correo.com" readonly />
+                </label>
+
+                <label class="field">
+                  <span class="field__label">Teléfono</span>
+                  <input class="field__input" type="tel" name="telefono" placeholder="+34 600 000 000" readonly />
+                </label>
+              </div>
+
+              <div class="actions" id="viewActions">
+                <button class="btn btn--primary" type="button" id="editBtn">Editar Perfil</button>
+              </div>
+
+              <div class="actions" id="editActions" style="display: none;">
+                <button class="btn btn--primary" type="submit" id="saveBtn">Guardar Cambios</button>
+                <button class="btn btn--secondary" type="button" id="cancelBtn">Cancelar</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="panel">
+            <h2 class="panel__title">Mis Configuraciones</h2>
+            <div class="configurations" id="configurationsList">
+              <p class="panel__text">Cargando tus configuraciones...</p>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h2 class="panel__title">Cuenta</h2>
+            <div class="account-actions">
+              <button class="btn btn--danger" id="deleteAccountBtn">Eliminar Cuenta</button>
+              <button class="btn btn--secondary" id="signOutBtn">Cerrar Sesión</button>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <footer>
+    <div class="footer-content">
+        <!-- Nyura Motors -->
+        <div class="footer-section">
+            <img src="../../Imagenes/LogoBlancoNyura.png" alt="Nyura Motors" class="logo-img" style="height: 143px; opacity: 0.9;">
+            <p>El futur de la mobilitat elèctrica. Disseny innovador, rendiment superior i tecnologia punta.</p>
+        </div>
+        
+        <!-- Enlaces Rápidos -->
+        <div class="footer-section">
+            <h3>Paginas de Nyura Motors</h3>
+            <div class="footer-links">
+                <a href="../home.html">Home</a>
+                <a href="../Gama.html">Modelos</a>
+                <a href="../Configurador3D.html">Configurador 3D</a>
+                <a href="../contacto.html">Contacto</a>
+            </div>
+        </div>
+        
+        <!-- Contacto -->
+        <div class="footer-section">
+            <h3>Contacto</h3>
+            <div class="footer-links">
+                <a href="mailto:contacto@nyuramotors.com">📍 Carrer de Caracas, 11. Sant Andreu, 08030 Barcelona</a>
+                <div class="social-links">
+                    <a href="#" aria-label="Twitter">𝕏</a>
+                    <a href="#" aria-label="Instagram">📷</a>
+                    <a href="#" aria-label="YouTube">📺</a>
+                    <a href="#" aria-label="LinkedIn">💼</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p>&copy; 2026 Nyura Motors. Tots els drets reservats. | 
+           <a href="#" style="color: #4A6FFF;">Política de Privacitat</a> | 
+           <a href="#" style="color: #4A6FFF;">Condicions d'ús</a> | 
+           <a href="#" style="color: #4A6FFF;">Cookies</a>
+        </p>
+    </div>
+</footer>
+
+<script type="module">
+        import { getCurrentUser, createOrUpdateUserProfile, onAuthStateChange, signOut, getUserByEmail, getConfiguracionesByUser, deleteConfiguracion } from '../../controlador/BBDD/SupabaseCliente.js';
+        
+        document.addEventListener('DOMContentLoaded', async function() {
+            const authMenu = document.getElementById('authMenu');
+            const profileForm = document.getElementById('profileForm');
+            const editBtn = document.getElementById('editBtn');
+            const saveBtn = document.getElementById('saveBtn');
+            const cancelBtn = document.getElementById('cancelBtn');
+            const signOutBtn = document.getElementById('signOutBtn');
+            const deleteAccountBtn = document.getElementById('deleteAccountBtn');
+            const configurationsList = document.getElementById('configurationsList');
+            const viewActions = document.getElementById('viewActions');
+            const editActions = document.getElementById('editActions');
+            
+            let currentUser = null;
+            let originalUserData = {};
+            
+            // Función para activar modo edición
+            function enableEditMode() {
+                const inputs = profileForm.querySelectorAll('input[type="text"], input[type="tel"], input[type="email"]');
+                inputs.forEach(input => {
+                    input.readOnly = false;
+                    input.style.backgroundColor = '#ffffff';
+                });
+                
+                viewActions.style.display = 'none';
+                editActions.style.display = 'flex';
+            }
+            
+            // Función para desactivar modo edición
+            function disableEditMode() {
+                const inputs = profileForm.querySelectorAll('input[type="text"], input[type="tel"], input[type="email"]');
+                inputs.forEach(input => {
+                    input.readOnly = true;
+                    input.style.backgroundColor = '#f5f5f5';
+                });
+                
+                viewActions.style.display = 'flex';
+                editActions.style.display = 'none';
+            }
+            
+            // Función para actualizar el menú de autenticación
+            function updateAuthMenu(user) {
+                if (user) {
+                    const displayName = user.user_metadata?.nombre || user.email.split('@')[0];
+                    authMenu.innerHTML = `
+                        <div class="auth-dropdown">
+                            <button class="auth-dropdown-toggle" onclick="toggleAuthMenu()">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; vertical-align: -2px; margin-right: 6px;">
+                                    <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.41 0-8 2-8 4.5V21h16v-2.5c0-2.5-3.59-4.5-8-4.5Z"/>
+                                </svg>
+                                ${displayName}
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 12px; height: 12px; margin-left: 4px;">
+                                    <path d="M7 10l5 5 5-5z"/>
+                                </svg>
+                            </button>
+                            <div class="auth-dropdown-menu" id="authDropdownMenu">
+                                <a href="perfil.html" class="active">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; margin-right: 8px;">
+                                        <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.41 0-8 2-8 4.5V21h16v-2.5c0-2.5-3.59-4.5-8-4.5Z"/>
+                                    </svg>
+                                    Ver perfil
+                                </a>
+                                <a href="#" onclick="handleSignOut()" style="color: #dc3545;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; margin-right: 8px;">
+                                        <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5-5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+                                    </svg>
+                                    Cerrar sesión
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    authMenu.innerHTML = `
+                        <a href="../InicioSesion.html">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; vertical-align: -2px; margin-right: 6px;">
+                                <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.41 0-8 2-8 4.5V21h16v-2.5c0-2.5-3.59-4.5-8-4.5Z"/>
+                            </svg>
+                            Iniciar sesión
+                        </a>
+                    `;
+                }
+            }
+            
+            // Función para cargar datos del usuario
+            async function loadUserData() {
+                try {
+                    currentUser = await getCurrentUser();
+                    if (!currentUser) {
+                        window.location.href = '../InicioSesion.html';
+                        return;
+                    }
+                    
+                    // Obtener datos adicionales del usuario desde la tabla users
+                    const userData = await getUserByEmail(currentUser.email);
+                    
+                    // Rellenar formulario
+                    const nombreInput = profileForm.querySelector('input[name="nombre"]');
+                    const apellidosInput = profileForm.querySelector('input[name="apellidos"]');
+                    const emailInput = profileForm.querySelector('input[name="email"]');
+                    const telefonoInput = profileForm.querySelector('input[name="telefono"]');
+                    
+                    if (userData) {
+                        nombreInput.value = userData.nombre ? userData.nombre.split(' ')[0] : '';
+                        apellidosInput.value = userData.nombre ? userData.nombre.split(' ').slice(1).join(' ') : '';
+                        telefonoInput.value = userData.telefono || '';
+                    } else {
+                        nombreInput.value = currentUser.user_metadata?.nombre ? currentUser.user_metadata.nombre.split(' ')[0] : '';
+                        apellidosInput.value = currentUser.user_metadata?.nombre ? currentUser.user_metadata.nombre.split(' ').slice(1).join(' ') : '';
+                        telefonoInput.value = currentUser.user_metadata?.telefono || '';
+                    }
+                    
+                    emailInput.value = currentUser.email;
+                    
+                    // Guardar datos originales para comparar cambios
+                    originalUserData = {
+                        nombre: nombreInput.value + ' ' + apellidosInput.value,
+                        telefono: telefonoInput.value
+                    };
+                    
+                    // Establecer modo vista por defecto
+                    disableEditMode();
+                    
+                    // Agregar listeners a los botones
+                    editBtn.addEventListener('click', enableEditMode);
+                    saveBtn.addEventListener('click', async function(e) {
+                        e.preventDefault();
+                        await saveProfile();
+                    });
+                    cancelBtn.addEventListener('click', function() {
+                        if (confirm('¿Estás seguro de que quieres cancelar los cambios?')) {
+                            loadUserData(); // Recargar datos originales
+                        }
+                    });
+                    
+                    // Cargar configuraciones del usuario
+                    await loadConfigurations();
+                    
+                } catch (error) {
+                    console.error('Error cargando datos del usuario:', error);
+                    alert('Error al cargar tu perfil. Por favor, recarga la página.');
+                }
+            }
+            
+            // Función para cargar configuraciones del usuario
+            async function loadConfigurations() {
+                try {
+                    const configurations = await getConfiguracionesByUser(currentUser.id);
+                    
+                    if (configurations.length === 0) {
+                        configurationsList.innerHTML = '<p class="panel__text">No tienes configuraciones guardadas.</p>';
+                        return;
+                    }
+                    
+                    configurationsList.innerHTML = configurations.map(config => `
+                        <div class="config-item">
+                            <h4>Configuración #${config.id}</h4>
+                            <p>Modelo: ${config.modelo_coche_id}</p>
+                            <p>Fecha: ${new Date(config.created_at).toLocaleDateString()}</p>
+                            <button class="btn btn--small btn--danger" onclick="deleteConfiguration(${config.id})">Eliminar</button>
+                        </div>
+                    `).join('');
+                    
+                } catch (error) {
+                    console.error('Error cargando configuraciones:', error);
+                    configurationsList.innerHTML = '<p class="panel__text">Error al cargar configuraciones.</p>';
+                }
+            }
+            
+            // Función para guardar cambios
+            async function saveProfile() {
+                try {
+                    saveBtn.disabled = true;
+                    saveBtn.textContent = 'Guardando...';
+                    
+                    const formData = new FormData(profileForm);
+                    const nombreCompleto = formData.get('nombre') + ' ' + formData.get('apellidos');
+                    const telefono = formData.get('telefono');
+                    const email = formData.get('email');
+                    
+                    // Validar campos
+                    if (!nombreCompleto.trim() || !telefono.trim() || !email.trim()) {
+                        alert('Por favor, completa todos los campos obligatorios.');
+                        return;
+                    }
+                    
+                    // Validar email
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(email)) {
+                        alert('Por favor, introduce un email válido.');
+                        return;
+                    }
+                    
+                    // Actualizar en tabla users usando createOrUpdateUserProfile
+                    const updateData = {
+                        nombre: nombreCompleto.trim(),
+                        telefono: telefono.trim(),
+                        email: email.trim()
+                    };
+                    
+                    const result = await createOrUpdateUserProfile(currentUser.id, updateData);
+                    
+                    if (!result.success) {
+                        console.error('Error actualizando perfil:', result.error);
+                        alert('Error al actualizar tu perfil: ' + result.error);
+                        return;
+                    }
+                    
+                    alert('¡Perfil actualizado correctamente!');
+                    originalUserData = { nombre: nombreCompleto, telefono, email };
+                    disableEditMode(); // Volver al modo vista
+                    
+                } catch (error) {
+                    console.error('Error guardando perfil:', error);
+                    alert('Error inesperado al guardar tu perfil.');
+                } finally {
+                    saveBtn.disabled = false;
+                    saveBtn.textContent = 'Guardar Cambios';
+                }
+            }
+            
+            // Función para eliminar configuración
+            window.deleteConfiguration = async function(configId) {
+                if (!confirm('¿Estás seguro de que quieres eliminar esta configuración?')) {
+                    return;
+                }
+                
+                try {
+                    await deleteConfiguracion(configId);
+                    alert('Configuración eliminada correctamente.');
+                    await loadConfigurations();
+                } catch (error) {
+                    console.error('Error eliminando configuración:', error);
+                    alert('Error al eliminar la configuración.');
+                }
+            };
+            
+            // Función para cerrar sesión
+            window.handleSignOut = async function() {
+                try {
+                    const result = await signOut();
+                    if (result.success) {
+                        console.log('Sesión cerrada correctamente');
+                        window.location.href = '../home.html';
+                    } else {
+                        console.error('Error al cerrar sesión:', result.error);
+                        alert('Error al cerrar sesión. Intenta de nuevo.');
+                    }
+                } catch (error) {
+                    console.error('Error inesperado al cerrar sesión:', error);
+                    alert('Error inesperado. Intenta de nuevo.');
+                }
+            };
+            
+            // Event listeners
+            if (profileForm) {
+                profileForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    await saveProfile();
+                });
+            }
+            
+            if (cancelBtn) {
+                cancelBtn.addEventListener('click', function() {
+                    if (confirm('¿Estás seguro de que quieres cancelar los cambios?')) {
+                        loadUserData(); // Recargar datos originales
+                    }
+                });
+            }
+            
+            if (signOutBtn) {
+                signOutBtn.addEventListener('click', handleSignOut);
+            }
+            
+            if (deleteAccountBtn) {
+                deleteAccountBtn.addEventListener('click', function() {
+                    if (confirm('¿Estás seguro de que quieres eliminar tu cuenta? Esta acción no se puede deshacer.')) {
+                        alert('Función de eliminación de cuenta no implementada aún.');
+                    }
+                });
+            }
+            
+            // Cerrar menú desplegable al hacer clic fuera
+            document.addEventListener('click', function(event) {
+                const dropdown = document.querySelector('.auth-dropdown');
+                if (dropdown && !dropdown.contains(event.target)) {
+                    const menu = document.getElementById('authDropdownMenu');
+                    if (menu) {
+                        menu.style.display = 'none';
+                    }
+                }
+            });
+            
+            // Toggle del menú desplegable
+            window.toggleAuthMenu = function() {
+                const menu = document.getElementById('authDropdownMenu');
+                menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+            };
+            
+            // Verificar estado inicial
+            await loadUserData();
+            updateAuthMenu(currentUser);
+            
+            // Escuchar cambios en autenticación
+            onAuthStateChange(async (event, session) => {
+                if (event === 'SIGNED_IN' && session?.user) {
+                    console.log('Usuario autenticado:', session.user);
+                    await loadUserData();
+                    updateAuthMenu(session.user);
+                } else if (event === 'SIGNED_OUT') {
+                    console.log('Usuario cerró sesión');
+                    window.location.href = '../InicioSesion.html';
+                }
+            });
+        });
+    </script>
+  </body>
+</html>
