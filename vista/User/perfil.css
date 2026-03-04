@@ -318,7 +318,6 @@ body {
 
 .auth-dropdown-menu a:hover {
   background: #f3f4f6;
-  font-style:var(--primary-hover)
 }
 
 .auth-dropdown-menu a.active {

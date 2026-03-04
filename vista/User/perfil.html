@@ -178,9 +178,13 @@
             }
             
             // Función para actualizar el menú de autenticación
-            function updateAuthMenu(user) {
+            async function updateAuthMenu(user) {
                 if (user) {
+                    // Obtener datos completos del usuario incluyendo el rol
+                    const userData = await getUserByEmail(user.email);
+                    const isAdmin = userData && userData.rol === 'admin';
                     const displayName = user.user_metadata?.nombre || user.email.split('@')[0];
+                    
                     authMenu.innerHTML = `
                         <div class="auth-dropdown">
                             <button class="auth-dropdown-toggle" onclick="toggleAuthMenu()">
@@ -199,6 +203,13 @@
                                     </svg>
                                     Ver perfil
                                 </a>
+                                ${isAdmin ? `
+                                <a href="../admin/Panel.html" style="color: #dc3545;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; margin-right: 8px;">
+                                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                    </svg>
+                                    Panel de Administrador
+                                </a>` : ''}
                                 <a href="#" onclick="handleSignOut()" style="color: #dc3545;">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; margin-right: 8px;">
                                         <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5-5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
@@ -421,11 +432,9 @@
             // Cerrar menú desplegable al hacer clic fuera
             document.addEventListener('click', function(event) {
                 const dropdown = document.querySelector('.auth-dropdown');
-                if (dropdown && !dropdown.contains(event.target)) {
-                    const menu = document.getElementById('authDropdownMenu');
-                    if (menu) {
-                        menu.style.display = 'none';
-                    }
+                const menu = document.getElementById('authDropdownMenu');
+                if (dropdown && menu && !dropdown.contains(event.target) && !menu.contains(event.target)) {
+                    menu.style.display = 'none';
                 }
             });
             
