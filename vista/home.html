@@ -16,7 +16,7 @@
             
             <ul>
                 <li><a href="home.html">Inicio</a></li>
-                <li><a href="Gama.html">Modelos</a></li>
+                <li><a href="Gama.html" id="modelosLink">Modelos</a></li>
                 <li><a href="Configurador3D.html">Configurador 3D</a></li>
                 <li><a href="contacto.html">Contacto</a></li>
                 <li id="authMenu"><a href="InicioSesion.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; vertical-align: -2px; margin-right: 6px;"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.41 0-8 2-8 4.5V21h16v-2.5c0-2.5-3.59-4.5-8-4.5Z"/></svg>Iniciar sesión</a></li>
@@ -60,10 +60,10 @@
         <!-- Sección Introducción Modelos -->
         <section class="intro-section">
             <div class="intro-container">
-                <h2 class="intro-title">Conoce Nuestros Modelos</h2>
+                <h2 class="intro-title">Conoce Nuestras Gamas</h2>
                 <p class="intro-text">
                     Descubre la gama completa de vehículos Nyura Motors, diseñados para ofrecer el máximo rendimiento, 
-                    eficiencia y estilo. Desde berlinas familiares hasta deportivos de alto rendimiento, 
+                    eficiencia y estilo. Desde desde berlinas familiares hasta deportivos de alto rendimiento, 
                     cada modelo representa la excelencia en ingeniería automotriz.
                 </p>
                 <div class="intro-features">
@@ -98,46 +98,39 @@
             </div>
         </section>
         
-        <!-- Sección de Modelos -->
+        <!-- Sección de Gamas -->
         <section class="modelos-section">
             <div class="modelos-container">
-                <h1 class="modelos-title">Modelos</h1>
+                <h1 class="modelos-title">Gamas</h1>
                 <div class="modelos-grid">
-                    <!-- Aquí se añadirán las tarjetas de los modelos futuros -->
+                    <!-- Gama Eléctrica -->
                     <div class="modelo-card">
                         <div class="modelo-image">
-                            <img src="../Imagenes/Imagenesmodelos/modelo1.png" alt="Modelo Nyura">
-                            <div class="fuel-badge hibrido">
-                                <span class="fuel-text">Hibrido</span>
-                            </div>
+                            <img src="../Imagenes/gamas/electrico.png" alt="Gama Eléctrica">
                         </div>
                         <div class="modelo-info">
-                            <h3>Nova</h3>
-                            <p>La berlina ideal para familias</p>
+                            <h3>Eléctrica</h3>
+                            <p>Innovación y sostenibilidad en cada kilómetro</p>
                         </div>
                     </div>
+                    <!-- Gama Combustión -->
                     <div class="modelo-card">
                         <div class="modelo-image">
-                            <img src="../Imagenes/Imagenesmodelos/modelo2.png" alt="Modelo Nyura">
-                            <div class="fuel-badge gasolina">
-                                <span class="fuel-text">Gasolina</span>
-                            </div>
+                            <img src="../Imagenes/gamas/combustion.png" alt="Gama Combustión">
                         </div>
                         <div class="modelo-info">
-                            <h3>Nova Sport</h3>
-                            <p>La berlina deportiva ideal para pilotos</p>
+                            <h3>Combustión</h3>
+                            <p>Potencia y rendimiento tradicionales</p>
                         </div>
                     </div>
+                    <!-- Gama R -->
                     <div class="modelo-card">
                         <div class="modelo-image">
-                            <img src="../Imagenes/Imagenesmodelos/modelo3.png" alt="Modelo Nyura">
-                            <div class="fuel-badge electrico">
-                                <span class="fuel-text">Electrico</span>
-                            </div>
+                            <img src="../Imagenes/gamas/R.png" alt="Gama R">
                         </div>
                         <div class="modelo-info">
-                            <h3>Altamira</h3>
-                            <p>La berlina ideal para familias</p>
+                            <h3>Gama R</h3>
+                            <p>Deportivos de altas prestaciones</p>
                         </div>
                     </div>
                 </div>
@@ -328,6 +321,20 @@
 
     <!-- Script del carrusel -->
     <script>
+        // Scroll suave a la sección de modelos con margen superior
+        document.getElementById('modelosLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Scroll suave a la sección de modelos con margen
+            const modelosSection = document.querySelector('.modelos-section');
+            if (modelosSection) {
+                const sectionTop = modelosSection.offsetTop - 500; // 100px arriba del borde
+                window.scrollTo({
+                    top: sectionTop,
+                    behavior: 'smooth'
+                });
+            }
+        });
         let currentSlide = 0;
         const totalSlides = 2;
 
