@@ -6,16 +6,18 @@
     <title>Nyura Motors - El Futur de la Mobilitat</title>
     <link rel="stylesheet" href="EstiloPrincipal.css">
     <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="header-unique.css">
+    <link rel="stylesheet" href="home-background.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
         <nav>
             <!-- Logo como imagen -->
-            <a href="home.html"><img src="../Imagenes/NYURAlogopagina.png" alt="Nyura Motors" class="logo-img"></a>
+            <a href="home.html"><img src="../Imagenes/paginaInicio/logoN.png" alt="Nyura Motors" class="logo-img"></a>
             
             <ul>
-                <li><a href="home.html">Inicio</a></li>
+                <li><a href="home.html" class="active">Inicio</a></li>
                 <li><a href="modelos.html" id="modelosLink">Modelos</a></li>
                 <li><a href="Configurador3D.html">Configurador 3D</a></li>
                 <li><a href="contacto.html">Contacto</a></li>
@@ -107,7 +109,7 @@
                             En Nyura Motors, estamos revolucionando el mundo del automóvil con vehículos eléctricos que combinan 
                             diseño innovador, rendimiento superior y tecnología de punta. Nuestra misión es liderar la 
                             transición hacia una movilidad sostenible sin comprometer la pasión por la conducción. 
-                            Como empresa catalana, orgullosamente desarrollamos cada vehículo en Barcelona, fusionando 
+                            Como empresa Española, orgullosamente desarrollamos cada vehículo, fusionando 
                             la tradición industrial de nuestra región con la innovación más vanguardista.
                         </p>
                         <p class="description">
@@ -479,9 +481,20 @@
         startAutoPlay();
     </script>
 
+    <script>
+        // Efecto de scroll en header
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+
     <!-- JavaScript para Testimonios Flotantes -->
     <script>
-        // Datos de testimonios
         const testimonials = [
             {
                 name: "Maria García",
@@ -573,18 +586,28 @@
         // Función para mostrar testimonio
         function showTestimonial() {
             const overlay = document.getElementById('testimonialsOverlay');
+            
+            // Eliminar todos los testimonios existentes antes de mostrar uno nuevo
+            const existingNotifications = overlay.querySelectorAll('.testimonial-notification');
+            existingNotifications.forEach(notification => notification.remove());
+            
             const testimonial = testimonials[currentTestimonialIndex];
             const position = getRandomPosition();
             
             const notification = createTestimonialNotification(testimonial, position);
             overlay.appendChild(notification);
             
-            // Auto-eliminar después de 3 segundos
+            // Auto-eliminar después de 5 segundos
             setTimeout(() => {
                 if (notification.parentNode) {
-                    notification.remove();
+                    notification.style.animation = 'testimonialSlide 0.3s ease-in-out reverse';
+                    setTimeout(() => {
+                        if (notification.parentNode) {
+                            notification.remove();
+                        }
+                    }, 300);
                 }
-            }, 3000);
+            }, 5000);
             
             // Siguiente testimonio
             currentTestimonialIndex = (currentTestimonialIndex + 1) % testimonials.length;
@@ -593,43 +616,9 @@
         // Iniciar las notificaciones después de 3 segundos
         setTimeout(() => {
             showTestimonial();
-            // Mostrar un nuevo testimonio cada 5 segundos
-            notificationInterval = setInterval(showTestimonial, 5000);
+            // Mostrar un nuevo testimonio cada 20 segundos
+            notificationInterval = setInterval(showTestimonial, 20000);
         }, 3000);
-
-        // Detener notificaciones cuando el usuario hace scroll
-        let lastScrollTop = 0;
-        window.addEventListener('scroll', () => {
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            
-            if (Math.abs(scrollTop - lastScrollTop) > 50) {
-                // Limpiar notificaciones existentes
-                const notifications = document.querySelectorAll('.testimonial-notification');
-                notifications.forEach(notification => notification.remove());
-                
-                // Reiniciar el ciclo
-                clearInterval(notificationInterval);
-                setTimeout(() => {
-                    showTestimonial();
-                    notificationInterval = setInterval(showTestimonial, 5000);
-                }, 3000);
-            }
-            
-            lastScrollTop = scrollTop;
-        });
-
-        // Pausar notificaciones en hover
-        document.addEventListener('mouseover', (e) => {
-            if (e.target.closest('.testimonial-notification')) {
-                clearInterval(notificationInterval);
-            }
-        });
-
-        document.addEventListener('mouseout', (e) => {
-            if (e.target.closest('.testimonial-notification')) {
-                notificationInterval = setInterval(showTestimonial, 5000);
-            }
-        });
     </script>
 </body>
 </html>

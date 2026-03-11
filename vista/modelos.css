@@ -350,9 +350,9 @@ body {
 
 .filter-btn {
     padding: 0.8rem 1.5rem;
-    border: 2px solid #45B049;
+    border: 2px solid rgba(0, 0, 0, 0.9);
     background: white;
-    color: #45B049;
+    color: rgba(0, 0, 0, 0.9);
     border-radius: 25px;
     font-weight: 600;
     cursor: pointer;
@@ -361,13 +361,16 @@ body {
 }
 
 .filter-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(69, 176, 73, 0.3);
+    transform: none;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 .filter-btn.active {
-    background: #45B049;
+    background: rgba(0, 0, 0, 0.9);
     color: white;
+    border-color: rgba(0, 0, 0, 1);
 }
 
 /* Contenedor de vehículos */
