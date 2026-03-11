@@ -136,7 +136,7 @@
 </footer>
 
 <script type="module">
-        import { getCurrentUser, createOrUpdateUserProfile, onAuthStateChange, signOut, getUserByEmail, getConfiguracionesByUser, deleteConfiguracion } from '../../controlador/BBDD/SupabaseCliente.js';
+        import { getCurrentUser, createOrUpdateUserProfile, onAuthStateChange, signOut, getUserByEmail, getConfiguracionesByUser, deleteConfiguracion, updateUser, updateUserProfile, testUsersTable, logout, deleteAccount } from '../../controlador/BBDD/SupabaseCliente.js';
         
         document.addEventListener('DOMContentLoaded', async function() {
             const authMenu = document.getElementById('authMenu');
@@ -234,6 +234,11 @@
             // Función para cargar datos del usuario
             async function loadUserData() {
                 try {
+                    // Primero probar si la tabla users es accesible
+                    console.log('loadUserData: Probando acceso a tabla users...');
+                    const tableTest = await testUsersTable();
+                    console.log('loadUserData: Resultado de prueba de tabla:', tableTest);
+                    
                     currentUser = await getCurrentUser();
                     if (!currentUser) {
                         window.location.href = '../InicioSesion.html';
@@ -340,14 +345,14 @@
                         return;
                     }
                     
-                    // Actualizar en tabla users usando createOrUpdateUserProfile
+                    // Actualizar en tabla users usando updateUser
                     const updateData = {
                         nombre: nombreCompleto.trim(),
                         telefono: telefono.trim(),
                         email: email.trim()
                     };
                     
-                    const result = await createOrUpdateUserProfile(currentUser.id, updateData);
+                    const result = await updateUserProfile(currentUser.id, updateData);
                     
                     if (!result.success) {
                         console.error('Error actualizando perfil:', result.error);
@@ -384,10 +389,58 @@
                 }
             };
             
-            // Función para cerrar sesión
+            // Función para eliminar cuenta
+            window.handleDeleteAccount = async function() {
+                if (!currentUser) {
+                    alert('No se puede eliminar la cuenta. Usuario no encontrado.');
+                    return;
+                }
+                
+                // Confirmación con contraseña
+                const confirmDelete = confirm('¿Estás seguro de que quieres eliminar tu cuenta? Esta acción no se puede deshacer y se eliminarán todos tus datos permanentemente.');
+                
+                if (!confirmDelete) {
+                    return;
+                }
+                
+                // Segunda confirmación
+                const finalConfirm = confirm('Esta es tu última oportunidad. ¿Realmente quieres eliminar tu cuenta permanentemente?');
+                
+                if (!finalConfirm) {
+                    return;
+                }
+                
+                try {
+                    console.log('Eliminando cuenta del usuario:', currentUser.id);
+                    
+                    const result = await deleteAccount(currentUser.id);
+                    
+                    if (result.success) {
+                        // Cerrar sesión localmente después de eliminar la cuenta
+                        //await logout();
+                        
+                        //alert('Tu cuenta ha sido eliminada exitosamente. Serás redirigido a la página de inicio.');
+                        
+                        // Forzar redirección después de un pequeño delay
+                        setTimeout(() => {
+                            window.location.href = '../home.html';
+                            // Si no funciona, intentar con replace
+                            setTimeout(() => {
+                                window.location.replace('../home.html');
+                            }, 500);
+                        }, 100);
+                    } else {
+                        console.error('Error eliminando cuenta:', result.error);
+                        alert('Error al eliminar tu cuenta: ' + result.error);
+                    }
+                } catch (error) {
+                    console.error('Error inesperado eliminando cuenta:', error);
+                    alert('Error inesperado al eliminar tu cuenta. Por favor, contacta al soporte.');
+                }
+            };
             window.handleSignOut = async function() {
                 try {
-                    const result = await signOut();
+                    const result = await logout();
                     if (result.success) {
                         console.log('Sesión cerrada correctamente');
                         window.location.href = '../home.html';
@@ -422,11 +475,7 @@
             }
             
             if (deleteAccountBtn) {
-                deleteAccountBtn.addEventListener('click', function() {
-                    if (confirm('¿Estás seguro de que quieres eliminar tu cuenta? Esta acción no se puede deshacer.')) {
-                        alert('Función de eliminación de cuenta no implementada aún.');
-                    }
-                });
+                deleteAccountBtn.addEventListener('click', handleDeleteAccount);
             }
             
             // Cerrar menú desplegable al hacer clic fuera
