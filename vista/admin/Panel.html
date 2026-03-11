@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administrador - NyuraMotors</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="Panel.css">
+</head>
+<body>
+    <a href="../home.html" class="back-button">
+        <i class="fas fa-arrow-left"></i>
+        Volver al Inicio
+    </a>
+
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1>Panel de Administrador</h1>
+            <p>Gestiona todos los aspectos de NyuraMotors</p>
+        </div>
+
+        <div id="loadingMessage" class="loading">
+            <i class="fas fa-spinner fa-spin"></i> Cargando datos del panel...
+        </div>
+
+        <div id="errorMessage" class="error" style="display: none;"></div>
+
+        <div id="statsSection" class="admin-stats" style="display: none;">
+            <h2 style="margin-bottom: 20px; color: #2c3e50;">Estadísticas Generales</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h4 id="totalUsers">0</h4>
+                    <p>Usuarios Totales</p>
+                </div>
+                <div class="stat-item">
+                    <h4 id="totalConfigurations">0</h4>
+                    <p>Configuraciones</p>
+                </div>
+                <div class="stat-item">
+                    <h4 id="totalContacts">0</h4>
+                    <p>Contactos</p>
+                </div>
+                <div class="stat-item">
+                    <h4 id="totalModels">0</h4>
+                    <p>Modelos</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="adminGrid" class="admin-grid" style="display: none;">
+            <div class="admin-card users" onclick="navigateToUsers()">
+                <i class="fas fa-users"></i>
+                <h3>Gestión de Usuarios</h3>
+                <p>Ver y gestionar todos los usuarios registrados en el sistema</p>
+            </div>
+
+            <div class="admin-card configurations" onclick="navigateToConfigurations()">
+                <i class="fas fa-cogs"></i>
+                <h3>Configuraciones</h3>
+                <p>Revisar las configuraciones de coches creadas por los usuarios</p>
+            </div>
+
+            <div class="admin-card contacts" onclick="navigateToContacts()">
+                <i class="fas fa-envelope"></i>
+                <h3>Mensajes de Contacto</h3>
+                <p>Gestionar los mensajes y formularios de contacto recibidos</p>
+            </div>
+
+            <div class="admin-card models" onclick="navigateToModels()">
+                <i class="fas fa-car"></i>
+                <h3>Gestión de Modelos</h3>
+                <p>Administrar los modelos, colores y llantas disponibles</p>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { getCurrentUser, getUserByEmail, getUsers, getUsersForAdmin, getConfiguraciones, getFormContactos, getModelos } from '../../controlador/BBDD/SupabaseCliente.js';
+
+        let currentUser = null;
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                // Verificar si el usuario está autenticado
+                currentUser = await getCurrentUser();
+                if (!currentUser) {
+                    window.location.href = '../InicioSesion.html';
+                    return;
+                }
+
+                // Verificar si es administrador
+                const userData = await getUserByEmail(currentUser.email);
+                if (!userData || userData.rol !== 'admin') {
+                    document.getElementById('errorMessage').style.display = 'block';
+                    document.getElementById('errorMessage').textContent = 'No tienes permisos de administrador para acceder a esta página.';
+                    document.getElementById('loadingMessage').style.display = 'none';
+                    return;
+                }
+
+                // Cargar estadísticas
+                await loadStatistics();
+
+            } catch (error) {
+                console.error('Error en el panel de administrador:', error);
+                console.error('Error details:', error.message, error.stack);
+                document.getElementById('errorMessage').style.display = 'block';
+                document.getElementById('errorMessage').textContent = 'Error al cargar el panel de administrador. Por favor, recarga la página.';
+                document.getElementById('loadingMessage').style.display = 'none';
+            }
+        });
+
+        async function loadStatistics() {
+            try {
+                console.log('loadStatistics: Iniciando carga de estadísticas...');
+                
+                // Cargar datos para estadísticas
+                console.log('loadStatistics: Cargando usuarios...');
+                const users = await getUsersForAdmin(); // Usar getUsersForAdmin para obtener todos los usuarios
+                console.log('loadStatistics: Usuarios cargados:', users?.length || 0);
+                
+                console.log('loadStatistics: Cargando configuraciones...');
+                const configurations = await getConfiguraciones();
+                console.log('loadStatistics: Configuraciones cargadas:', configurations?.length || 0);
+                
+                console.log('loadStatistics: Cargando contactos...');
+                const contacts = await getFormContactos();
+                console.log('loadStatistics: Contactos cargados:', contacts?.length || 0);
+                
+                console.log('loadStatistics: Cargando modelos...');
+                const models = await getModelos();
+                console.log('loadStatistics: Modelos cargados:', models?.length || 0);
+                
+                // Actualizar DOM
+                document.getElementById('totalUsers').textContent = users?.length || 0;
+                document.getElementById('totalConfigurations').textContent = configurations?.length || 0;
+                document.getElementById('totalContacts').textContent = contacts?.length || 0;
+                document.getElementById('totalModels').textContent = models?.length || 0;
+                
+                console.log('loadStatistics: Estadísticas actualizadas');
+                
+                // Ocultar mensaje de carga
+                document.getElementById('loadingMessage').style.display = 'none';
+                document.getElementById('statsSection').style.display = 'block';
+                document.getElementById('adminGrid').style.display = 'grid';
+
+            } catch (error) {
+                console.error('Error cargando estadísticas:', error);
+                document.getElementById('errorMessage').style.display = 'block';
+                document.getElementById('errorMessage').textContent = 'Error al cargar las estadísticas. Por favor, recarga la página.';
+                document.getElementById('loadingMessage').style.display = 'none';
+            }
+        }
+
+        // Funciones de navegación
+        window.navigateToUsers = function() {
+            console.log('Navegando a gestión de usuarios...');
+            window.location.href = 'GestionUsuarios.html';
+        };
+
+        window.navigateToConfigurations = function() {
+            console.log('Navegando a configuraciones...');
+            // Aquí puedes redirigir a una página de configuraciones
+            alert('Gestión de configuraciones - Función por implementar');
+        };
+
+        window.navigateToContacts = function() {
+            console.log('Navegando a contactos...');
+            // Aquí puedes redirigir a una página de contactos
+            alert('Gestión de contactos - Función por implementar');
+        };
+
+        window.navigateToModels = function() {
+            console.log('Navegando a modelos...');
+            // Aquí puedes redirigir a una página de modelos
+            alert('Gestión de modelos - Función por implementar');
+        };
+    </script>
+</body>
+</html>

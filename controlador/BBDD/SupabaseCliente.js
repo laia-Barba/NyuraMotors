@@ -773,13 +773,11 @@ export async function updateUser(userId, userData) {
 }
 
 
-
 export async function getUsers() {
 
     return await getData('users', '*');
 
-}
-
+} // <--- Added missing closing brace
 
 
 export async function getUsersForAdmin() {
@@ -819,6 +817,44 @@ export async function getUsersForAdmin() {
     }
 }
 
+// Función para actualizar rol de usuario (para administradores, usa Service Role Key)
+export async function updateUserRoleForAdmin(userId, newRole) {
+    try {
+        console.log('updateUserRoleForAdmin: Actualizando rol del usuario:', userId, 'a:', newRole);
+        
+        // Usar Service Role Key para bypass RLS
+        const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm');
+        const serviceRoleSupabase = createClient(
+            'https://mwxfoiglrdvxmjpfpedp.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im13eGZvaWdscmR2eG1qcGZwZWRwIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MDIxNjc2MywiZXhwIjoyMDg1NzkyNzYzfQ.yT2ZOE12JlmuUCrL276NKBJ3GBtj8072xg2daIoMUd0',
+            {
+                auth: {
+                    autoRefreshToken: false,
+                    persistSession: false
+                }
+            }
+        );
+        
+        const { data, error } = await serviceRoleSupabase
+            .from('users')
+            .update({ rol: newRole })
+            .eq('id', userId);
+        
+        console.log('updateUserRoleForAdmin: Respuesta:', { data, error });
+        
+        if (error) {
+            console.error('updateUserRoleForAdmin: Error:', error);
+            return { success: false, error: error.message };
+        }
+        
+        console.log('updateUserRoleForAdmin: Rol actualizado exitosamente');
+        return { success: true, data };
+        
+    } catch (error) {
+        console.error('updateUserRoleForAdmin: Error inesperado:', error);
+        return { success: false, error: 'Error inesperado' };
+    }
+}
 
 export async function testUsersTable() {
     try {

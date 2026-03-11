@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Usuarios - NyuraMotors</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="Panel.css">
+    <style>
+        /* Estilos específicos para gestión de usuarios */
+        .users-header {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin: 7rem 0 2rem 0;
+            box-shadow: var(--shadow-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .users-header h1 {
+            color: var(--dark-color);
+            font-size: 2rem;
+            font-weight: 700;
+            font-family: 'Inter', 'Roboto', sans-serif;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--bg-color);
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            min-width: 300px;
+        }
+
+        .search-bar input {
+            border: none;
+            background: none;
+            outline: none;
+            flex: 1;
+            font-family: 'Inter', 'Roboto', sans-serif;
+            font-size: 0.95rem;
+        }
+
+        .search-bar i {
+            color: var(--light-color);
+        }
+
+        .users-table-container {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            overflow-x: auto;
+        }
+
+        .users-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Inter', 'Roboto', sans-serif;
+        }
+
+        .users-table th {
+            background: var(--bg-color);
+            color: var(--dark-color);
+            font-weight: 600;
+            text-align: left;
+            padding: 1rem;
+            border-bottom: 2px solid var(--primary-color);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .users-table td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            color: var(--dark-color);
+            font-size: 0.95rem;
+        }
+
+        .users-table tr:hover {
+            background: rgba(74, 111, 255, 0.05);
+        }
+
+        .user-email {
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .user-role {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .user-role.admin {
+            background: rgba(231, 76, 60, 0.1);
+            color: var(--danger-color);
+        }
+
+        .user-role.user {
+            background: rgba(52, 152, 219, 0.1);
+            color: var(--info-color);
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .btn-action {
+            padding: 0.5rem 0.75rem;
+            border: none;
+            border-radius: var(--border-radius-small);
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: var(--transition);
+            font-family: 'Inter', 'Roboto', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .btn-promote {
+            background: rgba(39, 174, 96, 0.1);
+            color: var(--success-color);
+        }
+
+        .btn-promote:hover {
+            background: var(--success-color);
+            color: var(--white);
+        }
+
+        .btn-demote {
+            background: rgba(243, 156, 18, 0.1);
+            color: var(--warning-color);
+        }
+
+        .btn-demote:hover {
+            background: var(--warning-color);
+            color: var(--white);
+        }
+
+        .btn-delete {
+            background: rgba(231, 76, 60, 0.1);
+            color: var(--danger-color);
+        }
+
+        .btn-delete:hover {
+            background: var(--danger-color);
+            color: var(--white);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--light-color);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: var(--light-color);
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .pagination button {
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(0,0,0,0.1);
+            background: var(--white);
+            color: var(--dark-color);
+            border-radius: var(--border-radius-small);
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Inter', 'Roboto', sans-serif;
+        }
+
+        .pagination button:hover:not(:disabled) {
+            background: var(--primary-color);
+            color: var(--white);
+            border-color: var(--primary-color);
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination .active {
+            background: var(--primary-color);
+            color: var(--white);
+            border-color: var(--primary-color);
+        }
+
+        .loading-users {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--dark-color);
+        }
+
+        .loading-users i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: block;
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .users-header {
+                margin: 6rem 1rem 2rem 1rem;
+                padding: 1.5rem;
+            }
+
+            .users-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .search-bar {
+                min-width: 100%;
+            }
+
+            .users-table-container {
+                padding: 1rem;
+            }
+
+            .users-table {
+                font-size: 0.85rem;
+            }
+
+            .users-table th,
+            .users-table td {
+                padding: 0.75rem 0.5rem;
+            }
+
+            .user-actions {
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+
+            .btn-action {
+                font-size: 0.75rem;
+                padding: 0.4rem 0.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="Panel.html" class="back-button">
+        <i class="fas fa-arrow-left"></i>
+        Volver al Panel
+    </a>
+
+    <div class="admin-container">
+        <div class="users-header">
+            <h1>Gestión de Usuarios</h1>
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Buscar usuarios por email o nombre...">
+            </div>
+        </div>
+
+        <div class="users-info" style="background: var(--white); border-radius: var(--border-radius); padding: 1rem 2rem; margin: 1rem 0; box-shadow: var(--shadow-light); display: flex; justify-content: space-between; align-items: center;">
+            <span id="userCount" style="color: var(--dark-color); font-weight: 500;">Cargando usuarios...</span>
+            <span id="pageInfo" style="color: var(--light-color); font-size: 0.9rem;"></span>
+        </div>
+
+        <div id="loadingUsers" class="loading-users">
+            <i class="fas fa-spinner fa-spin"></i>
+            Cargando usuarios...
+        </div>
+
+        <div id="errorMessage" class="error" style="display: none;"></div>
+
+        <div id="usersTableContainer" class="users-table-container" style="display: none;">
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Email</th>
+                        <th>Nombre</th>
+                        <th>Teléfono</th>
+                        <th>Rol</th>
+                        <th>Fecha de Registro</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="usersTableBody">
+                    <!-- Los usuarios se cargarán dinámicamente -->
+                </tbody>
+            </table>
+
+            <div id="pagination" class="pagination">
+                <!-- Paginación se cargará dinámicamente -->
+            </div>
+        </div>
+
+        <div id="emptyState" class="empty-state" style="display: none;">
+            <i class="fas fa-users"></i>
+            <h3>No se encontraron usuarios</h3>
+            <p>No hay usuarios registrados o no coinciden con la búsqueda.</p>
+        </div>
+    </div>
+
+    <script type="module">
+        import { getCurrentUser, getUserByEmail, getUsers, getUsersForAdmin, updateUser, updateUserRoleForAdmin, deleteAccount } from '../../controlador/BBDD/SupabaseCliente.js';
+
+        let currentUser = null;
+        let allUsers = [];
+        let filteredUsers = [];
+        let currentPage = 1;
+        const usersPerPage = 10;
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                // Verificar si el usuario está autenticado
+                currentUser = await getCurrentUser();
+                if (!currentUser) {
+                    window.location.href = '../InicioSesion.html';
+                    return;
+                }
+
+                // Verificar si es administrador
+                const userData = await getUserByEmail(currentUser.email);
+                if (!userData || userData.rol !== 'admin') {
+                    document.getElementById('errorMessage').style.display = 'block';
+                    document.getElementById('errorMessage').textContent = 'No tienes permisos de administrador para acceder a esta página.';
+                    document.getElementById('loadingUsers').style.display = 'none';
+                    return;
+                }
+
+                // Cargar usuarios
+                await loadUsers();
+
+                // Configurar búsqueda
+                document.getElementById('searchInput').addEventListener('input', handleSearch);
+
+            } catch (error) {
+                console.error('Error en la gestión de usuarios:', error);
+                document.getElementById('errorMessage').style.display = 'block';
+                document.getElementById('errorMessage').textContent = 'Error al cargar los usuarios. Por favor, recarga la página.';
+                document.getElementById('loadingUsers').style.display = 'none';
+            }
+        });
+
+        async function loadUsers() {
+            try {
+                document.getElementById('loadingUsers').style.display = 'block';
+                document.getElementById('usersTableContainer').style.display = 'none';
+                document.getElementById('emptyState').style.display = 'none';
+                document.getElementById('errorMessage').style.display = 'none';
+
+                console.log('loadUsers: Cargando todos los usuarios...');
+                allUsers = await getUsersForAdmin();
+                console.log('loadUsers: Usuarios cargados:', allUsers);
+                console.log('loadUsers: Total usuarios:', allUsers.length);
+                
+                filteredUsers = [...allUsers];
+                console.log('loadUsers: Usuarios filtrados:', filteredUsers.length);
+
+                if (filteredUsers.length === 0) {
+                    document.getElementById('emptyState').style.display = 'block';
+                    document.getElementById('userCount').textContent = 'No se encontraron usuarios';
+                } else {
+                    renderUsers();
+                    document.getElementById('usersTableContainer').style.display = 'block';
+                    document.getElementById('userCount').textContent = `Total: ${filteredUsers.length} usuarios`;
+                }
+
+                document.getElementById('loadingUsers').style.display = 'none';
+
+            } catch (error) {
+                console.error('Error cargando usuarios:', error);
+                document.getElementById('errorMessage').style.display = 'block';
+                document.getElementById('errorMessage').textContent = 'Error al cargar los usuarios. Por favor, recarga la página.';
+                document.getElementById('loadingUsers').style.display = 'none';
+            }
+        }
+
+        function handleSearch() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            if (searchTerm === '') {
+                filteredUsers = [...allUsers];
+            } else {
+                filteredUsers = allUsers.filter(user => 
+                    user.email.toLowerCase().includes(searchTerm) ||
+                    (user.nombre && user.nombre.toLowerCase().includes(searchTerm))
+                );
+            }
+
+            currentPage = 1;
+            
+            if (filteredUsers.length === 0) {
+                document.getElementById('usersTableContainer').style.display = 'none';
+                document.getElementById('emptyState').style.display = 'block';
+                document.getElementById('userCount').textContent = 'No se encontraron usuarios';
+                document.getElementById('pageInfo').textContent = '';
+            } else {
+                document.getElementById('emptyState').style.display = 'none';
+                renderUsers();
+                document.getElementById('usersTableContainer').style.display = 'block';
+                document.getElementById('userCount').textContent = `Total: ${filteredUsers.length} usuarios`;
+            }
+        }
+
+        function renderUsers() {
+            const tbody = document.getElementById('usersTableBody');
+            const startIndex = (currentPage - 1) * usersPerPage;
+            const endIndex = startIndex + usersPerPage;
+            const pageUsers = filteredUsers.slice(startIndex, endIndex);
+
+            tbody.innerHTML = pageUsers.map(user => `
+                <tr>
+                    <td>${user.id.substring(0, 8)}...</td>
+                    <td class="user-email">${user.email}</td>
+                    <td>${user.nombre || 'No especificado'}</td>
+                    <td>${user.telefono || 'No especificado'}</td>
+                    <td>
+                        <span class="user-role ${user.rol || 'user'}">${user.rol || 'user'}</span>
+                    </td>
+                    <td>${user.created_at ? new Date(user.created_at).toLocaleDateString() : 'N/A'}</td>
+                    <td>
+                        <div class="user-actions">
+                            ${user.rol === 'admin' ? 
+                                `<button class="btn-action btn-demote" onclick="changeUserRole('${user.id}', 'user')">
+                                    <i class="fas fa-user-minus"></i> Quitar Admin
+                                </button>` :
+                                `<button class="btn-action btn-promote" onclick="changeUserRole('${user.id}', 'admin')">
+                                    <i class="fas fa-user-plus"></i> Hacer Admin
+                                </button>`
+                            }
+                            <button class="btn-action btn-delete" onclick="deleteUser('${user.id}', '${user.email}')">
+                                <i class="fas fa-trash"></i> Eliminar
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+
+            // Actualizar información de página
+            const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+            const startUser = startIndex + 1;
+            const endUser = Math.min(endIndex, filteredUsers.length);
+            
+            if (totalPages > 1) {
+                document.getElementById('pageInfo').textContent = `Mostrando ${startUser}-${endUser} de ${filteredUsers.length} (Página ${currentPage} de ${totalPages})`;
+            } else {
+                document.getElementById('pageInfo').textContent = `Mostrando ${filteredUsers.length} usuarios`;
+            }
+
+            renderPagination();
+        }
+
+        function renderPagination() {
+            const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+            const pagination = document.getElementById('pagination');
+
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+
+            let paginationHTML = '';
+
+            // Botón anterior
+            paginationHTML += `
+                <button onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+                    <i class="fas fa-chevron-left"></i> Anterior
+                </button>
+            `;
+
+            // Números de página
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) {
+                    paginationHTML += `
+                        <button onclick="changePage(${i})" class="${i === currentPage ? 'active' : ''}">${i}</button>
+                    `;
+                } else if (i === currentPage - 3 || i === currentPage + 3) {
+                    paginationHTML += '<span>...</span>';
+                }
+            }
+
+            // Botón siguiente
+            paginationHTML += `
+                <button onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
+                    Siguiente <i class="fas fa-chevron-right"></i>
+                </button>
+            `;
+
+            pagination.innerHTML = paginationHTML;
+        }
+
+        window.changePage = function(page) {
+            const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+            if (page >= 1 && page <= totalPages) {
+                currentPage = page;
+                renderUsers();
+            }
+        };
+
+        window.changeUserRole = async function(userId, newRole) {
+            if (!confirm(`¿Estás seguro de que quieres cambiar el rol de este usuario a "${newRole}"?`)) {
+                return;
+            }
+
+            try {
+                console.log(`changeUserRole: Cambiando rol de usuario ${userId} a ${newRole}`);
+                const result = await updateUserRoleForAdmin(userId, newRole);
+                
+                if (result.success) {
+                    alert(`Rol del usuario actualizado a "${newRole}" correctamente.`);
+                    console.log('changeUserRole: Rol actualizado exitosamente, recargando usuarios...');
+                    await loadUsers(); // Recargar la lista
+                } else {
+                    console.error('changeUserRole: Error al actualizar rol:', result.error);
+                    alert('Error al actualizar el rol del usuario: ' + result.error);
+                }
+            } catch (error) {
+                console.error('changeUserRole: Error inesperado:', error);
+                alert('Error inesperado al cambiar el rol del usuario.');
+            }
+        };
+
+        window.deleteUser = async function(userId, userEmail) {
+            if (!confirm(`¿Estás seguro de que quieres eliminar al usuario "${userEmail}"? Esta acción no se puede deshacer.`)) {
+                return;
+            }
+
+            // Confirmación adicional
+            if (!confirm('Esta es tu última oportunidad. ¿Realmente quieres eliminar este usuario permanentemente?')) {
+                return;
+            }
+
+            try {
+                const result = await deleteAccount(userId);
+                
+                if (result.success) {
+                    alert('Usuario eliminado correctamente.');
+                    await loadUsers(); // Recargar la lista
+                } else {
+                    alert('Error al eliminar el usuario: ' + result.error);
+                }
+            } catch (error) {
+                console.error('Error eliminando usuario:', error);
+                alert('Error inesperado al eliminar el usuario.');
+            }
+        };
+    </script>
+</body>
+</html>
