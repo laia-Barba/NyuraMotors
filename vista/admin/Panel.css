@@ -1,0 +1,522 @@
+/* ==================== ESTILOS PRINCIPALES DEL PANEL ==================== */
+
+/* Reset y variables globales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #4A6FFF;
+    --secondary-color: #1a1f2e;
+    --accent-color: #111318;
+    --success-color: #27ae60;
+    --warning-color: #f39c12;
+    --danger-color: #e74c3c;
+    --info-color: #3498db;
+    --dark-color: #111318;
+    --light-color: #b8bcc5;
+    --white: #ffffff;
+    --bg-color: #F5F7FB;
+    --shadow-light: 0 4px 12px rgba(0,0,0,0.05);
+    --shadow-medium: 0 10px 30px rgba(0,0,0,0.15);
+    --shadow-heavy: 0 2px 20px rgba(0,0,0,0.05);
+    --border-radius: 8px;
+    --border-radius-small: 6px;
+    --transition: all 0.3s ease;
+}
+
+/* ==================== ESTILOS GENERALES ==================== */
+body {
+    font-family: 'Inter', 'Roboto', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--dark-color);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+.admin-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* ==================== HEADER ==================== */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    box-shadow: var(--shadow-heavy);
+}
+
+/* ==================== BOTÓN VOLVER ==================== */
+.back-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: var(--white);
+    color: var(--accent-color);
+    border: none;
+    padding: 8px 16px;
+    border-radius: var(--border-radius-small);
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    font-family: 'Inter', 'Roboto', sans-serif;
+    box-shadow: var(--shadow-light);
+    transition: var(--transition);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 1001;
+}
+
+.back-button:hover {
+    background: var(--primary-color);
+    color: var(--white);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-medium);
+}
+
+.back-button i {
+    font-size: 0.9rem;
+}
+
+/* ==================== HEADER DEL PANEL ==================== */
+.admin-header {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    padding: 3rem 2rem;
+    margin: 7rem 0 3rem 0;
+    box-shadow: var(--shadow-light);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.admin-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+}
+
+.admin-header h1 {
+    color: var(--dark-color);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    font-family: 'Inter', 'Roboto', sans-serif;
+    text-shadow: none;
+}
+
+.admin-header p {
+    color: var(--light-color);
+    font-size: 1.1rem;
+    font-weight: 400;
+    font-family: 'Inter', 'Roboto', sans-serif;
+}
+
+/* ==================== ESTADÍSTICAS ==================== */
+.admin-stats {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    padding: 2.5rem;
+    box-shadow: var(--shadow-light);
+    margin-bottom: 3rem;
+    position: relative;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.admin-stats h2 {
+    color: var(--dark-color);
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+    font-weight: 600;
+    text-align: center;
+    font-family: 'Inter', 'Roboto', sans-serif;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 2rem 1.5rem;
+    border-radius: var(--border-radius);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: var(--white);
+    position: relative;
+    overflow: hidden;
+    transition: var(--transition);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.stat-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.stat-item:hover::before {
+    left: 100%;
+}
+
+.stat-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+}
+
+.stat-item h4 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+    position: relative;
+    z-index: 1;
+    font-family: 'Inter', 'Roboto', sans-serif;
+}
+
+.stat-item p {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    font-weight: 500;
+    position: relative;
+    z-index: 1;
+    font-family: 'Inter', 'Roboto', sans-serif;
+}
+
+/* ==================== GRID DE TARJETAS ==================== */
+.admin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+/* ==================== TARJETAS DE ADMINISTRACIÓN ==================== */
+.admin-card {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    padding: 2.5rem;
+    box-shadow: var(--shadow-light);
+    transition: var(--transition);
+    cursor: pointer;
+    border: 1px solid rgba(0,0,0,0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.admin-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--primary-color);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.admin-card:hover::before {
+    transform: scaleX(1);
+}
+
+.admin-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-medium);
+    border-color: var(--primary-color);
+}
+
+.admin-card i {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    display: block;
+    text-align: center;
+    transition: var(--transition);
+}
+
+.admin-card:hover i {
+    transform: scale(1.05);
+}
+
+/* Colores por categoría */
+.admin-card.users i {
+    color: var(--info-color);
+}
+
+.admin-card.configurations i {
+    color: var(--warning-color);
+}
+
+.admin-card.contacts i {
+    color: var(--success-color);
+}
+
+.admin-card.models i {
+    color: var(--danger-color);
+}
+
+.admin-card h3 {
+    color: var(--dark-color);
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-weight: 600;
+    font-family: 'Inter', 'Roboto', sans-serif;
+}
+
+.admin-card p {
+    color: var(--light-color);
+    text-align: center;
+    line-height: 1.6;
+    font-size: 0.95rem;
+    font-family: 'Inter', 'Roboto', sans-serif;
+}
+
+/* ==================== ESTADOS DE CARGA Y ERROR ==================== */
+.loading {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--dark-color);
+    font-size: 1.2rem;
+    background: var(--white);
+    border-radius: var(--border-radius);
+    margin: 2rem 0;
+    box-shadow: var(--shadow-light);
+    font-family: 'Inter', 'Roboto', sans-serif;
+}
+
+.loading i {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    display: block;
+    color: var(--primary-color);
+}
+
+.error {
+    background: var(--danger-color);
+    color: var(--white);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    margin: 2rem 0;
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 500;
+    box-shadow: var(--shadow-light);
+    font-family: 'Inter', 'Roboto', sans-serif;
+}
+
+.error i {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+/* ==================== ANIMACIONES ==================== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Aplicar animaciones */
+.admin-header {
+    animation: fadeInUp 0.6s ease;
+}
+
+.admin-stats {
+    animation: fadeInUp 0.8s ease 0.2s both;
+}
+
+.admin-card {
+    animation: slideInLeft 1s ease both;
+}
+
+.admin-card:nth-child(1) { animation-delay: 0.1s; }
+.admin-card:nth-child(2) { animation-delay: 0.2s; }
+.admin-card:nth-child(3) { animation-delay: 0.3s; }
+.admin-card:nth-child(4) { animation-delay: 0.4s; }
+
+/* ==================== RESPONSIVE DESIGN ==================== */
+@media (max-width: 1024px) {
+    .admin-container {
+        padding: 1.5rem;
+    }
+    
+    .admin-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-container {
+        padding: 1rem;
+    }
+
+    .admin-header {
+        margin: 6rem 1rem 2rem 1rem;
+        padding: 2rem 1.5rem;
+    }
+
+    .admin-header h1 {
+        font-size: 2rem;
+    }
+
+    .admin-header p {
+        font-size: 1rem;
+    }
+
+    .admin-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .admin-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .admin-card i {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .stat-item {
+        padding: 1.5rem 1rem;
+    }
+
+    .stat-item h4 {
+        font-size: 2rem;
+    }
+
+    .back-button {
+        top: 10px;
+        left: 10px;
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-container {
+        padding: 0.5rem;
+    }
+
+    .admin-header {
+        margin: 5rem 0.5rem 1.5rem 0.5rem;
+        padding: 1.5rem 1rem;
+    }
+
+    .admin-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .admin-stats {
+        padding: 1.5rem 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .admin-stats h2 {
+        font-size: 1.5rem;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+    }
+
+    .admin-card {
+        padding: 1.5rem 1rem;
+    }
+
+    .admin-card h3 {
+        font-size: 1.2rem;
+    }
+
+    .admin-card p {
+        font-size: 0.9rem;
+    }
+
+    .stat-item h4 {
+        font-size: 1.8rem;
+    }
+
+    .stat-item p {
+        font-size: 0.85rem;
+    }
+}
+
+/* ==================== UTILIDADES ==================== */
+.hidden {
+    display: none !important;
+}
+
+.visible {
+    display: block !important;
+}
+
+.fade-in {
+    animation: fadeInUp 0.5s ease;
+}
+
+/* ==================== SCROLLBAR PERSONALIZADA ==================== */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary-color);
+}
