@@ -8,7 +8,7 @@
 }
 
 :root {
-    --primary-color: #4A6FFF;
+    --primary-color: rgba(0, 0, 0, 0.9);
     --secondary-color: #1a1f2e;
     --accent-color: #111318;
     --success-color: #27ae60;

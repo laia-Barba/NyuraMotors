@@ -80,8 +80,7 @@ header {
     position: fixed;
     top: 0;
     width: 100%;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
+    background: #FFFFFF;
     z-index: 1000;
     box-shadow: 0 2px 20px rgba(0,0,0,0.05);
 }
@@ -92,11 +91,11 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 2rem;
+    padding: 0.5rem 2rem;
 }
 
 .logo-img {
-    height: 95px;  /* ← TU VALOR: Logo grande */
+    height: 45px;
     width: auto;
     object-fit: contain;
 }
@@ -109,33 +108,38 @@ nav ul {
 
 nav a {
     text-decoration: none;
-    color: #111318;
+    color: #000000;
     font-weight: 500;
-    transition: all 0.3s ease;
+    transition: none;
     position: relative;
+    padding: 1rem 2rem;
+    border-radius: 50px;
 }
 
 nav a:hover {
-    color: #4A6FFF;
+    color: #FFFFFF;
+    background: rgba(0, 0, 0, 0.9);
+    border: 1px solid rgba(0, 0, 0, 1);
+    padding: 1rem 2rem;
+    border-radius: 50px;
+}
+
+nav a:first-child:hover {
+    background: transparent;
+    border: none;
+    padding: 1rem 2rem;
 }
 
 nav a::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: -5px;
-    left: 0;
-    background: #4A6FFF;
-    transition: width 0.3s ease;
+    display: none;
 }
 
 nav a:hover::after {
-    width: 100%;
+    display: none;
 }
 
 main {
-    margin-top: 120px;  /* ← AJUSTADO para logo 95px */
+    margin-top: 60px;
     margin-bottom: auto;
     flex: 1;
     padding: 2rem;
@@ -159,7 +163,7 @@ footer {
 }
 
 .footer-section h3 {
-    color: #4A6FFF;
+    color: rgba(0, 0, 0, 0.9);
     margin-bottom: 1.5rem;
     font-size: 1.2rem;
     font-weight: 600;
@@ -173,7 +177,7 @@ footer {
 }
 
 .footer-section a:hover {
-    color: #4A6FFF;
+    color: rgba(0, 0, 0, 0.9);
 }
 
 .footer-links {
@@ -200,7 +204,7 @@ footer {
 }
 
 .social-links a:hover {
-    background: #4A6FFF;
+    background: #00000025;
     transform: translateY(-2px);
 }
 
@@ -235,11 +239,11 @@ footer {
     }
     
     .logo-img {
-        height: 75px;  /* ← AJUSTADO proporcional móvil */
+        height: 35px;
     }
     
     main {
-        margin-top: 100px;  /* ← AJUSTADO móvil */
+        margin-top: 60px;
         padding: 1rem;
     }
 }
