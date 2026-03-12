@@ -1,3 +1,142 @@
+/* Fondo único con formas poligonales para home.html */
+body {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    position: relative;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        /* Polígono 1 - Triángulo grande */
+        linear-gradient(45deg, transparent 30%, rgba(0, 0, 0, 0.03) 30%, rgba(0, 0, 0, 0.03) 70%, transparent 70%),
+        /* Polígono 2 - Diamante */
+        linear-gradient(135deg, transparent 40%, rgba(0, 0, 0, 0.02) 40%, rgba(0, 0, 0, 0.02) 60%, transparent 60%),
+        /* Polígono 3 - Hexágono simulado */
+        linear-gradient(60deg, transparent 35%, rgba(0, 0, 0, 0.025) 35%, rgba(0, 0, 0, 0.025) 65%, transparent 65%);
+    background-size: 600px 400px, 500px 500px, 400px 350px;
+    background-position: -100px -50px, 700px 200px, 200px 600px;
+    background-repeat: no-repeat;
+    opacity: 0.8;
+    z-index: -1;
+    animation: floatPolygons 20s ease-in-out infinite;
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        /* Forma triangular 1 */
+        conic-gradient(from 45deg at 20% 20%, rgba(0, 0, 0, 0.04) 0deg, transparent 90deg, rgba(0, 0, 0, 0.04) 180deg, transparent 270deg, rgba(0, 0, 0, 0.04) 360deg),
+        /* Forma triangular 2 */
+        conic-gradient(from 135deg at 80% 80%, rgba(0, 0, 0, 0.03) 0deg, transparent 120deg, rgba(0, 0, 0, 0.03) 240deg, transparent 360deg),
+        /* Forma triangular 3 */
+        conic-gradient(from 225deg at 60% 40%, rgba(0, 0, 0, 0.035) 0deg, transparent 100deg, rgba(0, 0, 0, 0.035) 200deg, transparent 300deg, rgba(0, 0, 0, 0.035) 400deg, transparent 500deg);
+    background-size: 300px 300px, 250px 250px, 350px 350px;
+    background-position: 100px 100px, 700px 500px, 400px 700px;
+    background-repeat: no-repeat;
+    opacity: 0.6;
+    z-index: -1;
+    animation: rotateShapes 25s linear infinite;
+}
+
+/* Formas adicionales con clip-path */
+.polygon-bg-1 {
+    position: fixed;
+    top: 10%;
+    left: 5%;
+    width: 200px;
+    height: 200px;
+    background: rgba(0, 0, 0, 0.02);
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    z-index: -1;
+    animation: float1 15s ease-in-out infinite;
+}
+
+.polygon-bg-2 {
+    position: fixed;
+    top: 60%;
+    right: 10%;
+    width: 150px;
+    height: 150px;
+    background: rgba(0, 0, 0, 0.025);
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    z-index: -1;
+    animation: float2 18s ease-in-out infinite;
+}
+
+.polygon-bg-3 {
+    position: fixed;
+    bottom: 15%;
+    left: 15%;
+    width: 180px;
+    height: 180px;
+    background: rgba(0, 0, 0, 0.015);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    z-index: -1;
+    animation: float3 20s ease-in-out infinite;
+}
+
+@keyframes floatPolygons {
+    0%, 100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+        transform: translate(30px, -20px) rotate(2deg);
+    }
+    50% {
+        transform: translate(-20px, 30px) rotate(-1deg);
+    }
+    75% {
+        transform: translate(20px, 20px) rotate(1deg);
+    }
+}
+
+@keyframes rotateShapes {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes float1 {
+    0%, 100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    50% {
+        transform: translate(20px, -30px) rotate(180deg);
+    }
+}
+
+@keyframes float2 {
+    0%, 100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    50% {
+        transform: translate(-25px, 20px) rotate(-120deg);
+    }
+}
+
+@keyframes float3 {
+    0%, 100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    50% {
+        transform: translate(15px, 25px) rotate(90deg);
+    }
+}
+
 /* Sección Quienes Somos */
 .quienes-somos-section {
     padding: 6rem 2rem;
@@ -92,10 +231,10 @@
 
 .quienes-somos-image {
     position: relative;
-    border-radius: 20px;
+    border-radius: 30px;
     overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-    transform: perspective(1000px) rotateY(-5deg);
+    margin-top: 100px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
     transition: all 0.5s ease;
 }
 
@@ -167,7 +306,7 @@
 /* Sección Tecnología */
 .tech-section {
     padding: 6rem 2rem;
-    background: #f0f4ff;
+    background: #000000;
     position: relative;
     overflow: hidden;
 }
@@ -220,7 +359,7 @@
 .tech-description {
     font-size: 1.1rem;
     line-height: 1.8;
-    color: #000000;
+    color: #ffffff;
     margin-bottom: 3rem;
 }
 
@@ -1281,8 +1420,9 @@ main {
 
 /* Sección de Modelos */
 .modelos-section {
-    padding: 4rem 1rem;
-    background: #f0f4ff;
+    margin-top: -45px;
+    padding: 6rem 0 6rem 1rem;
+    background: #000000;
     text-align: center;
 }
 
@@ -1296,10 +1436,42 @@ main {
     font-family: 'Poppins', sans-serif;
     font-size: 3.5rem;
     font-weight: 800;
-    color: #000000;
+    color: #FFFFFF;
     margin: 0 0 0.5rem 0;
     text-transform: uppercase;
     letter-spacing: 2px;
+}
+
+.modelos-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.2rem;
+    color: #FFFFFF;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+}
+
+.modelos-intro {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.modelos-description {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.modelos-description p {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.1rem;
+    color: #FFFFFF;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+    text-align: justify;
 }
 
 .modelos-subtitle {
@@ -1327,7 +1499,7 @@ main {
 }
 
 .modelo-card {
-    background: white;
+    background: #FBFBFB;
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -1349,7 +1521,7 @@ main {
     width: 100%;
     height: 200px;
     overflow: hidden;
-    background: white;
+    background: #FBFBFB;
     display: flex;
     align-items: center;
     justify-content: center;
