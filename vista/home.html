@@ -47,6 +47,9 @@
                     <div class="carousel-slide">
                         <img src="../Imagenes/paginaInicio/Carrusel2p.png" alt="Nyura Motors - Imagen 2">
                     </div>
+                    <div class="carousel-slide">
+                        <img src="../Imagenes/paginaInicio/Carrusel5.png" alt="Nyura Motors - Imagen 3">
+                    </div>
                 </div>
                 
                 <button class="carousel-btn carousel-btn-right" onclick="moveCarousel(1)" aria-label="Siguiente">
@@ -60,6 +63,7 @@
             <div class="carousel-indicators">
                 <button class="indicator active" onclick="goToSlide(0)" aria-label="Ir a slide 1"></button>
                 <button class="indicator" onclick="goToSlide(1)" aria-label="Ir a slide 2"></button>
+                <button class="indicator" onclick="goToSlide(2)" aria-label="Ir a slide 3"></button>
             </div>
         </section>
         
@@ -390,7 +394,7 @@
         });
 
         let currentSlide = 0;
-        const totalSlides = 2;
+        const totalSlides = 3;
 
         function moveCarousel(direction) {
             console.log('moveCarousel called with direction:', direction);
@@ -417,8 +421,8 @@
             const slides = document.querySelectorAll('.carousel-slide');
             const indicators = document.querySelectorAll('.indicator');
             
-            // Mover el track
-            track.style.transform = `translateX(-${currentSlide * 50}%)`;
+            // Mover el track - ahora es 33.333% por slide
+            track.style.transform = `translateX(-${currentSlide * 33.333}%)`;
             
             // Actualizar clases active
             slides.forEach((slide, index) => {
