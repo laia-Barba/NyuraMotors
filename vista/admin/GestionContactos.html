@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Contactos - NyuraMotors</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="Panel.css">
+    <style>
+        /* Estilos específicos para gestión de contactos */
+        .contacts-header {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin: 7rem 0 2rem 0;
+            box-shadow: var(--shadow-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .contacts-header h1 {
+            color: var(--dark-color);
+            font-size: 2rem;
+            font-weight: 700;
+            font-family: 'Inter', 'Roboto', sans-serif;
+        }
+
+        .filter-bar {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: var(--border-radius-small);
+            background: var(--bg-color);
+            color: var(--dark-color);
+            font-family: 'Inter', 'Roboto', sans-serif;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-select:hover {
+            border-color: var(--primary-color);
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(74, 111, 255, 0.1);
+        }
+
+        .contacts-table-container {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            overflow-x: auto;
+        }
+
+        .contacts-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Inter', 'Roboto', sans-serif;
+        }
+
+        .contacts-table th {
+            background: var(--bg-color);
+            color: var(--dark-color);
+            font-weight: 600;
+            text-align: left;
+            padding: 1rem;
+            border-bottom: 2px solid var(--primary-color);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .contacts-table td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            color: var(--dark-color);
+            font-size: 0.95rem;
+            vertical-align: top;
+        }
+
+        .contacts-table tr:hover {
+            background: rgba(74, 111, 255, 0.05);
+        }
+
+        .contact-email {
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .contact-message {
+            max-width: 300px;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+
+        .contact-status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .contact-status.nuevo {
+            background: rgba(52, 152, 219, 0.1);
+            color: var(--info-color);
+        }
+
+        .contact-status.en_progreso {
+            background: rgba(243, 156, 18, 0.1);
+            color: var(--warning-color);
+        }
+
+        .contact-status.cerrado {
+            background: rgba(39, 174, 96, 0.1);
+            color: var(--success-color);
+        }
+
+        .contact-status.clickable {
+            cursor: pointer;
+            user-select: none;
+            transition: var(--transition);
+        }
+
+        .contact-status.clickable:hover {
+            transform: translateY(-1px);
+            filter: brightness(0.98);
+        }
+
+        .contact-actions {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            flex-wrap: nowrap;
+            white-space: nowrap;
+        }
+
+        .contacts-table td:last-child {
+            white-space: nowrap;
+        }
+
+        .btn-action {
+            padding: 0.5rem 0.75rem;
+            border: none;
+            border-radius: var(--border-radius-small);
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: var(--transition);
+            font-family: 'Inter', 'Roboto', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            text-decoration: none;
+        }
+
+        .btn-view {
+            background: rgba(74, 111, 255, 0.1);
+            color: var(--primary-color);
+        }
+
+        .btn-view:hover {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .btn-status {
+            background: rgba(243, 156, 18, 0.1);
+            color: var(--warning-color);
+        }
+
+        .btn-status:hover {
+            background: var(--warning-color);
+            color: var(--white);
+        }
+
+        .btn-reply {
+            background: rgba(39, 174, 96, 0.1);
+            color: var(--success-color);
+        }
+
+        .btn-reply:hover {
+            background: var(--success-color);
+            color: var(--white);
+        }
+
+        .btn-delete {
+            background: rgba(231, 76, 60, 0.1);
+            color: var(--danger-color);
+        }
+
+        .btn-delete:hover {
+            background: var(--danger-color);
+            color: var(--white);
+        }
+
+        .btn-icon-only {
+            padding: 0.5rem;
+            width: 34px;
+            height: 34px;
+            justify-content: center;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--light-color);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: var(--light-color);
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .pagination button {
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(0,0,0,0.1);
+            background: var(--white);
+            color: var(--dark-color);
+            border-radius: var(--border-radius-small);
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Inter', 'Roboto', sans-serif;
+        }
+
+        .pagination button:hover:not(:disabled) {
+            background: var(--primary-color);
+            color: var(--white);
+            border-color: var(--primary-color);
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination .active {
+            background: var(--primary-color);
+            color: var(--white);
+            border-color: var(--primary-color);
+        }
+
+        .loading-contacts {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--dark-color);
+        }
+
+        .loading-contacts i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: block;
+            color: var(--primary-color);
+        }
+
+        /* Modal para ver mensaje completo */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 600px;
+            box-shadow: var(--shadow-heavy);
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .modal-header h2 {
+            color: var(--dark-color);
+            font-size: 1.5rem;
+            font-weight: 600;
+            font-family: 'Inter', 'Roboto', sans-serif;
+        }
+
+        .close {
+            color: var(--light-color);
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .close:hover {
+            color: var(--danger-color);
+        }
+
+        .modal-body {
+            color: var(--dark-color);
+            font-family: 'Inter', 'Roboto', sans-serif;
+        }
+
+        .modal-field {
+            margin-bottom: 1rem;
+        }
+
+        .modal-field label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+
+        .modal-field input,
+        .modal-field select,
+        .modal-field textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: var(--border-radius-small);
+            font-family: 'Inter', 'Roboto', sans-serif;
+            font-size: 0.95rem;
+        }
+
+        .modal-field textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .contacts-header {
+                margin: 6rem 1rem 2rem 1rem;
+                padding: 1.5rem;
+            }
+
+            .contacts-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .filter-bar {
+                width: 100%;
+            }
+
+            .filter-select {
+                flex: 1;
+                min-width: 150px;
+            }
+
+            .contacts-table-container {
+                padding: 1rem;
+            }
+
+            .contacts-table {
+                font-size: 0.85rem;
+            }
+
+            .contacts-table th,
+            .contacts-table td {
+                padding: 0.75rem 0.5rem;
+            }
+
+            .contact-actions {
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+
+            .btn-action {
+                font-size: 0.75rem;
+                padding: 0.4rem 0.6rem;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 2% auto;
+                padding: 1.5rem;
+            }
+
+            .modal-header h2 {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="Panel.html" class="back-button">
+        <i class="fas fa-arrow-left"></i>
+        Volver al Panel
+    </a>
+
+    <div class="admin-container">
+        <div class="contacts-header">
+            <h1>Gestión de Contactos</h1>
+            <div class="filter-bar">
+                <select id="statusFilter" class="filter-select">
+                    <option value="">Todos los estados</option>
+                    <option value="nuevo">Nuevos</option>
+                    <option value="en_progreso">En Progreso</option>
+                    <option value="cerrado">Cerrados</option>
+                </select>
+                <select id="orderFilter" class="filter-select">
+                    <option value="desc">Más nuevos primero</option>
+                    <option value="asc">Más antiguos primero</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="users-info" style="background: var(--white); border-radius: var(--border-radius); padding: 1rem 2rem; margin: 1rem 0; box-shadow: var(--shadow-light); display: flex; justify-content: space-between; align-items: center;">
+            <span id="contactCount" style="color: var(--dark-color); font-weight: 500;">Cargando contactos...</span>
+            <span id="pageInfo" style="color: var(--light-color); font-size: 0.9rem;"></span>
+        </div>
+
+        <div id="loadingContacts" class="loading-contacts">
+            <i class="fas fa-spinner fa-spin"></i>
+            Cargando contactos...
+        </div>
+
+        <div id="errorMessage" class="error" style="display: none;"></div>
+
+        <div id="contactsTableContainer" class="contacts-table-container" style="display: none;">
+            <table class="contacts-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Fecha</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Teléfono</th>
+                        <th>Asunto</th>
+                        <th>Mensaje</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="contactsTableBody">
+                    <!-- Los contactos se cargarán dinámicamente -->
+                </tbody>
+            </table>
+
+            <div id="pagination" class="pagination">
+                <!-- Paginación se cargará dinámicamente -->
+            </div>
+        </div>
+
+        <div id="emptyState" class="empty-state" style="display: none;">
+            <i class="fas fa-envelope"></i>
+            <h3>No se encontraron contactos</h3>
+            <p>No hay mensajes de contacto o no coinciden con el filtro.</p>
+        </div>
+    </div>
+
+    <!-- Modal para ver mensaje completo -->
+    <div id="viewModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Ver Mensaje de Contacto</h2>
+                <span class="close" onclick="closeModal('viewModal')">&times;</span>
+            </div>
+            <div class="modal-body" id="viewModalBody">
+                <!-- Contenido dinámico -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para cambiar estado -->
+    <div id="statusModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Cambiar Estado</h2>
+                <span class="close" onclick="closeModal('statusModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="modal-field">
+                    <label for="newStatus">Nuevo Estado:</label>
+                    <select id="newStatus" class="filter-select">
+                        <option value="nuevo">Nuevo</option>
+                        <option value="en_progreso">En Progreso</option>
+                        <option value="cerrado">Cerrado</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn-action btn-status" onclick="closeModal('statusModal')">Cancelar</button>
+                    <button class="btn-action btn-status" onclick="saveStatus()">Guardar Cambio</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para responder -->
+    <div id="replyModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Responder Mensaje</h2>
+                <span class="close" onclick="closeModal('replyModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="modal-field">
+                    <label for="replyTo">Responder a:</label>
+                    <input type="email" id="replyTo" readonly>
+                </div>
+                <div class="modal-field">
+                    <label for="replySubject">Asunto:</label>
+                    <input type="text" id="replySubject">
+                </div>
+                <div class="modal-field">
+                    <label for="replyMessage">Mensaje:</label>
+                    <textarea id="replyMessage" placeholder="Escribe tu respuesta aquí..."></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn-action btn-reply" onclick="closeModal('replyModal')">Cancelar</button>
+                    <button class="btn-action btn-reply" onclick="sendReply()">
+                        <i class="fas fa-paper-plane"></i> Enviar Respuesta
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { getCurrentUser, getUserByEmail, getFormContactos, getContactoById, updateContacto, deleteContacto } from '../../controlador/BBDD/SupabaseCliente.js';
+
+        let currentUser = null;
+        let allContacts = [];
+        let filteredContacts = [];
+        let currentPage = 1;
+        const contactsPerPage = 10;
+        let currentContactId = null;
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                // Verificar si el usuario está autenticado
+                currentUser = await getCurrentUser();
+                if (!currentUser) {
+                    window.location.href = '../InicioSesion.html';
+                    return;
+                }
+
+                // Verificar si es administrador
+                const userData = await getUserByEmail(currentUser.email);
+                if (!userData || userData.rol !== 'admin') {
+                    document.getElementById('errorMessage').style.display = 'block';
+                    document.getElementById('errorMessage').textContent = 'No tienes permisos de administrador para acceder a esta página.';
+                    document.getElementById('loadingContacts').style.display = 'none';
+                    return;
+                }
+
+                // Cargar contactos
+                await loadContacts();
+
+                // Configurar filtro
+                document.getElementById('statusFilter').addEventListener('change', handleFilter);
+                document.getElementById('orderFilter').addEventListener('change', handleFilter);
+
+            } catch (error) {
+                console.error('Error en la gestión de contactos:', error);
+                document.getElementById('errorMessage').style.display = 'block';
+                document.getElementById('errorMessage').textContent = 'Error al cargar los contactos. Por favor, recarga la página.';
+                document.getElementById('loadingContacts').style.display = 'none';
+            }
+        });
+
+        async function loadContacts() {
+            try {
+                document.getElementById('loadingContacts').style.display = 'block';
+                document.getElementById('contactsTableContainer').style.display = 'none';
+                document.getElementById('emptyState').style.display = 'none';
+                document.getElementById('errorMessage').style.display = 'none';
+
+                const orderFilter = document.getElementById('orderFilter').value;
+                
+                console.log('loadContacts: Cargando todos los contactos...');
+                // IMPORTANTE: siempre cargamos TODOS los contactos y luego filtramos en cliente.
+                // Si filtras por estado en la query y cambias el estado, parecería que “desaparece”.
+                allContacts = await getFormContactos(null, orderFilter);
+                console.log('loadContacts: Contactos cargados:', allContacts);
+                console.log('loadContacts: Total contactos:', allContacts.length);
+
+                // Aplicar filtros actuales (estado + orden) y renderizar
+                handleFilter();
+
+                document.getElementById('loadingContacts').style.display = 'none';
+
+            } catch (error) {
+                console.error('Error cargando contactos:', error);
+                document.getElementById('errorMessage').style.display = 'block';
+                document.getElementById('errorMessage').textContent = 'Error al cargar los contactos. Por favor, recarga la página.';
+                document.getElementById('loadingContacts').style.display = 'none';
+            }
+        }
+
+        function handleFilter() {
+            const statusFilter = document.getElementById('statusFilter').value;
+            const orderFilter = document.getElementById('orderFilter').value;
+            
+            if (statusFilter === '' && orderFilter === '') {
+                filteredContacts = [...allContacts];
+            } else {
+                // Aplicar filtro de estado si existe
+                filteredContacts = allContacts.filter(contact => 
+                    (statusFilter === '' || contact.estado === statusFilter)
+                );
+                
+                // Ordenar según el filtro de orden
+                if (orderFilter === 'asc') {
+                    filteredContacts.sort((a, b) => new Date(a.fecha_registro) - new Date(b.fecha_registro));
+                } else if (orderFilter === 'desc') {
+                    filteredContacts.sort((a, b) => new Date(b.fecha_registro) - new Date(a.fecha_registro));
+                }
+                // Si no hay filtro de orden, mantener el orden original (por defecto descendente)
+            }
+
+            currentPage = 1;
+            
+            if (filteredContacts.length === 0) {
+                document.getElementById('contactsTableContainer').style.display = 'none';
+                document.getElementById('emptyState').style.display = 'block';
+                document.getElementById('contactCount').textContent = 'No se encontraron contactos';
+                document.getElementById('pageInfo').textContent = '';
+            } else {
+                document.getElementById('emptyState').style.display = 'none';
+                renderContacts();
+                document.getElementById('contactsTableContainer').style.display = 'block';
+                document.getElementById('contactCount').textContent = `Total: ${filteredContacts.length} contactos`;
+            }
+        }
+
+        function renderContacts() {
+            const tbody = document.getElementById('contactsTableBody');
+            const startIndex = (currentPage - 1) * contactsPerPage;
+            const endIndex = startIndex + contactsPerPage;
+            const pageContacts = filteredContacts.slice(startIndex, endIndex);
+
+            tbody.innerHTML = pageContacts.map(contact => `
+                <tr>
+                    <td>${contact.id.substring(0, 8)}...</td>
+                    <td>${new Date(contact.fecha_registro).toLocaleDateString()}</td>
+                    <td>${contact.nombre || 'No especificado'}</td>
+                    <td class="contact-email">${contact.email}</td>
+                    <td>${contact.telefono || 'No especificado'}</td>
+                    <td>${contact.asunto || 'Sin asunto'}</td>
+                    <td class="contact-message">${contact.message ? contact.message.substring(0, 50) + (contact.message.length > 50 ? '...' : '') : 'Sin mensaje'}</td>
+                    <td>
+                        <span class="contact-status clickable ${contact.estado}" onclick="openStatusModal('${contact.id}', '${contact.estado}')" title="Cambiar estado">
+                            ${contact.estado}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="contact-actions">
+                            ${contact.message && contact.message.length > 50 ? `
+                                <button class="btn-action btn-view" onclick="viewContact('${contact.id}')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            ` : ''}
+                            <button class="btn-action btn-reply" onclick="openReplyModal('${contact.email}', '${contact.asunto || 'Sin asunto'}')">
+                                <i class="fas fa-reply"></i>
+                            </button>
+                            <button class="btn-action btn-delete btn-icon-only" onclick="deleteContact('${contact.id}', '${contact.email}')" title="Eliminar">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+
+            // Actualizar información de página
+            const totalPages = Math.ceil(filteredContacts.length / contactsPerPage);
+            const startContact = startIndex + 1;
+            const endContact = Math.min(endIndex, filteredContacts.length);
+            
+            if (totalPages > 1) {
+                document.getElementById('pageInfo').textContent = `Mostrando ${startContact}-${endContact} de ${filteredContacts.length} (Página ${currentPage} de ${totalPages})`;
+            } else {
+                document.getElementById('pageInfo').textContent = `Mostrando ${filteredContacts.length} contactos`;
+            }
+
+            renderPagination();
+        }
+
+        function renderPagination() {
+            const totalPages = Math.ceil(filteredContacts.length / contactsPerPage);
+            const pagination = document.getElementById('pagination');
+
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+
+            let paginationHTML = '';
+
+            // Botón anterior
+            paginationHTML += `
+                <button onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+                    <i class="fas fa-chevron-left"></i> Anterior
+                </button>
+            `;
+
+            // Números de página
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) {
+                    paginationHTML += `
+                        <button onclick="changePage(${i})" class="${i === currentPage ? 'active' : ''}">${i}</button>
+                    `;
+                } else if (i === currentPage - 3 || i === currentPage + 3) {
+                    paginationHTML += '<span>...</span>';
+                }
+            }
+
+            // Botón siguiente
+            paginationHTML += `
+                <button onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
+                    Siguiente <i class="fas fa-chevron-right"></i>
+                </button>
+            `;
+
+            pagination.innerHTML = paginationHTML;
+        }
+
+        window.changePage = function(page) {
+            const totalPages = Math.ceil(filteredContacts.length / contactsPerPage);
+            if (page >= 1 && page <= totalPages) {
+                currentPage = page;
+                renderContacts();
+            }
+        };
+
+        window.viewContact = async function(contactId) {
+            try {
+                const contact = await getContactoById(contactId);
+                if (contact) {
+                    document.getElementById('viewModalBody').innerHTML = `
+                        <div class="modal-field">
+                            <label>Fecha de Registro:</label>
+                            <input type="text" value="${new Date(contact.fecha_registro).toLocaleString()}" readonly>
+                        </div>
+                        <div class="modal-field">
+                            <label>Nombre:</label>
+                            <input type="text" value="${contact.nombre || 'No especificado'}" readonly>
+                        </div>
+                        <div class="modal-field">
+                            <label>Email:</label>
+                            <input type="email" value="${contact.email}" readonly>
+                        </div>
+                        <div class="modal-field">
+                            <label>Teléfono:</label>
+                            <input type="tel" value="${contact.telefono || 'No especificado'}" readonly>
+                        </div>
+                        <div class="modal-field">
+                            <label>Asunto:</label>
+                            <input type="text" value="${contact.asunto || 'Sin asunto'}" readonly>
+                        </div>
+                        <div class="modal-field">
+                            <label>Mensaje:</label>
+                            <textarea readonly>${contact.message || 'Sin mensaje'}</textarea>
+                        </div>
+                        <div class="modal-field">
+                            <label>Estado Actual:</label>
+                            <input type="text" value="${contact.estado}" readonly>
+                        </div>
+                    `;
+                    document.getElementById('viewModal').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error al cargar contacto:', error);
+                alert('Error al cargar el contacto.');
+            }
+        };
+
+        window.openStatusModal = function(contactId, currentStatus) {
+            currentContactId = contactId;
+            document.getElementById('newStatus').value = currentStatus;
+            document.getElementById('statusModal').style.display = 'block';
+        };
+
+        window.saveStatus = async function() {
+            if (!currentContactId) return;
+
+            const newStatus = document.getElementById('newStatus').value;
+            
+            try {
+                const result = await updateContacto(currentContactId, { estado: newStatus });
+                
+                if (result.success) {
+                    alert('Estado actualizado correctamente.');
+                    closeModal('statusModal');
+                    await loadContacts(); // Recargar la lista
+                } else {
+                    alert('Error al actualizar el estado: ' + result.error);
+                }
+            } catch (error) {
+                console.error('Error actualizando estado:', error);
+                alert('Error inesperado al actualizar el estado.');
+            }
+        };
+
+        window.openReplyModal = function(email, subject) {
+            document.getElementById('replyTo').value = email;
+            document.getElementById('replySubject').value = `Re: ${subject}`;
+            document.getElementById('replyMessage').value = '';
+            document.getElementById('replyModal').style.display = 'block';
+        };
+
+        window.sendReply = function() {
+            const to = document.getElementById('replyTo').value;
+            const subject = document.getElementById('replySubject').value;
+            const message = document.getElementById('replyMessage').value;
+
+            if (!message.trim()) {
+                alert('Por favor, escribe un mensaje antes de enviar.');
+                return;
+            }
+
+            // Abrir redacción en Gmail (web) con los datos prellenados
+            const gmailComposeUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(to)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+            window.open(gmailComposeUrl, '_blank');
+
+            alert('Gmail abierto. Puedes enviar tu respuesta desde allí.');
+            closeModal('replyModal');
+        };
+
+        window.deleteContact = async function(contactId, email) {
+            if (!confirm(`¿Estás seguro de que quieres eliminar el contacto de "${email}"? Esta acción no se puede deshacer.`)) {
+                return;
+            }
+
+            // Confirmación adicional
+            if (!confirm('Esta es tu última oportunidad. ¿Realmente quieres eliminar este contacto permanentemente?')) {
+                return;
+            }
+
+            try {
+                const result = await deleteContacto(contactId);
+                
+                if (result.success) {
+                    alert('Contacto eliminado correctamente.');
+                    await loadContacts(); // Recargar la lista
+                } else {
+                    alert('Error al eliminar el contacto: ' + result.error);
+                }
+            } catch (error) {
+                console.error('Error eliminando contacto:', error);
+                alert('Error inesperado al eliminar el contacto.');
+            }
+        };
+
+        window.closeModal = function(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            if (modalId === 'statusModal') {
+                currentContactId = null;
+            }
+        };
+
+        // Cerrar modales al hacer clic fuera
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+                currentContactId = null;
+            }
+        };
+    </script>
+</body>
+</html>
