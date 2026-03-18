@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nyura Motors - Modelos</title>
+    <link rel="stylesheet" href="EstiloPrincipal.css">
+    <link rel="stylesheet" href="modelos.css">
+    <link rel="stylesheet" href="header-unique.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav>
+            <!-- Logo como imagen -->
+            <a href="home.html"><img src="../Imagenes/paginaInicio/logoN.png" alt="Nyura Motors" class="logo-img"></a>
+            
+            <ul>
+                <li><a href="home.html">Inicio</a></li>
+                <li><a href="modelos.html" id="modelosLink" class="active">Modelos</a></li>
+                <li><a href="Configurador3D.html">Configurador 3D</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+                <li id="authMenu"><a href="InicioSesion.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; vertical-align: -2px; margin-right: 6px;"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.41 0-8 2-8 4.5V21h16v-2.5c0-2.5-3.59-4.5-8-4.5Z"/></svg>Iniciar sesión</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Sección de filtros de gamas -->
+    <section class="gama-filters-section">
+        <!-- Título principal -->
+        <div class="gama-hero">
+            <h1>Nuestras Gamas</h1>
+            <p>Descubre la gama completa de vehículos Nyura Motors</p>
+        </div>
+        
+        <!-- Filtros de gamas -->
+        <div class="gama-filters-container">
+            <div class="filter-container">
+                <button class="filter-btn-header" data-filter="electrico" data-gama="electrico">
+                    <div class="filter-image">
+                        <img src="../Imagenes/gamas/electricofondo.png" alt="Gama Eléctrica">
+                    </div>
+                </button>
+                <button class="filter-btn-header" data-filter="combustion" data-gama="combustion">
+                    <div class="filter-image">
+                        <img src="../Imagenes/gamas/combustionfondo.png" alt="Gama Combustión">
+                    </div>
+                </button>
+                <button class="filter-btn-header active" data-filter="sport" data-gama="sport">
+                    <div class="filter-image">
+                        <img src="../Imagenes/gamas/Rfondo.png" alt="Gama Sport R">
+                    </div>
+                </button>
+            </div>
+        </div>
+    <!-- Indicador lateral derecho -->
+        <div class="gama-indicador-lateral" id="gama-indicador-lateral">
+            <div class="indicador-lateral-content">
+                <div class="indicador-lateral-icon">
+                    <img id="gama-icono" src="../Imagenes/gamas/R.png" alt="Gama Sport R">
+                </div>
+                <div class="indicador-lateral-text">
+                    <span class="indicador-gama" id="gama-lateral-gama">Sport R</span>
+                    <span class="indicador-estado">Seleccionado</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main>
+        <!-- Contenedor de vehículos -->
+        <section class="vehiculos-container">
+            <div class="vehiculos-grid">
+                <!-- Vehículos Eléctricos -->
+                <div class="vehiculo-card" data-category="electrico" data-vehiculo="terramar">
+                    <div class="vehiculo-image">
+                        <img src="../Imagenes/Imagenesmodelos/Terramar.png" alt="Nyura Terramar">
+                        <span class="vehiculo-badge electrico">Eléctrico</span>
+                    </div>
+                    <div class="vehiculo-info">
+                        <h3>Terramar</h3>
+                        <p>SUV eléctrico con autonomía extendida y diseño futurista</p>
+                        <div class="vehiculo-specs">
+                            <span>Autonomía: 450km</span>
+                            <span>0-100: 5.2s</span>
+                            <span>Potencia: 300CV</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vehículos Combustión -->
+                <div class="vehiculo-card" data-category="combustion" data-vehiculo="nova">
+                    <div class="vehiculo-image">
+                        <img src="../Imagenes/Imagenesmodelos/Nova.png" alt="Nyura Nova">
+                        <span class="vehiculo-badge combustion">Combustión</span>
+                    </div>
+                    <div class="vehiculo-info">
+                        <h3>Nova</h3>
+                        <p>Compacto eficiente con motor de gasolina de última generación</p>
+                        <div class="vehiculo-specs">
+                            <span>Consumo: 5.2L/100km</span>
+                            <span>0-100: 8.5s</span>
+                            <span>Potencia: 150CV</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vehículos Sport R -->
+                <div class="vehiculo-card" data-category="sport" data-vehiculo="nova-sport">
+                    <div class="vehiculo-image">
+                        <img src="../Imagenes/Imagenesmodelos/NovaSport.png" alt="Nyura Nova Sport">
+                        <span class="vehiculo-badge sport">Sport R</span>
+                    </div>
+                    <div class="vehiculo-info">
+                        <h3>Nova Sport</h3>
+                        <p>Deportivo de alto rendimiento con aerodinámica avanzada</p>
+                        <div class="vehiculo-specs">
+                            <span>0-100: 3.8s</span>
+                            <span>Velocidad: 280km/h</span>
+                            <span>Potencia: 450CV</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Más vehículos eléctricos -->
+                <div class="vehiculo-card" data-category="electrico" data-vehiculo="spark">
+                    <div class="vehiculo-image">
+                        <img src="../Imagenes/Imagenesmodelos/Spark.png" alt="Nyura Spark">
+                        <span class="vehiculo-badge electrico">Eléctrico</span>
+                    </div>
+                    <div class="vehiculo-info">
+                        <h3>Spark</h3>
+                        <p>Compacto urbano 100% eléctrico perfect para ciudad</p>
+                        <div class="vehiculo-specs">
+                            <span>Autonomía: 280km</span>
+                            <span>0-100: 7.2s</span>
+                            <span>Potencia: 120CV</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Más vehículos combustión -->
+                <div class="vehiculo-card" data-category="combustion" data-vehiculo="fusion">
+                    <div class="vehiculo-image">
+                        <img src="../Imagenes/Imagenesmodelos/Fusion.png" alt="Nyura Fusion">
+                        <span class="vehiculo-badge combustion">Combustión</span>
+                    </div>
+                    <div class="vehiculo-info">
+                        <h3>Fusion</h3>
+                        <p>Sedán familiar con espacio y tecnología avanzada</p>
+                        <div class="vehiculo-specs">
+                            <span>Consumo: 6.8L/100km</span>
+                            <span>0-100: 9.2s</span>
+                            <span>Potencia: 180CV</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Más vehículos Sport R -->
+                <div class="vehiculo-card" data-category="sport" data-vehiculo="thunder">
+                    <div class="vehiculo-image">
+                        <img src="../Imagenes/Imagenesmodelos/Thunder.png" alt="Nyura Thunder">
+                        <span class="vehiculo-badge sport">Sport R</span>
+                    </div>
+                    <div class="vehiculo-info">
+                        <h3>Thunder</h3>
+                        <p>Supercar eléctrico con aceleración brutal y diseño agresivo</p>
+                        <div class="vehiculo-specs">
+                            <span>0-100: 2.8s</span>
+                            <span>Velocidad: 350km/h</span>
+                            <span>Potencia: 800CV</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        </div>
+    </main>
+
+    <footer>
+    <div class="footer-content">
+        <!-- Nyura Motors -->
+        <div class="footer-section">
+            <img src="../Imagenes/LogoBlancoNyura.png" alt="Nyura Motors" class="logo-img" style="height: 143px; opacity: 0.9;">
+            <p>El futur de la mobilitat elèctrica. Disseny innovador, rendiment superior i tecnologia punta.</p>
+        </div>
+
+        <!-- Enllaços principals -->
+        <div class="footer-section">
+            <h3>Paginas de Nyura Motors</h3>
+            <div class="footer-links">
+                <a href="home.html">Home</a>
+                <a href="modelos.html">Modelos</a>
+                <a href="Configurador3D.html">Configurador 3D</a>
+                <a href="contacto.html">Contacto</a>
+            </div>
+        </div>
+
+        
+
+        <!-- Contacte & Xarxes -->
+        <div class="footer-section">
+            <h3>Contacte</h3>
+            <p>📧 contacto@nyuramotors.com<br>
+               📱 +34 612 345 678<br>
+               📍 Carrer de Caracas, 11. Sant Andreu, 08030 Barcelona</p>
+            <div class="social-links">
+                <a href="#" aria-label="Twitter">𝕏</a>
+                <a href="#" aria-label="Instagram">📷</a>
+                <a href="#" aria-label="YouTube">📺</a>
+                <a href="#" aria-label="LinkedIn">💼</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p>&copy; 2026 Nyura Motors. Tots els drets reservats. | 
+           <a href="#" style="color: #4A6FFF;">Política de Privacitat</a> | 
+           <a href="#" style="color: #4A6FFF;">Condicions d'ús</a> | 
+           <a href="#" style="color: #4A6FFF;">Cookies</a>
+        </p>
+    </div>
+</footer>
+
+<script type="module">
+        import { getCurrentUser, createOrUpdateUserProfile, onAuthStateChange, signOut, getUserByEmail } from '../controlador/BBDD/SupabaseCliente.js';
+        
+        document.addEventListener('DOMContentLoaded', async function() {
+            const authMenu = document.getElementById('authMenu');
+            
+            // Función para actualizar el menú de autenticación
+            async function updateAuthMenu(user) {
+                if (user) {
+                    // Obtener datos completos del usuario incluyendo el rol
+                    const userData = await getUserByEmail(user.email);
+                    const isAdmin = userData && userData.rol === 'admin';
+                    const displayName = user.user_metadata?.nombre || user.email.split('@')[0];
+                    
+                    authMenu.innerHTML = `
+                        <div class="auth-dropdown">
+                            <button class="auth-dropdown-toggle" onclick="toggleAuthMenu()">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; vertical-align: -2px; margin-right: 6px;">
+                                    <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.41 0-8 2-8 4.5V21h16v-2.5c0-2.5-3.59-4.5-8-4.5Z"/>
+                                </svg>
+                                ${displayName}
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 12px; height: 12px; margin-left: 4px;">
+                                    <path d="M7 10l5 5 5-5z"/>
+                                </svg>
+                            </button>
+                            <div class="auth-dropdown-menu" id="authDropdownMenu">
+                                <a href="User/perfil.html">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; margin-right: 8px;">
+                                        <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.41 0-8 2-8 4.5V21h16v-2.5c0-2.5-3.59-4.5-8-4.5Z"/>
+                                    </svg>
+                                    Ver perfil
+                                </a>
+                                ${isAdmin ? `
+                                <a href="admin/Panel.html" style="color: #dc3545;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; margin-right: 8px;">
+                                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                    </svg>
+                                    Panel de Administrador
+                                </a>` : ''}
+                                <a href="#" onclick="handleSignOut()" style="color: #dc3545;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; margin-right: 8px;">
+                                        <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5-5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+                                    </svg>
+                                    Cerrar sesión
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    authMenu.innerHTML = `
+                        <a href="InicioSesion.html">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; vertical-align: -2px; margin-right: 6px;">
+                                <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.41 0-8 2-8 4.5V21h16v-2.5c0-2.5-3.59-4.5-8-4.5Z"/>
+                            </svg>
+                            Iniciar sesión
+                        </a>
+                    `;
+                }
+            }
+            
+            // Función para toggle del menú desplegable
+            window.toggleAuthMenu = function() {
+                const menu = document.getElementById('authDropdownMenu');
+                menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+            };
+            
+            // Función para ver perfil
+            window.viewProfile = function() {
+                const currentUser = getCurrentUser();
+                if (currentUser) {
+                    const displayName = currentUser.user_metadata?.nombre || currentUser.email.split('@')[0];
+                    alert(`Perfil de ${displayName}\n\nEmail: ${currentUser.email}\nTeléfono: ${currentUser.user_metadata?.telefono || 'No especificado'}`);
+                }
+                toggleAuthMenu(); // Cerrar el menú
+            };
+            
+            // Función para cerrar sesión
+            window.handleSignOut = async function() {
+                try {
+                    const result = await signOut();
+                    if (result.success) {
+                        console.log('Sesión cerrada correctamente');
+                        updateAuthMenu(null);
+                        // Opcional: redirigir a página de login
+                        // window.location.href = 'InicioSesion.html';
+                    } else {
+                        console.error('Error al cerrar sesión:', result.error);
+                        alert('Error al cerrar sesión. Intenta de nuevo.');
+                    }
+                } catch (error) {
+                    console.error('Error inesperado al cerrar sesión:', error);
+                    alert('Error inesperado. Intenta de nuevo.');
+                }
+            };
+            
+            // Cerrar menú al hacer clic fuera
+            document.addEventListener('click', function(event) {
+                const dropdown = document.querySelector('.auth-dropdown');
+                if (dropdown && !dropdown.contains(event.target)) {
+                    const menu = document.getElementById('authDropdownMenu');
+                    if (menu) {
+                        menu.style.display = 'none';
+                    }
+                }
+            });
+            
+            // Verificar estado inicial
+            const currentUser = await getCurrentUser();
+            updateAuthMenu(currentUser);
+            
+            // Escuchar cambios en autenticación
+            onAuthStateChange(async (event, session) => {
+                if (event === 'SIGNED_IN' && session?.user) {
+                    console.log('Usuario autenticado:', session.user);
+                    
+                    // Crear o actualizar perfil en tabla users
+                    const profileResult = await createOrUpdateUserProfile(session.user);
+                    
+                    if (profileResult.success) {
+                        console.log('Perfil procesado:', profileResult.action);
+                        if (profileResult.action === 'created') {
+                            console.log('Nuevo perfil creado para usuario de Google');
+                        }
+                    } else {
+                        console.error('Error procesando perfil:', profileResult.error);
+                    }
+                    
+                    updateAuthMenu(session.user);
+                } else if (event === 'SIGNED_OUT') {
+                    console.log('Usuario cerró sesión');
+                    updateAuthMenu(null);
+                }
+            });
+        });
+    </script>
+
+    <!-- Script para filtrado de vehículos -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const vehicleCards = document.querySelectorAll('.vehiculo-card');
+
+            // Filtrado de vehículos
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const filter = this.getAttribute('data-filter');
+                    
+                    vehicleCards.forEach(card => {
+                        const category = card.getAttribute('data-category');
+                        
+                        if (filter === 'todos' || category === filter) {
+                            card.classList.remove('hidden');
+                            card.classList.add('visible');
+                        } else {
+                            card.classList.remove('visible');
+                            card.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+
+            // Eventos de clic en tarjetas de vehículos
+            vehicleCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const vehiculoId = this.getAttribute('data-vehiculo');
+                    console.log('Tarjeta clickeada:', vehiculoId); // Debug
+                    mostrarDetalles(vehiculoId);
+                });
+            });
+        });
+
+        // Datos de vehículos
+        const vehiculos = {
+            'nova': {
+                nombre: 'Nyura Nova',
+                descripcion: 'Sedán eléctrico de alta autonomía',
+                imagen: '../Imagenes/coches/Nova.png',
+                features: ['⚡ 450km autonomía', '🔋 75kWh batería', '🏁 0-100km/h 5.8s'],
+                specs: {
+                    'Batería': '75 kWh',
+                    'Potencia': '204 CV',
+                    'Dimensiones': '4.75m x 1.85m x 1.42m',
+                    'Emisiones': '0 g/km CO₂'
+                }
+            },
+            'nova-sport': {
+                nombre: 'Nyura Nova Sport',
+                descripcion: 'Version deportiva del Nova',
+                imagen: '../Imagenes/coches/NovaSport.png',
+                features: ['⚡ 400km autonomía', '🏁 0-100km/h 4.2s', '🔥 265 CV'],
+                specs: {
+                    'Batería': '68 kWh',
+                    'Potencia': '265 CV',
+                    'Dimensiones': '4.75m x 1.85m x 1.40m',
+                    'Emisiones': '0 g/km CO₂'
+                }
+            },
+            'altamira': {
+                nombre: 'Nyura Altamira',
+                descripcion: 'SUV compacto eficiente',
+                imagen: '../Imagenes/coches/Altamira.png',
+                features: ['⛽ 5.2L/100km', '🏔️ Tracción 4x4', '🏁 0-100km/h 8.5s'],
+                specs: {
+                    'Motor': '2.0L Turbo',
+                    'Potencia': '180 CV',
+                    'Dimensiones': '4.35m x 1.80m x 1.65m',
+                    'Emisiones': '120 g/km CO₂'
+                }
+            },
+            'sport-r': {
+                nombre: 'Nyura Sport R',
+                descripcion: 'Deportivo de altas prestaciones',
+                imagen: '../Imagenes/coches/SportR.png',
+                features: ['🏁 0-100km/h 3.8s', '🔥 450cv potencia', '⚡ Eléctrico Híbrido'],
+                specs: {
+                    'Motor': 'V6 Híbrido',
+                    'Potencia': '450 CV',
+                    'Dimensiones': '4.50m x 1.90m x 1.25m',
+                    'Emisiones': '95 g/km CO₂'
+                }
+            }
+        };
+
+        // Función para mostrar detalles del vehículo
+        function mostrarDetalles(vehiculoId) {
+            console.log('Clic en vehículo:', vehiculoId); // Debug
+            const vehiculo = vehiculos[vehiculoId];
+            if (!vehiculo) return;
+
+            const contenido = `
+                <div class="modal-vehiculo">
+                    <div class="modal-vehiculo-imagen">
+                        <img src="${vehiculo.imagen}" alt="${vehiculo.nombre}">
+                    </div>
+                    <div class="modal-vehiculo-info">
+                        <h2>${vehiculo.nombre}</h2>
+                        <p>${vehiculo.descripcion}</p>
+                        <div class="modal-features">
+                            ${vehiculo.features.map(feature => `<span class="modal-feature-badge">${feature}</span>`).join('')}
+                        </div>
+                        <div class="modal-specs">
+                            ${Object.entries(vehiculo.specs).map(([key, value]) => `
+                                <div class="modal-spec-item">
+                                    <span class="modal-spec-label">${key}:</span>
+                                    <span class="modal-spec-value">${value}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="modal-buttons">
+                            <a href="contacto.html" class="modal-btn primary">Solicitar Información</a>
+                            <a href="Configurador3D.html" class="modal-btn secondary">Configurar</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('detallesContenido').innerHTML = contenido;
+            document.getElementById('detallesModal').style.display = 'block';
+        }
+
+        // Función para cerrar el modal
+        function cerrarModal() {
+            document.getElementById('detallesModal').style.display = 'none';
+        }
+
+        // Cerrar modal al hacer clic fuera del contenido
+        window.onclick = function(event) {
+            const modal = document.getElementById('detallesModal');
+            if (event.target === modal) {
+                cerrarModal();
+            }
+        }
+
+        // Hacer las funciones globales
+        window.mostrarDetalles = mostrarDetalles;
+        window.cerrarModal = cerrarModal;
+    </script>
+    
+    <!-- Script para filtros del header -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Obtener parámetro de filtro de la URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const filtroInicial = urlParams.get('filter') || 'sport'; // Por defecto sport
+            
+            // Establecer el filtro activo inicial
+            const botonesFiltro = document.querySelectorAll('.filter-btn-header');
+            botonesFiltro.forEach(boton => {
+                boton.classList.remove('active');
+                if (boton.getAttribute('data-filter') === filtroInicial) {
+                    boton.classList.add('active');
+                }
+            });
+            
+            // Aplicar filtro inicial y color del header
+            filtrarVehiculos(filtroInicial);
+            actualizarIndicadorLateral(filtroInicial);
+            actualizarColorHeader(filtroInicial);
+            
+            // Event listeners para los filtros
+            botonesFiltro.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remover clase active de todos los botones
+                    botonesFiltro.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Añadir clase active al botón clickeado
+                    this.classList.add('active');
+                    
+                    // Obtener el filtro
+                    const filter = this.getAttribute('data-filter');
+                    
+                    // Aplicar efecto visual
+                    const gama = this.getAttribute('data-gama');
+                    aplicarEfectoGama(gama);
+                    
+                    // Actualizar color del header
+                    actualizarColorHeader(gama);
+                    
+                    // Actualizar indicador lateral
+                    actualizarIndicadorLateral(gama);
+                    
+                    // Filtrar vehículos
+                    filtrarVehiculos(filter);
+                });
+            });
+            
+            // Función para actualizar el color del header
+            function actualizarColorHeader(gama) {
+                const header = document.querySelector('header');
+                // Remover todas las clases de gama
+                header.classList.remove('gama-electrico', 'gama-combustion', 'gama-sport');
+                // Añadir la clase correspondiente
+                if (gama === 'electrico') {
+                    header.classList.add('gama-electrico');
+                } else if (gama === 'combustion') {
+                    header.classList.add('gama-combustion');
+                } else if (gama === 'sport') {
+                    header.classList.add('gama-sport');
+                }
+            }
+            
+            // Función para filtrar vehículos
+            function filtrarVehiculos(filter) {
+                const vehicles = document.querySelectorAll('.vehiculo-card');
+                
+                vehicles.forEach(vehicle => {
+                    const vehicleCategory = vehicle.getAttribute('data-category');
+                    
+                    if (vehicleCategory === filter) {
+                        vehicle.style.display = 'block';
+                        vehicle.style.opacity = '0';
+                        setTimeout(() => {
+                            vehicle.style.opacity = '1';
+                        }, 50);
+                    } else {
+                        vehicle.style.display = 'none';
+                    }
+                });
+            }
+            
+            function aplicarEfectoGama(gama) {
+                // Sin animación - solo filtrado
+            }
+            
+            // Función para actualizar indicador lateral
+            function actualizarIndicadorLateral(gama) {
+                const indicador = document.getElementById('gama-indicador-lateral');
+                const icono = document.getElementById('gama-icono');
+                const gamaText = document.getElementById('gama-lateral-gama');
+                
+                // Limpiar timeout anterior si existe
+                if (window.indicadorTimeout) {
+                    clearTimeout(window.indicadorTimeout);
+                }
+                
+                // Mostrar indicador
+                indicador.style.opacity = '1';
+                indicador.style.pointerEvents = 'auto';
+                
+                // Actualizar imagen y texto
+                switch(gama) {
+                    case 'electrico':
+                        icono.src = '../Imagenes/gamas/electrico.png';
+                        icono.alt = 'Gama Eléctrica';
+                        gamaText.textContent = 'Eléctrico';
+                        indicador.className = 'gama-indicador-lateral electrico';
+                        break;
+                    case 'combustion':
+                        icono.src = '../Imagenes/gamas/combustion.png';
+                        icono.alt = 'Gama Combustión';
+                        gamaText.textContent = 'Combustión';
+                        indicador.className = 'gama-indicador-lateral combustion';
+                        break;
+                    case 'sport':
+                        icono.src = '../Imagenes/gamas/R.png';
+                        icono.alt = 'Gama Sport R';
+                        gamaText.textContent = 'Sport R';
+                        indicador.className = 'gama-indicador-lateral sport';
+                        break;
+                }
+                
+                // Ocultar después de 2 segundos
+                window.indicadorTimeout = setTimeout(() => {
+                    indicador.style.opacity = '0';
+                    indicador.style.pointerEvents = 'none';
+                }, 2000);
+            }
+        });
+    </script>
+
+    <!-- Script para scroll a modelos -->
+    <script>
+        // Función para redirigir a home con scroll a modelos
+        document.getElementById('modelosLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            // Redirigir al home con parámetro para scroll
+            window.location.href = 'home.html#modelos';
+        });
+    </script>
+</body>
+</html>

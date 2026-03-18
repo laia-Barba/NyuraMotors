@@ -6,17 +6,23 @@
     <title>Nyura Motors - El Futur de la Mobilitat</title>
     <link rel="stylesheet" href="EstiloPrincipal.css">
     <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="header-unique.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Formas poligonales de fondo -->
+    <div class="polygon-bg-1"></div>
+    <div class="polygon-bg-2"></div>
+    <div class="polygon-bg-3"></div>
+    
     <header>
         <nav>
             <!-- Logo como imagen -->
-            <a href="home.html"><img src="../Imagenes/NYURAlogopagina.png" alt="Nyura Motors" class="logo-img"></a>
+            <a href="home.html"><img src="../Imagenes/paginaInicio/logoN.png" alt="Nyura Motors" class="logo-img"></a>
             
             <ul>
-                <li><a href="home.html">Inicio</a></li>
-                <li><a href="Gama.html">Modelos</a></li>
+                <li><a href="home.html" class="active">Inicio</a></li>
+                <li><a href="modelos.html" id="modelosLink">Modelos</a></li>
                 <li><a href="Configurador3D.html">Configurador 3D</a></li>
                 <li><a href="contacto.html">Contacto</a></li>
                 <li id="authMenu"><a href="InicioSesion.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; vertical-align: -2px; margin-right: 6px;"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.41 0-8 2-8 4.5V21h16v-2.5c0-2.5-3.59-4.5-8-4.5Z"/></svg>Iniciar sesión</a></li>
@@ -36,14 +42,13 @@
                 
                 <div class="carousel-track">
                     <div class="carousel-slide active">
-                        <img src="../Imagenes/paginaInicio/Carrusel3.png" alt="Nyura Motors - Imagen 1">
-                        <div class="carousel-caption">
-                            <h2>Nuevo Nyura Nova Sport</h2>
-                            <p>Conoce la emocion de la deportividad con nuestro Nova Nova Sport desde 29.490€</p>
-                        </div>
+                        <img src="../Imagenes/paginaInicio/Carrusel1p.png" alt="Nyura Motors - Imagen 1">
                     </div>
                     <div class="carousel-slide">
-                        <img src="../Imagenes/paginaInicio/Carrusel1.png" alt="Nyura Motors - Imagen 2">
+                        <img src="../Imagenes/paginaInicio/Carrusel2p.png" alt="Nyura Motors - Imagen 2">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="../Imagenes/paginaInicio/Carrusel5.png" alt="Nyura Motors - Imagen 3">
                     </div>
                 </div>
                 
@@ -58,95 +63,117 @@
             <div class="carousel-indicators">
                 <button class="indicator active" onclick="goToSlide(0)" aria-label="Ir a slide 1"></button>
                 <button class="indicator" onclick="goToSlide(1)" aria-label="Ir a slide 2"></button>
+                <button class="indicator" onclick="goToSlide(2)" aria-label="Ir a slide 3"></button>
             </div>
         </section>
         
-        <!-- Sección Introducción Modelos -->
-        <section class="intro-section">
-            <div class="intro-container">
-                <h2 class="intro-title">Conoce Nuestros Modelos</h2>
-                <p class="intro-text">
-                    Descubre la gama completa de vehículos Nyura Motors, diseñados para ofrecer el máximo rendimiento, 
-                    eficiencia y estilo. Desde berlinas familiares hasta deportivos de alto rendimiento, 
-                    cada modelo representa la excelencia en ingeniería automotriz.
-                </p>
-                <div class="intro-features">
-                    <div class="feature-item">
-                        <div class="feature-icon-wrapper">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M13 2L3 14h9l9-11v11H3z"/>
-                                <polyline points="13 2 3 14 3 14 8"/>
-                            </svg>
-                        </div>
-                        <span class="feature-text">Diseño Vanguardista</span>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-icon-wrapper">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polygon points="13 2 3 14 2 14 15 13 15 13 2"/>
-                                <path d="M13 15v6a3 3 0 0 0 6 0v-6"/>
-                            </svg>
-                        </div>
-                        <span class="feature-text">Rendimiento Superior</span>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-icon-wrapper">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M22 12h-4l-3 9L9 12l6-9"/>
-                                <path d="M5.12 2.84a4 4 0 0 1 0 7.17L9 12l4.88-4.99a4 4 0 0 1 0-7.17z"/>
-                            </svg>
-                        </div>
-                        <span class="feature-text">Tecnología Punta</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Sección de Modelos -->
+        <!-- Sección de Gamas -->
         <section class="modelos-section">
             <div class="modelos-container">
-                <h1 class="modelos-title">Modelos</h1>
+                <h1 class="modelos-title">Gamas</h1>
+                <div class="modelos-intro">
+                    <div class="modelos-description">
+                        <p>En Nyura Motors, hemos creado cada gama con un propósito específico: innovar la forma en que te mueves.</p>
+                        <p>Desde la eficiencia eléctrica hasta el rendimiento deportivo, cada vehículo representa nuestro compromiso con la excelencia, la sostenibilidad y el futuro de la movilidad.</p>
+                    </div>
+                </div>
                 <div class="modelos-grid">
-                    <!-- Aquí se añadirán las tarjetas de los modelos futuros -->
-                    <div class="modelo-card">
+                    <!-- Gama Eléctrica -->
+                    <a href="modelos.html?filter=electrico" class="modelo-card">
                         <div class="modelo-image">
-                            <img src="../Imagenes/Imagenesmodelos/modelo1.png" alt="Modelo Nyura">
-                            <div class="fuel-badge hibrido">
-                                <span class="fuel-text">Hibrido</span>
-                            </div>
+                            <img src="../Imagenes/gamas/electrico.png" alt="Gama Eléctrica">
                         </div>
                         <div class="modelo-info">
-                            <h3>Nova</h3>
-                            <p>La berlina ideal para familias</p>
+                            <h3>Eléctrico</h3>
+                            <p>Vehículos 100% eléctricos</p>
                         </div>
+                    </a>
+                    <!-- Gama Combustión -->
+                    <a href="modelos.html?filter=combustion" class="modelo-card">
+                        <div class="modelo-image">
+                            <img src="../Imagenes/gamas/combustion.png" alt="Gama Combustión">
+                        </div>
+                        <div class="modelo-info">
+                            <h3>Combustión</h3>
+                            <p>Motores de gasolina eficientes</p>
+                        </div>
+                    </a>
+                    <!-- Gama R -->
+                    <a href="modelos.html?filter=sport" class="modelo-card">
+                        <div class="modelo-image">
+                            <img src="../Imagenes/gamas/R.png" alt="Gama R">
+                        </div>
+                        <div class="modelo-info">
+                            <h3>Sport R</h3>
+                            <p>Deportivos de altas prestaciones</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Sección Quienes Somos -->
+        <section class="quienes-somos-section">
+            <div class="quienes-somos-container">
+                <div class="quienes-somos-content">
+                    <div class="quienes-somos-text">
+                        <h2>Quienes Somos</h2>
+                        <p class="subtitle">El Futuro de la Movilidad</p>
+                        <p class="description">
+                            En Nyura Motors, estamos revolucionando el mundo del automóvil con vehículos eléctricos que combinan 
+                            diseño innovador, rendimiento superior y tecnología de punta. Nuestra misión es liderar la 
+                            transición hacia una movilidad sostenible sin comprometer la pasión por la conducción. 
+                            Como empresa Española, orgullosamente desarrollamos cada vehículo, fusionando 
+                            la tradición industrial de nuestra región con la innovación más vanguardista.
+                        </p>
+                        <p class="description">
+                            Fundamos Nyura Motors con una visión clara: crear vehículos que no solo respeten el medio ambiente, 
+                            sino que también ofrezcan una experiencia de conducción emocionante y premium. Cada modelo que 
+                            diseñamos representa el compromiso con la excelencia, la sostenibilidad y la innovación tecnológica 
+                            que define nuestro ADN como marca.
+                        </p>
+                        
                     </div>
-                    <div class="modelo-card">
-                        <div class="modelo-image">
-                            <img src="../Imagenes/Imagenesmodelos/modelo2.png" alt="Modelo Nyura">
-                            <div class="fuel-badge gasolina">
-                                <span class="fuel-text">Gasolina</span>
-                            </div>
-                        </div>
-                        <div class="modelo-info">
-                            <h3>Nova Sport</h3>
-                            <p>La berlina deportiva ideal para pilotos</p>
-                        </div>
-                    </div>
-                    <div class="modelo-card">
-                        <div class="modelo-image">
-                            <img src="../Imagenes/Imagenesmodelos/modelo3.png" alt="Modelo Nyura">
-                            <div class="fuel-badge electrico">
-                                <span class="fuel-text">Electrico</span>
-                            </div>
-                        </div>
-                        <div class="modelo-info">
-                            <h3>Altamira</h3>
-                            <p>La berlina ideal para familias</p>
-                        </div>
+                    <div class="quienes-somos-image">
+                        <img src="../Imagenes/paginaInicio/equipoNyura.jpg" alt="Equipo Nyura Motors">
                     </div>
                 </div>
             </div>
         </section>
+        
+        <!-- Sección Tecnología -->
+        <section class="tech-section">
+            <div class="tech-container">
+                <div class="tech-content">
+                    <div class="tech-text">
+                        <h1 class="modelos-title">Tecnología de Vanguardia</h1>
+                        <p class="tech-subtitle">Innovación que redefine la experiencia de conducción</p>
+                        <p class="tech-description">
+                            En Nyura Motors, desarrollamos tecnología punta que transforma cada viaje en una experiencia extraordinaria. 
+                            Nuestros vehículos integran los sistemas más avanzados de batería, inteligencia artificial y conectividad, 
+                            garantizando un rendimiento superior y una conducción intuitiva que se adapta a ti.
+                        </p>
+                        <p class="tech-description">
+                            Cada componente está diseñado con precisión suiza y pasión catalana, combinando la máxima eficiencia 
+                            con el lujo y la seguridad que mereces. La innovación está en nuestro ADN, impulsando el futuro 
+                            de la movilidad sostenible sin comprometer el rendimiento.
+                        </p>
+                        <p class="tech-description">
+                            Los vehículos Nyura Motors destacan por su Batería de Larga Duración que ofrece hasta 600 km de autonomía 
+                            con carga rápida en solo 15 minutos, IA Integrada con aprendizaje adaptativo y conducción asistida, Conectividad Total mediante control remoto y actualizaciones OTA desde smartphone, y Seguridad Activa con sistema preventivo de visión 360° y detección inteligente.
+                        </p>
+                    </div>
+                    <div class="tech-image">
+                        <img src="../Imagenes/paginaInicio/tecnologias.png" alt="Tecnología Nyura Motors">
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Notificaciones de Testimonios Flotantes -->
+        <div class="testimonials-overlay" id="testimonialsOverlay">
+            <!-- Los testimonios se añadirán dinámicamente -->
+        </div>
     </main>
 
     <footer>
@@ -162,7 +189,7 @@
             <h3>Paginas de Nyura Motors</h3>
             <div class="footer-links">
                 <a href="home.html">Home</a>
-                <a href="Gama.html">Modelos</a>
+                <a href="modelos.html">Modelos</a>
                 <a href="Configurador3D.html">Configurador 3D</a>
                 <a href="contacto.html">Contacto</a>
             </div>
@@ -332,8 +359,42 @@
 
     <!-- Script del carrusel -->
     <script>
+        // Función global para scroll a modelos (desde cualquier página)
+        function scrollToModelos() {
+            // Verificar si estamos en el home
+            if (window.location.pathname.endsWith('home.html') || window.location.pathname === '/') {
+                // Scroll suave a la sección de modelos con margen
+                const modelosSection = document.querySelector('.modelos-section');
+                if (modelosSection) {
+                    const sectionTop = modelosSection.offsetTop - 100; // 100px arriba del borde
+                    window.scrollTo({
+                        top: sectionTop,
+                        behavior: 'smooth'
+                    });
+                }
+            } else {
+                // Redirigir al home con parámetro para scroll
+                window.location.href = 'home.html#modelos';
+            }
+        }
+
+        // Scroll suave a la sección de modelos
+        document.getElementById('modelosLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            scrollToModelos();
+        });
+
+        // Verificar si hay hash en la URL para scroll
+        window.addEventListener('load', function() {
+            if (window.location.hash === '#modelos') {
+                setTimeout(function() {
+                    scrollToModelos();
+                }, 100); // Pequeña espera para asegurar que el DOM está listo
+            }
+        });
+
         let currentSlide = 0;
-        const totalSlides = 2;
+        const totalSlides = 3;
 
         function moveCarousel(direction) {
             console.log('moveCarousel called with direction:', direction);
@@ -360,8 +421,8 @@
             const slides = document.querySelectorAll('.carousel-slide');
             const indicators = document.querySelectorAll('.indicator');
             
-            // Mover el track
-            track.style.transform = `translateX(-${currentSlide * 50}%)`;
+            // Mover el track - ahora es 33.333% por slide
+            track.style.transform = `translateX(-${currentSlide * 33.333}%)`;
             
             // Actualizar clases active
             slides.forEach((slide, index) => {
@@ -381,7 +442,7 @@
             autoPlayInterval = setInterval(() => {
                 console.log('Autoplay tick - moving carousel');
                 moveCarousel(1);
-            }, 2000); // Cambiado a 2 segundos
+            }, 5000); // Cambiado a 5 segundos
         }
         
         function stopAutoPlay() {
@@ -398,6 +459,146 @@
         
         // Iniciar auto-play inmediatamente
         startAutoPlay();
+    </script>
+
+    <script>
+        // Efecto de scroll en header
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+
+    <!-- JavaScript para Testimonios Flotantes -->
+    <script>
+        const testimonials = [
+            {
+                name: "Maria García",
+                role: "CEO TechCorp",
+                avatar: "../Imagenes/testimonios/maria.jpg",
+                text: "El mejor eléctrico que he conducido, increíble rendimiento y diseño.",
+                stars: 5
+            },
+            {
+                name: "Juan Rodríguez",
+                role: "Arquitecto",
+                avatar: "../Imagenes/testimonios/juan.jpg",
+                text: "La autonomía es real, supera todas mis expectativas. ¡Recomendado!",
+                stars: 5
+            },
+            {
+                name: "Ana Martínez",
+                role: "Directora Marketing",
+                avatar: "../Imagenes/testimonios/ana.jpg",
+                text: "El servicio al cliente es excepcional, y el coche es una obra de arte.",
+                stars: 5
+            },
+            {
+                name: "Carlos López",
+                role: "Emprendedor",
+                avatar: "../Imagenes/testimonios/carlos.jpg",
+                text: "Cada día me enamoro más de mi Nyura. Tecnología y elegancia.",
+                stars: 5
+            },
+            {
+                name: "Laura Sánchez",
+                role: "Médica",
+                avatar: "../Imagenes/testimonios/laura.jpg",
+                text: "Seguridad, confort y sostenibilidad. Todo lo que buscaba.",
+                stars: 5
+            }
+        ];
+
+        let currentTestimonialIndex = 0;
+        let notificationInterval;
+
+        // Función para crear una notificación de testimonio
+        function createTestimonialNotification(testimonial, position) {
+            const notification = document.createElement('div');
+            notification.className = 'testimonial-notification';
+            notification.style.left = position.x + 'px';
+            notification.style.top = position.y + 'px';
+            
+            const stars = '⭐'.repeat(testimonial.stars);
+            
+            notification.innerHTML = `
+                <button class="testimonial-close" onclick="closeTestimonial(this)">×</button>
+                <div class="testimonial-header">
+                    <img src="${testimonial.avatar}" alt="${testimonial.name}" class="testimonial-avatar" onerror="this.src='https://picsum.photos/seed/${testimonial.name}/50/50'">
+                    <div class="testimonial-info">
+                        <h4>${testimonial.name}</h4>
+                        <span class="role">${testimonial.role}</span>
+                    </div>
+                </div>
+                <div class="testimonial-stars">${stars}</div>
+                <p class="testimonial-text">"${testimonial.text}"</p>
+            `;
+            
+            return notification;
+        }
+
+        // Función para cerrar testimonio
+        function closeTestimonial(button) {
+            const notification = button.closest('.testimonial-notification');
+            notification.style.animation = 'testimonialSlide 0.3s ease-in-out reverse';
+            setTimeout(() => {
+                notification.remove();
+            }, 300);
+        }
+
+        // Función para obtener posición aleatoria
+        function getRandomPosition() {
+            const positions = [
+                { x: 50, y: 100 },
+                { x: window.innerWidth - 400, y: 150 },
+                { x: 100, y: 300 },
+                { x: window.innerWidth - 450, y: 350 },
+                { x: 200, y: 500 }
+            ];
+            
+            return positions[Math.floor(Math.random() * positions.length)];
+        }
+
+        // Función para mostrar testimonio
+        function showTestimonial() {
+            const overlay = document.getElementById('testimonialsOverlay');
+            
+            // Eliminar todos los testimonios existentes antes de mostrar uno nuevo
+            const existingNotifications = overlay.querySelectorAll('.testimonial-notification');
+            existingNotifications.forEach(notification => notification.remove());
+            
+            const testimonial = testimonials[currentTestimonialIndex];
+            const position = getRandomPosition();
+            
+            const notification = createTestimonialNotification(testimonial, position);
+            overlay.appendChild(notification);
+            
+            // Auto-eliminar después de 5 segundos
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.style.animation = 'testimonialSlide 0.3s ease-in-out reverse';
+                    setTimeout(() => {
+                        if (notification.parentNode) {
+                            notification.remove();
+                        }
+                    }, 300);
+                }
+            }, 5000);
+            
+            // Siguiente testimonio
+            currentTestimonialIndex = (currentTestimonialIndex + 1) % testimonials.length;
+        }
+
+        // Iniciar las notificaciones después de 3 segundos
+        setTimeout(() => {
+            showTestimonial();
+            // Mostrar un nuevo testimonio cada 20 segundos
+            notificationInterval = setInterval(showTestimonial, 20000);
+        }, 3000);
     </script>
 </body>
 </html>
