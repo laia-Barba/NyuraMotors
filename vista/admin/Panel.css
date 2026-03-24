@@ -257,6 +257,36 @@ header {
     transform: scale(1.05);
 }
 
+/* Barra de scroll negra global */
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #333333;
+    border-radius: 10px;
+    border: 2px solid #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555555;
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: #222222;
+}
+
+/* Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #333333 #1a1a1a;
+}
+
 /* Colores por categoría */
 .admin-card.users i {
     color: var(--info-color);

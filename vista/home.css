@@ -5,6 +5,72 @@ body {
     overflow-x: hidden;
 }
 
+ .reveal {
+     opacity: 0;
+     transform: translateY(28px);
+     filter: blur(10px);
+     transition: opacity 900ms cubic-bezier(0.22, 1, 0.36, 1), transform 900ms cubic-bezier(0.22, 1, 0.36, 1), filter 900ms cubic-bezier(0.22, 1, 0.36, 1);
+     transition-delay: var(--reveal-delay, 0ms);
+     will-change: transform, opacity, filter;
+ }
+
+ .reveal.is-visible {
+     opacity: 1;
+     transform: translateY(0);
+     filter: blur(0);
+ }
+
+ .fade-up-reveal {
+     transform: translateY(36px);
+ }
+
+ .slide-left-reveal {
+     transform: translateX(-40px);
+ }
+
+ .slide-right-reveal {
+     transform: translateX(40px);
+ }
+
+ .scale-reveal {
+     transform: translateY(18px) scale(0.92);
+     filter: blur(12px);
+ }
+
+ .zoom-blur-reveal {
+     transform: translateY(24px) scale(0.85);
+     filter: blur(18px);
+ }
+
+ .rotate-3d-reveal {
+     transform: translateY(22px) rotateX(18deg) rotateY(-10deg) scale(0.96);
+     transform-style: preserve-3d;
+ }
+
+ .rotate-reveal {
+     transform: translateY(26px) rotate(6deg);
+ }
+
+ .flip-reveal {
+     transform: perspective(1000px) translateY(26px) rotateX(55deg);
+ }
+
+ .skew-reveal {
+     transform: translateY(28px) skewY(6deg);
+ }
+
+ .blur-reveal {
+     filter: blur(20px);
+ }
+
+ .glow-reveal {
+     filter: blur(10px) drop-shadow(0 0 0 rgba(255, 255, 255, 0));
+ }
+
+ .reveal.is-visible.glow-reveal {
+     filter: blur(0) drop-shadow(0 10px 24px rgba(255, 255, 255, 0.12));
+ }
+
 /* Degradados laterales por gama */
 body::before {
     content: '';
@@ -370,6 +436,16 @@ body > .polygon-background::after {
     overflow: hidden;
 }
 
+ .tech-section,
+ .tech-section h1,
+ .tech-section h2,
+ .tech-section h3,
+ .tech-section p,
+ .tech-section a,
+ .tech-section span {
+     color: #FFFFFF;
+ }
+
 .tech-section::before {
     display: none;
 }
@@ -390,7 +466,7 @@ body > .polygon-background::after {
     font-family: 'Poppins', sans-serif;
     font-size: 3.5rem;
     font-weight: 800;
-    color: #000000;
+    color: #FFFFFF;
     margin-bottom: 1rem;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -398,7 +474,7 @@ body > .polygon-background::after {
 
 .tech-subtitle {
     font-size: 1.5rem;
-    color: #000000;
+    color: #FFFFFF;
     font-weight: 600;
     margin-bottom: 2rem;
     font-family: 'Poppins', sans-serif;
@@ -418,7 +494,7 @@ body > .polygon-background::after {
 .tech-description {
     font-size: 1.1rem;
     line-height: 1.8;
-    color: #ffffff;
+    color: #FFFFFF;
     margin-bottom: 3rem;
 }
 
@@ -745,7 +821,16 @@ body > .polygon-background::after {
     transition: transform 0.8s ease;
 }
 
-.carousel-3d-slide.active .slide-image-wrapper img {
+.slide-image-wrapper img,
+.slide-image-wrapper video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s ease;
+}
+
+.carousel-3d-slide.active .slide-image-wrapper img,
+.carousel-3d-slide.active .slide-image-wrapper video {
     transform: scale(1.05);
 }
 
@@ -1274,43 +1359,34 @@ main {
     }
 }
 
-/* Barra de scroll azul sólido */
+/* Barra de scroll negra global */
 ::-webkit-scrollbar {
     width: 12px;
     height: 12px;
 }
 
 ::-webkit-scrollbar-track {
-    background: rgba(221, 221, 221, 0.1);
-    border-radius: 10px;
+    background: #1a1a1a;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #45B049;
+    background: #333333;
     border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 2px solid #1a1a1a;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #667eea;
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    background: #555555;
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: #222222;
 }
 
 /* Firefox */
 * {
     scrollbar-width: thin;
-    scrollbar-color: #45B049 #e0e0e0;
-}
-
-/* Scrollbar thumb para Firefox */
-::-moz-range-thumb {
-    background: #45B049;
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #667eea;
+    scrollbar-color: #333333 #1a1a1a;
 }
 
 @keyframes pulse {

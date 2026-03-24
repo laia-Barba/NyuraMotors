@@ -94,15 +94,39 @@
                     <div class="carousel-3d-slide" data-slide="3">
                         <div class="slide-content">
                             <div class="slide-image-wrapper">
-                                <img src="../Imagenes/paginaInicio/Carrusel6.png" alt="Nyura Motors - Imagen 4">
+                                <video autoplay muted loop playsinline>
+                                    <source src="../Imagenes/paginaInicio/video1.mp4" type="video/mp4">
+                                    Tu navegador no soporta videos.
+                                </video>
                                 <div class="slide-overlay"></div>
                             </div>
                             <div class="slide-text">
-                                <h2 class="slide-title">THUNDER</h2>
-                                <p class="slide-description">Conoce la emoción del circuito y la<br>experiencia de la velocidad</p>
-                                <div class="slide-price">Desde 48.300€</div>
+                                <h2 class="slide-title">VEHÍCULOS<br>ELÉCTRICOS</h2>
+                                <p class="slide-description">El futuro de la movilidad sostenible<br>con cero emisiones</p>
+                                <div class="slide-price">Desde 28.990€</div>
                                 <div class="slide-cta">
-                                    <button class="cta-button">Descubrir</button>
+                                    <button class="cta-button">Explorar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Slide 5 -->
+                    <div class="carousel-3d-slide" data-slide="4">
+                        <div class="slide-content">
+                            <div class="slide-image-wrapper">
+                                <video autoplay muted loop playsinline>
+                                    <source src="../Imagenes/paginaInicio/video2.mp4" type="video/mp4">
+                                    Tu navegador no soporta videos.
+                                </video>
+                                <div class="slide-overlay"></div>
+                            </div>
+                            <div class="slide-text right-aligned">
+                                <h2 class="slide-title">EXPERIENCIA<br>NYURA</h2>
+                                <p class="slide-description">Descubre la innovación y tecnología<br>en cada detalle</p>
+                                <div class="slide-price">Innovación sin límites</div>
+                                <div class="slide-cta">
+                                    <button class="cta-button">Conocer más</button>
                                 </div>
                             </div>
                         </div>
@@ -126,6 +150,10 @@
                         </button>
                         <button class="indicator-dot" data-slide="3">
                             <span class="indicator-number">04</span>
+                            <div class="indicator-progress"></div>
+                        </button>
+                        <button class="indicator-dot" data-slide="4">
+                            <span class="indicator-number">05</span>
                             <div class="indicator-progress"></div>
                         </button>
                     </div>
@@ -153,42 +181,42 @@
         <!-- Sección de Gamas -->
         <section class="modelos-section">
             <div class="modelos-container">
-                <h1 class="modelos-title">Gamas</h1>
+                <h1 class="modelos-title reveal fade-up-reveal">Gamas</h1>
                 <div class="modelos-intro">
                     <div class="modelos-description">
-                        <p>En Nyura Motors, hemos creado cada gama con un propósito específico: innovar la forma en que te mueves.</p>
-                        <p>Desde la eficiencia eléctrica hasta el rendimiento deportivo, cada vehículo representa nuestro compromiso con la excelencia, la sostenibilidad y el futuro de la movilidad.</p>
+                        <p class="reveal fade-up-reveal">En Nyura Motors, hemos creado cada gama con un propósito específico: innovar la forma en que te mueves.</p>
+                        <p class="reveal fade-up-reveal">Desde la eficiencia eléctrica hasta el rendimiento deportivo, cada vehículo representa nuestro compromiso con la excelencia, la sostenibilidad y el futuro de la movilidad.</p>
                     </div>
                 </div>
                 <div class="modelos-grid">
                     <!-- Gama Eléctrica -->
                     <a href="modelos.html?filter=electrico" class="modelo-card">
                         <div class="modelo-image">
-                            <img src="../Imagenes/gamas/electrico.png" alt="Gama Eléctrica">
+                            <img class="reveal scale-reveal" src="../Imagenes/gamas/electrico.png" alt="Gama Eléctrica">
                         </div>
                         <div class="modelo-info">
-                            <h3>Eléctrico</h3>
-                            <p>Vehículos 100% eléctricos</p>
+                            <h3 class="reveal fade-up-reveal">Eléctrico</h3>
+                            <p class="reveal fade-up-reveal">Vehículos 100% eléctricos</p>
                         </div>
                     </a>
                     <!-- Gama Combustión -->
                     <a href="modelos.html?filter=combustion" class="modelo-card">
                         <div class="modelo-image">
-                            <img src="../Imagenes/gamas/combustion.png" alt="Gama Combustión">
+                            <img class="reveal scale-reveal" src="../Imagenes/gamas/combustion.png" alt="Gama Combustión">
                         </div>
                         <div class="modelo-info">
-                            <h3>Combustión</h3>
-                            <p>Motores de gasolina eficientes</p>
+                            <h3 class="reveal fade-up-reveal">Combustión</h3>
+                            <p class="reveal fade-up-reveal">Motores de gasolina eficientes</p>
                         </div>
                     </a>
                     <!-- Gama R -->
                     <a href="modelos.html?filter=sport" class="modelo-card">
                         <div class="modelo-image">
-                            <img src="../Imagenes/gamas/R.png" alt="Gama R">
+                            <img class="reveal rotate-3d-reveal" src="../Imagenes/gamas/R.png" alt="Gama R">
                         </div>
                         <div class="modelo-info">
-                            <h3>Sport R</h3>
-                            <p>Deportivos de altas prestaciones</p>
+                            <h3 class="reveal fade-up-reveal">Sport R</h3>
+                            <p class="reveal fade-up-reveal">Deportivos de altas prestaciones</p>
                         </div>
                     </a>
                 </div>
@@ -200,16 +228,16 @@
             <div class="quienes-somos-container">
                 <div class="quienes-somos-content">
                     <div class="quienes-somos-text">
-                        <h2>Quienes Somos</h2>
-                        <p class="subtitle">El Futuro de la Movilidad</p>
-                        <p class="description">
+                        <h2 class="reveal fade-up-reveal">Quienes Somos</h2>
+                        <p class="subtitle reveal fade-up-reveal">El Futuro de la Movilidad</p>
+                        <p class="description reveal fade-up-reveal">
                             En Nyura Motors, estamos revolucionando el mundo del automóvil con vehículos eléctricos que combinan 
                             diseño innovador, rendimiento superior y tecnología de punta. Nuestra misión es liderar la 
                             transición hacia una movilidad sostenible sin comprometer la pasión por la conducción. 
                             Como empresa Española, orgullosamente desarrollamos cada vehículo, fusionando 
                             la tradición industrial de nuestra región con la innovación más vanguardista.
                         </p>
-                        <p class="description">
+                        <p class="description reveal fade-up-reveal">
                             Fundamos Nyura Motors con una visión clara: crear vehículos que no solo respeten el medio ambiente, 
                             sino que también ofrezcan una experiencia de conducción emocionante y premium. Cada modelo que 
                             diseñamos representa el compromiso con la excelencia, la sostenibilidad y la innovación tecnológica 
@@ -218,7 +246,7 @@
                         
                     </div>
                     <div class="quienes-somos-image">
-                        <img src="../Imagenes/paginaInicio/equipoNyura.jpg" alt="Equipo Nyura Motors">
+                        <img class="reveal zoom-blur-reveal" src="../Imagenes/paginaInicio/equipoNyura.jpg" alt="Equipo Nyura Motors">
                     </div>
                 </div>
             </div>
@@ -229,25 +257,25 @@
             <div class="tech-container">
                 <div class="tech-content">
                     <div class="tech-text">
-                        <h1 class="modelos-title">Tecnología de Vanguardia</h1>
-                        <p class="tech-subtitle">Innovación que redefine la experiencia de conducción</p>
-                        <p class="tech-description">
+                        <h1 class="modelos-title reveal fade-up-reveal">Tecnología de Vanguardia</h1>
+                        <p class="tech-subtitle reveal fade-up-reveal">Innovación que redefine la experiencia de conducción</p>
+                        <p class="tech-description reveal fade-up-reveal">
                             En Nyura Motors, desarrollamos tecnología punta que transforma cada viaje en una experiencia extraordinaria. 
                             Nuestros vehículos integran los sistemas más avanzados de batería, inteligencia artificial y conectividad, 
                             garantizando un rendimiento superior y una conducción intuitiva que se adapta a ti.
                         </p>
-                        <p class="tech-description">
+                        <p class="tech-description reveal fade-up-reveal">
                             Cada componente está diseñado con precisión suiza y pasión catalana, combinando la máxima eficiencia 
                             con el lujo y la seguridad que mereces. La innovación está en nuestro ADN, impulsando el futuro 
                             de la movilidad sostenible sin comprometer el rendimiento.
                         </p>
-                        <p class="tech-description">
+                        <p class="tech-description reveal fade-up-reveal">
                             Los vehículos Nyura Motors destacan por su Batería de Larga Duración que ofrece hasta 600 km de autonomía 
                             con carga rápida en solo 15 minutos, IA Integrada con aprendizaje adaptativo y conducción asistida, Conectividad Total mediante control remoto y actualizaciones OTA desde smartphone, y Seguridad Activa con sistema preventivo de visión 360° y detección inteligente.
                         </p>
                     </div>
                     <div class="tech-image">
-                        <img src="../Imagenes/paginaInicio/tecnologias.png" alt="Tecnología Nyura Motors">
+                        <img class="reveal rotate-3d-reveal" src="../Imagenes/paginaInicio/tecnologias.png" alt="Tecnología Nyura Motors">
                     </div>
                 </div>
             </div>
@@ -480,7 +508,7 @@
         class Carousel3D {
             constructor() {
                 this.currentSlide = 0;
-                this.totalSlides = 4;
+                this.totalSlides = 5;
                 this.isAnimating = false;
                 this.autoPlayInterval = null;
                 
@@ -739,6 +767,87 @@
             } else {
                 header.classList.remove('scrolled');
             }
+        });
+    </script>
+
+    <script>
+        class ScrollRevealSystem {
+            constructor() {
+                this.observer = null;
+                this.lastScrollY = window.scrollY;
+                this.direction = 'down';
+                this.init();
+            }
+
+            init() {
+                this.bindScrollDirection();
+                this.setupSequentialDelays();
+                this.setupObserver();
+            }
+
+            bindScrollDirection() {
+                window.addEventListener('scroll', () => {
+                    const current = window.scrollY;
+                    this.direction = current > this.lastScrollY ? 'down' : 'up';
+                    this.lastScrollY = current;
+                }, { passive: true });
+            }
+
+            setupSequentialDelays() {
+                const main = document.querySelector('main');
+                if (!main) return;
+
+                const modelosSection = main.querySelector('.modelos-section');
+                const quienesSection = main.querySelector('.quienes-somos-section');
+                const techSection = main.querySelector('.tech-section');
+
+                [modelosSection, quienesSection, techSection].forEach((section) => {
+                    if (!section) return;
+                    const items = section.querySelectorAll('.reveal');
+                    items.forEach((el, idx) => {
+                        const delay = Math.min(idx * 60, 600);
+                        el.style.setProperty('--reveal-delay', `${delay}ms`);
+                    });
+                });
+            }
+
+            setupObserver() {
+                const main = document.querySelector('main');
+                if (!main) return;
+
+                const startSection = main.querySelector('.modelos-section');
+                if (!startSection) return;
+
+                const candidates = Array.from(main.querySelectorAll('.reveal'));
+                const startTop = startSection.getBoundingClientRect().top + window.scrollY;
+                const elements = candidates.filter((el) => {
+                    const top = el.getBoundingClientRect().top + window.scrollY;
+                    return top >= startTop;
+                });
+
+                this.observer = new IntersectionObserver((entries) => {
+                    entries.forEach((entry) => {
+                        const el = entry.target;
+                        if (entry.isIntersecting) {
+                            el.classList.add('is-visible');
+                        } else {
+                            if (this.direction === 'up') {
+                                el.classList.remove('is-visible');
+                            }
+                        }
+                    });
+                }, {
+                    root: null,
+                    threshold: 0.15,
+                    rootMargin: '0px 0px -10% 0px'
+                });
+
+                elements.forEach((el) => this.observer.observe(el));
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            new ScrollRevealSystem();
         });
     </script>
 
