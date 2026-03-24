@@ -5,9 +5,70 @@ body {
     overflow-x: hidden;
 }
 
+/* Degradados laterales por gama */
 body::before {
     content: '';
     position: fixed;
+    top: 0;
+    left: 0;
+    width: 150px;
+    height: 100%;
+    z-index: -2;
+    transition: all 0.5s ease;
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 150px;
+    height: 100%;
+    z-index: -2;
+    transition: all 0.5s ease;
+}
+
+/* Degradado para gama eléctrica */
+body.gama-electrica::before {
+    background: linear-gradient(90deg, #00d4ff 0%, transparent 100%);
+}
+
+body.gama-electrica::after {
+    background: linear-gradient(270deg, #00d4ff 0%, transparent 100%);
+}
+
+/* Degradado para gama combustión */
+body.gama-combustion::before {
+    background: linear-gradient(90deg, #4CAF50 0%, transparent 100%);
+}
+
+body.gama-combustion::after {
+    background: linear-gradient(270deg, #4CAF50 0%, transparent 100%);
+}
+
+/* Degradado para gama sport */
+body.gama-sport::before {
+    background: linear-gradient(90deg, #dc143c 0%, transparent 100%);
+}
+
+body.gama-sport::after {
+    background: linear-gradient(270deg, #dc143c 0%, transparent 100%);
+}
+
+/* Contenedor para formas poligonales */
+body > .polygon-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+}
+
+body > .polygon-background::before {
+    content: '';
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
@@ -23,13 +84,12 @@ body::before {
     background-position: -100px -50px, 700px 200px, 200px 600px;
     background-repeat: no-repeat;
     opacity: 0.8;
-    z-index: -1;
     animation: floatPolygons 20s ease-in-out infinite;
 }
 
-body::after {
+body > .polygon-background::after {
     content: '';
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
@@ -45,7 +105,6 @@ body::after {
     background-position: 100px 100px, 700px 500px, 400px 700px;
     background-repeat: no-repeat;
     opacity: 0.6;
-    z-index: -1;
     animation: rotateShapes 25s linear infinite;
 }
 
@@ -589,6 +648,551 @@ body::after {
     }
 }
 
+/* ========================================
+   CARRUSEL ÚNICO 3D - EFECTOS INNOVADORES
+   ======================================== */
+
+/* Sección principal del carrusel */
+.carousel-unique-section {
+    position: relative;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+    padding: 0;
+    left: 0;
+    right: 0;
+    height: auto;
+    overflow: hidden;
+    background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 50%, #16213e 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Contenedor principal 3D */
+.carousel-3d-container {
+    position: relative;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 21/9; /* Proporción panorámica equilibrada */
+    perspective: 2000px;
+    z-index: 2;
+    min-height: 450px;
+}
+
+/* Escenario 3D */
+.carousel-3d-stage {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Slides 3D */
+.carousel-3d-slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+    backface-visibility: hidden;
+    transition: all 0.5s ease-in-out;
+    opacity: 0;
+    transform: scale(0.9);
+}
+
+.carousel-3d-slide.active {
+    opacity: 1;
+    transform: scale(1);
+    z-index: 10;
+}
+
+.carousel-3d-slide.next {
+    opacity: 0;
+    transform: translateX(100%);
+    z-index: 5;
+}
+
+.carousel-3d-slide.prev {
+    opacity: 0;
+    transform: translateX(-100%);
+    z-index: 5;
+}
+
+/* Contenido del slide */
+.slide-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(15, 15, 35, 0.9) 0%, rgba(26, 26, 62, 0.9) 100%);
+}
+
+.slide-image-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.slide-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    transition: transform 0.8s ease;
+}
+
+.carousel-3d-slide.active .slide-image-wrapper img {
+    transform: scale(1.05);
+}
+
+.slide-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, 
+        rgba(69, 176, 73, 0.3) 0%, 
+        transparent 30%, 
+        transparent 70%, 
+        rgba(102, 126, 234, 0.3) 100%);
+    mix-blend-mode: overlay;
+}
+
+/* Texto del slide */
+.slide-text {
+    position: absolute;
+    top: 6rem;
+    left: 4rem;
+    right: 4rem;
+    text-align: left;
+    color: rgb(0, 0, 0);
+    z-index: 10;
+}
+
+/* Alineación a la derecha para el tercer slide */
+.slide-text.right-aligned {
+    text-align: right;
+    left: auto;
+    right: 4rem;
+}
+
+.slide-text.right-aligned .slide-title,
+.slide-text.right-aligned .slide-description,
+.slide-text.right-aligned .slide-price {
+    transform: translateX(50px);
+}
+
+.slide-text.right-aligned .slide-title {
+    animation-delay: 0.3s;
+}
+
+.slide-text.right-aligned .slide-description {
+    animation-delay: 0.5s;
+}
+
+.slide-text.right-aligned .slide-price {
+    animation-delay: 0.7s;
+}
+
+.slide-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin: 0 0 1rem 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    transform: translateX(-50px);
+    opacity: 0;
+    animation: slideInText 0.8s ease forwards 0.3s;
+}
+
+/* Estilo especial solo para el cuarto slide - THUNDER */
+.carousel-3d-slide[data-slide="3"] .slide-title {
+    font-size: 7rem;
+    letter-spacing: 5px;
+    line-height: 0.9;
+}
+
+.carousel-3d-slide[data-slide="3"] .slide-description {
+    font-size: 2rem; /* Aumentado */
+    margin-bottom: 1.5rem;
+}
+
+.carousel-3d-slide[data-slide="3"] .slide-price {
+    font-size: 3.2rem; /* Aumentado */
+    margin-bottom: 2rem;
+}
+.carousel-3d-slide[data-slide="0"] .slide-title {
+    color: #dc143c;
+    text-shadow: 
+        0 0 10px rgba(220, 20, 60, 0.8),
+        0 0 20px rgba(220, 20, 60, 0.6),
+        0 0 30px rgba(220, 20, 60, 0.4),
+        2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.slide-description {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    margin: 0;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    transform: translateX(-50px);
+    opacity: 0;
+    animation: slideInText 0.8s ease forwards 0.5s;
+}
+
+.slide-price {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: white;
+    margin: 1rem 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    transform: translateX(-50px);
+    opacity: 0;
+    animation: slideInText 0.8s ease forwards 0.7s;
+}
+
+@keyframes slideInText {
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Botón CTA */
+.cta-button {
+    background: linear-gradient(135deg, #45B049 0%, #667eea 100%);
+    border: none;
+    padding: 1rem 2.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+    transform: translateY(20px);
+    opacity: 0;
+    animation: slideInButton 0.8s ease forwards 0.7s;
+    margin-top: 1.5rem;
+    display: inline-block;
+}
+
+.cta-button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.5s ease;
+}
+
+.cta-button:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(69, 176, 73, 0.4);
+}
+
+@keyframes slideInButton {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Responsive para caption */
+@media (max-width: 768px) {
+    .slide-text {
+        top: 3rem;
+        left: 2rem;
+        right: 2rem;
+    }
+    
+    .slide-title {
+        font-size: 2rem;
+    }
+    
+    .carousel-3d-slide[data-slide="0"] .slide-title {
+        color: #dc143c;
+        text-shadow: 
+            0 0 8px rgba(220, 20, 60, 0.8),
+            0 0 15px rgba(220, 20, 60, 0.6),
+            1px 1px 3px rgba(0, 0, 0, 0.8);
+    }
+    
+    .slide-description {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .slide-text {
+        top: 2rem;
+        left: 1rem;
+        right: 1rem;
+    }
+    
+    .slide-title {
+        font-size: 1.5rem;
+        letter-spacing: 1px;
+    }
+    
+    .carousel-3d-slide[data-slide="0"] .slide-title {
+        color: #dc143c;
+        text-shadow: 
+            0 0 6px rgba(220, 20, 60, 0.8),
+            0 0 12px rgba(220, 20, 60, 0.6),
+            1px 1px 2px rgba(0, 0, 0, 0.8);
+    }
+    
+    .slide-description {
+        font-size: 0.9rem;
+    }
+}
+
+/* Controles fuera del carrusel */
+.carousel-controls-external {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 4rem;
+    padding: 0 2rem;
+}
+
+.control-btn-external {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 100px;
+    padding: 0.6rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: white;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+}
+
+.control-btn-external:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(69, 176, 73, 0.5);
+    transform: scale(1.05);
+    box-shadow: 0 8px 32px rgba(69, 176, 73, 0.3);
+}
+
+.control-btn-external svg {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.3s ease;
+}
+
+.control-btn-external:hover svg {
+    transform: scale(1.1);
+}
+
+.control-btn-external .control-label {
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Responsive para controles externos */
+@media (max-width: 768px) {
+    .carousel-controls-external {
+        gap: 1rem;
+        padding: 0 1rem;
+        margin-top: 3rem;
+    }
+    
+    .control-btn-external {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.7rem;
+    }
+    
+    .control-btn-external .control-label {
+        font-size: 0.7rem;
+    }
+    
+    .control-btn-external svg {
+        width: 14px;
+        height: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .carousel-controls-external {
+        gap: 0.5rem;
+        margin-top: 2.5rem;
+    }
+    
+    .control-btn-external {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.6rem;
+    }
+    
+    .control-btn-external .control-label {
+        display: none;
+    }
+    
+    .control-btn-external svg {
+        width: 12px;
+        height: 12px;
+    }
+}
+
+/* Indicadores únicos */
+.carousel-indicators-unique {
+    position: absolute;
+    bottom: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+}
+
+.indicator-track {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.indicator-dot {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.indicator-dot:hover {
+    background: rgba(69, 176, 73, 0.2);
+    border-color: #45B049;
+    transform: scale(1.1);
+}
+
+.indicator-dot.active {
+    background: linear-gradient(135deg, #45B049 0%, #667eea 100%);
+    border-color: transparent;
+    transform: scale(1.15);
+}
+
+.indicator-number {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: white;
+    z-index: 2;
+}
+
+.indicator-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background: rgba(255, 255, 255, 0.3);
+    transition: height 5s linear;
+}
+
+.indicator-dot.active .indicator-progress {
+    height: 100%;
+}
+
+/* Responsive para carrusel único */
+@media (max-width: 768px) {
+    .carousel-unique-section {
+        min-height: auto;
+    }
+    
+    .carousel-3d-container {
+        width: 100%;
+        min-height: 350px;
+    }
+    
+    .slide-title {
+        font-size: 2rem;
+    }
+    
+    .slide-description {
+        font-size: 1rem;
+    }
+    
+    .carousel-controls-glass {
+        padding: 0 1rem;
+    }
+    
+    .control-label {
+        display: none;
+    }
+    
+    .indicator-track {
+        gap: 1rem;
+    }
+    
+    .indicator-dot {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+@media (max-width: 480px) {
+    .carousel-3d-container {
+        min-height: 300px;
+    }
+    
+    .slide-title {
+        font-size: 1.5rem;
+        letter-spacing: 1px;
+    }
+    
+    .slide-description {
+        font-size: 0.9rem;
+    }
+    
+    .cta-button {
+        padding: 0.8rem 2rem;
+        font-size: 0.9rem;
+    }
+    
+    .indicator-dot {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .indicator-number {
+        font-size: 0.7rem;
+    }
+}
+
 /* Carrusel - Estilos específicos para home.html */
 
 /* Fondo azulado para toda la página */
@@ -747,16 +1351,17 @@ main {
 
 .carousel-track {
     display: flex;
-    width: 300%;
+    width: 100%;
     height: 100%;
     transition: transform 0.5s ease-in-out;
 }
 
 .carousel-slide {
-    width: 33.333%;
+    width: 100%;
+    flex: 0 0 100%;
     height: 100%;
     position: relative;
-    flex-shrink: 0;
+    overflow: hidden;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 

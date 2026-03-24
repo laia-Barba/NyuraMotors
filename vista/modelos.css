@@ -1,39 +1,158 @@
+/* Animaciones de entrada */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
 /* Estilos para la página de Gamas */
 
 body {
-    background: linear-gradient(135deg, #e6f0ff 0%, #e6f0ff 50%, #dfdfdf 100%) !important;
+    background: #ffffff !important;
     min-height: 100vh;
     margin: 0;
     padding: 0;
+    position: relative;
+}
+
+/* Degradados laterales SOLO para Nuestras Gamas y sección de coches - Cambiado a tema blanco */
+.gama-filters-section,
+main {
+    background: #ffffff;
+    transition: background-image 0.5s ease;
+}
+
+body.gama-electrica .gama-filters-section,
+body.gama-electrica main {
+    background: #ffffff;
+}
+
+body.gama-combustion .gama-filters-section,
+body.gama-combustion main {
+    background: #ffffff;
+}
+
+body.gama-sport .gama-filters-section,
+body.gama-sport main {
+    background: #ffffff;
+}
+
+/* Evitar cortes entre secciones por padding/márgenes globales */
+.gama-filters-section {
+    margin-bottom: 3rem;
+}
+
+main {
+    background: #ffffff;
+    padding: 0;
+    margin-top: 0;
+    min-height: 60vh;
+}
+
+.vehiculos-container {
+    background: #ffffff;
+    margin-top: 0;
 }
 
 /* Sección Hero */
 .gama-hero {
     text-align: center;
-    padding: 8rem 2rem 1rem;
-    background: transparent;
+    padding: 10rem 2rem 4rem;
+    background: #ffffff;
 }
 
 .gama-hero h1 {
     font-family: 'Poppins', sans-serif;
-    font-size: 3rem;
-    font-weight: 700;
-    color: #1a1a1a;
-    margin: 0 0 0.5rem 0;
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: #000000;
+    margin: 0 0 2rem 0;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
+    background: linear-gradient(135deg, #000000, #333333);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .gama-hero p {
+    font-size: 1.1rem;
+    color: #555555;
+    max-width: 800px;
+    margin: 0 auto 3rem auto;
+    line-height: 1.6;
+    font-weight: 400;
+}
+
+.gama-hero .features-list {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+}
+
+.gama-hero .feature-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 1.1rem;
+    color: #666666;
+    font-weight: 600;
+}
+
+.gama-hero .feature-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 1.2rem;
-    color: #0e0e0e;
-    max-width: 600px;
-    margin: 0 auto;
 }
 
 /* Sección de filtros independiente */
 .gama-filters-section {
-    background: #e6f0ff;
+    background-color: #ffffff;
     position: relative;
 }
 
@@ -45,29 +164,35 @@ body {
 .filter-container {
     display: flex;
     justify-content: center;
-    gap: 3rem;
+    gap: 8rem;
     flex-wrap: wrap;
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
+    padding: 2rem 0;
 }
 
 .filter-btn-header {
-    background: transparent;
-    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 20px;
-    padding: 1rem;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: visible;
+    backdrop-filter: blur(10px);
 }
 
 .filter-btn-header:hover {
-    transform: translateY(-5px);
+    transform: translateY(-5px) scale(1.02);
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
 }
 
 .filter-btn-header.active {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
     transform: translateY(-5px) scale(1.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .filter-image {
@@ -77,8 +202,8 @@ body {
     overflow: hidden;
     position: relative;
     transition: all 0.3s ease;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-    border: 2px solid #e6f0ff;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    border: 2px solid #333333;
 }
 
 .filter-image img {
@@ -99,8 +224,8 @@ body {
 }
 
 .filter-btn-header.active .filter-image {
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-    border: 2px solid transparent;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    border: 2px solid #555555;
 }
 
 .filter-btn-header.active .filter-image img {
@@ -116,23 +241,23 @@ body {
     left: 0.1px;
     right: 0.1px;
     height: 55px;
-    background: #e6f0ff;
+    background: rgba(255, 255, 255, 0.1);
     border-radius: 0 0 15px 15px;
     z-index: -1;
 }
 
 .filter-btn-header.active {
-    background: transparent;
-    border-color: transparent;
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
     transform: translateY(-5px) scale(1.05);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
 }
 
 .filter-btn-header:hover {
-    background: transparent;
-    border-color: transparent;
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
     transform: translateY(-3px) scale(1.03);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
 }
 
 /* Efectos específicos por gama eliminados */
@@ -209,10 +334,10 @@ body {
     top: 35%;
     left: 2rem;
     transform: translateY(-50%);
-    background: white;
+    background: #1a1a1a;
     border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     z-index: 100;
     transition: all 0.5s ease, opacity 0.5s ease;
     overflow: hidden;
@@ -236,7 +361,7 @@ body {
     height: 50px;
     border-radius: 15px;
     overflow: hidden;
-    background: #f8f9fa;
+    background: #333333;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -252,7 +377,7 @@ body {
 
 .gama-indicador-lateral:hover .indicador-lateral-icon {
     transform: scale(1.1);
-    background: #f1f3f4;
+    background: #444444;
 }
 
 .indicador-lateral-text {
@@ -264,14 +389,14 @@ body {
 .indicador-gama {
     font-size: 1.1rem;
     font-weight: 700;
-    color: #1a1a1a;
+    color: #ffffff;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
 .indicador-estado {
     font-size: 0.85rem;
-    color: #666;
+    color: #cccccc;
     font-weight: 500;
 }
 
@@ -373,60 +498,169 @@ body {
     border-color: rgba(0, 0, 0, 1);
 }
 
-/* Contenedor de vehículos */
+/* Contenedor de vehículos con transiciones suaves */
 .vehiculos-container {
-    padding: 2rem 2rem 4rem;
+    padding: 3rem 1.5rem 2.25rem;
+    min-height: 500px;
+    position: relative;
 }
 
 .vehiculos-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 3rem;
     max-width: 1200px;
     margin: 0 auto;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    align-items: stretch;
+}
+
+/* Efecto de carga suave */
+.vehiculos-grid.loading {
+    opacity: 0.3;
+    transform: scale(0.98);
+    transition: all 0.3s ease;
+}
+
+.vehiculos-grid.loaded {
+    opacity: 1;
+    transform: scale(1);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Tarjeta de vehículo */
 .vehiculo-card {
-    background: white;
-    border-radius: 15px;
+    background: linear-gradient(180deg, #1a1a1a 0%, #2a2a2a 100%);
+    border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
+    position: relative;
+    border: 2px solid #000000;
+    box-shadow:
+        0 10px 26px rgba(0, 0, 0, 0.08),
+        0 0 0 rgba(0, 0, 0, 0);
+    --card-accent: 15, 23, 42;
+    --card-accent-alpha: 0.18;
+}
+
+.vehiculo-card[data-category="electrico"] {
+    --card-accent: 0, 153, 204;
+}
+
+.vehiculo-card[data-category="combustion"] {
+    --card-accent: 69, 176, 73;
+}
+
+.vehiculo-card[data-category="sport"] {
+    --card-accent: 220, 20, 60;
+}
+
+.vehiculo-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 30% 10%, rgba(var(--card-accent), 0.14) 0%, transparent 55%),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.08) 0%, transparent 35%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+}
+
+.vehiculo-card .vehiculo-info,
+.vehiculo-card .vehiculo-image,
+.vehiculo-card .vehiculo-badge {
+    position: relative;
+    z-index: 2;
+}
+
+.vehiculo-card::marker {
+    content: '';
+}
+
+.vehiculo-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 140px;
+    height: 140px;
+    background:
+        radial-gradient(circle at 0% 0%, rgba(var(--card-accent), 0.22) 0%, rgba(var(--card-accent), 0.10) 35%, transparent 70%);
+    opacity: 0.9;
+    pointer-events: none;
+    z-index: 0;
+    transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.vehiculo-card:hover::before {
+    opacity: 1;
 }
 
 .vehiculo-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    transform: translateY(-10px);
+    box-shadow:
+        0 26px 60px rgba(0, 0, 0, 0.14),
+        0 18px 55px rgba(var(--card-accent), 0.14);
+    border-color: #000000;
+}
+
+.vehiculo-card:hover::after {
+    opacity: 1;
 }
 
 .vehiculo-image {
     position: relative;
-    height: 200px;
+    height: 150px;
     overflow: hidden;
+}
+
+.vehiculo-image::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 60px;
+    background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.12) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
 }
 
 .vehiculo-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.3s ease;
+    transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1), filter 0.55s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .vehiculo-card:hover .vehiculo-image img {
-    transform: scale(1.05);
+    transform: scale(1.08);
+    filter: saturate(1.05) contrast(1.03);
+}
+
+.vehiculo-card:hover .vehiculo-image::after {
+    opacity: 1;
 }
 
 .vehiculo-badge {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
-    padding: 0.5rem 1rem;
+    top: 0.85rem;
+    right: 0.85rem;
+    padding: 0.4rem 0.85rem;
     border-radius: 20px;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 600;
     color: white;
+    border: 1px solid rgba(0, 0, 0, 0.35);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
 }
 
 .vehiculo-badge.electrico {
@@ -442,42 +676,89 @@ body {
 }
 
 .vehiculo-info {
-    padding: 1.5rem;
+    padding: 0.85rem 1rem 1rem;
 }
 
 .vehiculo-info h3 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #1a1a1a;
-    margin-bottom: 0.5rem;
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 0.35rem;
     font-family: 'Poppins', sans-serif;
 }
 
 .vehiculo-info p {
-    color: #666;
-    margin-bottom: 1rem;
-    line-height: 1.5;
+    color: #cccccc;
+    margin-bottom: 0.75rem;
+    line-height: 1.45;
+    font-size: 0.9rem;
 }
 
 .vehiculo-specs {
     display: flex;
-    gap: 1rem;
+    gap: 0.45rem;
     flex-wrap: wrap;
 }
 
 .vehiculo-specs span {
-    background: #f5f5f5;
-    padding: 0.3rem 0.8rem;
-    border-radius: 15px;
-    font-size: 0.85rem;
-    color: #555;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 0.35rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(8px);
 }
 
-/* Animaciones */
+.vehiculo-cta {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 1rem 1rem 1rem;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.08);
+    transform: translateY(85%);
+    opacity: 0;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 3;
+}
+
+.vehiculo-card:hover .vehiculo-cta {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.configurar-vehiculo-btn {
+    width: 100%;
+    border: none;
+    border-radius: 12px;
+    padding: 0.8rem 1rem;
+    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    color: #ffffff;
+    background: #dc143c;
+    transition: all 0.2s ease, box-shadow 0.2s ease;
+    font-size: 0.85rem;
+    box-shadow: 0 4px 15px rgba(220, 20, 60, 0.3);
+}
+
+.configurar-vehiculo-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(220, 20, 60, 0.4);
+    background: #b91c1c;
+}
+
+/* Animaciones mejoradas */
 @keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateY(40px);
     }
     to {
         opacity: 1;
@@ -485,18 +766,84 @@ body {
     }
 }
 
-.vehiculo-card {
-    animation: fadeInUp 0.6s ease-out;
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
 }
 
-/* Estados para filtrado */
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-60px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(60px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Animación de entrada inicial para las tarjetas */
+.vehiculo-card {
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+/* Retrasos escalonados para efecto cascada */
+.vehiculo-card:nth-child(1) { animation-delay: 0.1s; }
+.vehiculo-card:nth-child(2) { animation-delay: 0.2s; }
+.vehiculo-card:nth-child(3) { animation-delay: 0.3s; }
+.vehiculo-card:nth-child(4) { animation-delay: 0.4s; }
+.vehiculo-card:nth-child(5) { animation-delay: 0.5s; }
+.vehiculo-card:nth-child(6) { animation-delay: 0.6s; }
+
+/* Estados para filtrado con transiciones suaves */
 .vehiculo-card.hidden {
-    display: none;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+    position: absolute;
+    visibility: hidden;
 }
 
 .vehiculo-card.visible {
-    display: block;
+    opacity: 1;
+    transform: scale(1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: auto;
+    position: relative;
+    visibility: visible;
+    animation: fadeInScale 0.6s ease-out;
+}
+
+/* Animaciones específicas por categoría */
+.vehiculo-card[data-category="electrico"].visible {
+    animation: slideInLeft 0.6s ease-out;
+}
+
+.vehiculo-card[data-category="combustion"].visible {
     animation: fadeInUp 0.6s ease-out;
+}
+
+.vehiculo-card[data-category="sport"].visible {
+    animation: slideInRight 0.6s ease-out;
 }
 
 /* Responsive */
@@ -743,4 +1090,159 @@ body {
         width: 100%;
         max-width: 300px;
     }
+}
+
+/* Card con bordes suaves glassmorphism */
+.vehiculo-card {
+  background: transparent;
+  padding: 0.4rem; /* padding más fino */
+  border-radius: 24px; /* radio más grande */
+  box-shadow: 
+    0 8px 32px rgba(15, 23, 42, 0.08),
+    0 4px 12px rgba(15, 23, 42, 0.06);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  position: relative;
+  border: none;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out forwards;
+  backdrop-filter: blur(20px); /* glassmorphism */
+  border: 1px solid rgba(255, 255, 255, 0.18); /* borde sutil */
+}
+
+/* fondo suave del contenedor interno */
+.vehiculo-card::before {
+  content: "";
+  position: absolute;
+  inset: 0.4rem;
+  border-radius: 20px;
+  background: 
+    linear-gradient(145deg, #f8fafc, #f1f5f9),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.3));
+  z-index: -1;
+  backdrop-filter: blur(12px);
+}
+
+/* imagen superior con tamaño uniforme */
+.vehiculo-image {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+  padding: 1.2rem;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 20px 20px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.vehiculo-image img {
+  width: 100%;
+  height: 100%;
+  max-width: 400px;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 16px rgba(15, 23, 42, 0.1));
+  transition: transform 0.3s ease;
+}
+
+.vehiculo-card:hover .vehiculo-image img {
+  transform: translateY(-2px);
+}
+
+/* badge más sutil */
+.vehiculo-badge {
+  position: absolute;
+  top: 0.8rem;
+  left: 1rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+/* info inferior simple y limpio */
+.vehiculo-info {
+  padding: 1.5rem 1.2rem 1.2rem;
+  text-align: center;
+  background-color: #ffffff;
+}
+
+.vehiculo-info h3 {
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 0.6rem;
+}
+
+.vehiculo-info p {
+  font-size: 0.9rem;
+  color: #666666;
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+/* specs con tamaño uniforme y contenedor fijo */
+.vehiculo-specs {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.8rem;
+  min-height: 60px;
+  padding: 0.5rem;
+  background: rgba(248, 250, 252, 0.5);
+  border-radius: 12px;
+}
+
+.vehiculo-specs span {
+  background: rgba(148, 163, 184, 0.3);
+  padding: 0.35rem 0.7rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  color: #334155;
+  font-weight: 600;
+  backdrop-filter: blur(8px);
+  min-width: 80px;
+  text-align: center;
+  display: inline-block;
+}
+
+/* botón más sutil */
+.configurar-vehiculo-btn {
+  width: 100%;
+  max-width: 160px;
+  margin: 0 auto;
+  border-radius: 999px;
+  padding: 0.65rem 2rem;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 600;
+  font-size: 0.92rem;
+  cursor: pointer;
+  color: #ffffff;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  box-shadow: 
+    0 8px 20px rgba(59, 130, 246, 0.25),
+    0 4px 8px rgba(59, 130, 246, 0.15);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.configurar-vehiculo-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 
+    0 12px 25px rgba(59, 130, 246, 0.35),
+    0 6px 12px rgba(59, 130, 246, 0.2);
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+}
+
+/* hover suave de card */
+.vehiculo-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 
+    0 20px 40px rgba(15, 23, 42, 0.15),
+    0 8px 16px rgba(15, 23, 42, 0.08);
 }

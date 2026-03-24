@@ -11,6 +11,7 @@
 </head>
 <body>
     <!-- Formas poligonales de fondo -->
+    <div class="polygon-background"></div>
     <div class="polygon-bg-1"></div>
     <div class="polygon-bg-2"></div>
     <div class="polygon-bg-3"></div>
@@ -31,39 +32,121 @@
     </header>
 
     <main>
-        <!-- Carrusel -->
-        <section class="carousel-section">
-            <div class="carousel-container">
-                <button class="carousel-btn carousel-btn-left" onclick="moveCarousel(-1)" aria-label="Anterior">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
-                        <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
-                    </svg>
-                </button>
-                
-                <div class="carousel-track">
-                    <div class="carousel-slide active">
-                        <img src="../Imagenes/paginaInicio/Carrusel1p.png" alt="Nyura Motors - Imagen 1">
+        <!-- Carrusel Único 3D -->
+        <section class="carousel-unique-section">
+            <!-- Contenedor principal 3D -->
+            <div class="carousel-3d-container">
+                <div class="carousel-3d-stage" id="carousel3dStage">
+                    <!-- Slide 1 -->
+                    <div class="carousel-3d-slide active" data-slide="0">
+                        <div class="slide-content">
+                            <div class="slide-image-wrapper">
+                                <img src="../Imagenes/paginaInicio/ThunderBE.png" alt="Nyura Motors - Thunder Black Edition">
+                                <div class="slide-overlay"></div>
+                            </div>
+                            <div class="slide-text">
+                                <h2 class="slide-title">THUNDER BLACK EDITION</h2>
+                                <p class="slide-description">Exclusividad. Precisión. Adrenalina.<br>Limitada a 50 unidades</p>
+                                <div class="slide-cta">
+                                    <button class="cta-button">Descubrir</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="carousel-slide">
-                        <img src="../Imagenes/paginaInicio/Carrusel2p.png" alt="Nyura Motors - Imagen 2">
+                    
+                    <!-- Slide 2 -->
+                    <div class="carousel-3d-slide" data-slide="1">
+                        <div class="slide-content">
+                            <div class="slide-image-wrapper">
+                                <img src="../Imagenes/paginaInicio/Carrusel3.png" alt="Nyura Motors - Imagen 2">
+                                <div class="slide-overlay"></div>
+                            </div>
+                            <div class="slide-text">
+                                <h2 class="slide-title">NUEVO<br>NYURA NOVA SPORT</h2>
+                                <p class="slide-description">Conoce la emoción de la deportividad con<br>nuestro Nyura Nova Sport</p>
+                                <div class="slide-price">Desde 34.490€</div>
+                                <div class="slide-cta">
+                                    <button class="cta-button">Descubrir</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="carousel-slide">
-                        <img src="../Imagenes/paginaInicio/Carrusel5.png" alt="Nyura Motors - Imagen 3">
+                    
+                    <!-- Slide 3 -->
+                    <div class="carousel-3d-slide" data-slide="2">
+                        <div class="slide-content">
+                            <div class="slide-image-wrapper">
+                                <img src="../Imagenes/paginaInicio/generated-image (25) (1).png" alt="Nyura Motors - Imagen 3">
+                                <div class="slide-overlay"></div>
+                            </div>
+                            <div class="slide-text right-aligned">
+                                <h2 class="slide-title">DESCUBRE<br>NUESTRO ALTAMIRA</h2>
+                                <p class="slide-description">El compacto perfecto para terreno urbano</p>
+                                <div class="slide-price">Desde 23.645€</div>
+                                <div class="slide-cta">
+                                    <button class="cta-button">Explorar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Slide 4 -->
+                    <div class="carousel-3d-slide" data-slide="3">
+                        <div class="slide-content">
+                            <div class="slide-image-wrapper">
+                                <img src="../Imagenes/paginaInicio/Carrusel6.png" alt="Nyura Motors - Imagen 4">
+                                <div class="slide-overlay"></div>
+                            </div>
+                            <div class="slide-text">
+                                <h2 class="slide-title">THUNDER</h2>
+                                <p class="slide-description">Conoce la emoción del circuito y la<br>experiencia de la velocidad</p>
+                                <div class="slide-price">Desde 48.300€</div>
+                                <div class="slide-cta">
+                                    <button class="cta-button">Descubrir</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
-                <button class="carousel-btn carousel-btn-right" onclick="moveCarousel(1)" aria-label="Siguiente">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
-                        <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
-                    </svg>
-                </button>
-            </div>
-            
-            <!-- Indicadores -->
-            <div class="carousel-indicators">
-                <button class="indicator active" onclick="goToSlide(0)" aria-label="Ir a slide 1"></button>
-                <button class="indicator" onclick="goToSlide(1)" aria-label="Ir a slide 2"></button>
-                <button class="indicator" onclick="goToSlide(2)" aria-label="Ir a slide 3"></button>
+                <!-- Indicadores únicos -->
+                <div class="carousel-indicators-unique">
+                    <div class="indicator-track">
+                        <button class="indicator-dot active" data-slide="0">
+                            <span class="indicator-number">01</span>
+                            <div class="indicator-progress"></div>
+                        </button>
+                        <button class="indicator-dot" data-slide="1">
+                            <span class="indicator-number">02</span>
+                            <div class="indicator-progress"></div>
+                        </button>
+                        <button class="indicator-dot" data-slide="2">
+                            <span class="indicator-number">03</span>
+                            <div class="indicator-progress"></div>
+                        </button>
+                        <button class="indicator-dot" data-slide="3">
+                            <span class="indicator-number">04</span>
+                            <div class="indicator-progress"></div>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Controles fuera del carrusel -->
+                <div class="carousel-controls-external">
+                    <button class="control-btn-external control-btn-prev" id="prevBtn" aria-label="Anterior">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M15 18l-6-6 6-6"/>
+                        </svg>
+                        <span class="control-label">Anterior</span>
+                    </button>
+                    
+                    <button class="control-btn-external control-btn-next" id="nextBtn" aria-label="Siguiente">
+                        <span class="control-label">Siguiente</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 18l6-6-6-6"/>
+                        </svg>
+                    </button>
+                </div>
             </div>
         </section>
         
@@ -357,7 +440,7 @@
         });
     </script>
 
-    <!-- Script del carrusel -->
+    <!-- JavaScript del Carrusel Único 3D -->
     <script>
         // Función global para scroll a modelos (desde cualquier página)
         function scrollToModelos() {
@@ -393,72 +476,258 @@
             }
         });
 
-        let currentSlide = 0;
-        const totalSlides = 3;
-
-        function moveCarousel(direction) {
-            console.log('moveCarousel called with direction:', direction);
-            currentSlide += direction;
-            
-            // Ciclo infinito
-            if (currentSlide < 0) {
-                currentSlide = totalSlides - 1;
-            } else if (currentSlide >= totalSlides) {
-                currentSlide = 0;
+        // Sistema avanzado de carrusel 3D
+        class Carousel3D {
+            constructor() {
+                this.currentSlide = 0;
+                this.totalSlides = 4;
+                this.isAnimating = false;
+                this.autoPlayInterval = null;
+                
+                this.init();
             }
             
-            console.log('New currentSlide:', currentSlide);
-            updateCarousel();
-        }
-
-        function goToSlide(slideIndex) {
-            currentSlide = slideIndex;
-            updateCarousel();
-        }
-
-        function updateCarousel() {
-            const track = document.querySelector('.carousel-track');
-            const slides = document.querySelectorAll('.carousel-slide');
-            const indicators = document.querySelectorAll('.indicator');
+            init() {
+                this.setupElements();
+                this.bindEvents();
+                this.updateCarousel();
+                this.startAutoPlay();
+            }
             
-            // Mover el track - ahora es 33.333% por slide
-            track.style.transform = `translateX(-${currentSlide * 33.333}%)`;
+            setupElements() {
+                this.stage = document.getElementById('carousel3dStage');
+                this.slides = document.querySelectorAll('.carousel-3d-slide');
+                this.indicators = document.querySelectorAll('.indicator-dot');
+                this.prevBtn = document.getElementById('prevBtn');
+                this.nextBtn = document.getElementById('nextBtn');
+            }
             
-            // Actualizar clases active
-            slides.forEach((slide, index) => {
-                slide.classList.toggle('active', index === currentSlide);
-            });
+            bindEvents() {
+                // Botones de navegación
+                this.prevBtn.addEventListener('click', () => this.moveCarousel(-1));
+                this.nextBtn.addEventListener('click', () => this.moveCarousel(1));
+                
+                // Indicadores
+                this.indicators.forEach((indicator, index) => {
+                    indicator.addEventListener('click', () => this.goToSlide(index));
+                });
+                
+                // Pausar auto-play al hacer hover
+                this.stage.addEventListener('mouseenter', () => this.stopAutoPlay());
+                this.stage.addEventListener('mouseleave', () => this.startAutoPlay());
+                
+                // Navegación con teclado
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowLeft') this.moveCarousel(-1);
+                    if (e.key === 'ArrowRight') this.moveCarousel(1);
+                });
+                
+                // Touch events para móvil
+                let touchStartX = 0;
+                let touchEndX = 0;
+                
+                this.stage.addEventListener('touchstart', (e) => {
+                    touchStartX = e.changedTouches[0].screenX;
+                });
+                
+                this.stage.addEventListener('touchend', (e) => {
+                    touchEndX = e.changedTouches[0].screenX;
+                    this.handleSwipe(touchStartX, touchEndX);
+                });
+            }
             
-            indicators.forEach((indicator, index) => {
-                indicator.classList.toggle('active', index === currentSlide);
-            });
+            handleSwipe(startX, endX) {
+                const swipeThreshold = 50;
+                const diff = startX - endX;
+                
+                if (Math.abs(diff) > swipeThreshold) {
+                    if (diff > 0) {
+                        this.moveCarousel(1); // Swipe izquierda - siguiente
+                    } else {
+                        this.moveCarousel(-1); // Swipe derecha - anterior
+                    }
+                }
+            }
+            
+            moveCarousel(direction) {
+                if (this.isAnimating) return;
+                
+                this.currentSlide += direction;
+                
+                // Ciclo infinito
+                if (this.currentSlide < 0) {
+                    this.currentSlide = this.totalSlides - 1;
+                } else if (this.currentSlide >= this.totalSlides) {
+                    this.currentSlide = 0;
+                }
+                
+                this.updateCarousel();
+            }
+            
+            goToSlide(slideIndex) {
+                if (this.isAnimating || slideIndex === this.currentSlide) return;
+                
+                this.currentSlide = slideIndex;
+                this.updateCarousel();
+            }
+            
+            updateCarousel() {
+                this.isAnimating = true;
+                
+                // Actualizar clases de slides
+                this.slides.forEach((slide, index) => {
+                    slide.classList.remove('active', 'next', 'prev');
+                    
+                    if (index === this.currentSlide) {
+                        slide.classList.add('active');
+                        // Reiniciar animaciones de texto para el slide activo
+                        this.restartTextAnimations(slide);
+                    } else if (index === (this.currentSlide + 1) % this.totalSlides) {
+                        slide.classList.add('next');
+                    } else if (index === (this.currentSlide - 1 + this.totalSlides) % this.totalSlides) {
+                        slide.classList.add('prev');
+                    }
+                });
+                
+                // Actualizar indicadores
+                this.indicators.forEach((indicator, index) => {
+                    indicator.classList.toggle('active', index === this.currentSlide);
+                    
+                    // Reiniciar animación de progreso
+                    const progressBar = indicator.querySelector('.indicator-progress');
+                    if (!progressBar) {
+                        return;
+                    }
+                    if (index === this.currentSlide) {
+                        progressBar.style.transition = 'none';
+                        progressBar.style.height = '0%';
+                        
+                        setTimeout(() => {
+                            progressBar.style.transition = 'height 5s linear';
+                            progressBar.style.height = '100%';
+                        }, 50);
+                    } else {
+                        progressBar.style.transition = 'none';
+                        progressBar.style.height = '0%';
+                    }
+                });
+                
+                // Efectos visuales adicionales
+                this.addTransitionEffects();
+                
+                // Resetear estado de animación
+                setTimeout(() => {
+                    this.isAnimating = false;
+                }, 1200);
+            }
+            
+            restartTextAnimations(slide) {
+                const title = slide.querySelector('.slide-title');
+                const description = slide.querySelector('.slide-description');
+                const button = slide.querySelector('.cta-button');
+                
+                // Reiniciar animación del título
+                if (title) {
+                    title.style.animation = 'none';
+                    title.style.transform = 'translateX(-50px)';
+                    title.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        title.style.animation = 'slideInText 0.8s ease forwards';
+                    }, 100);
+                }
+                
+                // Reiniciar animación de la descripción
+                if (description) {
+                    description.style.animation = 'none';
+                    description.style.transform = 'translateX(-50px)';
+                    description.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        description.style.animation = 'slideInText 0.8s ease forwards';
+                    }, 300);
+                }
+                
+                // Reiniciar animación del botón
+                if (button) {
+                    button.style.animation = 'none';
+                    button.style.transform = 'translateY(20px)';
+                    button.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        button.style.animation = 'slideInButton 0.8s ease forwards';
+                    }, 500);
+                }
+            }
+            
+            addTransitionEffects() {
+                // Efecto de flash en el slide activo
+                const activeSlide = this.slides[this.currentSlide];
+                const flash = document.createElement('div');
+                flash.style.cssText = `
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: radial-gradient(circle, rgba(69, 176, 73, 0.3) 0%, transparent 70%);
+                    opacity: 0;
+                    pointer-events: none;
+                    z-index: 100;
+                `;
+                
+                activeSlide.appendChild(flash);
+                
+                // Animar flash
+                setTimeout(() => {
+                    flash.style.transition = 'opacity 0.5s ease';
+                    flash.style.opacity = '1';
+                    
+                    setTimeout(() => {
+                        flash.style.opacity = '0';
+                        
+                        setTimeout(() => {
+                            flash.remove();
+                        }, 500);
+                    }, 200);
+                }, 50);
+            }
+            
+            startAutoPlay() {
+                this.stopAutoPlay();
+                this.autoPlayInterval = setInterval(() => {
+                    this.moveCarousel(1);
+                }, 5000); // Cambiar cada 5 segundos
+            }
+            
+            stopAutoPlay() {
+                if (this.autoPlayInterval) {
+                    clearInterval(this.autoPlayInterval);
+                    this.autoPlayInterval = null;
+                }
+            }
         }
-
-        // Auto-avance opcional (cada 2 segundos)
-        let autoPlayInterval;
         
-        function startAutoPlay() {
-            console.log('Starting autoplay with 2 second interval');
-            autoPlayInterval = setInterval(() => {
-                console.log('Autoplay tick - moving carousel');
-                moveCarousel(1);
-            }, 5000); // Cambiado a 5 segundos
-        }
-        
-        function stopAutoPlay() {
-            clearInterval(autoPlayInterval);
-        }
-
-        // Pausar auto-play cuando el usuario interactúa
-        document.addEventListener('DOMContentLoaded', function() {
-            const container = document.querySelector('.carousel-container');
+        // Inicializar carrusel cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', () => {
+            const carousel = new Carousel3D();
             
-            container.addEventListener('mouseenter', stopAutoPlay);
-            container.addEventListener('mouseleave', startAutoPlay);
+            // Hacer el carrusel accesible globalmente
+            window.carousel3d = carousel;
         });
         
-        // Iniciar auto-play inmediatamente
-        startAutoPlay();
+        // Funciones globales para compatibilidad
+        function moveCarousel(direction) {
+            if (window.carousel3d) {
+                window.carousel3d.moveCarousel(direction);
+            }
+        }
+        
+        function goToSlide(index) {
+            if (window.carousel3d) {
+                window.carousel3d.goToSlide(index);
+            }
+        }
     </script>
 
     <script>
@@ -599,6 +868,53 @@
             // Mostrar un nuevo testimonio cada 20 segundos
             notificationInterval = setInterval(showTestimonial, 20000);
         }, 3000);
+    </script>
+<!-- JavaScript para Degradados Laterales de Gamas -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const body = document.body;
+            const gamaCards = document.querySelectorAll('.modelo-card');
+            
+            // Función para actualizar degradados laterales
+            function actualizarDegradadosLaterales(gama) {
+                // Remover todas las clases de gama
+                body.classList.remove('gama-electrica', 'gama-combustion', 'gama-sport');
+                
+                // Añadir la clase correspondiente
+                if (gama === 'electrico') {
+                    body.classList.add('gama-electrica');
+                } else if (gama === 'combustion') {
+                    body.classList.add('gama-combustion');
+                } else if (gama === 'sport') {
+                    body.classList.add('gama-sport');
+                }
+            }
+            
+            // Event listeners para hover en las tarjetas de gama
+            gamaCards.forEach(card => {
+                const href = card.getAttribute('href');
+                let gama = '';
+                
+                // Extraer la gama del href
+                if (href.includes('electrico')) {
+                    gama = 'electrico';
+                } else if (href.includes('combustion')) {
+                    gama = 'combustion';
+                } else if (href.includes('sport')) {
+                    gama = 'sport';
+                }
+                
+                // Hover: aplicar degradado
+                card.addEventListener('mouseenter', function() {
+                    actualizarDegradadosLaterales(gama);
+                });
+                
+                // Mouse leave: remover degradado
+                card.addEventListener('mouseleave', function() {
+                    body.classList.remove('gama-electrica', 'gama-combustion', 'gama-sport');
+                });
+            });
+        });
     </script>
 </body>
 </html>

@@ -147,7 +147,7 @@ main {
 
 /* FOOTER COMPLETO */
 footer {
-    background: linear-gradient(135deg, #111318 0%, #1a1f2e 100%);
+    background: #1a1f2e;
     color: white;
     padding: 4rem 2rem 2rem;
     margin-top: auto;
