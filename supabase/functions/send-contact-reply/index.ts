@@ -22,7 +22,7 @@ Deno.serve(async (req) => {
     const requestBody = await req.json();
     console.log("Body recibido:", requestBody);
 
-    const { to, subject, body } = requestBody;
+    const { to, subject, body, originalMessage } = requestBody;
 
     if (!to || !subject || !body) {
       console.log("Error: Faltan campos requeridos");
@@ -43,20 +43,53 @@ Deno.serve(async (req) => {
 
     console.log("Variables de entorno verificadas");
 
-    // Send email via Resend
-    console.log("Enviando email via Resend...");
+    // Send email via Resend using template
+    console.log("Enviando email via Resend con plantilla Nyura...");
+    console.log("Datos:", { to, subject, body, fromEmail });
+    
+    const emailData = {
+      from: fromEmail,
+      to: [to],
+      subject: subject,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f8f9fa;">
+          <div style="background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+            <div style="text-align: center; margin-bottom: 30px;">
+              <h1 style="color: #333; margin: 0;">Nyura Motors</h1>
+              <p style="color: #666; margin: 5px 0;">Respuesta a tu consulta</p>
+            </div>
+            
+            ${originalMessage ? `
+            <div style="background-color: #f8f9fa; padding: 20px; border-left: 4px solid #007bff; margin: 20px 0;">
+              <p style="margin: 0; color: #495057;"><strong>Mensaje original:</strong></p>
+              <p style="margin: 10px 0; color: #6c757d; font-style: italic;">${originalMessage}</p>
+            </div>
+            ` : ''}
+            
+            <div style="margin: 30px 0;">
+              <p style="color: #333; line-height: 1.6;">${body}</p>
+            </div>
+            
+            <div style="border-top: 1px solid #dee2e6; padding-top: 20px; margin-top: 30px;">
+              <p style="color: #6c757d; font-size: 14px; margin: 0;">
+                Este mensaje fue enviado desde el panel de administración de Nyura Motors.<br>
+                Si tienes alguna pregunta, no dudes en contactarnos.
+              </p>
+            </div>
+          </div>
+        </div>
+      `
+    };
+    
+    console.log("Payload Resend:", JSON.stringify(emailData, null, 2));
+    
     const resendResp = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${resendApiKey}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        from: fromEmail,
-        to: [to],
-        subject: subject,
-        html: `<p>${body.replace(/\n/g, '<br>')}</p>`,
-      }),
+      body: JSON.stringify(emailData),
     });
 
     console.log("Respuesta Resend:", resendResp.status);

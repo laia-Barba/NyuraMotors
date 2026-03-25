@@ -698,7 +698,7 @@
                                     <i class="fas fa-eye"></i>
                                 </button>
                             ` : ''}
-                            <button class="btn-action btn-reply" onclick="openReplyModal('${contact.email}', '${contact.asunto || 'Sin asunto'}')">
+                            <button class="btn-action btn-reply" onclick="openReplyModal('${contact.id}')">
                                 <i class="fas fa-reply"></i>
                             </button>
                             <button class="btn-action btn-delete btn-icon-only" onclick="deleteContact('${contact.id}', '${contact.email}')" title="Eliminar">
@@ -839,11 +839,23 @@
             }
         };
 
-        window.openReplyModal = function(email, subject) {
-            document.getElementById('replyTo').value = email;
-            document.getElementById('replySubject').value = `Re: ${subject}`;
-            document.getElementById('replyMessage').value = '';
-            document.getElementById('replyModal').style.display = 'block';
+        window.openReplyModal = function(contactId) {
+            // Buscar el contacto por ID
+            const contact = allContacts.find(c => c.id === contactId);
+            
+            if (contact) {
+                document.getElementById('replyTo').value = contact.email;
+                document.getElementById('replySubject').value = `Re: ${contact.asunto || 'Sin asunto'}`;
+                
+                // Saludo predeterminado + mensaje original citado
+                const saludoPredeterminado = "Hola, gracias por contactarnos!\n\nHemos visto tu consulta y nos gustaría poder ayudarte.\n\n[Respuesta]";
+                const quotedMessage = contact.message ? `\n\n--- Mensaje original ---\n${contact.message}` : '';
+                const fullMessage = saludoPredeterminado + quotedMessage;
+                
+                document.getElementById('replyMessage').value = fullMessage;
+                
+                document.getElementById('replyModal').style.display = 'block';
+            }
         };
 
         window.sendReply = async function() {
@@ -887,7 +899,21 @@
                 // Obtener la sesión actualizada (refrescada si era necesario)
                 const { data: { session: currentSession } } = await supabase.auth.getSession();
                 
-                // Usar fetch directamente para asegurar que se envíen los headers
+                // Obtener el mensaje original y la respuesta
+                const messageTextarea = document.getElementById('replyMessage');
+                const fullText = messageTextarea.value;
+                
+                // Separar la respuesta del mensaje original
+                let replyText = fullText;
+                let originalMsg = '';
+                
+                if (fullText.includes('--- Mensaje original ---')) {
+                    const parts = fullText.split('--- Mensaje original ---');
+                    replyText = parts[0].trim();
+                    originalMsg = parts[1] ? parts[1].trim() : '';
+                }
+                
+                // El saludo ya está incluido en replyText, no hay que añadirlo
                 const response = await fetch(`${SUPABASE_URL}/functions/v1/send-contact-reply`, {
                     method: 'POST',
                     headers: {
@@ -897,7 +923,8 @@
                     body: JSON.stringify({
                         to,
                         subject,
-                        body: message
+                        body: replyText,
+                        originalMessage: originalMsg
                     })
                 });
 
