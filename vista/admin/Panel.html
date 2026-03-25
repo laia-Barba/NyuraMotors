@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="Panel.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <a href="../home.html" class="back-button">
@@ -21,13 +22,17 @@
         </div>
 
         <div id="loadingMessage" class="loading">
-            <i class="fas fa-spinner fa-spin"></i> Cargando datos del panel...
+            <i class="fas fa-spinner fa-spin"></i> 
+            <div>Cargando datos del panel...</div>
         </div>
 
-        <div id="errorMessage" class="error" style="display: none;"></div>
+        <div id="errorMessage" class="error" style="display: none;">
+            <i class="fas fa-exclamation-triangle"></i>
+            <div>Error al cargar el panel</div>
+        </div>
 
         <div id="statsSection" class="admin-stats" style="display: none;">
-            <h2 style="margin-bottom: 20px; color: #2c3e50;">Estadísticas Generales</h2>
+            <h2>Estadísticas Generales</h2>
             <div class="stats-grid">
                 <div class="stat-item">
                     <h4 id="totalUsers">0</h4>
@@ -48,36 +53,38 @@
             </div>
         </div>
 
-        <div id="chartSection" class="chart-section" style="display: none;">
-            <h2 style="margin-bottom: 20px; color: #2c3e50;">Ventas por Gama</h2>
-            <div class="chart-container">
-                <canvas id="salesChart"></canvas>
-            </div>
-        </div>
-
-        <div id="adminGrid" class="admin-grid" style="display: none;">
-            <div class="admin-card users" onclick="navigateToUsers()">
-                <i class="fas fa-users"></i>
-                <h3>Gestión de Usuarios</h3>
-                <p>Ver y gestionar todos los usuarios registrados en el sistema</p>
+        <div id="mainContent" class="main-content" style="display: none;">
+            <div id="chartSection" class="chart-section">
+                <h2>Ventas por Gama</h2>
+                <div class="chart-container">
+                    <canvas id="salesChart"></canvas>
+                </div>
             </div>
 
-            <div class="admin-card configurations" onclick="navigateToConfigurations()">
-                <i class="fas fa-cogs"></i>
-                <h3>Configuraciones</h3>
-                <p>Revisar las configuraciones de coches creadas por los usuarios</p>
-            </div>
+            <div id="adminGrid" class="admin-grid">
+                <div class="admin-card users" onclick="navigateToUsers()">
+                    <i class="fas fa-users"></i>
+                    <h3>Gestión de Usuarios</h3>
+                    <p>Ver y gestionar todos los usuarios registrados en el sistema</p>
+                </div>
 
-            <div class="admin-card contacts" onclick="navigateToContacts()">
-                <i class="fas fa-envelope"></i>
-                <h3>Mensajes de Contacto</h3>
-                <p>Gestionar los mensajes y formularios de contacto recibidos</p>
-            </div>
+                <div class="admin-card configurations" onclick="navigateToConfigurations()">
+                    <i class="fas fa-cogs"></i>
+                    <h3>Configuraciones</h3>
+                    <p>Revisar las configuraciones de coches creadas por los usuarios</p>
+                </div>
 
-            <div class="admin-card models" onclick="navigateToModels()">
-                <i class="fas fa-car"></i>
-                <h3>Gestión de Modelos</h3>
-                <p>Administrar los modelos, colores y llantas disponibles</p>
+                <div class="admin-card contacts" onclick="navigateToContacts()">
+                    <i class="fas fa-envelope"></i>
+                    <h3>Mensajes de Contacto</h3>
+                    <p>Gestionar los mensajes y formularios de contacto recibidos</p>
+                </div>
+
+                <div class="admin-card models" onclick="navigateToModels()">
+                    <i class="fas fa-car"></i>
+                    <h3>Gestión de Modelos</h3>
+                    <p>Administrar los modelos, colores y llantas disponibles</p>
+                </div>
             </div>
         </div>
     </div>
@@ -149,7 +156,7 @@
                 // Ocultar mensaje de carga
                 document.getElementById('loadingMessage').style.display = 'none';
                 document.getElementById('statsSection').style.display = 'block';
-                document.getElementById('adminGrid').style.display = 'grid';
+                document.getElementById('mainContent').style.display = 'grid';
 
                 // Cargar gráfico de ventas por modelo
                 await loadSalesChart(configurations, models);
@@ -285,7 +292,7 @@
                                 display: true,
                                 position: 'top',
                                 labels: {
-                                    padding: 15,
+                                    padding: 35,
                                     font: {
                                         size: 12,
                                         family: 'Arial, sans-serif'
