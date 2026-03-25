@@ -1,4 +1,4 @@
-/* Header Único y Diferenciador - Versión Fondo Blanco con Letras Negras */
+/* Header Único y Diferenciador - Versión Corporativa Sofisticada */
 
 header {
     position: fixed;
@@ -6,46 +6,18 @@ header {
     left: 0;
     width: 100%;
     z-index: 1000;
-    background: #FFFFFF;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.8);
+    background: #1a1a1a;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
 }
 
 header::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, 
-        transparent, 
-        rgba(0, 0, 0, 0.3), 
-        rgba(0, 0, 0, 0.25),
-        rgba(255, 255, 255, 0.5),
-        rgba(0, 0, 0, 0.3),
-        transparent);
-    transition: left 1s ease;
-    z-index: 1;
-}
-
-header:hover::before {
-    left: 100%;
+    display: none;
 }
 
 header::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: 
-        radial-gradient(circle at 20% 50%, rgba(0, 0, 0, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 50%, rgba(0, 0, 0, 0.12) 0%, transparent 50%),
-        radial-gradient(circle at 50% 100%, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
-    animation: headerPulse 4s ease-in-out infinite;
-    z-index: 0;
+    display: none;
 }
 
 
@@ -438,13 +410,13 @@ nav {
 
 
 
-/* Menú de navegación con colores azules claros */
+/* Menú de navegación elegante y minimalista */
 nav ul {
     display: flex;
     list-style: none;
     margin: 0;
     padding: 0;
-    gap: 0.8rem;
+    gap: 1rem;
     align-items: center;
 }
 
@@ -455,77 +427,55 @@ nav ul li {
 nav ul li a {
     display: flex;
     align-items: center;
-    padding: 1rem 2rem;
-    color: #000000;
+    padding: 0.8rem 1.5rem;
+    color: #FFFFFF;
     text-decoration: none;
     font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    font-size: 0.95rem;
-    border-radius: 50px;
-    transition: background 0.3s ease, color 0.3s ease, font-size 0.3s ease;
+    font-weight: 400;
+    font-size: 0.9rem;
+    border-radius: 2px;
+    transition: all 0.3s ease;
     position: relative;
-    overflow: hidden;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
+    text-transform: none;
+    letter-spacing: 0.3px;
 }
 
 nav ul li a::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    background: radial-gradient(circle, 
-        rgba(0, 0, 0, 0.3) 0%, 
-        rgba(0, 0, 0, 0.2) 50%, 
-        rgba(255, 255, 255, 0.4) 70%,
-        transparent 70%);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: -1;
+    display: none;
 }
 
 nav ul li a:hover {
-    color: #000000;
-    background: rgba(0, 0, 0, 0.9);
-    padding: 1rem 2rem;
-    border-radius: 50px;
+    color: #FFFFFF;
+    background: rgba(255, 255, 255, 0.1);
     transform: none;
-    font-size: 1.05rem;
 }
 
 nav ul li:first-child a:hover {
     color: #FFFFFF;
-    background: rgba(0, 0, 0, 0.9);
-    padding: 1rem 2rem;
-    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.1);
     transform: none;
-    font-size: 1.05rem;
 }
 
 nav ul li:first-child a:hover .logo-img {
-    display: none;
+    display: block;
 }
 
 nav ul li a:hover::before {
-    width: 0;
-    height: 0;
+    display: none;
 }
 
-/* Enlace activo con letras negras - Estático como Iniciar Sesión */
+/* Enlace activo corporativo */
 nav ul li a.active {
     color: #FFFFFF;
-    background: rgba(0, 0, 0, 0.9);
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
-    padding: 1rem 2rem;
-    font-weight: 600;
-    font-size: 0.95rem;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: none;
+    padding: 0.8rem 1.5rem;
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-transform: none;
+    letter-spacing: 0.3px;
     font-family: 'Inter', sans-serif;
-    border-radius: 50px;
+    border-radius: 2px;
     text-decoration: none;
     transition: none;
     transform: none;
@@ -537,26 +487,25 @@ nav ul li:first-child a::after {
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
 }
 
-/* Menú de autenticación sin estilo de enlace activo */
+/* Menú de autenticación corporativo */
 #authMenu {
     position: relative;
 }
 
 #authMenu a {
-    color: #000000 !important;
+    color: #FFFFFF !important;
     background: transparent !important;
-    border: none !important;
-    padding: 1rem 2.5rem !important;
-    font-weight: 600 !important;
-    font-size: 0.95rem !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    padding: 0.8rem 1.5rem !important;
+    font-weight: 400 !important;
+    font-size: 0.9rem !important;
     box-shadow: none !important;
     position: relative;
-    overflow: hidden;
-    text-transform: uppercase !important;
-    letter-spacing: 1.2px !important;
+    text-transform: none !important;
+    letter-spacing: 0.3px !important;
     font-family: 'Inter', sans-serif !important;
-    border-radius: 50px !important;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    border-radius: 2px !important;
+    transition: all 0.3s ease !important;
 }
 
 #authMenu a::before {
@@ -569,9 +518,10 @@ nav ul li:first-child a::after {
 
 #authMenu a:hover {
     color: #FFFFFF !important;
-    background: rgba(0, 0, 0, 0.9) !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
     transform: none !important;
-    box-shadow: none !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
 }
 
 #authMenu a:hover::before {
@@ -583,8 +533,8 @@ nav ul li:first-child a::after {
 }
 
 #authMenu a svg {
-    transition: all 0.4s ease;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    transition: all 0.3s ease;
+    filter: none;
 }
 
 
@@ -599,15 +549,16 @@ nav ul li:first-child a::after {
 
 
 
-/* Efecto de scroll con fondo blanco puro */
+/* Efecto de scroll con fondo ultra-transparente */
 
 header.scrolled {
 
-    background: #FFFFFF;
+    background: rgba(26, 26, 26, 0.6);
+    backdrop-filter: blur(15px);
 
     box-shadow: 
 
-        0 15px 40px rgba(0, 0, 0, 0.1);
+        0 10px 30px rgba(0, 0, 0, 0.2);
 
     transform: translateY(0);
 
@@ -617,7 +568,7 @@ header.scrolled {
 
 header.scrolled .logo-img {
 
-    height: 48px;
+    height: 35px;
 
 }
 
@@ -625,7 +576,7 @@ header.scrolled .logo-img {
 
 header.scrolled nav {
 
-    padding: 0.8rem 4rem;
+    padding: 0.8rem 3rem;
 
 }
 

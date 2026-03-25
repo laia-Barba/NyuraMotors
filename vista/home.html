@@ -184,8 +184,8 @@
                 <h1 class="modelos-title reveal fade-up-reveal">Gamas</h1>
                 <div class="modelos-intro">
                     <div class="modelos-description">
-                        <p class="reveal fade-up-reveal">En Nyura Motors, hemos creado cada gama con un propósito específico: innovar la forma en que te mueves.</p>
-                        <p class="reveal fade-up-reveal">Desde la eficiencia eléctrica hasta el rendimiento deportivo, cada vehículo representa nuestro compromiso con la excelencia, la sostenibilidad y el futuro de la movilidad.</p>
+                        <p class="reveal fade-up-reveal">En <strong>Nyura Motors</strong>, cada gama es una obra maestra de la ingeniería, diseñada para redefinir tu experiencia de conducción.</p>
+                        <p class="reveal fade-up-reveal">Desde la <em>innovación eléctrica</em> hasta el <em>rendimiento supremo</em>, cada vehículo encarna nuestro compromiso inquebrantable con la <strong>excelencia</strong>, la <strong>sostenibilidad</strong> y el <strong>futuro</strong> de la movilidad.</p>
                     </div>
                 </div>
                 <div class="modelos-grid">
@@ -246,7 +246,7 @@
                         
                     </div>
                     <div class="quienes-somos-image">
-                        <img class="reveal zoom-blur-reveal" src="../Imagenes/paginaInicio/equipoNyura.jpg" alt="Equipo Nyura Motors">
+                        <video class="reveal zoom-blur-reveal" src="../Imagenes/paginaInicio/QuienesSomos.mp4" alt="Equipo Nyura Motors" autoplay loop muted></video>
                     </div>
                 </div>
             </div>
@@ -275,7 +275,7 @@
                         </p>
                     </div>
                     <div class="tech-image">
-                        <img class="reveal rotate-3d-reveal" src="../Imagenes/paginaInicio/tecnologias.png" alt="Tecnología Nyura Motors">
+                        <video class="reveal rotate-3d-reveal" src="../Imagenes/paginaInicio/tecnologia.mp4" alt="Tecnología Nyura Motors" autoplay loop muted></video>
                     </div>
                 </div>
             </div>
@@ -477,7 +477,10 @@
                 // Scroll suave a la sección de modelos con margen
                 const modelosSection = document.querySelector('.modelos-section');
                 if (modelosSection) {
-                    const sectionTop = modelosSection.offsetTop - 100; // 100px arriba del borde
+                    const header = document.querySelector('header');
+                    const headerHeight = header ? header.getBoundingClientRect().height : 0;
+                    const extraDownOffset = 60;
+                    const sectionTop = (modelosSection.getBoundingClientRect().top + window.scrollY) - headerHeight + extraDownOffset;
                     window.scrollTo({
                         top: sectionTop,
                         behavior: 'smooth'
@@ -839,7 +842,7 @@
                 }, {
                     root: null,
                     threshold: 0.15,
-                    rootMargin: '0px 0px -10% 0px'
+                    rootMargin: '0px 0px -5% 0px'
                 });
 
                 elements.forEach((el) => this.observer.observe(el));
