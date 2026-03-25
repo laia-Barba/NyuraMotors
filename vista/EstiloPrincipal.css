@@ -1,3 +1,33 @@
+/* Barra de scroll negra global */
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #333333;
+    border-radius: 10px;
+    border: 2px solid #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555555;
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: #222222;
+}
+
+/* Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #333333 #1a1a1a;
+}
+
 /* ESTILO PRINCIPAL - NYURA MOTORS */
 
 /* Estilos para el menú desplegable de autenticación */
@@ -9,7 +39,7 @@
 .auth-dropdown-toggle {
     background: none;
     border: none;
-    color: #111318;
+    color: #ffffff;
     cursor: pointer;
     padding: 2px 6px;
     border-radius: 6px;
@@ -22,7 +52,7 @@
 }
 
 .auth-dropdown-toggle:hover {
-    background-color: #f0f2f5;
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .auth-dropdown-menu {
@@ -30,10 +60,10 @@
     position: absolute;
     top: 100%;
     right: 0;
-    background: white;
-    border: 1px solid #e1e5e9;
+    background: #1a1a1a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     min-width: 180px;
     z-index: 1000;
     margin-top: 4px;
@@ -43,12 +73,12 @@
     display: flex;
     align-items: center;
     padding: 8px 12px;
-    color: #111318;
+    color: #ffffff;
     text-decoration: none;
     font-size: 14px;
     font-family: 'Inter', 'Roboto', sans-serif;
     transition: background-color 0.2s;
-    border-bottom: 1px solid #f0f2f5;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .auth-dropdown-menu a:last-child {
@@ -56,7 +86,7 @@
 }
 
 .auth-dropdown-menu a:hover {
-    background-color: #f8f9fa;
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 /* Estilos existentes */
@@ -147,7 +177,7 @@ main {
 
 /* FOOTER COMPLETO */
 footer {
-    background: linear-gradient(135deg, #111318 0%, #1a1f2e 100%);
+    background: #1a1f2e;
     color: white;
     padding: 4rem 2rem 2rem;
     margin-top: auto;
