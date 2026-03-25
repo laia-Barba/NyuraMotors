@@ -564,7 +564,7 @@
     </div>
 
     <script type="module">
-        import { getCurrentUser, getUserByEmail, getFormContactos, getContactoById, updateContacto, deleteContacto } from '../../controlador/BBDD/SupabaseCliente.js';
+        import { supabase, getCurrentUser, getUserByEmail, getFormContactos, getContactoById, updateContacto, deleteContacto, SUPABASE_URL } from '../../controlador/BBDD/SupabaseCliente.js';
 
         let currentUser = null;
         let allContacts = [];
@@ -846,7 +846,7 @@
             document.getElementById('replyModal').style.display = 'block';
         };
 
-        window.sendReply = function() {
+        window.sendReply = async function() {
             const to = document.getElementById('replyTo').value;
             const subject = document.getElementById('replySubject').value;
             const message = document.getElementById('replyMessage').value;
@@ -856,12 +856,66 @@
                 return;
             }
 
-            // Abrir redacción en Gmail (web) con los datos prellenados
-            const gmailComposeUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(to)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
-            window.open(gmailComposeUrl, '_blank');
+            try {
+                // Obtener y refrescar la sesión actual
+                const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+                
+                if (sessionError || !session?.access_token) {
+                    console.error('sendReply: No hay sesión activa:', sessionError);
+                    alert('No hay sesión activa. Por favor, inicia sesión de nuevo.');
+                    return;
+                }
 
-            alert('Gmail abierto. Puedes enviar tu respuesta desde allí.');
-            closeModal('replyModal');
+                console.log('sendReply: Token obtenido, invocando Edge Function...');
+                console.log('sendReply: Token (primeros 20 chars):', session.access_token.substring(0, 20) + '...');
+                
+                // Verificar si el token está próximo a expirar
+                const now = Math.floor(Date.now() / 1000);
+                if (session.expires_at && session.expires_at < now) {
+                    console.error('sendReply: Token expirado, intentando refrescar...');
+                    const { data: refreshData, error: refreshError } = await supabase.auth.refreshSession();
+                    
+                    if (refreshError || !refreshData.session?.access_token) {
+                        console.error('sendReply: No se pudo refrescar el token:', refreshError);
+                        alert('Tu sesión ha expirado. Por favor, inicia sesión de nuevo.');
+                        return;
+                    }
+                    
+                    console.log('sendReply: Token refrescado correctamente');
+                }
+                
+                // Obtener la sesión actualizada (refrescada si era necesario)
+                const { data: { session: currentSession } } = await supabase.auth.getSession();
+                
+                // Usar fetch directamente para asegurar que se envíen los headers
+                const response = await fetch(`${SUPABASE_URL}/functions/v1/send-contact-reply`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${currentSession.access_token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        to,
+                        subject,
+                        body: message
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    console.error('sendReply: Error en respuesta:', data);
+                    alert(`Error al enviar el email: ${data.message || 'Error desconocido'}`);
+                    return;
+                }
+
+                console.log('sendReply: Email enviado:', data);
+                alert('Email enviado correctamente.');
+                closeModal('replyModal');
+            } catch (err) {
+                console.error('sendReply: Error inesperado:', err);
+                alert('Error inesperado al enviar el email.');
+            }
         };
 
         window.deleteContact = async function(contactId, email) {
