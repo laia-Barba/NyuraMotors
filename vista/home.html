@@ -19,7 +19,7 @@
     <header>
         <nav>
             <!-- Logo como imagen -->
-            <a href="home.html"><img src="../Imagenes/paginaInicio/logoN.png" alt="Nyura Motors" class="logo-img"></a>
+            <a href="home.html"><img src="../Imagenes/LogoBlancoNyura.png" alt="Nyura Motors" class="logo-img"></a>
             
             <ul>
                 <li><a href="home.html" class="active">Inicio</a></li>
@@ -41,7 +41,10 @@
                     <div class="carousel-3d-slide active" data-slide="0">
                         <div class="slide-content">
                             <div class="slide-image-wrapper">
-                                <img src="../Imagenes/paginaInicio/ThunderBE.png" alt="Nyura Motors - Thunder Black Edition">
+                                <video autoplay muted loop playsinline>
+                                    <source src="../Imagenes/paginaInicio/video1.mp4" type="video/mp4">
+                                    Tu navegador no soporta videos.
+                                </video>
                                 <div class="slide-overlay"></div>
                             </div>
                             <div class="slide-text">
@@ -58,7 +61,10 @@
                     <div class="carousel-3d-slide" data-slide="1">
                         <div class="slide-content">
                             <div class="slide-image-wrapper">
-                                <img src="../Imagenes/paginaInicio/Carrusel3.png" alt="Nyura Motors - Imagen 2">
+                                <video autoplay muted loop playsinline>
+                                    <source src="../Imagenes/paginaInicio/video2.mp4" type="video/mp4">
+                                    Tu navegador no soporta videos.
+                                </video>
                                 <div class="slide-overlay"></div>
                             </div>
                             <div class="slide-text">
@@ -76,13 +82,16 @@
                     <div class="carousel-3d-slide" data-slide="2">
                         <div class="slide-content">
                             <div class="slide-image-wrapper">
-                                <img src="../Imagenes/paginaInicio/generated-image (25) (1).png" alt="Nyura Motors - Imagen 3">
+                                <video autoplay muted loop playsinline>
+                                    <source src="../Imagenes/paginaInicio/video3.mp4" type="video/mp4">
+                                    Tu navegador no soporta videos.
+                                </video>
                                 <div class="slide-overlay"></div>
                             </div>
                             <div class="slide-text right-aligned">
-                                <h2 class="slide-title">DESCUBRE<br>NUESTRO ALTAMIRA</h2>
-                                <p class="slide-description">El compacto perfecto para terreno urbano</p>
-                                <div class="slide-price">Desde 23.645€</div>
+                                <h2 class="slide-title">DESCUBRE<br>NUESTRO VORTEK</h2>
+                                <p class="slide-description">El SUV perfecto para cualquier terreno</p>
+                                <div class="slide-price">Desde 27.780€</div>
                                 <div class="slide-cta">
                                     <button class="cta-button">Explorar</button>
                                 </div>
@@ -95,15 +104,15 @@
                         <div class="slide-content">
                             <div class="slide-image-wrapper">
                                 <video autoplay muted loop playsinline>
-                                    <source src="../Imagenes/paginaInicio/video1.mp4" type="video/mp4">
+                                    <source src="../Imagenes/paginaInicio/video4.mp4" type="video/mp4">
                                     Tu navegador no soporta videos.
                                 </video>
                                 <div class="slide-overlay"></div>
                             </div>
                             <div class="slide-text">
-                                <h2 class="slide-title">VEHÍCULOS<br>ELÉCTRICOS</h2>
-                                <p class="slide-description">El futuro de la movilidad sostenible<br>con cero emisiones</p>
-                                <div class="slide-price">Desde 28.990€</div>
+                                <h2 class="slide-title">NOVA SPORT</h2>
+                                <p class="slide-description">La berlina deportiva perfecta<br>para el día a día</p>
+                                <div class="slide-price">Desde 35.170€</div>
                                 <div class="slide-cta">
                                     <button class="cta-button">Explorar</button>
                                 </div>
@@ -116,15 +125,15 @@
                         <div class="slide-content">
                             <div class="slide-image-wrapper">
                                 <video autoplay muted loop playsinline>
-                                    <source src="../Imagenes/paginaInicio/video2.mp4" type="video/mp4">
+                                    <source src="../Imagenes/paginaInicio/video5.mp4" type="video/mp4">
                                     Tu navegador no soporta videos.
                                 </video>
                                 <div class="slide-overlay"></div>
                             </div>
                             <div class="slide-text right-aligned">
-                                <h2 class="slide-title">EXPERIENCIA<br>NYURA</h2>
-                                <p class="slide-description">Descubre la innovación y tecnología<br>en cada detalle</p>
-                                <div class="slide-price">Innovación sin límites</div>
+                                <h2 class="slide-title">TERRAMAR</h2>
+                                <p class="slide-description">El compacto perfecto para<br>la ciudad y escapadas</p>
+                                <div class="slide-price">Desde 23.900€</div>
                                 <div class="slide-cta">
                                     <button class="cta-button">Conocer más</button>
                                 </div>
@@ -157,23 +166,6 @@
                             <div class="indicator-progress"></div>
                         </button>
                     </div>
-                </div>
-                
-                <!-- Controles fuera del carrusel -->
-                <div class="carousel-controls-external">
-                    <button class="control-btn-external control-btn-prev" id="prevBtn" aria-label="Anterior">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M15 18l-6-6 6-6"/>
-                        </svg>
-                        <span class="control-label">Anterior</span>
-                    </button>
-                    
-                    <button class="control-btn-external control-btn-next" id="nextBtn" aria-label="Siguiente">
-                        <span class="control-label">Siguiente</span>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M9 18l6-6-6-6"/>
-                        </svg>
-                    </button>
                 </div>
             </div>
         </section>
@@ -529,18 +521,19 @@
                 this.stage = document.getElementById('carousel3dStage');
                 this.slides = document.querySelectorAll('.carousel-3d-slide');
                 this.indicators = document.querySelectorAll('.indicator-dot');
-                this.prevBtn = document.getElementById('prevBtn');
-                this.nextBtn = document.getElementById('nextBtn');
             }
             
             bindEvents() {
-                // Botones de navegación
-                this.prevBtn.addEventListener('click', () => this.moveCarousel(-1));
-                this.nextBtn.addEventListener('click', () => this.moveCarousel(1));
-                
-                // Indicadores
+                // Indicadores con auto-advance
                 this.indicators.forEach((indicator, index) => {
-                    indicator.addEventListener('click', () => this.goToSlide(index));
+                    indicator.addEventListener('click', () => {
+                        this.goToSlide(index);
+                        
+                        // Después de 4 segundos, avanzar automáticamente
+                        setTimeout(() => {
+                            this.moveCarousel(1);
+                        }, 4000);
+                    });
                 });
                 
                 // Pausar auto-play al hacer hover
@@ -585,25 +578,51 @@
                 
                 this.currentSlide += direction;
                 
-                // Ciclo infinito
+                // Ciclo infinito con validación
                 if (this.currentSlide < 0) {
                     this.currentSlide = this.totalSlides - 1;
                 } else if (this.currentSlide >= this.totalSlides) {
                     this.currentSlide = 0;
                 }
                 
-                this.updateCarousel();
+                // Asegurar que el slide actual sea válido
+                if (this.currentSlide >= 0 && this.currentSlide < this.totalSlides) {
+                    this.updateCarousel();
+                    
+                    // Reiniciar auto-play después de cambio manual
+                    this.stopAutoPlay();
+                    setTimeout(() => {
+                        this.startAutoPlay();
+                    }, 100);
+                }
             }
             
             goToSlide(slideIndex) {
                 if (this.isAnimating || slideIndex === this.currentSlide) return;
                 
-                this.currentSlide = slideIndex;
-                this.updateCarousel();
+                // Validar el índice
+                if (slideIndex >= 0 && slideIndex < this.totalSlides) {
+                    this.currentSlide = slideIndex;
+                    this.updateCarousel();
+                    
+                    // Reiniciar auto-play después de navegación manual
+                    this.stopAutoPlay();
+                    setTimeout(() => {
+                        this.startAutoPlay();
+                    }, 100);
+                }
             }
             
             updateCarousel() {
                 this.isAnimating = true;
+                
+                // Pausar todos los videos primero
+                this.slides.forEach((slide) => {
+                    const video = slide.querySelector('video');
+                    if (video) {
+                        video.pause();
+                    }
+                });
                 
                 // Actualizar clases de slides
                 this.slides.forEach((slide, index) => {
@@ -613,6 +632,13 @@
                         slide.classList.add('active');
                         // Reiniciar animaciones de texto para el slide activo
                         this.restartTextAnimations(slide);
+                        
+                        // Reiniciar video al principio y reproducir
+                        const video = slide.querySelector('video');
+                        if (video) {
+                            video.currentTime = 0;
+                            video.play().catch(e => console.log('Video play failed:', e));
+                        }
                     } else if (index === (this.currentSlide + 1) % this.totalSlides) {
                         slide.classList.add('next');
                     } else if (index === (this.currentSlide - 1 + this.totalSlides) % this.totalSlides) {
@@ -725,10 +751,19 @@
             }
             
             startAutoPlay() {
-                this.stopAutoPlay();
+                // Solo iniciar si no hay un intervalo activo
+                if (this.autoPlayInterval) {
+                    return;
+                }
+                
                 this.autoPlayInterval = setInterval(() => {
-                    this.moveCarousel(1);
-                }, 5000); // Cambiar cada 5 segundos
+                    // Verificar que el carrusel todavía existe y no está animando
+                    if (this.slides && this.slides.length > 0 && !this.isAnimating) {
+                        // Avanzar al siguiente slide
+                        this.currentSlide = (this.currentSlide + 1) % this.totalSlides;
+                        this.updateCarousel();
+                    }
+                }, 4000); // Cambiar cada 4 segundos
             }
             
             stopAutoPlay() {
@@ -745,6 +780,11 @@
             
             // Hacer el carrusel accesible globalmente
             window.carousel3d = carousel;
+            
+            // Iniciar auto-play después de la inicialización
+            setTimeout(() => {
+                carousel.startAutoPlay();
+            }, 1000);
         });
         
         // Funciones globales para compatibilidad
@@ -891,7 +931,43 @@
                 avatar: "../Imagenes/testimonios/laura.jpg",
                 text: "Seguridad, confort y sostenibilidad. Todo lo que buscaba.",
                 stars: 5
+            },
+            {
+                name: "Pedro Fernández",
+                role: "Ingeniero Mecánico",
+                avatar: "../Imagenes/testimonios/pedro.jpg",
+                text: "Sorprendido por la aceleración y suavidad del motor. Realmente redefine la conducción eléctrica.",
+                stars: 5
+            },
+            {
+                name: "Lucía Navarro",
+                role: "Diseñadora Gráfica",
+                avatar: "../Imagenes/testimonios/lucia.jpg",
+                text: "Cada detalle del interior transmite calidad y minimalismo. Es un placer conducirlo.",
+                stars: 5
+            },
+            {
+                name: "David Romero",
+                role: "Empresario",
+                avatar: "../Imagenes/testimonios/david.jpg",
+                text: "La carga rápida y el rendimiento en carretera son espectaculares. Un coche que marca tendencia.",
+                stars: 5
+            },
+            {
+                name: "Elena Pardo",
+                role: "Abogada",
+                avatar: "../Imagenes/testimonios/elena.jpg",
+                text: "Silencioso, cómodo y elegante. Perfecto para la ciudad y los viajes largos.",
+                stars: 5
+            },
+            {
+                name: "Sergio Ruiz",
+                role: "Profesor Universitario",
+                avatar: "../Imagenes/testimonios/sergio.jpg",
+                text: "El equilibrio entre innovación y diseño es impresionante. Sin duda, el futuro ya está aquí.",
+                stars: 5
             }
+            
         ];
 
         let currentTestimonialIndex = 0;
