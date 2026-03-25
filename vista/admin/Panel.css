@@ -42,6 +42,32 @@ body {
     padding: 2rem;
 }
 
+/* ==================== ESTILOS DEL GRÁFICO ==================== */
+.chart-section {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    margin: 2rem 0;
+    box-shadow: var(--shadow-light);
+}
+
+.chart-container {
+    position: relative;
+    height: 400px;
+    max-width: 100%;
+}
+
+@media (max-width: 768px) {
+    .chart-container {
+        height: 300px;
+    }
+    
+    .chart-section {
+        padding: 1.5rem;
+        margin: 1rem 0;
+    }
+}
+
 /* ==================== HEADER ==================== */
 header {
     position: fixed;
