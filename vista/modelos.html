@@ -13,7 +13,7 @@
     <header>
         <nav>
             <!-- Logo como imagen -->
-            <a href="home.html"><img src="../Imagenes/paginaInicio/logoN.png" alt="Nyura Motors" class="logo-img"></a>
+            <a href="home.html"><img src="../Imagenes/LogoBlancoNyura.png" alt="Nyura Motors" class="logo-img"></a>
             
             <ul>
                 <li><a href="home.html">Inicio</a></li>
@@ -30,7 +30,7 @@
         <!-- Título principal -->
         <div class="gama-hero">
             <h1>Nuestras Gamas</h1>
-            <p>Descubre la gama completa de vehículos Nyura Motors</p>
+            <p>En Nyura Motors, hemos revolucionado el concepto de movilidad con nuestra excepcional gama de vehículos. Cada modelo representa la perfecta fusión entre ingeniería de vanguardia, diseño audaz y compromiso con la sostenibilidad. Desde vehículos eléctricos que definen el futuro de la conducción urbana hasta supercars que desafían los límites de la física, nuestra colección ofrece opciones para cada conductor exigente. Descubre tecnología cuántica, materiales avanzados y un rendimiento que supera todas las expectativas.</p>
         </div>
         
         <!-- Filtros de gamas -->
@@ -65,7 +65,7 @@
                 </div>
             </div>
         </div>
-    </section>
+
 
     <main>
         <!-- Contenedor de vehículos -->
@@ -75,7 +75,6 @@
                 <div class="vehiculo-card" data-category="electrico" data-vehiculo="terramar">
                     <div class="vehiculo-image">
                         <img src="../Imagenes/Imagenesmodelos/Terramar.png" alt="Nyura Terramar">
-                        <span class="vehiculo-badge electrico">Eléctrico</span>
                     </div>
                     <div class="vehiculo-info">
                         <h3>Terramar</h3>
@@ -85,14 +84,17 @@
                             <span>0-100: 5.2s</span>
                             <span>Potencia: 300CV</span>
                         </div>
+                        <div class="vehiculo-cta">
+                            <button class="configurar-vehiculo-btn" data-gama="electrico" data-vehiculo="terramar">Configurar</button>
+                        </div>
                     </div>
+                    
                 </div>
 
                 <!-- Vehículos Combustión -->
                 <div class="vehiculo-card" data-category="combustion" data-vehiculo="nova">
                     <div class="vehiculo-image">
                         <img src="../Imagenes/Imagenesmodelos/Nova.png" alt="Nyura Nova">
-                        <span class="vehiculo-badge combustion">Combustión</span>
                     </div>
                     <div class="vehiculo-info">
                         <h3>Nova</h3>
@@ -102,6 +104,9 @@
                             <span>0-100: 8.5s</span>
                             <span>Potencia: 150CV</span>
                         </div>
+                        <div class="vehiculo-cta">
+                            <button class="configurar-vehiculo-btn" data-gama="combustion" data-vehiculo="nova">Configurar</button>
+                        </div>
                     </div>
                 </div>
 
@@ -109,7 +114,6 @@
                 <div class="vehiculo-card" data-category="sport" data-vehiculo="nova-sport">
                     <div class="vehiculo-image">
                         <img src="../Imagenes/Imagenesmodelos/NovaSport.png" alt="Nyura Nova Sport">
-                        <span class="vehiculo-badge sport">Sport R</span>
                     </div>
                     <div class="vehiculo-info">
                         <h3>Nova Sport</h3>
@@ -119,6 +123,9 @@
                             <span>Velocidad: 280km/h</span>
                             <span>Potencia: 450CV</span>
                         </div>
+                        <div class="vehiculo-cta">
+                            <button class="configurar-vehiculo-btn" data-gama="sport" data-vehiculo="nova-sport">Configurar</button>
+                        </div>
                     </div>
                 </div>
 
@@ -126,7 +133,6 @@
                 <div class="vehiculo-card" data-category="electrico" data-vehiculo="spark">
                     <div class="vehiculo-image">
                         <img src="../Imagenes/Imagenesmodelos/Spark.png" alt="Nyura Spark">
-                        <span class="vehiculo-badge electrico">Eléctrico</span>
                     </div>
                     <div class="vehiculo-info">
                         <h3>Spark</h3>
@@ -136,6 +142,9 @@
                             <span>0-100: 7.2s</span>
                             <span>Potencia: 120CV</span>
                         </div>
+                        <div class="vehiculo-cta">
+                            <button class="configurar-vehiculo-btn" data-gama="electrico" data-vehiculo="spark">Configurar</button>
+                        </div>
                     </div>
                 </div>
 
@@ -143,7 +152,6 @@
                 <div class="vehiculo-card" data-category="combustion" data-vehiculo="fusion">
                     <div class="vehiculo-image">
                         <img src="../Imagenes/Imagenesmodelos/Fusion.png" alt="Nyura Fusion">
-                        <span class="vehiculo-badge combustion">Combustión</span>
                     </div>
                     <div class="vehiculo-info">
                         <h3>Fusion</h3>
@@ -153,6 +161,9 @@
                             <span>0-100: 9.2s</span>
                             <span>Potencia: 180CV</span>
                         </div>
+                        <div class="vehiculo-cta">
+                            <button class="configurar-vehiculo-btn" data-gama="combustion" data-vehiculo="fusion">Configurar</button>
+                        </div>
                     </div>
                 </div>
 
@@ -160,18 +171,40 @@
                 <div class="vehiculo-card" data-category="sport" data-vehiculo="thunder">
                     <div class="vehiculo-image">
                         <img src="../Imagenes/Imagenesmodelos/Thunder.png" alt="Nyura Thunder">
-                        <span class="vehiculo-badge sport">Sport R</span>
                     </div>
                     <div class="vehiculo-info">
                         <h3>Thunder</h3>
                         <p>Supercar eléctrico con aceleración brutal y diseño agresivo</p>
                         <div class="vehiculo-specs">
-                            <span>0-100: 2.8s</span>
-                            <span>Velocidad: 350km/h</span>
-                            <span>Potencia: 800CV</span>
+                            <span>0-100: 4.8s</span>
+                            <span>Velocidad: 230km/h</span>
+                            <span>Potencia: 430CV</span>
+                        </div>
+                        <div class="vehiculo-cta">
+                            <button class="configurar-vehiculo-btn" data-gama="sport" data-vehiculo="thunder">Configurar</button>
                         </div>
                     </div>
                 </div>
+
+                <!-- Nuevo vehículo Sport R -->
+                <div class="vehiculo-card" data-category="sport" data-vehiculo="thunder-be">
+                    <div class="vehiculo-image">
+                        <img src="../Imagenes/Imagenesmodelos/ThunderBE.png" alt="Nyura Thunder Black Edition">
+                    </div>
+                    <div class="vehiculo-info">
+                        <h3>Thunder Black Edition</h3>
+                        <p>Hípercar eléctrico con tecnología cuántica y velocidad extrema</p>
+                        <div class="vehiculo-specs">
+                            <span>0-100: 2.3s</span>
+                            <span>Velocidad: 390km/h</span>
+                            <span>Potencia: 640CV</span>
+                        </div>
+                        <div class="vehiculo-cta">
+                            <button class="configurar-vehiculo-btn" data-gama="sport" data-vehiculo="thunder-be">Configurar</button>
+                        </div>
+                    </div>
+                </div>
+                
             </div>
         </section>
         </div>
@@ -394,6 +427,17 @@
                     mostrarDetalles(vehiculoId);
                 });
             });
+
+            // Botones de configurar (evitar que abra el modal al hacer click)
+            document.querySelectorAll('.configurar-vehiculo-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const gama = this.getAttribute('data-gama');
+                    const vehiculo = this.getAttribute('data-vehiculo');
+                    window.location.href = `Configurador3D.html?gama=${encodeURIComponent(gama)}&vehiculo=${encodeURIComponent(vehiculo)}`;
+                });
+            });
         });
 
         // Datos de vehículos
@@ -524,6 +568,9 @@
             actualizarIndicadorLateral(filtroInicial);
             actualizarColorHeader(filtroInicial);
             
+            // Aplicar degradados laterales iniciales
+            actualizarDegradadosLaterales(filtroInicial);
+            
             // Event listeners para los filtros
             botonesFiltro.forEach(button => {
                 button.addEventListener('click', function() {
@@ -538,13 +585,15 @@
                     
                     // Aplicar efecto visual
                     const gama = this.getAttribute('data-gama');
-                    aplicarEfectoGama(gama);
                     
                     // Actualizar color del header
                     actualizarColorHeader(gama);
                     
                     // Actualizar indicador lateral
                     actualizarIndicadorLateral(gama);
+                    
+                    // Actualizar degradados laterales del body
+                    actualizarDegradadosLaterales(gama);
                     
                     // Filtrar vehículos
                     filtrarVehiculos(filter);
@@ -563,6 +612,24 @@
                     header.classList.add('gama-combustion');
                 } else if (gama === 'sport') {
                     header.classList.add('gama-sport');
+                }
+                
+                // Actualizar degradados laterales del body
+                actualizarDegradadosLaterales(gama);
+            }
+            
+            // Función para actualizar los degradados laterales
+            function actualizarDegradadosLaterales(gama) {
+                const body = document.body;
+                // Remover todas las clases de gama del body
+                body.classList.remove('gama-electrica', 'gama-combustion', 'gama-sport');
+                // Añadir la clase correspondiente
+                if (gama === 'electrico') {
+                    body.classList.add('gama-electrica');
+                } else if (gama === 'combustion') {
+                    body.classList.add('gama-combustion');
+                } else if (gama === 'sport') {
+                    body.classList.add('gama-sport');
                 }
             }
             

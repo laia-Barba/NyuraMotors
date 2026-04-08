@@ -2,11 +2,13 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 
 
 
+
 // Configuración de Supabase
 
-const SUPABASE_URL = 'https://mwxfoiglrdvxmjpfpedp.supabase.co'
+export const SUPABASE_URL = 'https://mwxfoiglrdvxmjpfpedp.supabase.co'
 
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im13eGZvaWdscmR2eG1qcGZwZWRwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAyMTY3NjMsImV4cCI6MjA4NTc5Mjc2M30.PshDX7mDZ2FY5_PMGRHiyAwJLHPF73s_XGYYzL_oUo0'
+
 
 
 
@@ -1044,8 +1046,6 @@ export async function getModeloById(id) {
 
 }
 
-
-
 // COLORES
 
 export async function getColores() {
@@ -1057,14 +1057,83 @@ export async function getColores() {
 
 
 export async function getColorById(id) {
-
     const colores = await getData('colores', '*', { id });
-
     return colores.length > 0 ? colores[0] : null;
-
 }
 
+// FORM_CONTACTO
+export async function getFormContactos(estado = null, orderBy = 'desc') {
+    try {
+        console.log('getFormContactos: Obteniendo contactos con filtro:', estado, 'orden:', orderBy);
+        
+        let query = supabase
+            .from('form_contacto')
+            .select('*');
+        
+        // Aplicar filtro de estado si existe
+        if (estado) {
+            console.log('getFormContactos: Aplicando filtro estado:', estado);
+            query = query.eq('estado', estado);
+        }
+        
+        // Ordenar por fecha_registro según el parámetro orderBy
+        // 'asc' = ascendente (más antiguos primero)
+        // 'desc' = descendente (más nuevos primero)
+        const ascending = orderBy === 'asc';
+        query = query.order('fecha_registro', { ascending });
+        
+        const { data, error } = await query;
+        
+        console.log('getFormContactos: Respuesta:', { data, error });
+        
+        if (error) {
+            console.error('getFormContactos: Error:', error);
+            return [];
+        }
+        
+        console.log('getFormContactos: Contactos obtenidos:', data?.length || 0);
+        return data || [];
+        
+    } catch (error) {
+        console.error('getFormContactos: Error inesperado:', error);
+        return [];
+    }
+}
 
+export async function getContactoById(id) {
+    const contactos = await getData('form_contacto', '*', { id });
+    return contactos.length > 0 ? contactos[0] : null;
+}
+
+export async function updateContacto(id, updateData) {
+    try {
+        console.log('updateContacto: Actualizando contacto:', id, 'con datos:', updateData);
+        
+        // Usar Supabase directamente para evitar problemas de scope
+        const { data, error } = await supabase
+            .from('form_contacto')
+            .update(updateData)
+            .eq('id', id);
+        
+        console.log('updateContacto: Respuesta:', { data, error });
+        
+        if (error) {
+            console.error('updateContacto: Error:', error);
+            return { success: false, error: error.message };
+        }
+        
+        console.log('updateContacto: Contacto actualizado exitosamente');
+        return { success: true, data };
+        
+    } catch (error) {
+        console.error('updateContacto: Error inesperado:', error);
+        return { success: false, error: 'Error inesperado' };
+    }
+}
+
+export async function deleteContacto(id) {
+    return await deleteData('form_contacto', { id });
+}
 
 // LLANTAS
 
@@ -1149,39 +1218,9 @@ export async function getFeedbackByUser(userId) {
 
 }
 
-
-
-// FORM_CONTACTO
-
-export async function createFormContacto(contactData) {
-
-    return await insertData('form_contacto', contactData);
-
-}
-
-
-
-export async function getFormContactos(estado = null) {
-
-    if (estado) {
-
-        return await getData('form_contacto', '*', { estado });
-
-    }
-
-    return await getData('form_contacto', '*');
-
-}
-
-
-
 export async function updateFormContactoEstado(id, estado) {
-
     return await updateData('form_contacto', { estado }, { id });
-
 }
-
-
 
 // Función para obtener configuración completa con detalles
 

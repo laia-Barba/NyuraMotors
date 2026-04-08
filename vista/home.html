@@ -11,6 +11,7 @@
 </head>
 <body>
     <!-- Formas poligonales de fondo -->
+    <div class="polygon-background"></div>
     <div class="polygon-bg-1"></div>
     <div class="polygon-bg-2"></div>
     <div class="polygon-bg-3"></div>
@@ -18,7 +19,7 @@
     <header>
         <nav>
             <!-- Logo como imagen -->
-            <a href="home.html"><img src="../Imagenes/paginaInicio/logoN.png" alt="Nyura Motors" class="logo-img"></a>
+            <a href="home.html"><img src="../Imagenes/LogoBlancoNyura.png" alt="Nyura Motors" class="logo-img"></a>
             
             <ul>
                 <li><a href="home.html" class="active">Inicio</a></li>
@@ -31,81 +32,183 @@
     </header>
 
     <main>
-        <!-- Carrusel -->
-        <section class="carousel-section">
-            <div class="carousel-container">
-                <button class="carousel-btn carousel-btn-left" onclick="moveCarousel(-1)" aria-label="Anterior">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
-                        <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
-                    </svg>
-                </button>
-                
-                <div class="carousel-track">
-                    <div class="carousel-slide active">
-                        <img src="../Imagenes/paginaInicio/Carrusel1p.png" alt="Nyura Motors - Imagen 1">
+        <!-- Carrusel Único 3D -->
+        <section class="carousel-unique-section">
+            <!-- Contenedor principal 3D -->
+            <div class="carousel-3d-container">
+                <div class="carousel-3d-stage" id="carousel3dStage">
+                    <!-- Slide 1 -->
+                    <div class="carousel-3d-slide active" data-slide="0">
+                        <div class="slide-content">
+                            <div class="slide-image-wrapper">
+                                <video autoplay muted loop playsinline>
+                                    <source src="../Imagenes/paginaInicio/video1.mp4" type="video/mp4">
+                                    Tu navegador no soporta videos.
+                                </video>
+                                <div class="slide-overlay"></div>
+                            </div>
+                            <div class="slide-text">
+                                <h2 class="slide-title">THUNDER BLACK EDITION</h2>
+                                <p class="slide-description">Exclusividad. Precisión. Adrenalina.<br>Limitada a 50 unidades</p>
+                                <div class="slide-cta">
+                                    <button class="cta-button">Descubrir</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="carousel-slide">
-                        <img src="../Imagenes/paginaInicio/Carrusel2p.png" alt="Nyura Motors - Imagen 2">
+                    
+                    <!-- Slide 2 -->
+                    <div class="carousel-3d-slide" data-slide="1">
+                        <div class="slide-content">
+                            <div class="slide-image-wrapper">
+                                <video autoplay muted loop playsinline>
+                                    <source src="../Imagenes/paginaInicio/video2.mp4" type="video/mp4">
+                                    Tu navegador no soporta videos.
+                                </video>
+                                <div class="slide-overlay"></div>
+                            </div>
+                            <div class="slide-text">
+                                <h2 class="slide-title">NUEVO<br>NYURA NOVA SPORT</h2>
+                                <p class="slide-description">Conoce la emoción de la deportividad con<br>nuestro Nyura Nova Sport</p>
+                                <div class="slide-price">Desde 34.490€</div>
+                                <div class="slide-cta">
+                                    <button class="cta-button">Descubrir</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="carousel-slide">
-                        <img src="../Imagenes/paginaInicio/Carrusel5.png" alt="Nyura Motors - Imagen 3">
+                    
+                    <!-- Slide 3 -->
+                    <div class="carousel-3d-slide" data-slide="2">
+                        <div class="slide-content">
+                            <div class="slide-image-wrapper">
+                                <video autoplay muted loop playsinline>
+                                    <source src="../Imagenes/paginaInicio/video3.mp4" type="video/mp4">
+                                    Tu navegador no soporta videos.
+                                </video>
+                                <div class="slide-overlay"></div>
+                            </div>
+                            <div class="slide-text right-aligned">
+                                <h2 class="slide-title">DESCUBRE<br>NUESTRO VORTEK</h2>
+                                <p class="slide-description">El SUV perfecto para cualquier terreno</p>
+                                <div class="slide-price">Desde 27.780€</div>
+                                <div class="slide-cta">
+                                    <button class="cta-button">Explorar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Slide 4 -->
+                    <div class="carousel-3d-slide" data-slide="3">
+                        <div class="slide-content">
+                            <div class="slide-image-wrapper">
+                                <video autoplay muted loop playsinline>
+                                    <source src="../Imagenes/paginaInicio/video4.mp4" type="video/mp4">
+                                    Tu navegador no soporta videos.
+                                </video>
+                                <div class="slide-overlay"></div>
+                            </div>
+                            <div class="slide-text">
+                                <h2 class="slide-title">NOVA SPORT</h2>
+                                <p class="slide-description">La berlina deportiva perfecta<br>para el día a día</p>
+                                <div class="slide-price">Desde 35.170€</div>
+                                <div class="slide-cta">
+                                    <button class="cta-button">Explorar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Slide 5 -->
+                    <div class="carousel-3d-slide" data-slide="4">
+                        <div class="slide-content">
+                            <div class="slide-image-wrapper">
+                                <video autoplay muted loop playsinline>
+                                    <source src="../Imagenes/paginaInicio/video5.mp4" type="video/mp4">
+                                    Tu navegador no soporta videos.
+                                </video>
+                                <div class="slide-overlay"></div>
+                            </div>
+                            <div class="slide-text right-aligned">
+                                <h2 class="slide-title">TERRAMAR</h2>
+                                <p class="slide-description">El compacto perfecto para<br>la ciudad y escapadas</p>
+                                <div class="slide-price">Desde 23.900€</div>
+                                <div class="slide-cta">
+                                    <button class="cta-button">Conocer más</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
-                <button class="carousel-btn carousel-btn-right" onclick="moveCarousel(1)" aria-label="Siguiente">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
-                        <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
-                    </svg>
-                </button>
-            </div>
-            
-            <!-- Indicadores -->
-            <div class="carousel-indicators">
-                <button class="indicator active" onclick="goToSlide(0)" aria-label="Ir a slide 1"></button>
-                <button class="indicator" onclick="goToSlide(1)" aria-label="Ir a slide 2"></button>
-                <button class="indicator" onclick="goToSlide(2)" aria-label="Ir a slide 3"></button>
+                <!-- Indicadores únicos -->
+                <div class="carousel-indicators-unique">
+                    <div class="indicator-track">
+                        <button class="indicator-dot active" data-slide="0">
+                            <span class="indicator-number">01</span>
+                            <div class="indicator-progress"></div>
+                        </button>
+                        <button class="indicator-dot" data-slide="1">
+                            <span class="indicator-number">02</span>
+                            <div class="indicator-progress"></div>
+                        </button>
+                        <button class="indicator-dot" data-slide="2">
+                            <span class="indicator-number">03</span>
+                            <div class="indicator-progress"></div>
+                        </button>
+                        <button class="indicator-dot" data-slide="3">
+                            <span class="indicator-number">04</span>
+                            <div class="indicator-progress"></div>
+                        </button>
+                        <button class="indicator-dot" data-slide="4">
+                            <span class="indicator-number">05</span>
+                            <div class="indicator-progress"></div>
+                        </button>
+                    </div>
+                </div>
             </div>
         </section>
         
         <!-- Sección de Gamas -->
         <section class="modelos-section">
             <div class="modelos-container">
-                <h1 class="modelos-title">Gamas</h1>
+                <h1 class="modelos-title reveal fade-up-reveal">Gamas</h1>
                 <div class="modelos-intro">
                     <div class="modelos-description">
-                        <p>En Nyura Motors, hemos creado cada gama con un propósito específico: innovar la forma en que te mueves.</p>
-                        <p>Desde la eficiencia eléctrica hasta el rendimiento deportivo, cada vehículo representa nuestro compromiso con la excelencia, la sostenibilidad y el futuro de la movilidad.</p>
+                        <p class="reveal fade-up-reveal">En <strong>Nyura Motors</strong>, cada gama es una obra maestra de la ingeniería, diseñada para redefinir tu experiencia de conducción.</p>
+                        <p class="reveal fade-up-reveal">Desde la <em>innovación eléctrica</em> hasta el <em>rendimiento supremo</em>, cada vehículo encarna nuestro compromiso inquebrantable con la <strong>excelencia</strong>, la <strong>sostenibilidad</strong> y el <strong>futuro</strong> de la movilidad.</p>
                     </div>
                 </div>
                 <div class="modelos-grid">
                     <!-- Gama Eléctrica -->
                     <a href="modelos.html?filter=electrico" class="modelo-card">
                         <div class="modelo-image">
-                            <img src="../Imagenes/gamas/electrico.png" alt="Gama Eléctrica">
+                            <img class="reveal scale-reveal" src="../Imagenes/gamas/electrico.png" alt="Gama Eléctrica">
                         </div>
                         <div class="modelo-info">
-                            <h3>Eléctrico</h3>
-                            <p>Vehículos 100% eléctricos</p>
+                            <h3 class="reveal fade-up-reveal">Eléctrico</h3>
+                            <p class="reveal fade-up-reveal">Vehículos 100% eléctricos</p>
                         </div>
                     </a>
                     <!-- Gama Combustión -->
                     <a href="modelos.html?filter=combustion" class="modelo-card">
                         <div class="modelo-image">
-                            <img src="../Imagenes/gamas/combustion.png" alt="Gama Combustión">
+                            <img class="reveal scale-reveal" src="../Imagenes/gamas/combustion.png" alt="Gama Combustión">
                         </div>
                         <div class="modelo-info">
-                            <h3>Combustión</h3>
-                            <p>Motores de gasolina eficientes</p>
+                            <h3 class="reveal fade-up-reveal">Combustión</h3>
+                            <p class="reveal fade-up-reveal">Motores de gasolina eficientes</p>
                         </div>
                     </a>
                     <!-- Gama R -->
                     <a href="modelos.html?filter=sport" class="modelo-card">
                         <div class="modelo-image">
-                            <img src="../Imagenes/gamas/R.png" alt="Gama R">
+                            <img class="reveal rotate-3d-reveal" src="../Imagenes/gamas/R.png" alt="Gama R">
                         </div>
                         <div class="modelo-info">
-                            <h3>Sport R</h3>
-                            <p>Deportivos de altas prestaciones</p>
+                            <h3 class="reveal fade-up-reveal">Sport R</h3>
+                            <p class="reveal fade-up-reveal">Deportivos de altas prestaciones</p>
                         </div>
                     </a>
                 </div>
@@ -117,16 +220,16 @@
             <div class="quienes-somos-container">
                 <div class="quienes-somos-content">
                     <div class="quienes-somos-text">
-                        <h2>Quienes Somos</h2>
-                        <p class="subtitle">El Futuro de la Movilidad</p>
-                        <p class="description">
+                        <h2 class="reveal fade-up-reveal">Quienes Somos</h2>
+                        <p class="subtitle reveal fade-up-reveal">El Futuro de la Movilidad</p>
+                        <p class="description reveal fade-up-reveal">
                             En Nyura Motors, estamos revolucionando el mundo del automóvil con vehículos eléctricos que combinan 
                             diseño innovador, rendimiento superior y tecnología de punta. Nuestra misión es liderar la 
                             transición hacia una movilidad sostenible sin comprometer la pasión por la conducción. 
                             Como empresa Española, orgullosamente desarrollamos cada vehículo, fusionando 
                             la tradición industrial de nuestra región con la innovación más vanguardista.
                         </p>
-                        <p class="description">
+                        <p class="description reveal fade-up-reveal">
                             Fundamos Nyura Motors con una visión clara: crear vehículos que no solo respeten el medio ambiente, 
                             sino que también ofrezcan una experiencia de conducción emocionante y premium. Cada modelo que 
                             diseñamos representa el compromiso con la excelencia, la sostenibilidad y la innovación tecnológica 
@@ -135,7 +238,7 @@
                         
                     </div>
                     <div class="quienes-somos-image">
-                        <img src="../Imagenes/paginaInicio/equipoNyura.jpg" alt="Equipo Nyura Motors">
+                        <video class="reveal zoom-blur-reveal" src="../Imagenes/paginaInicio/QuienesSomos.mp4" alt="Equipo Nyura Motors" autoplay loop muted></video>
                     </div>
                 </div>
             </div>
@@ -146,25 +249,25 @@
             <div class="tech-container">
                 <div class="tech-content">
                     <div class="tech-text">
-                        <h1 class="modelos-title">Tecnología de Vanguardia</h1>
-                        <p class="tech-subtitle">Innovación que redefine la experiencia de conducción</p>
-                        <p class="tech-description">
+                        <h1 class="modelos-title reveal fade-up-reveal">Tecnología de Vanguardia</h1>
+                        <p class="tech-subtitle reveal fade-up-reveal">Innovación que redefine la experiencia de conducción</p>
+                        <p class="tech-description reveal fade-up-reveal">
                             En Nyura Motors, desarrollamos tecnología punta que transforma cada viaje en una experiencia extraordinaria. 
                             Nuestros vehículos integran los sistemas más avanzados de batería, inteligencia artificial y conectividad, 
                             garantizando un rendimiento superior y una conducción intuitiva que se adapta a ti.
                         </p>
-                        <p class="tech-description">
+                        <p class="tech-description reveal fade-up-reveal">
                             Cada componente está diseñado con precisión suiza y pasión catalana, combinando la máxima eficiencia 
                             con el lujo y la seguridad que mereces. La innovación está en nuestro ADN, impulsando el futuro 
                             de la movilidad sostenible sin comprometer el rendimiento.
                         </p>
-                        <p class="tech-description">
+                        <p class="tech-description reveal fade-up-reveal">
                             Los vehículos Nyura Motors destacan por su Batería de Larga Duración que ofrece hasta 600 km de autonomía 
                             con carga rápida en solo 15 minutos, IA Integrada con aprendizaje adaptativo y conducción asistida, Conectividad Total mediante control remoto y actualizaciones OTA desde smartphone, y Seguridad Activa con sistema preventivo de visión 360° y detección inteligente.
                         </p>
                     </div>
                     <div class="tech-image">
-                        <img src="../Imagenes/paginaInicio/tecnologias.png" alt="Tecnología Nyura Motors">
+                        <video class="reveal rotate-3d-reveal" src="../Imagenes/paginaInicio/tecnologia.mp4" alt="Tecnología Nyura Motors" autoplay loop muted></video>
                     </div>
                 </div>
             </div>
@@ -357,7 +460,7 @@
         });
     </script>
 
-    <!-- Script del carrusel -->
+    <!-- JavaScript del Carrusel Único 3D -->
     <script>
         // Función global para scroll a modelos (desde cualquier página)
         function scrollToModelos() {
@@ -366,7 +469,10 @@
                 // Scroll suave a la sección de modelos con margen
                 const modelosSection = document.querySelector('.modelos-section');
                 if (modelosSection) {
-                    const sectionTop = modelosSection.offsetTop - 100; // 100px arriba del borde
+                    const header = document.querySelector('header');
+                    const headerHeight = header ? header.getBoundingClientRect().height : 0;
+                    const extraDownOffset = 60;
+                    const sectionTop = (modelosSection.getBoundingClientRect().top + window.scrollY) - headerHeight + extraDownOffset;
                     window.scrollTo({
                         top: sectionTop,
                         behavior: 'smooth'
@@ -393,72 +499,247 @@
             }
         });
 
-        let currentSlide = 0;
-        const totalSlides = 3;
+        // Carrusel determinista (misma UI / mismo CSS)
+        class Carousel3D {
+            constructor() {
+                this.delayMs = 4000;
+                this.animMs = 1200;
 
-        function moveCarousel(direction) {
-            console.log('moveCarousel called with direction:', direction);
-            currentSlide += direction;
-            
-            // Ciclo infinito
-            if (currentSlide < 0) {
-                currentSlide = totalSlides - 1;
-            } else if (currentSlide >= totalSlides) {
-                currentSlide = 0;
+                this.stage = null;
+                this.slides = [];
+                this.indicators = [];
+
+                this.totalSlides = 0;
+                this.activeIndex = 0;
+                this.animating = false;
+                this.queuedIndex = null;
+
+                this.paused = false;
+                this.lastChangeAt = 0;
+                this.timerId = null;
+
+                this.touchStartX = 0;
+
+                this.init();
             }
-            
-            console.log('New currentSlide:', currentSlide);
-            updateCarousel();
-        }
 
-        function goToSlide(slideIndex) {
-            currentSlide = slideIndex;
-            updateCarousel();
-        }
+            init() {
+                this.setupElements();
+                this.bindEvents();
+                this.setSlide(0, true);
+                this.lastChangeAt = performance.now();
+                this.start();
+            }
 
-        function updateCarousel() {
-            const track = document.querySelector('.carousel-track');
-            const slides = document.querySelectorAll('.carousel-slide');
-            const indicators = document.querySelectorAll('.indicator');
-            
-            // Mover el track - ahora es 33.333% por slide
-            track.style.transform = `translateX(-${currentSlide * 33.333}%)`;
-            
-            // Actualizar clases active
-            slides.forEach((slide, index) => {
-                slide.classList.toggle('active', index === currentSlide);
-            });
-            
-            indicators.forEach((indicator, index) => {
-                indicator.classList.toggle('active', index === currentSlide);
-            });
-        }
+            setupElements() {
+                this.stage = document.getElementById('carousel3dStage');
+                this.slides = Array.from(document.querySelectorAll('.carousel-3d-slide'));
+                this.indicators = Array.from(document.querySelectorAll('.indicator-dot'));
+                this.totalSlides = this.slides.length;
 
-        // Auto-avance opcional (cada 2 segundos)
-        let autoPlayInterval;
+                // Evitar que los videos se repitan por su cuenta
+                this.slides.forEach((slide) => {
+                    const video = slide.querySelector('video');
+                    if (!video) return;
+
+                    video.loop = false;
+                    video.playsInline = true;
+                    video.addEventListener('ended', () => {
+                        // Solo avanzar si el slide que terminó sigue siendo el activo
+                        if (slide.classList.contains('active')) {
+                            this.moveCarousel(1);
+                        }
+                    });
+                });
+            }
+
+            bindEvents() {
+                this.indicators.forEach((indicator, index) => {
+                    indicator.addEventListener('click', () => this.goToSlide(index));
+                });
+
+                if (this.stage) {
+                    this.stage.addEventListener('mouseenter', () => this.pause());
+                    this.stage.addEventListener('mouseleave', () => this.resume());
+
+                    this.stage.addEventListener('touchstart', (e) => {
+                        this.touchStartX = e.changedTouches[0].screenX;
+                    }, { passive: true });
+
+                    this.stage.addEventListener('touchend', (e) => {
+                        const endX = e.changedTouches[0].screenX;
+                        this.handleSwipe(this.touchStartX, endX);
+                    }, { passive: true });
+                }
+
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowLeft') this.moveCarousel(-1);
+                    if (e.key === 'ArrowRight') this.moveCarousel(1);
+                });
+            }
+
+            handleSwipe(startX, endX) {
+                const swipeThreshold = 50;
+                const diff = startX - endX;
+                if (Math.abs(diff) > swipeThreshold) {
+                    this.moveCarousel(diff > 0 ? 1 : -1);
+                }
+            }
+
+            start() {
+                if (this.timerId) return;
+
+                const schedule = () => {
+                    this.timerId = window.setTimeout(() => {
+                        this.timerId = null;
+
+                        if (!this.paused && !this.animating && this.totalSlides > 1) {
+                            const now = performance.now();
+                            if (now - this.lastChangeAt >= this.delayMs) {
+                                this.setSlide((this.activeIndex + 1) % this.totalSlides);
+                            }
+                        }
+
+                        schedule();
+                    }, 100);
+                };
+
+                schedule();
+            }
+
+            stop() {
+                if (this.timerId) {
+                    clearTimeout(this.timerId);
+                    this.timerId = null;
+                }
+            }
+
+            pause() {
+                this.paused = true;
+            }
+
+            resume() {
+                this.paused = false;
+                // reiniciar contador para que no avance instantáneamente al volver
+                this.lastChangeAt = performance.now();
+            }
+
+            moveCarousel(direction) {
+                if (this.totalSlides <= 1) return;
+                const next = (this.activeIndex + direction + this.totalSlides) % this.totalSlides;
+                this.setSlide(next);
+            }
+
+            goToSlide(index) {
+                if (index < 0 || index >= this.totalSlides) return;
+                this.setSlide(index);
+            }
+
+            setSlide(index, immediate = false) {
+                if (this.totalSlides <= 0) return;
+                if (index === this.activeIndex && !immediate) {
+                    // aunque pidan el mismo, reiniciamos el contador para evitar doble avance
+                    this.lastChangeAt = performance.now();
+                    return;
+                }
+
+                if (this.animating && !immediate) {
+                    this.queuedIndex = index;
+                    return;
+                }
+
+                this.animating = true;
+                this.queuedIndex = null;
+
+                const prevIndex = this.activeIndex;
+                this.activeIndex = index;
+                this.lastChangeAt = performance.now();
+
+                // Pausar todos los videos excepto el activo
+                this.slides.forEach((slide, i) => {
+                    const video = slide.querySelector('video');
+                    if (video) {
+                        if (i === this.activeIndex) return;
+                        video.pause();
+                    }
+                });
+
+                // Clases active/next/prev
+                this.slides.forEach((slide, i) => {
+                    slide.classList.remove('active', 'next', 'prev');
+                    if (i === this.activeIndex) {
+                        slide.classList.add('active');
+                    } else if (i === (this.activeIndex + 1) % this.totalSlides) {
+                        slide.classList.add('next');
+                    } else if (i === (this.activeIndex - 1 + this.totalSlides) % this.totalSlides) {
+                        slide.classList.add('prev');
+                    }
+                });
+
+                // Indicadores
+                this.indicators.forEach((indicator, i) => {
+                    indicator.classList.toggle('active', i === this.activeIndex);
+                });
+
+                // Video activo: reiniciar y play
+                const activeSlide = this.slides[this.activeIndex];
+                if (activeSlide) {
+                    const video = activeSlide.querySelector('video');
+                    if (video) {
+                        try {
+                            video.pause();
+                            video.currentTime = 0;
+                            video.loop = false;
+                            const p = video.play();
+                            if (p && typeof p.catch === 'function') {
+                                p.catch(() => {});
+                            }
+                        } catch (_) {}
+                    }
+                }
+
+                // Terminar animación
+                const end = () => {
+                    this.animating = false;
+                    if (this.queuedIndex !== null && this.queuedIndex !== this.activeIndex) {
+                        const q = this.queuedIndex;
+                        this.queuedIndex = null;
+                        this.setSlide(q);
+                    }
+                };
+
+                if (immediate) {
+                    this.animating = false;
+                    return;
+                }
+
+                // Asegurar desbloqueo incluso si hay cambios rápidos
+                window.setTimeout(end, this.animMs);
+            }
+        }
         
-        function startAutoPlay() {
-            console.log('Starting autoplay with 2 second interval');
-            autoPlayInterval = setInterval(() => {
-                console.log('Autoplay tick - moving carousel');
-                moveCarousel(1);
-            }, 5000); // Cambiado a 5 segundos
-        }
-        
-        function stopAutoPlay() {
-            clearInterval(autoPlayInterval);
-        }
-
-        // Pausar auto-play cuando el usuario interactúa
-        document.addEventListener('DOMContentLoaded', function() {
-            const container = document.querySelector('.carousel-container');
+        // Inicializar carrusel cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', () => {
+            const carousel = new Carousel3D();
             
-            container.addEventListener('mouseenter', stopAutoPlay);
-            container.addEventListener('mouseleave', startAutoPlay);
+            // Hacer el carrusel accesible globalmente
+            window.carousel3d = carousel;
+            
+            // El auto-play ya se inicia dentro de init()
         });
         
-        // Iniciar auto-play inmediatamente
-        startAutoPlay();
+        // Funciones globales para compatibilidad
+        function moveCarousel(direction) {
+            if (window.carousel3d) {
+                window.carousel3d.moveCarousel(direction);
+            }
+        }
+        
+        function goToSlide(index) {
+            if (window.carousel3d) {
+                window.carousel3d.goToSlide(index);
+            }
+        }
     </script>
 
     <script>
@@ -470,6 +751,87 @@
             } else {
                 header.classList.remove('scrolled');
             }
+        });
+    </script>
+
+    <script>
+        class ScrollRevealSystem {
+            constructor() {
+                this.observer = null;
+                this.lastScrollY = window.scrollY;
+                this.direction = 'down';
+                this.init();
+            }
+
+            init() {
+                this.bindScrollDirection();
+                this.setupSequentialDelays();
+                this.setupObserver();
+            }
+
+            bindScrollDirection() {
+                window.addEventListener('scroll', () => {
+                    const current = window.scrollY;
+                    this.direction = current > this.lastScrollY ? 'down' : 'up';
+                    this.lastScrollY = current;
+                }, { passive: true });
+            }
+
+            setupSequentialDelays() {
+                const main = document.querySelector('main');
+                if (!main) return;
+
+                const modelosSection = main.querySelector('.modelos-section');
+                const quienesSection = main.querySelector('.quienes-somos-section');
+                const techSection = main.querySelector('.tech-section');
+
+                [modelosSection, quienesSection, techSection].forEach((section) => {
+                    if (!section) return;
+                    const items = section.querySelectorAll('.reveal');
+                    items.forEach((el, idx) => {
+                        const delay = Math.min(idx * 60, 600);
+                        el.style.setProperty('--reveal-delay', `${delay}ms`);
+                    });
+                });
+            }
+
+            setupObserver() {
+                const main = document.querySelector('main');
+                if (!main) return;
+
+                const startSection = main.querySelector('.modelos-section');
+                if (!startSection) return;
+
+                const candidates = Array.from(main.querySelectorAll('.reveal'));
+                const startTop = startSection.getBoundingClientRect().top + window.scrollY;
+                const elements = candidates.filter((el) => {
+                    const top = el.getBoundingClientRect().top + window.scrollY;
+                    return top >= startTop;
+                });
+
+                this.observer = new IntersectionObserver((entries) => {
+                    entries.forEach((entry) => {
+                        const el = entry.target;
+                        if (entry.isIntersecting) {
+                            el.classList.add('is-visible');
+                        } else {
+                            if (this.direction === 'up') {
+                                el.classList.remove('is-visible');
+                            }
+                        }
+                    });
+                }, {
+                    root: null,
+                    threshold: 0.15,
+                    rootMargin: '0px 0px -5% 0px'
+                });
+
+                elements.forEach((el) => this.observer.observe(el));
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            new ScrollRevealSystem();
         });
     </script>
 
@@ -510,7 +872,43 @@
                 avatar: "../Imagenes/testimonios/laura.jpg",
                 text: "Seguridad, confort y sostenibilidad. Todo lo que buscaba.",
                 stars: 5
+            },
+            {
+                name: "Pedro Fernández",
+                role: "Ingeniero Mecánico",
+                avatar: "../Imagenes/testimonios/pedro.jpg",
+                text: "Sorprendido por la aceleración y suavidad del motor. Realmente redefine la conducción eléctrica.",
+                stars: 5
+            },
+            {
+                name: "Lucía Navarro",
+                role: "Diseñadora Gráfica",
+                avatar: "../Imagenes/testimonios/lucia.jpg",
+                text: "Cada detalle del interior transmite calidad y minimalismo. Es un placer conducirlo.",
+                stars: 5
+            },
+            {
+                name: "David Romero",
+                role: "Empresario",
+                avatar: "../Imagenes/testimonios/david.jpg",
+                text: "La carga rápida y el rendimiento en carretera son espectaculares. Un coche que marca tendencia.",
+                stars: 5
+            },
+            {
+                name: "Elena Pardo",
+                role: "Abogada",
+                avatar: "../Imagenes/testimonios/elena.jpg",
+                text: "Silencioso, cómodo y elegante. Perfecto para la ciudad y los viajes largos.",
+                stars: 5
+            },
+            {
+                name: "Sergio Ruiz",
+                role: "Profesor Universitario",
+                avatar: "../Imagenes/testimonios/sergio.jpg",
+                text: "El equilibrio entre innovación y diseño es impresionante. Sin duda, el futuro ya está aquí.",
+                stars: 5
             }
+            
         ];
 
         let currentTestimonialIndex = 0;
@@ -599,6 +997,53 @@
             // Mostrar un nuevo testimonio cada 20 segundos
             notificationInterval = setInterval(showTestimonial, 20000);
         }, 3000);
+    </script>
+<!-- JavaScript para Degradados Laterales de Gamas -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const body = document.body;
+            const gamaCards = document.querySelectorAll('.modelo-card');
+            
+            // Función para actualizar degradados laterales
+            function actualizarDegradadosLaterales(gama) {
+                // Remover todas las clases de gama
+                body.classList.remove('gama-electrica', 'gama-combustion', 'gama-sport');
+                
+                // Añadir la clase correspondiente
+                if (gama === 'electrico') {
+                    body.classList.add('gama-electrica');
+                } else if (gama === 'combustion') {
+                    body.classList.add('gama-combustion');
+                } else if (gama === 'sport') {
+                    body.classList.add('gama-sport');
+                }
+            }
+            
+            // Event listeners para hover en las tarjetas de gama
+            gamaCards.forEach(card => {
+                const href = card.getAttribute('href');
+                let gama = '';
+                
+                // Extraer la gama del href
+                if (href.includes('electrico')) {
+                    gama = 'electrico';
+                } else if (href.includes('combustion')) {
+                    gama = 'combustion';
+                } else if (href.includes('sport')) {
+                    gama = 'sport';
+                }
+                
+                // Hover: aplicar degradado
+                card.addEventListener('mouseenter', function() {
+                    actualizarDegradadosLaterales(gama);
+                });
+                
+                // Mouse leave: remover degradado
+                card.addEventListener('mouseleave', function() {
+                    body.classList.remove('gama-electrica', 'gama-combustion', 'gama-sport');
+                });
+            });
+        });
     </script>
 </body>
 </html>
