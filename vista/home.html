@@ -499,278 +499,222 @@
             }
         });
 
-        // Sistema avanzado de carrusel 3D
+        // Carrusel determinista (misma UI / mismo CSS)
         class Carousel3D {
             constructor() {
-                this.currentSlide = 0;
-                this.totalSlides = 5;
-                this.isAnimating = false;
-                this.autoPlayInterval = null;
-                
+                this.delayMs = 4000;
+                this.animMs = 1200;
+
+                this.stage = null;
+                this.slides = [];
+                this.indicators = [];
+
+                this.totalSlides = 0;
+                this.activeIndex = 0;
+                this.animating = false;
+                this.queuedIndex = null;
+
+                this.paused = false;
+                this.lastChangeAt = 0;
+                this.timerId = null;
+
+                this.touchStartX = 0;
+
                 this.init();
             }
-            
+
             init() {
                 this.setupElements();
                 this.bindEvents();
-                this.updateCarousel();
-                this.startAutoPlay();
+                this.setSlide(0, true);
+                this.lastChangeAt = performance.now();
+                this.start();
             }
-            
+
             setupElements() {
                 this.stage = document.getElementById('carousel3dStage');
-                this.slides = document.querySelectorAll('.carousel-3d-slide');
-                this.indicators = document.querySelectorAll('.indicator-dot');
-            }
-            
-            bindEvents() {
-                // Indicadores con auto-advance
-                this.indicators.forEach((indicator, index) => {
-                    indicator.addEventListener('click', () => {
-                        this.goToSlide(index);
-                        
-                        // Después de 4 segundos, avanzar automáticamente
-                        setTimeout(() => {
+                this.slides = Array.from(document.querySelectorAll('.carousel-3d-slide'));
+                this.indicators = Array.from(document.querySelectorAll('.indicator-dot'));
+                this.totalSlides = this.slides.length;
+
+                // Evitar que los videos se repitan por su cuenta
+                this.slides.forEach((slide) => {
+                    const video = slide.querySelector('video');
+                    if (!video) return;
+
+                    video.loop = false;
+                    video.playsInline = true;
+                    video.addEventListener('ended', () => {
+                        // Solo avanzar si el slide que terminó sigue siendo el activo
+                        if (slide.classList.contains('active')) {
                             this.moveCarousel(1);
-                        }, 4000);
+                        }
                     });
                 });
-                
-                // Pausar auto-play al hacer hover
-                this.stage.addEventListener('mouseenter', () => this.stopAutoPlay());
-                this.stage.addEventListener('mouseleave', () => this.startAutoPlay());
-                
-                // Navegación con teclado
+            }
+
+            bindEvents() {
+                this.indicators.forEach((indicator, index) => {
+                    indicator.addEventListener('click', () => this.goToSlide(index));
+                });
+
+                if (this.stage) {
+                    this.stage.addEventListener('mouseenter', () => this.pause());
+                    this.stage.addEventListener('mouseleave', () => this.resume());
+
+                    this.stage.addEventListener('touchstart', (e) => {
+                        this.touchStartX = e.changedTouches[0].screenX;
+                    }, { passive: true });
+
+                    this.stage.addEventListener('touchend', (e) => {
+                        const endX = e.changedTouches[0].screenX;
+                        this.handleSwipe(this.touchStartX, endX);
+                    }, { passive: true });
+                }
+
                 document.addEventListener('keydown', (e) => {
                     if (e.key === 'ArrowLeft') this.moveCarousel(-1);
                     if (e.key === 'ArrowRight') this.moveCarousel(1);
                 });
-                
-                // Touch events para móvil
-                let touchStartX = 0;
-                let touchEndX = 0;
-                
-                this.stage.addEventListener('touchstart', (e) => {
-                    touchStartX = e.changedTouches[0].screenX;
-                });
-                
-                this.stage.addEventListener('touchend', (e) => {
-                    touchEndX = e.changedTouches[0].screenX;
-                    this.handleSwipe(touchStartX, touchEndX);
-                });
             }
-            
+
             handleSwipe(startX, endX) {
                 const swipeThreshold = 50;
                 const diff = startX - endX;
-                
                 if (Math.abs(diff) > swipeThreshold) {
-                    if (diff > 0) {
-                        this.moveCarousel(1); // Swipe izquierda - siguiente
-                    } else {
-                        this.moveCarousel(-1); // Swipe derecha - anterior
-                    }
+                    this.moveCarousel(diff > 0 ? 1 : -1);
                 }
             }
-            
+
+            start() {
+                if (this.timerId) return;
+
+                const schedule = () => {
+                    this.timerId = window.setTimeout(() => {
+                        this.timerId = null;
+
+                        if (!this.paused && !this.animating && this.totalSlides > 1) {
+                            const now = performance.now();
+                            if (now - this.lastChangeAt >= this.delayMs) {
+                                this.setSlide((this.activeIndex + 1) % this.totalSlides);
+                            }
+                        }
+
+                        schedule();
+                    }, 100);
+                };
+
+                schedule();
+            }
+
+            stop() {
+                if (this.timerId) {
+                    clearTimeout(this.timerId);
+                    this.timerId = null;
+                }
+            }
+
+            pause() {
+                this.paused = true;
+            }
+
+            resume() {
+                this.paused = false;
+                // reiniciar contador para que no avance instantáneamente al volver
+                this.lastChangeAt = performance.now();
+            }
+
             moveCarousel(direction) {
-                if (this.isAnimating) return;
-                
-                this.currentSlide += direction;
-                
-                // Ciclo infinito con validación
-                if (this.currentSlide < 0) {
-                    this.currentSlide = this.totalSlides - 1;
-                } else if (this.currentSlide >= this.totalSlides) {
-                    this.currentSlide = 0;
-                }
-                
-                // Asegurar que el slide actual sea válido
-                if (this.currentSlide >= 0 && this.currentSlide < this.totalSlides) {
-                    this.updateCarousel();
-                    
-                    // Reiniciar auto-play después de cambio manual
-                    this.stopAutoPlay();
-                    setTimeout(() => {
-                        this.startAutoPlay();
-                    }, 100);
-                }
+                if (this.totalSlides <= 1) return;
+                const next = (this.activeIndex + direction + this.totalSlides) % this.totalSlides;
+                this.setSlide(next);
             }
-            
-            goToSlide(slideIndex) {
-                if (this.isAnimating || slideIndex === this.currentSlide) return;
-                
-                // Validar el índice
-                if (slideIndex >= 0 && slideIndex < this.totalSlides) {
-                    this.currentSlide = slideIndex;
-                    this.updateCarousel();
-                    
-                    // Reiniciar auto-play después de navegación manual
-                    this.stopAutoPlay();
-                    setTimeout(() => {
-                        this.startAutoPlay();
-                    }, 100);
-                }
+
+            goToSlide(index) {
+                if (index < 0 || index >= this.totalSlides) return;
+                this.setSlide(index);
             }
-            
-            updateCarousel() {
-                this.isAnimating = true;
-                
-                // Pausar todos los videos primero
-                this.slides.forEach((slide) => {
+
+            setSlide(index, immediate = false) {
+                if (this.totalSlides <= 0) return;
+                if (index === this.activeIndex && !immediate) {
+                    // aunque pidan el mismo, reiniciamos el contador para evitar doble avance
+                    this.lastChangeAt = performance.now();
+                    return;
+                }
+
+                if (this.animating && !immediate) {
+                    this.queuedIndex = index;
+                    return;
+                }
+
+                this.animating = true;
+                this.queuedIndex = null;
+
+                const prevIndex = this.activeIndex;
+                this.activeIndex = index;
+                this.lastChangeAt = performance.now();
+
+                // Pausar todos los videos excepto el activo
+                this.slides.forEach((slide, i) => {
                     const video = slide.querySelector('video');
                     if (video) {
+                        if (i === this.activeIndex) return;
                         video.pause();
                     }
                 });
-                
-                // Actualizar clases de slides
-                this.slides.forEach((slide, index) => {
+
+                // Clases active/next/prev
+                this.slides.forEach((slide, i) => {
                     slide.classList.remove('active', 'next', 'prev');
-                    
-                    if (index === this.currentSlide) {
+                    if (i === this.activeIndex) {
                         slide.classList.add('active');
-                        // Reiniciar animaciones de texto para el slide activo
-                        this.restartTextAnimations(slide);
-                        
-                        // Reiniciar video al principio y reproducir
-                        const video = slide.querySelector('video');
-                        if (video) {
-                            video.currentTime = 0;
-                            video.play().catch(e => console.log('Video play failed:', e));
-                        }
-                    } else if (index === (this.currentSlide + 1) % this.totalSlides) {
+                    } else if (i === (this.activeIndex + 1) % this.totalSlides) {
                         slide.classList.add('next');
-                    } else if (index === (this.currentSlide - 1 + this.totalSlides) % this.totalSlides) {
+                    } else if (i === (this.activeIndex - 1 + this.totalSlides) % this.totalSlides) {
                         slide.classList.add('prev');
                     }
                 });
-                
-                // Actualizar indicadores
-                this.indicators.forEach((indicator, index) => {
-                    indicator.classList.toggle('active', index === this.currentSlide);
-                    
-                    // Reiniciar animación de progreso
-                    const progressBar = indicator.querySelector('.indicator-progress');
-                    if (!progressBar) {
-                        return;
-                    }
-                    if (index === this.currentSlide) {
-                        progressBar.style.transition = 'none';
-                        progressBar.style.height = '0%';
-                        
-                        setTimeout(() => {
-                            progressBar.style.transition = 'height 5s linear';
-                            progressBar.style.height = '100%';
-                        }, 50);
-                    } else {
-                        progressBar.style.transition = 'none';
-                        progressBar.style.height = '0%';
-                    }
+
+                // Indicadores
+                this.indicators.forEach((indicator, i) => {
+                    indicator.classList.toggle('active', i === this.activeIndex);
                 });
-                
-                // Efectos visuales adicionales
-                this.addTransitionEffects();
-                
-                // Resetear estado de animación
-                setTimeout(() => {
-                    this.isAnimating = false;
-                }, 1200);
-            }
-            
-            restartTextAnimations(slide) {
-                const title = slide.querySelector('.slide-title');
-                const description = slide.querySelector('.slide-description');
-                const button = slide.querySelector('.cta-button');
-                
-                // Reiniciar animación del título
-                if (title) {
-                    title.style.animation = 'none';
-                    title.style.transform = 'translateX(-50px)';
-                    title.style.opacity = '0';
-                    
-                    setTimeout(() => {
-                        title.style.animation = 'slideInText 0.8s ease forwards';
-                    }, 100);
+
+                // Video activo: reiniciar y play
+                const activeSlide = this.slides[this.activeIndex];
+                if (activeSlide) {
+                    const video = activeSlide.querySelector('video');
+                    if (video) {
+                        try {
+                            video.pause();
+                            video.currentTime = 0;
+                            video.loop = false;
+                            const p = video.play();
+                            if (p && typeof p.catch === 'function') {
+                                p.catch(() => {});
+                            }
+                        } catch (_) {}
+                    }
                 }
-                
-                // Reiniciar animación de la descripción
-                if (description) {
-                    description.style.animation = 'none';
-                    description.style.transform = 'translateX(-50px)';
-                    description.style.opacity = '0';
-                    
-                    setTimeout(() => {
-                        description.style.animation = 'slideInText 0.8s ease forwards';
-                    }, 300);
-                }
-                
-                // Reiniciar animación del botón
-                if (button) {
-                    button.style.animation = 'none';
-                    button.style.transform = 'translateY(20px)';
-                    button.style.opacity = '0';
-                    
-                    setTimeout(() => {
-                        button.style.animation = 'slideInButton 0.8s ease forwards';
-                    }, 500);
-                }
-            }
-            
-            addTransitionEffects() {
-                // Efecto de flash en el slide activo
-                const activeSlide = this.slides[this.currentSlide];
-                const flash = document.createElement('div');
-                flash.style.cssText = `
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background: radial-gradient(circle, rgba(69, 176, 73, 0.3) 0%, transparent 70%);
-                    opacity: 0;
-                    pointer-events: none;
-                    z-index: 100;
-                `;
-                
-                activeSlide.appendChild(flash);
-                
-                // Animar flash
-                setTimeout(() => {
-                    flash.style.transition = 'opacity 0.5s ease';
-                    flash.style.opacity = '1';
-                    
-                    setTimeout(() => {
-                        flash.style.opacity = '0';
-                        
-                        setTimeout(() => {
-                            flash.remove();
-                        }, 500);
-                    }, 200);
-                }, 50);
-            }
-            
-            startAutoPlay() {
-                // Solo iniciar si no hay un intervalo activo
-                if (this.autoPlayInterval) {
+
+                // Terminar animación
+                const end = () => {
+                    this.animating = false;
+                    if (this.queuedIndex !== null && this.queuedIndex !== this.activeIndex) {
+                        const q = this.queuedIndex;
+                        this.queuedIndex = null;
+                        this.setSlide(q);
+                    }
+                };
+
+                if (immediate) {
+                    this.animating = false;
                     return;
                 }
-                
-                this.autoPlayInterval = setInterval(() => {
-                    // Verificar que el carrusel todavía existe y no está animando
-                    if (this.slides && this.slides.length > 0 && !this.isAnimating) {
-                        // Avanzar al siguiente slide
-                        this.currentSlide = (this.currentSlide + 1) % this.totalSlides;
-                        this.updateCarousel();
-                    }
-                }, 4000); // Cambiar cada 4 segundos
-            }
-            
-            stopAutoPlay() {
-                if (this.autoPlayInterval) {
-                    clearInterval(this.autoPlayInterval);
-                    this.autoPlayInterval = null;
-                }
+
+                // Asegurar desbloqueo incluso si hay cambios rápidos
+                window.setTimeout(end, this.animMs);
             }
         }
         
@@ -781,10 +725,7 @@
             // Hacer el carrusel accesible globalmente
             window.carousel3d = carousel;
             
-            // Iniciar auto-play después de la inicialización
-            setTimeout(() => {
-                carousel.startAutoPlay();
-            }, 1000);
+            // El auto-play ya se inicia dentro de init()
         });
         
         // Funciones globales para compatibilidad
