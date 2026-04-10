@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nyura Motors - El Futur de la Mobilitat</title>
+    <title>Nyura Motors - Configurador 3D</title>
     <link rel="stylesheet" href="EstiloPrincipal.css">
-    <link rel="stylesheet" href="home.css">
     <link rel="stylesheet" href="header-unique.css">
+    <link rel="stylesheet" href="configurador3d.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -25,8 +25,59 @@
         </nav>
     </header>
 
-    <main>
-        <h1 style="text-align: center; padding: 4rem 2rem; color: #666;">Espai de treball - Afegir contingut aquí</h1>
+    <main class="configurator-container">
+        <div class="configurator-layout">
+            <div id="canvas-container">
+                <div class="loading-overlay" id="loadingOverlay">
+                    <div class="loading-spinner"></div>
+                    <p>Cargando modelo 3D...</p>
+                </div>
+                
+                <div class="model-info">
+                    <h2>Thunder Black Edition</h2>
+                    <p>Exclusividad. Precisión. Adrenalina.</p>
+                </div>
+            </div>
+            
+            <div class="configurator-content">
+                <div class="content-section">
+                    <h2>Personaliza tu Thunder</h2>
+                    <p>Experimenta la libertad de diseñar tu vehículo eléctrico único con nuestro configurador 3D interactivo.</p>
+                </div>
+                
+                <div class="content-section">
+                    <h3>Características Principales</h3>
+                    <ul>
+                        <li>Motor eléctrico de alta potencia</li>
+                        <li>Autonomía extendida de 500km</li>
+                        <li>Carga rápida 0-80% en 25 minutos</li>
+                        <li>Tecnología de conducción autónoma</li>
+                    </ul>
+                </div>
+                
+                <div class="content-section">
+                    <h3>Opciones de Personalización</h3>
+                    <div class="options-grid">
+                        <div class="option-card">
+                            <h4>Color Exterior</h4>
+                            <p>Rojo Passion</p>
+                        </div>
+                        <div class="option-card">
+                            <h4>Interior</h4>
+                            <p>Piel Premium</p>
+                        </div>
+                        <div class="option-card">
+                            <h4>Llantas</h4>
+                            <p>21" Forjadas</p>
+                        </div>
+                        <div class="option-card">
+                            <h4>Paquete Tech</h4>
+                            <p>Max Connected</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
     <footer>
@@ -53,14 +104,41 @@
         <!-- Contacte & Xarxes -->
         <div class="footer-section">
             <h3>Contacte</h3>
-            <p>📧 contacto@nyuramotors.com<br>
-               📱 +34 612 345 678<br>
-               📍 Carrer de Caracas, 11. Sant Andreu, 08030 Barcelona</p>
+            <p>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 16px; height: 16px; margin-right: 8px; vertical-align: -3px;">
+                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                </svg>
+                contacto@nyuramotors.com<br>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 16px; height: 16px; margin-right: 8px; vertical-align: -3px;">
+                    <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                </svg>
+                +34 612 345 678<br>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 16px; height: 16px; margin-right: 8px; vertical-align: -3px;">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                </svg>
+                Carrer de Caracas, 11. Sant Andreu, 08030 Barcelona
+            </p>
             <div class="social-links">
-                <a href="#" aria-label="Twitter">𝕏</a>
-                <a href="#" aria-label="Instagram">📷</a>
-                <a href="#" aria-label="YouTube">📺</a>
-                <a href="#" aria-label="LinkedIn">💼</a>
+                <a href="#" aria-label="Twitter">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 20px; height: 20px;">
+                        <path d="M22.46 6c-.85.38-1.75.64-2.7.76 1-.6 1.76-1.55 2.12-2.68-.93.55-1.96.95-3.06 1.17-.88-.94-2.13-1.53-3.51-1.53-2.66 0-4.81 2.16-4.81 4.81 0 .38.04.75.13 1.1-4-.2-7.58-2.11-9.96-5.02-.42.72-.66 1.56-.66 2.46 0 1.68.85 3.16 2.14 4.02-.79-.02-1.53-.24-2.18-.6v.06c0 2.35 1.67 4.31 3.88 4.76-.41.11-.84.17-1.28.17-.31 0-.62-.03-.92-.08.63 1.96 2.45 3.39 4.61 3.43-1.69 1.32-3.83 2.1-6.15 2.1-.4 0-.8-.02-1.19-.07 2.19 1.4 4.78 2.22 7.57 2.22 9.07 0 14.02-7.52 14.02-14.02 0-.21 0-.43-.01-.64.96-.69 1.79-1.56 2.45-2.55z"/>
+                    </svg>
+                </a>
+                <a href="#" aria-label="Instagram">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 20px; height: 20px;">
+                        <path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/>
+                    </svg>
+                </a>
+                <a href="#" aria-label="YouTube">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 20px; height: 20px;">
+                        <path d="M10 15l5.19-3L10 9v6m11.56-7.83c.13.47.22 1.1.28 1.9.07.8.1 1.49.1 2.08L22 12c0 2.19-.1 3.8-.28 4.83-.13.47-.35.83-.66 1.1-.31.27-.7.44-1.19.51-.5.07-1.33.13-2.5.17-1.17.04-2.22.06-3.15.06L12 18c-3.33 0-5.5-.1-6.5-.3-.5-.07-.88-.24-1.19-.51-.31-.27-.53-.63-.66-1.1C3.1 15.8 3 14.19 3 12c0-2.19.1-3.8.28-4.83.13-.47.35-.83.66-1.1.31-.27.7-.44 1.19-.51.5-.07 1.33-.13 2.5-.17 1.17-.04 2.22-.06 3.15-.06L12 6c3.33 0 5.5.1 6.5.3.5.07.88.24 1.19.51.31.27.53.63.66 1.1z"/>
+                    </svg>
+                </a>
+                <a href="#" aria-label="LinkedIn">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 20px; height: 20px;">
+                        <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.68 1.68 0 0 0-1.68 1.69c0 .93.76 1.68 1.68 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
+                    </svg>
+                </a>
             </div>
         </div>
     </div>
@@ -73,150 +151,429 @@
         </p>
     </div>
 </footer>
+
+<!-- Three.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
 <script type="module">
-        import { getCurrentUser, createOrUpdateUserProfile, onAuthStateChange, signOut, getUserByEmail } from '../controlador/BBDD/SupabaseCliente.js';
+    import { getCurrentUser, createOrUpdateUserProfile, onAuthStateChange, signOut, getUserByEmail } from '../controlador/BBDD/SupabaseCliente.js';
+    
+    // Variables globales de Three.js
+    let scene, camera, renderer, model, modelRoot, controls;
+    let isRotating = true;
+    let animationId;
+    let modelLoaded = false;
+    
+    // Función de inicialización
+    function init() {
+        // Crear la escena
+        scene = new THREE.Scene();
+        scene.background = null;
         
-        document.addEventListener('DOMContentLoaded', async function() {
-            const authMenu = document.getElementById('authMenu');
+        // Configurar la cámara
+        camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+        camera.position.set(0, 1.5, 5);
+        
+        // Configurar el renderer
+        renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        renderer.setClearColor(0x000000, 0);
+        renderer.physicallyCorrectLights = true;
+        renderer.outputEncoding = THREE.sRGBEncoding;
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.2;
+        
+        // Añadir el renderer al DOM
+        const container = document.getElementById('canvas-container');
+        container.appendChild(renderer.domElement);
+
+        // Ajustar tamaño del renderer al contenedor
+        updateRendererSize();
+        requestAnimationFrame(() => updateRendererSize());
+        
+        // Configurar controles
+        controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.screenSpacePanning = false;
+        controls.enableRotate = true;
+        controls.enablePan = false;
+        controls.enableZoom = true;
+        controls.minDistance = 2;
+        controls.maxDistance = 15;
+        controls.minPolarAngle = Math.PI * 0.15;
+        controls.maxPolarAngle = Math.PI * 0.75;
+        controls.autoRotate = false; // Controlaremos la rotación manualmente
+
+        // Target inicial razonable (se ajustará al cargar el modelo)
+        controls.target.set(0, 0.5, 0);
+        controls.update();
+        
+        // Iluminación
+        setupLighting();
+        
+        // Cargar el modelo
+        loadModel();
+        
+        // Event listeners
+        setupEventListeners();
+        
+        // Iniciar el bucle de animación
+        animate();
+    }
+
+    function fitCameraToObject(object3D) {
+        const box = new THREE.Box3().setFromObject(object3D);
+        const size = box.getSize(new THREE.Vector3());
+        const center = box.getCenter(new THREE.Vector3());
+
+        controls.target.copy(center);
+
+        const fov = THREE.MathUtils.degToRad(camera.fov);
+        const fitHeightDistance = (size.y / 2) / Math.tan(fov / 2);
+        const fitWidthDistance = (size.x / 2) / (Math.tan(fov / 2) * camera.aspect);
+        const distance = 1.6 * Math.max(fitHeightDistance, fitWidthDistance); // Un poco menos distancia
+
+        camera.position.set(center.x, center.y + size.y * 0.35, center.z + distance); // Ligeramente más alto para mejor perspectiva
+        camera.near = Math.max(0.01, distance / 100);
+        camera.far = Math.max(1000, distance * 100);
+        camera.updateProjectionMatrix();
+
+        controls.update();
+    }
+    
+    // Configurar iluminación
+    function setupLighting() {
+        // Luz ambiental
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
+        scene.add(ambientLight);
+
+        // Luz hemisférica para dar más relleno y color natural
+        const hemiLight = new THREE.HemisphereLight(0xffffff, 0x222233, 0.9);
+        hemiLight.position.set(0, 10, 0);
+        scene.add(hemiLight);
+        
+        // Luz direccional principal
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 2.2);
+        directionalLight.position.set(5, 10, 5);
+        directionalLight.castShadow = true;
+        directionalLight.shadow.mapSize.width = 2048;
+        directionalLight.shadow.mapSize.height = 2048;
+        directionalLight.shadow.camera.near = 0.5;
+        directionalLight.shadow.camera.far = 50;
+        scene.add(directionalLight);
+        
+        // Luz de relleno
+        const fillLight = new THREE.DirectionalLight(0xffffff, 1.0);
+        fillLight.position.set(-5, 5, -5);
+        scene.add(fillLight);
+        
+        // Luz puntual para destacar el modelo
+        const pointLight = new THREE.PointLight(0xffffff, 1.25, 25);
+        pointLight.position.set(0, 4, 6);
+        scene.add(pointLight);
+    }
+    
+    // Cargar el modelo 3D
+    function loadModel() {
+        const loader = new THREE.GLTFLoader();
+        
+        loader.load(
+            '../coches/ThunderBE/ThunderBERojo.glb',
+            function (gltf) {
+                model = gltf.scene;
+                
+                // Ajustar el modelo
+                let box = new THREE.Box3().setFromObject(model);
+                let size = box.getSize(new THREE.Vector3());
+                
+                // Escalar para que el coche quepa bien en el visor (un poco más grande)
+                const maxDim = Math.max(size.x, size.y, size.z);
+                const targetMax = 2.4;
+                const scale = targetMax / (maxDim || 1);
+                model.scale.setScalar(scale);
+
+                // Recalcular box tras escalar y centrar con precisión
+                box = new THREE.Box3().setFromObject(model);
+                const center = box.getCenter(new THREE.Vector3());
+                model.position.sub(center);
+
+                // Poner el coche "sobre el suelo"
+                box = new THREE.Box3().setFromObject(model);
+                model.position.y -= box.min.y;
+                
+                // Habilitar sombras
+                model.traverse(function (child) {
+                    if (child.isMesh) {
+                        child.castShadow = true;
+                        child.receiveShadow = true;
+
+                        if (child.material) {
+                            // Ayuda a que materiales PBR se vean menos apagados
+                            if (typeof child.material.envMapIntensity === 'number') {
+                                child.material.envMapIntensity = Math.max(child.material.envMapIntensity || 0, 1.2);
+                            }
+                            child.material.needsUpdate = true;
+                        }
+                    }
+                });
+                
+                // Usar un pivot para rotar siempre en el mismo eje (Y) sin desplazar cámara
+                modelRoot = new THREE.Group();
+                modelRoot.add(model);
+                scene.add(modelRoot);
+                modelLoaded = true;
+
+                // Encuadrar cámara al modelo
+                fitCameraToObject(modelRoot);
+                requestAnimationFrame(() => {
+                    updateRendererSize();
+                    fitCameraToObject(modelRoot);
+                });
+                
+                // Ocultar overlay de carga
+                document.getElementById('loadingOverlay').style.display = 'none';
+                
+                // Iniciar animación de zoom y rotación
+                startIntroAnimation();
+            },
+            function (xhr) {
+                console.log((xhr.loaded / xhr.total * 100) + '% cargado');
+            },
+            function (error) {
+                console.error('Error al cargar el modelo:', error);
+                document.getElementById('loadingOverlay').innerHTML = `
+                    <div style="text-align: center;">
+                        <p style="color: #dc143c; font-size: 18px;">Error al cargar el modelo 3D</p>
+                        <p style="margin-top: 10px;">Por favor, recarga la página</p>
+                    </div>
+                `;
+            }
+        );
+    }
+    
+    // Animación de introducción: rotación con zoom progresivo
+    function startIntroAnimation() {
+        if (!modelLoaded) return;
+        
+        const duration = 8000; // 8 segundos para la animación completa
+        const startRotation = (modelRoot || model).rotation.y;
+        const targetRotation = Math.PI * 2; // Rotación completa de 360°
+        
+        const startTime = Date.now();
+        
+        function animateIntro() {
+            const elapsed = Date.now() - startTime;
+            const progress = Math.min(elapsed / duration, 1);
             
-            // Función para actualizar el menú de autenticación
-            async function updateAuthMenu(user) {
-                if (user) {
-                    // Obtener datos completos del usuario incluyendo el rol
-                    const userData = await getUserByEmail(user.email);
-                    const isAdmin = userData && userData.rol === 'admin';
-                    const displayName = user.user_metadata?.nombre || user.email.split('@')[0];
-                    
-                    authMenu.innerHTML = `
-                        <div class="auth-dropdown">
-                            <button class="auth-dropdown-toggle" onclick="toggleAuthMenu()">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; vertical-align: -2px; margin-right: 6px;">
-                                    <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.41 0-8 2-8 4.5V21h16v-2.5c0-2.5-3.59-4.5-8-4.5Z"/>
-                                </svg>
-                                ${displayName}
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 12px; height: 12px; margin-left: 4px;">
-                                    <path d="M7 10l5 5 5-5z"/>
-                                </svg>
-                            </button>
-                            <div class="auth-dropdown-menu" id="authDropdownMenu">
-                                <a href="User/perfil.html">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; margin-right: 8px;">
-                                        <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.41 0-8 2-8 4.5V21h16v-2.5c0-2.5-3.59-4.5-8-4.5Z"/>
-                                    </svg>
-                                    Ver perfil
-                                </a>
-                                ${isAdmin ? `
-                                <a href="admin/Panel.html" style="color: #dc3545;">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; margin-right: 8px;">
-                                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                                    </svg>
-                                    Panel de Administrador
-                                </a>` : ''}
-                                <a href="#" onclick="handleSignOut()" style="color: #dc3545;">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; margin-right: 8px;">
-                                        <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5-5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
-                                    </svg>
-                                    Cerrar sesión
-                                </a>
-                            </div>
-                        </div>
-                    `;
-                } else {
-                    authMenu.innerHTML = `
-                        <a href="InicioSesion.html">
+            // Función de easing suave
+            const easeProgress = 1 - Math.pow(1 - progress, 3);
+
+            // Rotar el coche (la cámara queda fija)
+            const root = modelRoot || model;
+            if (root) {
+                root.rotation.y = startRotation + (targetRotation * easeProgress);
+            }
+            
+            if (progress < 1) {
+                requestAnimationFrame(animateIntro);
+            } else {
+                // Al finalizar, configurar controles normales
+                controls.update();
+            }
+        }
+        
+        animateIntro();
+    }
+    
+    // Configurar event listeners
+    function setupEventListeners() {
+        // Resize de ventana
+        window.addEventListener('resize', onWindowResize);
+    }
+    
+    function updateRendererSize() {
+        const container = document.getElementById('canvas-container');
+        if (!container || !renderer || !camera) return;
+        const width = Math.max(1, container.clientWidth);
+        const height = Math.max(1, container.clientHeight);
+
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+        renderer.setSize(width, height);
+    }
+
+    // Resize de ventana
+    function onWindowResize() {
+        updateRendererSize();
+        if (modelLoaded && model) {
+            fitCameraToObject(model);
+        }
+    }
+    
+    // Bucle de animación principal
+    function animate() {
+        animationId = requestAnimationFrame(animate);
+        
+        // Rotación automática del modelo
+        if (isRotating && modelLoaded) {
+            const root = modelRoot || model;
+            if (root) root.rotation.y += 0.005;
+        }
+        
+        // Actualizar controles
+        controls.update();
+        
+        // Renderizar
+        renderer.render(scene, camera);
+    }
+    
+    // Manejo de autenticación
+    document.addEventListener('DOMContentLoaded', async function() {
+        const authMenu = document.getElementById('authMenu');
+        
+        // Función para actualizar el menú de autenticación
+        async function updateAuthMenu(user) {
+            if (user) {
+                // Obtener datos completos del usuario incluyendo el rol
+                const userData = await getUserByEmail(user.email);
+                const isAdmin = userData && userData.rol === 'admin';
+                const displayName = user.user_metadata?.nombre || user.email.split('@')[0];
+                
+                authMenu.innerHTML = `
+                    <div class="auth-dropdown">
+                        <button class="auth-dropdown-toggle" onclick="toggleAuthMenu()">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; vertical-align: -2px; margin-right: 6px;">
                                 <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.41 0-8 2-8 4.5V21h16v-2.5c0-2.5-3.59-4.5-8-4.5Z"/>
                             </svg>
-                            Iniciar sesión
-                        </a>
-                    `;
+                            ${displayName}
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 12px; height: 12px; margin-left: 4px;">
+                                <path d="M7 10l5 5 5-5z"/>
+                            </svg>
+                        </button>
+                        <div class="auth-dropdown-menu" id="authDropdownMenu">
+                            <a href="User/perfil.html">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; margin-right: 8px;">
+                                    <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.41 0-8 2-8 4.5V21h16v-2.5c0-2.5-3.59-4.5-8-4.5Z"/>
+                                </svg>
+                                Ver perfil
+                            </a>
+                            ${isAdmin ? `
+                            <a href="admin/Panel.html" style="color: #dc3545;">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; margin-right: 8px;">
+                                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                </svg>
+                                Panel de Administrador
+                            </a>` : ''}
+                            <a href="#" onclick="handleSignOut()" style="color: #dc3545;">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; margin-right: 8px;">
+                                    <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5-5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+                                </svg>
+                                Cerrar sesión
+                            </a>
+                        </div>
+                    </div>
+                `;
+            } else {
+                authMenu.innerHTML = `
+                    <a href="InicioSesion.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; vertical-align: -2px; margin-right: 6px;">
+                            <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.41 0-8 2-8 4.5V21h16v-2.5c0-2.5-3.59-4.5-8-4.5Z"/>
+                        </svg>
+                        Iniciar sesión
+                    </a>
+                `;
+            }
+        }
+        
+        // Función para toggle del menú desplegable
+        window.toggleAuthMenu = function() {
+            const menu = document.getElementById('authDropdownMenu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        };
+        
+        // Función para ver perfil
+        window.viewProfile = function() {
+            const currentUser = getCurrentUser();
+            if (currentUser) {
+                const displayName = currentUser.user_metadata?.nombre || currentUser.email.split('@')[0];
+                alert(`Perfil de ${displayName}\n\nEmail: ${currentUser.email}\nTeléfono: ${currentUser.user_metadata?.telefono || 'No especificado'}`);
+            }
+            toggleAuthMenu(); // Cerrar el menú
+        };
+        
+        // Función para cerrar sesión
+        window.handleSignOut = async function() {
+            try {
+                const result = await signOut();
+                if (result.success) {
+                    console.log('Sesión cerrada correctamente');
+                    updateAuthMenu(null);
+                    // Opcional: redirigir a página de login
+                    // window.location.href = 'InicioSesion.html';
+                } else {
+                    console.error('Error al cerrar sesión:', result.error);
+                    alert('Error al cerrar sesión. Intenta de nuevo.');
+                }
+            } catch (error) {
+                console.error('Error inesperado al cerrar sesión:', error);
+                alert('Error inesperado. Intenta de nuevo.');
+            }
+        };
+        
+        // Cerrar menú al hacer clic fuera
+        document.addEventListener('click', function(event) {
+            const dropdown = document.querySelector('.auth-dropdown');
+            if (dropdown && !dropdown.contains(event.target)) {
+                const menu = document.getElementById('authDropdownMenu');
+                if (menu) {
+                    menu.style.display = 'none';
                 }
             }
-            
-            // Función para toggle del menú desplegable
-            window.toggleAuthMenu = function() {
-                const menu = document.getElementById('authDropdownMenu');
-                menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-            };
-            
-            // Función para ver perfil
-            window.viewProfile = function() {
-                const currentUser = getCurrentUser();
-                if (currentUser) {
-                    const displayName = currentUser.user_metadata?.nombre || currentUser.email.split('@')[0];
-                    alert(`Perfil de ${displayName}\n\nEmail: ${currentUser.email}\nTeléfono: ${currentUser.user_metadata?.telefono || 'No especificado'}`);
-                }
-                toggleAuthMenu(); // Cerrar el menú
-            };
-            
-            // Función para cerrar sesión
-            window.handleSignOut = async function() {
-                try {
-                    const result = await signOut();
-                    if (result.success) {
-                        console.log('Sesión cerrada correctamente');
-                        updateAuthMenu(null);
-                        // Opcional: redirigir a página de login
-                        // window.location.href = 'InicioSesion.html';
-                    } else {
-                        console.error('Error al cerrar sesión:', result.error);
-                        alert('Error al cerrar sesión. Intenta de nuevo.');
-                    }
-                } catch (error) {
-                    console.error('Error inesperado al cerrar sesión:', error);
-                    alert('Error inesperado. Intenta de nuevo.');
-                }
-            };
-            
-            // Cerrar menú al hacer clic fuera
-            document.addEventListener('click', function(event) {
-                const dropdown = document.querySelector('.auth-dropdown');
-                if (dropdown && !dropdown.contains(event.target)) {
-                    const menu = document.getElementById('authDropdownMenu');
-                    if (menu) {
-                        menu.style.display = 'none';
-                    }
-                }
-            });
-            
-            // Verificar estado inicial
-            const currentUser = await getCurrentUser();
-            updateAuthMenu(currentUser);
-            
-            // Escuchar cambios en autenticación
-            onAuthStateChange(async (event, session) => {
-                if (event === 'SIGNED_IN' && session?.user) {
-                    console.log('Usuario autenticado:', session.user);
-                    
-                    // Crear o actualizar perfil en tabla users
-                    const profileResult = await createOrUpdateUserProfile(session.user);
-                    
-                    if (profileResult.success) {
-                        console.log('Perfil procesado:', profileResult.action);
-                        if (profileResult.action === 'created') {
-                            console.log('Nuevo perfil creado para usuario de Google');
-                        }
-                    } else {
-                        console.error('Error procesando perfil:', profileResult.error);
-                    }
-                    
-                    updateAuthMenu(session.user);
-                } else if (event === 'SIGNED_OUT') {
-                    console.log('Usuario cerró sesión');
-                    updateAuthMenu(null);
-                }
-            });
         });
-    </script>
-
-    <!-- Script para scroll a modelos -->
-    <script>
-        // Función para redirigir a home con scroll a modelos
-        document.getElementById('modelosLink').addEventListener('click', function(e) {
-            e.preventDefault();
-            // Redirigir al home con parámetro para scroll
-            window.location.href = 'home.html#modelos';
+        
+        // Verificar estado inicial
+        const currentUser = await getCurrentUser();
+        updateAuthMenu(currentUser);
+        
+        // Escuchar cambios en autenticación
+        onAuthStateChange(async (event, session) => {
+            if (event === 'SIGNED_IN' && session?.user) {
+                console.log('Usuario autenticado:', session.user);
+                
+                // Crear o actualizar perfil en tabla users
+                const profileResult = await createOrUpdateUserProfile(session.user);
+                
+                if (profileResult.success) {
+                    console.log('Perfil procesado:', profileResult.action);
+                    if (profileResult.action === 'created') {
+                        console.log('Nuevo perfil creado para usuario de Google');
+                    }
+                } else {
+                    console.error('Error procesando perfil:', profileResult.error);
+                }
+                
+                updateAuthMenu(session.user);
+            } else if (event === 'SIGNED_OUT') {
+                console.log('Usuario cerró sesión');
+                updateAuthMenu(null);
+            }
         });
-    </script>
+        
+        // Inicializar Three.js
+        init();
+    });
+    
+    // Script para scroll a modelos
+    document.getElementById('modelosLink').addEventListener('click', function(e) {
+        e.preventDefault();
+        // Redirigir al home con parámetro para scroll
+        window.location.href = 'home.html#modelos';
+    });
+</script>
 </body>
 </html>
