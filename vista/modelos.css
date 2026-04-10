@@ -82,7 +82,7 @@ main {
     background: #ffffff;
     padding: 0;
     margin-top: 0;
-    min-height: 60vh;
+    flex: 1;
 }
 
 .vehiculos-container {
@@ -499,7 +499,6 @@ main {
 /* Contenedor de vehículos con transiciones suaves */
 .vehiculos-container {
     padding: 3rem 1.5rem 2.25rem;
-    min-height: 500px;
     position: relative;
 }
 
