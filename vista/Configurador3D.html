@@ -27,54 +27,129 @@
 
     <main class="configurator-container">
         <div class="configurator-layout">
-            <div id="canvas-container">
-                <div class="loading-overlay" id="loadingOverlay">
-                    <div class="loading-spinner"></div>
-                    <p>Cargando modelo 3D...</p>
-                </div>
-                
-                <div class="model-info">
-                    <h2>Thunder Black Edition</h2>
-                    <p>Exclusividad. Precisión. Adrenalina.</p>
+            <!-- Panel izquierdo - Visualizador 3D -->
+            <div class="viewer-panel">
+                <div id="canvas-container">
+                    <div class="loading-overlay" id="loadingOverlay">
+                        <div class="loading-spinner"></div>
+                        <p>Cargando modelo 3D...</p>
+                    </div>
                 </div>
             </div>
             
-            <div class="configurator-content">
-                <div class="content-section">
+            <!-- Panel derecho - Configuración -->
+            <div class="config-panel">
+                <div class="config-header">
                     <h2>Personaliza tu Thunder</h2>
-                    <p>Experimenta la libertad de diseñar tu vehículo eléctrico único con nuestro configurador 3D interactivo.</p>
+                    <div class="price-display">
+                        <span class="price-label">Precio</span>
+                        <span class="price-value">€89,900</span>
+                    </div>
                 </div>
                 
-                <div class="content-section">
-                    <h3>Características Principales</h3>
-                    <ul>
-                        <li>Motor eléctrico de alta potencia</li>
-                        <li>Autonomía extendida de 500km</li>
-                        <li>Carga rápida 0-80% en 25 minutos</li>
-                        <li>Tecnología de conducción autónoma</li>
-                    </ul>
-                </div>
-                
-                <div class="content-section">
-                    <h3>Opciones de Personalización</h3>
-                    <div class="options-grid">
-                        <div class="option-card">
-                            <h4>Color Exterior</h4>
-                            <p>Rojo Passion</p>
+                <!-- Sección de Colores -->
+                <div class="config-section">
+                    <h3>Color Exterior</h3>
+                    <div class="color-options">
+                        <div class="color-option active" data-color="negro" title="Negro Mate">
+                            <div class="color-swatch" style="background: linear-gradient(135deg, #1a1a1a, #000000);"></div>
+                            <span>Negro Mate</span>
                         </div>
-                        <div class="option-card">
-                            <h4>Interior</h4>
-                            <p>Piel Premium</p>
-                        </div>
-                        <div class="option-card">
-                            <h4>Llantas</h4>
-                            <p>21" Forjadas</p>
-                        </div>
-                        <div class="option-card">
-                            <h4>Paquete Tech</h4>
-                            <p>Max Connected</p>
+                        <div class="color-option" data-color="rojo" title="Rojo Passion">
+                            <div class="color-swatch" style="background: linear-gradient(135deg, #dc143c, #8b0000);"></div>
+                            <span>Rojo Passion</span>
                         </div>
                     </div>
+                </div>
+                
+                <!-- Sección de Llantas -->
+                <div class="config-section">
+                    <h3>Llantas</h3>
+                    <div class="wheel-options">
+                        <div class="wheel-option active" data-wheel="acero">
+                            <div class="wheel-preview">
+                                <div class="wheel-icon">???</div>
+                            </div>
+                            <div class="wheel-info">
+                                <span class="wheel-name">Acero</span>
+                                <span class="wheel-price">Incluido</span>
+                            </div>
+                        </div>
+                        <div class="wheel-option" data-wheel="sport">
+                            <div class="wheel-preview">
+                                <div class="wheel-icon">??</div>
+                            </div>
+                            <div class="wheel-info">
+                                <span class="wheel-name">Sport</span>
+                                <span class="wheel-price">+€2,500</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                                
+                <!-- Sección de Paquetes -->
+                <div class="config-section">
+                    <h3>Paquetes Tecnológicos</h3>
+                    <div class="package-options">
+                        <div class="package-option">
+                            <div class="package-header">
+                                <input type="checkbox" id="package-basic" class="package-checkbox">
+                                <label for="package-basic" class="package-label">
+                                    <span class="package-name">Tech Basic</span>
+                                    <span class="package-price">+€3,500</span>
+                                </label>
+                            </div>
+                            <div class="package-features">
+                                <span>• Pantalla 12"</span>
+                                <span>• Navegación GPS</span>
+                                <span>• Bluetooth</span>
+                            </div>
+                        </div>
+                        <div class="package-option">
+                            <div class="package-header">
+                                <input type="checkbox" id="package-premium" class="package-checkbox">
+                                <label for="package-premium" class="package-label">
+                                    <span class="package-name">Tech Premium</span>
+                                    <span class="package-price">+€6,800</span>
+                                </label>
+                            </div>
+                            <div class="package-features">
+                                <span>• Pantalla 15"</span>
+                                <span>• Sistema Audio Premium</span>
+                                <span>• Conducción Autónoma Nivel 2</span>
+                                <span>• Control por Voz</span>
+                            </div>
+                        </div>
+                        <div class="package-option">
+                            <div class="package-header">
+                                <input type="checkbox" id="package-max" class="package-checkbox">
+                                <label for="package-max" class="package-label">
+                                    <span class="package-name">Tech Max Connected</span>
+                                    <span class="package-price">+€9,200</span>
+                                </label>
+                            </div>
+                            <div class="package-features">
+                                <span>• Todo lo anterior</span>
+                                <span>• Pantalla 17" Curva</span>
+                                <span>• Conducción Autónoma Nivel 3</span>
+                                <span>• AR HUD</span>
+                                <span>• Conectividad 5G</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Botones de acción -->
+                <div class="action-buttons">
+                    <button class="btn-secondary" onclick="resetConfiguration()">
+                        <span>🔄</span>
+                        Restablecer Configuración
+                    </button>
+                    <button class="btn-primary" onclick="saveConfiguration()">
+                        <span>💾</span>
+                        Guardar Configuración
+                    </button>
                 </div>
             </div>
         </div>
@@ -165,6 +240,7 @@
     let isRotating = true;
     let animationId;
     let modelLoaded = false;
+    let originalWheelColors = []; // Guardar colores originales de las llantas
     
     // Función de inicialización
     function init() {
@@ -185,7 +261,7 @@
         renderer.physicallyCorrectLights = true;
         renderer.outputEncoding = THREE.sRGBEncoding;
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.2;
+        renderer.toneMappingExposure = 1.65;
         
         // Añadir el renderer al DOM
         const container = document.getElementById('canvas-container');
@@ -202,9 +278,7 @@
         controls.screenSpacePanning = false;
         controls.enableRotate = true;
         controls.enablePan = false;
-        controls.enableZoom = true;
-        controls.minDistance = 2;
-        controls.maxDistance = 15;
+        controls.enableZoom = false;
         controls.minPolarAngle = Math.PI * 0.15;
         controls.maxPolarAngle = Math.PI * 0.75;
         controls.autoRotate = false; // Controlaremos la rotación manualmente
@@ -216,8 +290,13 @@
         // Iluminación
         setupLighting();
         
-        // Cargar el modelo
-        loadModel();
+        // Cargar el modelo inicial según el color
+        const initialColor = currentConfiguration.color || 'rojo';
+        if (initialColor === 'negro') {
+            loadThunderBEModel();
+        } else {
+            loadThunderBERojoModel();
+        }
         
         // Event listeners
         setupEventListeners();
@@ -236,157 +315,300 @@
         const fov = THREE.MathUtils.degToRad(camera.fov);
         const fitHeightDistance = (size.y / 2) / Math.tan(fov / 2);
         const fitWidthDistance = (size.x / 2) / (Math.tan(fov / 2) * camera.aspect);
-        const distance = 1.6 * Math.max(fitHeightDistance, fitWidthDistance); // Un poco menos distancia
+        const distance = 4.35 * Math.max(fitHeightDistance, fitWidthDistance); // Ajuste intermedio: menos grande en pantalla
 
         camera.position.set(center.x, center.y + size.y * 0.35, center.z + distance); // Ligeramente más alto para mejor perspectiva
         camera.near = Math.max(0.01, distance / 100);
         camera.far = Math.max(1000, distance * 100);
         camera.updateProjectionMatrix();
 
+        // Si el zoom está desactivado, fijar la distancia actual para evitar que el coche se quede pequeño
+        if (controls && controls.enableZoom === false) {
+            const d = camera.position.distanceTo(controls.target);
+            controls.minDistance = d;
+            controls.maxDistance = d;
+        }
+
         controls.update();
     }
     
     // Configurar iluminación
     function setupLighting() {
-        // Luz ambiental
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
+        // Base: levantar valores globales para evitar negros "aplastados"
+        const ambientLight = new THREE.AmbientLight(0xffffff, 1.15);
         scene.add(ambientLight);
 
-        // Luz hemisférica para dar más relleno y color natural
-        const hemiLight = new THREE.HemisphereLight(0xffffff, 0x222233, 0.9);
-        hemiLight.position.set(0, 10, 0);
+        const hemiLight = new THREE.HemisphereLight(0xffffff, 0x6b7380, 1.05);
+        hemiLight.position.set(0, 12, 0);
         scene.add(hemiLight);
-        
-        // Luz direccional principal
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 2.2);
-        directionalLight.position.set(5, 10, 5);
-        directionalLight.castShadow = true;
-        directionalLight.shadow.mapSize.width = 2048;
-        directionalLight.shadow.mapSize.height = 2048;
-        directionalLight.shadow.camera.near = 0.5;
-        directionalLight.shadow.camera.far = 50;
-        scene.add(directionalLight);
-        
-        // Luz de relleno
-        const fillLight = new THREE.DirectionalLight(0xffffff, 1.0);
-        fillLight.position.set(-5, 5, -5);
+
+        // Key light (principal) - tipo estudio
+        const keyLight = new THREE.DirectionalLight(0xffffff, 3.4);
+        keyLight.position.set(7, 10, 8);
+        keyLight.castShadow = true;
+        keyLight.shadow.mapSize.width = 2048;
+        keyLight.shadow.mapSize.height = 2048;
+        keyLight.shadow.camera.near = 0.5;
+        keyLight.shadow.camera.far = 60;
+        keyLight.shadow.bias = -0.00015;
+        scene.add(keyLight);
+
+        // Fill light (relleno) - elimina sombras duras
+        const fillLight = new THREE.DirectionalLight(0xffffff, 2.2);
+        fillLight.position.set(-8, 6, 6);
         scene.add(fillLight);
-        
-        // Luz puntual para destacar el modelo
-        const pointLight = new THREE.PointLight(0xffffff, 1.25, 25);
-        pointLight.position.set(0, 4, 6);
+
+        // Rim light (contraluz) - define silueta y brillos
+        const rimLight = new THREE.DirectionalLight(0xffffff, 1.8);
+        rimLight.position.set(-6, 8, -10);
+        scene.add(rimLight);
+
+        // Luz puntual frontal suave para detalles (faros/interior)
+        const pointLight = new THREE.PointLight(0xffffff, 1.6, 40);
+        pointLight.position.set(0, 5, 10);
         scene.add(pointLight);
     }
     
-    // Cargar el modelo 3D
-    function loadModel() {
-        const loader = new THREE.GLTFLoader();
-        
-        loader.load(
-            '../coches/ThunderBE/ThunderBERojo.glb',
-            function (gltf) {
-                model = gltf.scene;
-                
-                // Ajustar el modelo
-                let box = new THREE.Box3().setFromObject(model);
-                let size = box.getSize(new THREE.Vector3());
-                
-                // Escalar para que el coche quepa bien en el visor (un poco más grande)
-                const maxDim = Math.max(size.x, size.y, size.z);
-                const targetMax = 2.4;
-                const scale = targetMax / (maxDim || 1);
-                model.scale.setScalar(scale);
-
-                // Recalcular box tras escalar y centrar con precisión
-                box = new THREE.Box3().setFromObject(model);
-                const center = box.getCenter(new THREE.Vector3());
-                model.position.sub(center);
-
-                // Poner el coche "sobre el suelo"
-                box = new THREE.Box3().setFromObject(model);
-                model.position.y -= box.min.y;
-                
-                // Habilitar sombras
-                model.traverse(function (child) {
-                    if (child.isMesh) {
-                        child.castShadow = true;
-                        child.receiveShadow = true;
-
-                        if (child.material) {
-                            // Ayuda a que materiales PBR se vean menos apagados
-                            if (typeof child.material.envMapIntensity === 'number') {
-                                child.material.envMapIntensity = Math.max(child.material.envMapIntensity || 0, 1.2);
-                            }
-                            child.material.needsUpdate = true;
-                        }
-                    }
-                });
-                
-                // Usar un pivot para rotar siempre en el mismo eje (Y) sin desplazar cámara
-                modelRoot = new THREE.Group();
-                modelRoot.add(model);
-                scene.add(modelRoot);
-                modelLoaded = true;
-
-                // Encuadrar cámara al modelo
-                fitCameraToObject(modelRoot);
-                requestAnimationFrame(() => {
-                    updateRendererSize();
-                    fitCameraToObject(modelRoot);
-                });
-                
-                // Ocultar overlay de carga
-                document.getElementById('loadingOverlay').style.display = 'none';
-                
-                // Iniciar animación de zoom y rotación
-                startIntroAnimation();
-            },
-            function (xhr) {
-                console.log((xhr.loaded / xhr.total * 100) + '% cargado');
-            },
-            function (error) {
-                console.error('Error al cargar el modelo:', error);
-                document.getElementById('loadingOverlay').innerHTML = `
-                    <div style="text-align: center;">
-                        <p style="color: #dc143c; font-size: 18px;">Error al cargar el modelo 3D</p>
-                        <p style="margin-top: 10px;">Por favor, recarga la página</p>
-                    </div>
-                `;
-            }
-        );
-    }
+    // Cargar el modelo 3D (función deshabilitada para evitar conflictos)
+    // function loadModel() {
+    //     // Esta función está deshabilitada para evitar conflictos con loadThunderBEModel y loadThunderBERojoModel
+    // }
     
-    // Animación de introducción: rotación con zoom progresivo
+    // Animación de introducción épica con múltiples efectos
     function startIntroAnimation() {
         if (!modelLoaded) return;
         
-        const duration = 8000; // 8 segundos para la animación completa
-        const startRotation = (modelRoot || model).rotation.y;
-        const targetRotation = Math.PI * 2; // Rotación completa de 360°
-        
+        const duration = 4000; // 4 segundos para la animación completa
         const startTime = Date.now();
+        
+        // Guardar posiciones iniciales
+        const root = modelRoot || model;
+        const initialRotation = root.rotation.y;
+        const initialCameraPos = camera.position.clone();
+        const initialTarget = controls.target.clone();
+        
+        // Posiciones para la animación
+        const farCameraPos = initialCameraPos.clone().multiplyScalar(2.5); // 2.5x más lejos
+        const finalCameraPos = initialCameraPos.clone();
+        
+        // Configurar estado inicial
+        camera.position.copy(farCameraPos);
+        root.rotation.y = 0;
+        
+        // Ocultar solo el exterior del coche, preservando cristales, faros e interior
+        const introMaterialState = new WeakMap();
+        let introMaterialsRestored = false;
+        root.traverse((child) => {
+            if (!child.isMesh || !child.material) return;
+
+            const meshName = (child.name || '').toLowerCase();
+            
+            // Identificar elementos que NO deben ser afectados por la animación
+            const isGlass = 
+                meshName.includes('glass') ||
+                meshName.includes('window') ||
+                meshName.includes('cristal') ||
+                meshName.includes('ventana') ||
+                meshName.includes('headlight') ||
+                meshName.includes('taillight') ||
+                meshName.includes('light') ||
+                meshName.includes('faro') ||
+                meshName.includes('luz');
+
+            const isInterior = 
+                meshName.includes('interior') ||
+                meshName.includes('cabin') ||
+                meshName.includes('cockpit') ||
+                meshName.includes('seat') ||
+                meshName.includes('asiento') ||
+                meshName.includes('seats') ||
+                meshName.includes('chair') ||
+                meshName.includes('leather') ||
+                meshName.includes('dashboard') ||
+                meshName.includes('console');
+
+            // Si es cristal, faro o interior, no hacer nada
+            if (isGlass || isInterior) return;
+
+            if (Array.isArray(child.material)) {
+                child.material = child.material.map((m) => m.clone());
+            } else {
+                child.material = child.material.clone();
+            }
+
+            const materials = Array.isArray(child.material) ? child.material : [child.material];
+            materials.forEach((mat) => {
+                const matName = (mat.name || '').toLowerCase();
+                
+                // Verificación adicional por nombre de material
+                const isGlassMat = 
+                    matName.includes('glass') ||
+                    matName.includes('window') ||
+                    matName.includes('cristal') ||
+                    matName.includes('ventana') ||
+                    matName.includes('light') ||
+                    matName.includes('faro');
+
+                // Si el material es de cristal o luz, no afectarlo
+                if (isGlassMat) return;
+
+                introMaterialState.set(mat, {
+                    transparent: mat.transparent,
+                    opacity: mat.opacity,
+                    depthWrite: mat.depthWrite,
+                });
+
+                // Hacer solo el exterior completamente transparente inicialmente
+                mat.transparent = true;
+                mat.opacity = 0;
+                mat.depthWrite = false;
+                mat.needsUpdate = true;
+            });
+        });
+
+        const restoreIntroMaterials = () => {
+            if (introMaterialsRestored) return;
+            introMaterialsRestored = true;
+            root.traverse((child) => {
+                if (!child.isMesh || !child.material) return;
+                const materials = Array.isArray(child.material) ? child.material : [child.material];
+                materials.forEach((mat) => {
+                    const prev = introMaterialState.get(mat);
+                    if (!prev) return;
+                    mat.transparent = prev.transparent;
+                    mat.opacity = prev.opacity;
+                    mat.depthWrite = prev.depthWrite;
+                    mat.needsUpdate = true;
+                });
+            });
+        };
         
         function animateIntro() {
             const elapsed = Date.now() - startTime;
             const progress = Math.min(elapsed / duration, 1);
             
-            // Función de easing suave
-            const easeProgress = 1 - Math.pow(1 - progress, 3);
+            // Easing functions
+            const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+            const easeInOutCubic = (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+            const easeOutElastic = (t) => {
+                const c4 = (2 * Math.PI) / 3;
+                return t === 0 ? 0 : t === 1 ? 1 : Math.pow(2, -10 * t) * Math.sin((t * 10 - 0.75) * c4) + 1;
+            };
+            
+            // Fase 1: Zoom de cámara (0-50% de la animación)
+            const zoomProgress = Math.min(progress / 0.5, 1);
+            const easedZoom = easeOutCubic(zoomProgress);
+            camera.position.lerpVectors(farCameraPos, finalCameraPos, easedZoom);
+            
+            // Fase 2: Aparición del exterior del coche de transparente a opaco (0-80% de la animación)
+            const fadeProgress = Math.min(progress / 0.8, 1);
+            const easedFade = easeInOutCubic(fadeProgress);
 
-            // Rotar el coche (la cámara queda fija)
-            const root = modelRoot || model;
-            if (root) {
-                root.rotation.y = startRotation + (targetRotation * easeProgress);
+            root.traverse((child) => {
+                if (!child.isMesh || !child.material) return;
+                
+                const meshName = (child.name || '').toLowerCase();
+                
+                // Identificar elementos que NO deben ser afectados por la animación
+                const isGlass = 
+                    meshName.includes('glass') ||
+                    meshName.includes('window') ||
+                    meshName.includes('cristal') ||
+                    meshName.includes('ventana') ||
+                    meshName.includes('headlight') ||
+                    meshName.includes('taillight') ||
+                    meshName.includes('light') ||
+                    meshName.includes('faro') ||
+                    meshName.includes('luz');
+
+                const isInterior = 
+                    meshName.includes('interior') ||
+                    meshName.includes('cabin') ||
+                    meshName.includes('cockpit') ||
+                    meshName.includes('seat') ||
+                    meshName.includes('asiento') ||
+                    meshName.includes('seats') ||
+                    meshName.includes('chair') ||
+                    meshName.includes('leather') ||
+                    meshName.includes('dashboard') ||
+                    meshName.includes('console');
+
+                // Si es cristal, faro o interior, no hacer nada
+                if (isGlass || isInterior) return;
+
+                const materials = Array.isArray(child.material) ? child.material : [child.material];
+                materials.forEach((mat) => {
+                    const matName = (mat.name || '').toLowerCase();
+                    
+                    // Verificación adicional por nombre de material
+                    const isGlassMat = 
+                        matName.includes('glass') ||
+                        matName.includes('window') ||
+                        matName.includes('cristal') ||
+                        matName.includes('ventana') ||
+                        matName.includes('light') ||
+                        matName.includes('faro');
+
+                    // Si el material es de cristal o luz, no afectarlo
+                    if (isGlassMat) return;
+
+                    if (mat.transparent === true) {
+                        mat.opacity = easedFade;
+                        // Activar depthWrite cuando es suficientemente opaco
+                        if (easedFade > 0.1) {
+                            mat.depthWrite = true;
+                        }
+                        // Hacer opaco cuando esté completamente visible
+                        if (easedFade >= 0.99) {
+                            mat.transparent = false;
+                            mat.opacity = 1.0;
+                        }
+                        mat.needsUpdate = true;
+                    }
+                });
+            });
+            
+            // Fase 3: Rotación suave del coche (60-100% de la animación)
+            const rotationProgress = Math.min(Math.max((progress - 0.6) / 0.4, 0), 1);
+            const easedRotation = easeOutCubic(rotationProgress);
+            root.rotation.y = initialRotation + (Math.PI * 2 * easedRotation);
+            
+            // Fase 4: Efecto de "bounce" final (90-100% de la animación)
+            if (progress > 0.9) {
+                const bounceProgress = (progress - 0.9) / 0.1;
+                const bounce = Math.sin(bounceProgress * Math.PI) * 0.015;
+                camera.position.y += bounce;
             }
+            
+            // Actualizar controles
+            controls.update();
             
             if (progress < 1) {
                 requestAnimationFrame(animateIntro);
             } else {
-                // Al finalizar, configurar controles normales
+                // Asegurar que todo esté completamente opaco
+                restoreIntroMaterials();
+                
+                // Posición final exacta
+                camera.position.copy(finalCameraPos);
                 controls.update();
+                
+                // Efecto final de brillo sutil
+                setTimeout(() => {
+                    root.traverse((child) => {
+                        if (child.isMesh && child.material && child.material.emissive) {
+                            const originalEmissive = child.material.emissive.clone();
+                            child.material.emissive = new THREE.Color(0x222222);
+                            setTimeout(() => {
+                                child.material.emissive = originalEmissive;
+                            }, 300);
+                        }
+                    });
+                }, 200);
             }
         }
         
+        // Iniciar la animación
         animateIntro();
     }
     
@@ -410,8 +632,8 @@
     // Resize de ventana
     function onWindowResize() {
         updateRendererSize();
-        if (modelLoaded && model) {
-            fitCameraToObject(model);
+        if (modelLoaded && modelRoot) {
+            fitCameraToObject(modelRoot);
         }
     }
     
@@ -573,6 +795,711 @@
         e.preventDefault();
         // Redirigir al home con parámetro para scroll
         window.location.href = 'home.html#modelos';
+    });
+
+    // Funcionalidad del configurador
+    let currentConfiguration = {
+        color: 'negro',
+        wheel: 'acero',
+        packages: [],
+        basePrice: 89900
+    };
+
+    const prices = {
+        wheels: {
+            'acero': 0,
+            'sport': 2500
+        },
+        packages: {
+            'basic': 3500,
+            'premium': 6800,
+            'max': 9200
+        }
+    };
+
+    // Inicializar eventos de configuración
+    function initConfigurationEvents() {
+        // Opciones de color
+        document.querySelectorAll('.color-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+                currentConfiguration.color = this.dataset.color;
+                updatePrice();
+                // Cambiar color y modelo según la selección
+                updateModelColorAndModel(this.dataset.color);
+            });
+        });
+
+        // Opciones de llantas
+        document.querySelectorAll('.wheel-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.wheel-option').forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+                currentConfiguration.wheel = this.dataset.wheel;
+                updatePrice();
+                // Cambiar color de las llantas según el tipo
+                updateModelWheels(this.dataset.wheel);
+            });
+        });
+
+        // Opciones de paquetes
+        document.querySelectorAll('.package-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const packageId = this.id.replace('package-', '');
+                if (this.checked) {
+                    if (!currentConfiguration.packages.includes(packageId)) {
+                        currentConfiguration.packages.push(packageId);
+                    }
+                } else {
+                    currentConfiguration.packages = currentConfiguration.packages.filter(p => p !== packageId);
+                }
+                updatePrice();
+            });
+        });
+    }
+
+    // Actualizar precio
+    function updatePrice() {
+        let totalPrice = currentConfiguration.basePrice;
+        
+        // Añadir precio de llantas
+        totalPrice += prices.wheels[currentConfiguration.wheel];
+        
+        // Añadir precio de paquetes
+        currentConfiguration.packages.forEach(packageId => {
+            if (prices.packages[packageId]) {
+                totalPrice += prices.packages[packageId];
+            }
+        });
+        
+        // Actualizar display del precio
+        const priceElement = document.querySelector('.price-value');
+        if (priceElement) {
+            priceElement.textContent = `EUR${totalPrice.toLocaleString('es-ES')}`;
+        }
+    }
+
+    // Funciones para actualizar el modelo 3D
+    function updateModelColorAndModel(color) {
+        console.log('Cambiando color y modelo a:', color);
+        
+        // Si se selecciona negro, cargar el modelo ThunderBE.glb
+        if (color === 'negro') {
+            loadThunderBEModel();
+        } else if (color === 'rojo') {
+            // Si se selecciona rojo, cargar el modelo ThunderBERojo.glb
+            loadThunderBERojoModel();
+        }
+    }
+
+    function loadThunderBEModel() {
+        console.log('Cargando modelo ThunderBE...');
+        
+        // Mostrar overlay de carga
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        if (loadingOverlay) {
+            loadingOverlay.style.display = 'flex';
+            loadingOverlay.innerHTML = `
+                <div class="loading-spinner"></div>
+                <p>Cargando modelo ThunderBE...</p>
+            `;
+        }
+        
+        // Eliminar modelo actual
+        if (model && modelRoot) {
+            scene.remove(modelRoot);
+            model = null;
+            modelRoot = null;
+        }
+        
+        // Cargar nuevo modelo ThunderBE
+        const loader = new THREE.GLTFLoader();
+        loader.load(
+            '../coches/ThunderBE/ThunderBE.glb',
+            function (gltf) {
+                model = gltf.scene;
+                
+                // Limpiar colores originales anteriores
+                originalWheelColors = [];
+                
+                // Ajustar el modelo
+                let box = new THREE.Box3().setFromObject(model);
+                let size = box.getSize(new THREE.Vector3());
+                
+                // Escalar para que el coche quepa bien en el visor
+                const maxDim = Math.max(size.x, size.y, size.z);
+                const targetMax = 2.6;
+                const scale = targetMax / (maxDim || 1);
+                
+                // Ajuste específico para igualar tamaño con ThunderBERojo
+                const sizeAdjustment = 0.85; // Reducir tamaño para igualar con modelo rojo
+                model.scale.setScalar(scale * sizeAdjustment);
+
+                // Recalcular box tras escalar y centrar con precisión
+                box = new THREE.Box3().setFromObject(model);
+                const center = box.getCenter(new THREE.Vector3());
+                model.position.sub(center);
+
+                // Poner el coche "sobre el suelo" y elevarlo un poco más
+                box = new THREE.Box3().setFromObject(model);
+                model.position.y -= box.min.y;
+                model.position.y += 0.15;
+                
+                // Aplicar ajustes de materiales (oscurecer interiores, etc.)
+                model.traverse(function (child) {
+                    if (!child.isMesh) return;
+
+                    child.castShadow = true;
+                    child.receiveShadow = true;
+
+                    if (!child.material) return;
+
+                    // Clonar materiales para evitar problemas compartidos
+                    if (Array.isArray(child.material)) {
+                        child.material = child.material.map((mat) => mat.clone());
+                    } else {
+                        child.material = child.material.clone();
+                    }
+
+                    const materials = Array.isArray(child.material) ? child.material : [child.material];
+                    const meshName = (child.name || '').toLowerCase();
+
+                    materials.forEach((mat) => {
+                        const matName = (mat.name || '').toLowerCase();
+
+                        // Guardar colores originales de las llantas
+                        const isWheel = 
+                            meshName.includes('rim') ||
+                            meshName.includes('llanta') ||
+                            meshName.includes('wheel') && !meshName.includes('tire') ||
+                            matName.includes('rim') ||
+                            matName.includes('llanta') ||
+                            matName.includes('wheel') && !matName.includes('tire');
+
+                        if (isWheel && mat.color) {
+                            originalWheelColors.push({
+                                mesh: child,
+                                material: mat,
+                                originalColor: mat.color.getHex()
+                            });
+                        }
+
+                        const isGlass =
+                            mat.transparent === true ||
+                            (typeof mat.opacity === 'number' && mat.opacity < 0.999) ||
+                            (typeof mat.transmission === 'number' && mat.transmission > 0) ||
+                            matName.includes('glass') ||
+                            matName.includes('window') ||
+                            meshName.includes('glass') ||
+                            meshName.includes('window') ||
+                            meshName.includes('cristal') ||
+                            meshName.includes('ventana');
+
+                        const isInterior =
+                            meshName.includes('interior') ||
+                            meshName.includes('cabin') ||
+                            meshName.includes('cockpit') ||
+                            meshName.includes('seat') ||
+                            meshName.includes('asiento') ||
+                            meshName.includes('seats') ||
+                            meshName.includes('chair') ||
+                            meshName.includes('leather') ||
+                            matName.includes('interior') ||
+                            matName.includes('seat') ||
+                            matName.includes('asiento') ||
+                            matName.includes('leather');
+
+                        // Oscurecer interior/asientos
+                        if (!isGlass && isInterior) {
+                            if (mat.color) mat.color.setHex(0x2b2b2b);
+                            if (typeof mat.roughness === 'number') mat.roughness = Math.max(mat.roughness, 0.85);
+                            if (typeof mat.metalness === 'number') mat.metalness = Math.min(mat.metalness, 0.05);
+                            if (mat.emissive) {
+                                mat.emissive.setHex(0x000000);
+                                mat.emissiveIntensity = 0;
+                            }
+                        }
+
+                        mat.needsUpdate = true;
+                    });
+                });
+                
+                // Usar un pivot para rotar siempre en el mismo eje (Y)
+                modelRoot = new THREE.Group();
+                modelRoot.add(model);
+                scene.add(modelRoot);
+                modelLoaded = true;
+
+                // Encuadrar cámara al modelo
+                fitCameraToObject(modelRoot);
+                requestAnimationFrame(() => {
+                    updateRendererSize();
+                    fitCameraToObject(modelRoot);
+                });
+                
+                // Ocultar overlay de carga
+                if (loadingOverlay) {
+                    loadingOverlay.style.display = 'none';
+                }
+                
+                // Aplicar configuración de llantas por defecto (acero con negro)
+                updateModelWheels('acero');
+                
+                // Iniciar animación de zoom y rotación
+                startIntroAnimation();
+                
+                console.log('Modelo ThunderBE cargado correctamente');
+            },
+            function (xhr) {
+                console.log((xhr.loaded / xhr.total * 100) + '% cargado');
+            },
+            function (error) {
+                console.error('Error al cargar el modelo ThunderBE:', error);
+                if (loadingOverlay) {
+                    loadingOverlay.innerHTML = `
+                        <div style="text-align: center;">
+                            <p style="color: #dc143c; font-size: 18px;">Error al cargar el modelo 3D</p>
+                            <p style="margin-top: 10px;">Por favor, recarga la página</p>
+                        </div>
+                    `;
+                }
+            }
+        );
+    }
+
+    function loadThunderBERojoModel() {
+        console.log('Cargando modelo ThunderBERojo...');
+        
+        // Mostrar overlay de carga
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        if (loadingOverlay) {
+            loadingOverlay.style.display = 'flex';
+            loadingOverlay.innerHTML = `
+                <div class="loading-spinner"></div>
+                <p>Cargando modelo ThunderBERojo...</p>
+            `;
+        }
+        
+        // Eliminar modelo actual
+        if (model && modelRoot) {
+            scene.remove(modelRoot);
+            model = null;
+            modelRoot = null;
+        }
+        
+        // Cargar nuevo modelo ThunderBERojo
+        const loader = new THREE.GLTFLoader();
+        loader.load(
+            '../coches/ThunderBE/ThunderBERojo.glb',
+            function (gltf) {
+                model = gltf.scene;
+                
+                // Ajustar el modelo
+                let box = new THREE.Box3().setFromObject(model);
+                let size = box.getSize(new THREE.Vector3());
+                
+                // Escalar para que el coche quepa bien en el visor
+                const maxDim = Math.max(size.x, size.y, size.z);
+                const targetMax = 2.6;
+                const scale = targetMax / (maxDim || 1);
+                model.scale.setScalar(scale);
+
+                // Recalcular box tras escalar y centrar con precisión
+                box = new THREE.Box3().setFromObject(model);
+                const center = box.getCenter(new THREE.Vector3());
+                model.position.sub(center);
+
+                // Poner el coche "sobre el suelo" y elevarlo un poco más
+                box = new THREE.Box3().setFromObject(model);
+                model.position.y -= box.min.y;
+                model.position.y += 0.15;
+                
+                // Aplicar ajustes de materiales (oscurecer interiores, etc.)
+                model.traverse(function (child) {
+                    if (!child.isMesh) return;
+
+                    child.castShadow = true;
+                    child.receiveShadow = true;
+
+                    if (!child.material) return;
+
+                    // Clonar materiales para evitar problemas compartidos
+                    if (Array.isArray(child.material)) {
+                        child.material = child.material.map((mat) => mat.clone());
+                    } else {
+                        child.material = child.material.clone();
+                    }
+
+                    const materials = Array.isArray(child.material) ? child.material : [child.material];
+                    const meshName = (child.name || '').toLowerCase();
+
+                    materials.forEach((mat) => {
+                        const matName = (mat.name || '').toLowerCase();
+
+                        const isGlass =
+                            mat.transparent === true ||
+                            (typeof mat.opacity === 'number' && mat.opacity < 0.999) ||
+                            (typeof mat.transmission === 'number' && mat.transmission > 0) ||
+                            matName.includes('glass') ||
+                            matName.includes('window') ||
+                            meshName.includes('glass') ||
+                            meshName.includes('window') ||
+                            meshName.includes('cristal') ||
+                            meshName.includes('ventana');
+
+                        const isInterior =
+                            meshName.includes('interior') ||
+                            meshName.includes('cabin') ||
+                            meshName.includes('cockpit') ||
+                            meshName.includes('seat') ||
+                            meshName.includes('asiento') ||
+                            meshName.includes('seats') ||
+                            meshName.includes('chair') ||
+                            meshName.includes('leather') ||
+                            matName.includes('interior') ||
+                            matName.includes('seat') ||
+                            matName.includes('asiento') ||
+                            matName.includes('leather');
+
+                        // Oscurecer interior/asientos
+                        if (!isGlass && isInterior) {
+                            if (mat.color) mat.color.setHex(0x2b2b2b);
+                            if (typeof mat.roughness === 'number') mat.roughness = Math.max(mat.roughness, 0.85);
+                            if (typeof mat.metalness === 'number') mat.metalness = Math.min(mat.metalness, 0.05);
+                            if (mat.emissive) {
+                                mat.emissive.setHex(0x000000);
+                                mat.emissiveIntensity = 0;
+                            }
+                        }
+
+                        mat.needsUpdate = true;
+                    });
+                });
+                
+                // Usar un pivot para rotar siempre en el mismo eje (Y)
+                modelRoot = new THREE.Group();
+                modelRoot.add(model);
+                scene.add(modelRoot);
+                modelLoaded = true;
+
+                // Encuadrar cámara al modelo
+                fitCameraToObject(modelRoot);
+                requestAnimationFrame(() => {
+                    updateRendererSize();
+                    fitCameraToObject(modelRoot);
+                });
+                
+                // Ocultar overlay de carga
+                if (loadingOverlay) {
+                    loadingOverlay.style.display = 'none';
+                }
+                
+                // Aplicar configuración de llantas por defecto (acero con negro)
+                updateModelWheels('acero');
+                
+                // Iniciar animación de zoom y rotación
+                startIntroAnimation();
+                
+                console.log('Modelo ThunderBERojo cargado correctamente');
+            },
+            function (xhr) {
+                console.log((xhr.loaded / xhr.total * 100) + '% cargado');
+            },
+            function (error) {
+                console.error('Error al cargar el modelo ThunderBERojo:', error);
+                if (loadingOverlay) {
+                    loadingOverlay.innerHTML = `
+                        <div style="text-align: center;">
+                            <p style="color: #dc143c; font-size: 18px;">Error al cargar el modelo 3D</p>
+                            <p style="margin-top: 10px;">Por favor, recarga la página</p>
+                        </div>
+                    `;
+                }
+            }
+        );
+    }
+
+    function updateModelWheels(wheelType) {
+        console.log('Cambiando tipo de llantas a:', wheelType);
+        if (!modelLoaded || !model) return;
+        
+        let wheelsFound = 0;
+        let wheelsChanged = 0;
+        
+        // Recorrer todo el modelo y buscar llantas
+        model.traverse(function (child) {
+            if (!child.isMesh || !child.material) return;
+            
+            const meshName = (child.name || '').toLowerCase();
+            const materials = Array.isArray(child.material) ? child.material : [child.material];
+            
+            materials.forEach((mat) => {
+                const matName = (mat.name || '').toLowerCase();
+                
+                // Buscar cualquier mesh que contenga wheel, rim, o llanta
+                const isWheel = 
+                    meshName.includes('wheel') ||
+                    meshName.includes('rim') ||
+                    meshName.includes('llanta') ||
+                    matName.includes('wheel') ||
+                    matName.includes('rim') ||
+                    matName.includes('llanta');
+                
+                if (isWheel) {
+                    wheelsFound++;
+                    console.log('LLANTA ENCONTRADA:', meshName, matName);
+                    
+                    if (mat.color) {
+                        if (wheelType === 'acero') {
+                            // Para acero, aplicar negro completamente oscuro
+                            mat.color.setHex(0x000000);
+                            mat.roughness = 1.0;
+                            mat.metalness = 0.0;
+                            if (mat.emissive) {
+                                mat.emissive.setHex(0x000000);
+                                mat.emissiveIntensity = 0;
+                            }
+                            if (typeof mat.envMapIntensity === 'number') {
+                                mat.envMapIntensity = 0;
+                            }
+                            mat.needsUpdate = true;
+                            wheelsChanged++;
+                            console.log('Aplicando color NEGRO TOTAL a llanta acero:', meshName);
+                        } else if (wheelType === 'sport') {
+                            // Para sport, aplicar color gris oscuro
+                            mat.color.setHex(0x333333);
+                            mat.roughness = 0.4;
+                            mat.metalness = 0.7;
+                            mat.needsUpdate = true;
+                            wheelsChanged++;
+                            console.log('Aplicando color GRIS OSCURO a llanta sport:', meshName);
+                        }
+                    }
+                }
+            });
+        });
+        
+        console.log(`Llantas encontradas: ${wheelsFound}, Llantas cambiadas: ${wheelsChanged}`);
+        console.log(`Tipo de llantas cambiado a ${wheelType}`);
+    }
+
+    
+    
+    // Funciones de acción
+    window.resetConfiguration = function() {
+        // Resetear a valores por defecto
+        currentConfiguration = {
+            color: 'negro',
+            wheel: 'acero',
+            packages: [],
+            basePrice: 89900
+        };
+        
+        // Resetear UI
+        document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('active'));
+        document.querySelector('.color-option[data-color="negro"]').classList.add('active');
+        
+        document.querySelectorAll('.wheel-option').forEach(opt => opt.classList.remove('active'));
+        document.querySelector('.wheel-option[data-wheel="acero"]').classList.add('active');
+        
+        document.querySelectorAll('.package-checkbox').forEach(cb => cb.checked = false);
+        
+        updatePrice();
+        
+        // Aplicar cambios al modelo 3D
+        if (modelLoaded) {
+            updateModelColorAndModel('negro');
+            updateModelWheels('acero');
+        }
+        
+        // Mostrar notificación
+        showNotification('Configuración restablecida', 'info');
+    };
+
+    window.saveConfiguration = function() {
+        // Guardar configuración en localStorage o enviar a servidor
+        const configData = {
+            ...currentConfiguration,
+            timestamp: new Date().toISOString(),
+            totalPrice: document.querySelector('.price-value').textContent
+        };
+        
+        localStorage.setItem('thunderConfiguration', JSON.stringify(configData));
+        
+        // Mostrar notificación
+        
+        
+        
+        
+        
+    
+        showNotification('Configuración guardada correctamente', 'success');
+        
+        console.log('Configuración guardada:', configData);
+    };
+
+    // Función para mostrar notificaciones
+    function showNotification(message, type = 'info') {
+        // Crear elemento de notificación
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.textContent = message;
+        
+        // Estilos para la notificación
+        Object.assign(notification.style, {
+            position: 'fixed',
+            top: '100px',
+            right: '20px',
+            padding: '15px 20px',
+            borderRadius: '8px',
+            color: 'white',
+            fontWeight: '500',
+            zIndex: '10000',
+            transform: 'translateX(100%)',
+            transition: 'transform 0.3s ease',
+            maxWidth: '300px',
+            fontFamily: "'Inter', sans-serif"
+        });
+        
+        // Color según tipo
+        switch(type) {
+            case 'success':
+                notification.style.background = 'linear-gradient(135deg, #28a745, #20c997)';
+                break;
+            case 'error':
+                notification.style.background = 'linear-gradient(135deg, #dc3545, #c82333)';
+                break;
+            default:
+                notification.style.background = 'linear-gradient(135deg, #007bff, #0056b3)';
+        }
+        
+        document.body.appendChild(notification);
+        
+        // Animar entrada
+        setTimeout(() => {
+            notification.style.transform = 'translateX(0)';
+        }, 100);
+        
+        // Remover después de 3 segundos
+        setTimeout(() => {
+            notification.style.transform = 'translateX(100%)';
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 300);
+        }, 3000);
+    }
+
+    // Cargar configuración guardada si existe
+    function loadSavedConfiguration() {
+        const saved = localStorage.getItem('thunderConfiguration');
+        if (saved) {
+            try {
+                const configData = JSON.parse(saved);
+                console.log('Configuración cargada:', configData);
+                
+                // Aplicar configuración guardada
+                if (configData.color) {
+                    const colorOption = document.querySelector(`.color-option[data-color="${configData.color}"]`);
+                    if (colorOption) {
+                        document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('active'));
+                        colorOption.classList.add('active');
+                        currentConfiguration.color = configData.color;
+                        updateModelColorAndModel(configData.color);
+                    }
+                }
+                if (configData.wheel) {
+                    const wheelOption = document.querySelector(`.wheel-option[data-wheel="${configData.wheel}"]`);
+                    if (wheelOption) {
+                        document.querySelectorAll('.wheel-option').forEach(opt => opt.classList.remove('active'));
+                        wheelOption.classList.add('active');
+                        currentConfiguration.wheel = configData.wheel;
+                        updateModelWheels(configData.wheel);
+                    }
+                }
+                
+                // Aplicar paquetes
+                if (configData.packages && Array.isArray(configData.packages)) {
+                    configData.packages.forEach(packageId => {
+                        const checkbox = document.getElementById(`package-${packageId}`);
+                        if (checkbox) {
+                            checkbox.checked = true;
+                            checkbox.dispatchEvent(new Event('change'));
+                        }
+                    });
+                }
+                
+                updatePrice();
+                showNotification('Configuración anterior cargada', 'info');
+            } catch (error) {
+                console.error('Error al cargar configuración guardada:', error);
+            }
+        }
+    }
+
+    // Función para depurar el modelo
+    function debugModelStructure() {
+        if (!modelLoaded || !model) {
+            console.log('Modelo no cargado aún');
+            return;
+        }
+        
+        console.log('=== ESTRUCTURA DEL MODELO ===');
+        let seatCount = 0;
+        let meshCount = 0;
+        
+        model.traverse(function (child) {
+            meshCount++;
+            const meshName = (child.name || '').toLowerCase();
+            
+            if (child.isMesh && child.material) {
+                const materials = Array.isArray(child.material) ? child.material : [child.material];
+                
+                materials.forEach((mat) => {
+                    const matName = (mat.name || '').toLowerCase();
+                    
+                    // Buscar asientos
+                    if (meshName.includes('seat') || meshName.includes('asiento') || 
+                        meshName.includes('chair') || meshName.includes('leather') ||
+                        matName.includes('seat') || matName.includes('asiento') || 
+                        matName.includes('chair') || matName.includes('leather')) {
+                        
+                        seatCount++;
+                        console.log(`ASIENTO ${seatCount}:`, {
+                            meshName: meshName,
+                            materialName: matName,
+                            currentColor: mat.color ? mat.color.getHex().toString(16) : 'no color',
+                            hasColor: !!mat.color,
+                            isTransparent: mat.transparent || (mat.opacity && mat.opacity < 0.999)
+                        });
+                    }
+                });
+            }
+        });
+        
+        console.log(`Total meshes: ${meshCount}`);
+        console.log(`Total asientos encontrados: ${seatCount}`);
+        
+        if (seatCount === 0) {
+            console.warn('No se encontraron asientos. Revisa los nombres en el modelo 3D.');
+        }
+    }
+
+    // Inicializar cuando el DOM esté listo
+    document.addEventListener('DOMContentLoaded', function() {
+        // Esperar un poco a que se cargue el modelo 3D
+        setTimeout(() => {
+            initConfigurationEvents();
+            loadSavedConfiguration();
+            updatePrice();
+            
+            // Depurar estructura del modelo después de cargar
+            setTimeout(() => {
+                debugModelStructure();
+            }, 2000);
+        }, 1000);
     });
 </script>
 </body>
