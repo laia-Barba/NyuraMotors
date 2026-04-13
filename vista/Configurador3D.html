@@ -140,15 +140,11 @@
                     </div>
                 </div>
                 
-                <!-- Botones de acción -->
+                <!-- Botón de acción -->
                 <div class="action-buttons">
                     <button class="btn-secondary" onclick="resetConfiguration()">
                         <span>🔄</span>
                         Restablecer Configuración
-                    </button>
-                    <button class="btn-primary" onclick="saveConfiguration()">
-                        <span>💾</span>
-                        Guardar Configuración
                     </button>
                 </div>
             </div>
@@ -1392,53 +1388,7 @@
         }, 3000);
     }
 
-    // Cargar configuración guardada si existe
-    function loadSavedConfiguration() {
-        const saved = localStorage.getItem('thunderConfiguration');
-        if (saved) {
-            try {
-                const configData = JSON.parse(saved);
-                console.log('Configuración cargada:', configData);
-                
-                // Aplicar configuración guardada
-                if (configData.color) {
-                    const colorOption = document.querySelector(`.color-option[data-color="${configData.color}"]`);
-                    if (colorOption) {
-                        document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('active'));
-                        colorOption.classList.add('active');
-                        currentConfiguration.color = configData.color;
-                        updateModelColorAndModel(configData.color);
-                    }
-                }
-                if (configData.wheel) {
-                    const wheelOption = document.querySelector(`.wheel-option[data-wheel="${configData.wheel}"]`);
-                    if (wheelOption) {
-                        document.querySelectorAll('.wheel-option').forEach(opt => opt.classList.remove('active'));
-                        wheelOption.classList.add('active');
-                        currentConfiguration.wheel = configData.wheel;
-                        updateModelWheels(configData.wheel);
-                    }
-                }
-                
-                // Aplicar paquetes
-                if (configData.packages && Array.isArray(configData.packages)) {
-                    configData.packages.forEach(packageId => {
-                        const checkbox = document.getElementById(`package-${packageId}`);
-                        if (checkbox) {
-                            checkbox.checked = true;
-                            checkbox.dispatchEvent(new Event('change'));
-                        }
-                    });
-                }
-                
-                updatePrice();
-                showNotification('Configuración anterior cargada', 'info');
-            } catch (error) {
-                console.error('Error al cargar configuración guardada:', error);
-            }
-        }
-    }
-
+    
     // Función para depurar el modelo
     function debugModelStructure() {
         if (!modelLoaded || !model) {
@@ -1492,7 +1442,6 @@
         // Esperar un poco a que se cargue el modelo 3D
         setTimeout(() => {
             initConfigurationEvents();
-            loadSavedConfiguration();
             updatePrice();
             
             // Depurar estructura del modelo después de cargar
