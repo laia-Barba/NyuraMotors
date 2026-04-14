@@ -98,7 +98,7 @@
 
 body {
     font-family: 'Inter', 'Roboto', sans-serif;
-    background-color: #F5F7FB;
+    background: url('../Imagenes/Escenario2.png') center / cover no-repeat;
     color: #111318;
     line-height: 1.6;
     min-height: 100vh;

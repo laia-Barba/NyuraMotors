@@ -1,10 +1,55 @@
 /* Estilos específicos del configurador 3D - Nuevo Layout */
 
+/* Estilos del header del home para el configurador */
+.logo-img {
+    height: 45px;
+    width: auto;
+    object-fit: contain;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+nav a {
+    text-decoration: none;
+    color: #000000;
+    font-weight: 500;
+    transition: none;
+    position: relative;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+}
+
+nav a:hover {
+    color: #FFFFFF;
+    background: rgba(0, 0, 0, 0.9);
+    border: 1px solid rgba(0, 0, 0, 1);
+    padding: 1rem 2rem;
+    border-radius: 50px;
+}
+
+nav a:first-child:hover {
+    background: transparent;
+    border: none;
+    padding: 1rem 2rem;
+}
+
+nav a::after {
+    display: none;
+}
+
+nav a:hover::after {
+    display: none;
+}
+
 /* Contenedor principal del configurador */
 .configurator-container {
     position: relative;
     width: 100%;
-    height: 100vh; /* Ocupa toda la pantalla */
+    height: 100vh; /* Altura normal hasta el footer */
     margin-top: 0;
     margin-bottom: 0;
     overflow: hidden;
@@ -15,7 +60,7 @@
 /* Layout principal del configurador */
 .configurator-layout {
     display: flex;
-    height: 100vh; /* Altura fija para el configurador */
+    height: 100vh; /* Más grande para llegar al footer */
     width: 100%;
     background: transparent;
     max-width: 1400px;
@@ -59,11 +104,11 @@
     right: 0;
     transform: translateY(-50%);
     width: 420px;
-    max-height: 85vh;
+    max-height: 90vh;
     display: flex;
     flex-direction: column;
     background: linear-gradient(145deg, #1a1a1a 0%, #2d2d2d 30%, #1f1f1f 60%, #0f0f0f 100%);
-    overflow: hidden;
+    overflow-y: auto;
     padding: 0;
     border-radius: 25px 0 0 25px;
     box-shadow: 

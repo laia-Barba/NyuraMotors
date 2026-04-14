@@ -106,7 +106,7 @@
 
 
 
-    <main class="configurator-container">
+    <main class="configurator-container" style="margin-top: 60px;">
 
 
 
@@ -487,67 +487,6 @@
 
 
 
-                        <div class="package-option">
-
-
-
-                            <div class="package-header">
-
-
-
-                                <input type="checkbox" id="package-max" class="package-checkbox">
-
-
-
-                                <label for="package-max" class="package-label">
-
-
-
-                                    <span class="package-name">Tech Max Connected</span>
-
-
-
-                                    <span class="package-price">+€9,200</span>
-
-
-
-                                </label>
-
-
-
-                            </div>
-
-
-
-                            <div class="package-features">
-
-
-
-                                <span>• Todo lo anterior</span>
-
-
-
-                                <span>• Pantalla 17" Curva</span>
-
-
-
-                                <span>• Conducción Autónoma Nivel 3</span>
-
-
-
-                                <span>• AR HUD</span>
-
-
-
-                                <span>• Conectividad 5G</span>
-
-
-
-                            </div>
-
-
-
-                        </div>
 
 
 
@@ -1255,7 +1194,7 @@
 
 
 
-        camera.position.set(center.x, center.y + size.y * 0.35, center.z + distance); // Ligeramente más alto para mejor perspectiva
+        camera.position.set(center.x, center.y + size.y * 0.5, center.z + distance); // Más alto para ver mejor la plataforma
 
 
 
@@ -3939,7 +3878,7 @@
 
 
 
-                model.position.y += 0.15;
+                model.position.y += 0.8;
 
 
 
@@ -4619,7 +4558,7 @@
 
 
 
-                model.position.y += 0.15;
+                model.position.y += 0.8;
 
 
 
@@ -5977,6 +5916,16 @@
 
             }, 2000);
         }, 1000);
+    });
+
+    // Efecto de scroll en header - igual que en home
+    window.addEventListener('scroll', function() {
+        const header = document.querySelector('header');
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
     });
 </script>
 </body>
