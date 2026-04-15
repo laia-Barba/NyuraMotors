@@ -215,6 +215,19 @@
         </p>
     </div>
 </footer>
+
+<!-- Popup de confirmación personalizado -->
+<div id="exitConfirmationPopup" class="exit-confirmation-popup">
+    <div class="popup-content">
+        <h3>¿Salir de vista interior?</h3>
+        <p>¿Estás seguro de que quieres salir de la vista interior y volver a la vista exterior?</p>
+        <div class="popup-buttons">
+            <button class="popup-btn cancel-btn" id="cancelExitBtn">Cancelar</button>
+            <button class="popup-btn confirm-btn" id="confirmExitBtn">Salir</button>
+        </div>
+    </div>
+</div>
+
 <!-- Three.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -225,11 +238,14 @@
     let scene, camera, renderer, model, modelRoot, controls;
     let isRotating = true;
     let animationId;
+    let exteriorCamera = null;
+    let savedModelPosition = null;
+    let savedModelRotation = null;
+    let savedModelScale = null;
     let modelLoaded = false;
     let originalWheelColors = []; // Guardar colores originales de las llantas
     // Variables para gestión de cámaras
     let currentCameraMode = 'exterior'; // 'exterior' o 'interior'
-    let exteriorCamera;
     // Función de inicialización
     function init() {
         // Crear la escena
@@ -607,9 +623,37 @@
             interiorBtn.addEventListener('click', () => showInteriorView());
         }
         if (backToExteriorBtn) {
-            backToExteriorBtn.addEventListener('click', () => showExteriorView());
+            backToExteriorBtn.addEventListener('click', () => {
+                showExitConfirmationPopup();
+            });
         }
     }
+    // Función para mostrar popup de confirmación
+    function showExitConfirmationPopup() {
+        const popup = document.getElementById('exitConfirmationPopup');
+        const cancelBtn = document.getElementById('cancelExitBtn');
+        const confirmBtn = document.getElementById('confirmExitBtn');
+        
+        if (popup) {
+            popup.style.display = 'flex';
+            
+            // Event listener para botón cancelar
+            if (cancelBtn) {
+                cancelBtn.onclick = () => {
+                    popup.style.display = 'none';
+                };
+            }
+            
+            // Event listener para botón confirmar
+            if (confirmBtn) {
+                confirmBtn.onclick = () => {
+                    popup.style.display = 'none';
+                    showExteriorView();
+                };
+            }
+        }
+    }
+
     // Funciones para navegar entre vistas
     function showExteriorView() {
         const layout = document.querySelector('.configurator-layout');
@@ -673,6 +717,16 @@
             fitCameraToObject(modelRoot);
         } else if (modelRoot) {
             fitCameraToObject(modelRoot);
+        }
+        // RESTAURAR POSICIÓN Y ESCALA DEL MODELO GUARDADAS ANTES DE ENTRAR AL MODO INTERIOR
+        if (modelRoot && savedModelPosition && savedModelRotation && savedModelScale) {
+            modelRoot.position.copy(savedModelPosition);
+            modelRoot.rotation.copy(savedModelRotation);
+            modelRoot.scale.copy(savedModelScale);
+            savedModelPosition = null;
+            savedModelRotation = null;
+            savedModelScale = null;
+            console.log('Restaurada posición y escala del modelo:', modelRoot.position, modelRoot.rotation, modelRoot.scale);
         }
         // Resetear sistema interior
         interiorLoaded = false;
