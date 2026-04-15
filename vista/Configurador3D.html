@@ -122,6 +122,16 @@
 
 
 
+                <!-- Botones de selección de cámara -->
+                <div class="camera-selector">
+                    <button class="camera-btn active" data-camera="exterior" id="exteriorCameraBtn">
+                        Exterior
+                    </button>
+                    <button class="camera-btn" data-camera="interior" id="interiorCameraBtn">
+                        Interior
+                    </button>
+                </div>
+
                 <div id="canvas-container">
 
 
@@ -154,6 +164,28 @@
 
 
 
+            <!-- Vista Interior (oculta por defecto) -->
+            <div class="interior-view" id="interiorView" style="display: none;">
+                <!-- Botón para volver a vista exterior -->
+                <div class="back-to-exterior">
+                    <button class="back-btn" id="backToExteriorBtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 16px; height: 16px; margin-right: 6px;">
+                            <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                        </svg>
+                        Volver al Exterior
+                    </button>
+                </div>
+
+                <div id="interior-canvas-container">
+                    <div class="loading-overlay" id="interiorLoadingOverlay">
+                        <div class="loading-spinner"></div>
+                        <p>Cargando vista interior...</p>
+                    </div>
+                </div>
+            </div>
+
+
+
             <!-- Panel derecho - Configuración -->
 
 
@@ -166,7 +198,7 @@
 
 
 
-                    <h2>Personaliza tu Thunder</h2>
+                    <h2>Personaliza tu Thunder Black Edition</h2>
 
 
 
@@ -218,7 +250,7 @@
 
 
 
-                            <span>Negro Mate</span>
+                            <span>Negro</span>
 
 
 
@@ -234,7 +266,7 @@
 
 
 
-                            <span>Rojo Passion</span>
+                            <span>Rojo</span>
 
 
 
@@ -872,23 +904,17 @@
 
     let scene, camera, renderer, model, modelRoot, controls;
 
-
-
     let isRotating = true;
-
-
 
     let animationId;
 
-
-
     let modelLoaded = false;
-
-
 
     let originalWheelColors = []; // Guardar colores originales de las llantas
 
-
+    // Variables para gestión de cámaras
+    let currentCameraMode = 'exterior'; // 'exterior' o 'interior'
+    let exteriorCamera;
 
     
 
@@ -924,9 +950,10 @@
 
         camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
 
-
-
         camera.position.set(0, 1.5, 5);
+        
+        // Guardar cámara exterior como referencia
+        exteriorCamera = camera.clone();
 
 
 
@@ -2565,83 +2592,178 @@
         window.addEventListener('resize', onWindowResize);
 
 
+        // Event listeners para botones de cámara
+        const exteriorBtn = document.getElementById('exteriorCameraBtn');
+        const interiorBtn = document.getElementById('interiorCameraBtn');
+        const backToExteriorBtn = document.getElementById('backToExteriorBtn');
 
+        if (exteriorBtn) {
+            exteriorBtn.addEventListener('click', () => showExteriorView());
+        }
+
+        if (interiorBtn) {
+            interiorBtn.addEventListener('click', () => showInteriorView());
+        }
+
+        if (backToExteriorBtn) {
+            backToExteriorBtn.addEventListener('click', () => showExteriorView());
+        }
+    }
+
+    // Funciones para navegar entre vistas
+    function showExteriorView() {
+        const viewerPanel = document.querySelector('.viewer-panel');
+        const interiorView = document.getElementById('interiorView');
+        const exteriorBtn = document.getElementById('exteriorCameraBtn');
+        const interiorBtn = document.getElementById('interiorCameraBtn');
+
+        viewerPanel.style.display = 'block';
+        interiorView.style.display = 'none';
+        exteriorBtn.classList.add('active');
+        interiorBtn.classList.remove('active');
+    }
+
+    function showInteriorView() {
+        const viewerPanel = document.querySelector('.viewer-panel');
+        const interiorView = document.getElementById('interiorView');
+        const exteriorBtn = document.getElementById('exteriorCameraBtn');
+        const interiorBtn = document.getElementById('interiorCameraBtn');
+
+        viewerPanel.style.display = 'none';
+        interiorView.style.display = 'block';
+        exteriorBtn.classList.remove('active');
+        interiorBtn.classList.add('active');
+
+        // Inicializar la vista interior si no está hecho
+        if (!interiorScene) {
+            initInteriorView();
+        }
+    }
+
+    // Variables para la vista interior
+    let interiorScene, interiorCamera, interiorRenderer, interiorControls, interiorModel;
+    let interiorLoaded = false;
+
+    // Función para inicializar la vista interior
+    function initInteriorView() {
+        const container = document.getElementById('interior-canvas-container');
+        const loadingOverlay = document.getElementById('interiorLoadingOverlay');
+
+        // Crear escena interior
+        interiorScene = new THREE.Scene();
+
+        // Crear cámara interior
+        interiorCamera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+        interiorCamera.position.set(0, 0.6, -0.5); // Dentro del vehículo
+        interiorCamera.lookAt(0, 0.6, 2);
+
+        // Crear renderer
+        interiorRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        interiorRenderer.setSize(container.clientWidth, container.clientHeight);
+        interiorRenderer.setPixelRatio(window.devicePixelRatio);
+        interiorRenderer.shadowMap.enabled = true;
+        interiorRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        container.appendChild(interiorRenderer.domElement);
+
+        // Crear controles
+        interiorControls = new THREE.OrbitControls(interiorCamera, interiorRenderer.domElement);
+        interiorControls.enableRotate = true;
+        interiorControls.enablePan = false;
+        interiorControls.enableZoom = false;
+        interiorControls.minPolarAngle = Math.PI * 0.5; // Solo horizontal
+        interiorControls.maxPolarAngle = Math.PI * 0.5; // Solo horizontal
+
+        // Cargar el mismo modelo pero para vista interior
+        loadInteriorModel();
+
+        // Ocultar loading
+        loadingOverlay.style.display = 'none';
+
+        // Iniciar animación interior
+        animateInterior();
+    }
+
+    // Función para cargar modelo interior
+    function loadInteriorModel() {
+        const loader = new THREE.GLTFLoader();
+        loader.load(
+            '../modelo/thunder.glb',
+            function(gltf) {
+                interiorModel = gltf.scene;
+                interiorScene.add(interiorModel);
+                
+                // Posicionar el modelo para vista interior
+                interiorModel.position.set(0, 0, 0);
+                interiorModel.rotation.y = Math.PI; // Girar para vista interior
+                
+                interiorLoaded = true;
+            },
+            function(progress) {
+                console.log('Loading progress:', (progress.loaded / progress.total * 100) + '%');
+            },
+            function(error) {
+                console.error('Error loading interior model:', error);
+            }
+        );
+    }
+
+    // Función de animación interior
+    function animateInterior() {
+        requestAnimationFrame(animateInterior);
+        
+        if (interiorControls) {
+            interiorControls.update();
+        }
+        
+        if (interiorRenderer && interiorScene && interiorCamera) {
+            interiorRenderer.render(interiorScene, interiorCamera);
+        }
     }
 
 
 
-    
+    // Función para crear la cámara interior
+    function createInteriorCamera() {
+        if (!modelRoot) {
+            console.warn('El modelo no está cargado, no se puede crear la cámara interior');
+            return;
+        }
+
+        // Crear cámara interior en posición fija entre los asientos delanteros
+        interiorCamera = new THREE.PerspectiveCamera(75, renderer.domElement.width / renderer.domElement.height, 0.1, 1000);
+        
+        // Posición dentro del vehículo (ajustada para estar realmente dentro)
+        // Valores ajustados para estar dentro del coche
+        interiorCamera.position.set(0, 0.6, -0.5); // Centrado, altura de ojos, dentro del vehículo
+        
+        // Mirar hacia adelante (hacia el parabrisas)
+        interiorCamera.lookAt(0, 0.6, 2);
+        
+        console.log('Cámara interior creada en posición:', interiorCamera.position);
+    }
 
 
 
     function updateRendererSize() {
-
-
-
         const container = document.getElementById('canvas-container');
-
-
 
         if (!container || !renderer || !camera) return;
 
-
-
         const width = Math.max(1, container.clientWidth);
-
-
-
         const height = Math.max(1, container.clientHeight);
 
-
-
-
-
-
-
         camera.aspect = width / height;
-
-
-
         camera.updateProjectionMatrix();
-
-
-
         renderer.setSize(width, height);
-
-
-
     }
 
-
-
-
-
-
-
     // Resize de ventana
-
-
-
     function onWindowResize() {
-
-
-
         updateRendererSize();
 
-
-
         if (modelLoaded && modelRoot) {
-
-
-
             fitCameraToObject(modelRoot);
-
-
-
         }
-
-
-
     }
 
 
@@ -5914,7 +6036,7 @@
 
 
 
-            }, 2000);
+            }, 2000);   
         }, 1000);
     });
 
