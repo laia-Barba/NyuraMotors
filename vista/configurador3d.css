@@ -1082,14 +1082,14 @@ footer::before {
 }
 
 .footer-bottom a {
-    color: #dc143c !important;
+    color: #4A6FFF !important;
     text-decoration: none !important;
     transition: all 0.3s ease !important;
     font-weight: 500 !important;
 }
 
 .footer-bottom a:hover {
-    color: #ff4458 !important;
+    color: #ffffff !important;
     text-decoration: underline !important;
 }
 
