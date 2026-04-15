@@ -2616,6 +2616,178 @@ main {
     color: #FFFFFF;
 }
 
+/* Container y Grid para Gamas - Compacto */
+.gamas-container {
+    margin-top: 2rem;
+}
+
+.gamas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* Gama Cards Estilo Horizontal Elegante */
+.gama-card {
+    background: rgba(20, 20, 20, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    min-height: 140px;
+}
+
+.gama-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+.gama-card__image {
+    width: 200px;
+    flex-shrink: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.gama-card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.gama-card:hover .gama-card__image img {
+    transform: scale(1.05);
+}
+
+.gama-card__info {
+    flex: 1;
+    padding: 1.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+}
+
+.gama-card__info h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: #ffffff;
+    margin: 0 0 0.5rem 0;
+    transition: color 0.3s ease;
+}
+
+.gama-card:hover .gama-card__info h3 {
+    color: #ffffff;
+}
+
+.gama-card__info p {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0;
+    line-height: 1.5;
+    transition: color 0.3s ease;
+}
+
+.gama-card:hover .gama-card__info p {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Botón Explorar Modelos Mejorado - Compacto */
+.gamas-cta {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.btn-explore {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 2.5rem;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+    color: #ffffff;
+    text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 300;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.btn-explore::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(255, 255, 255, 0.1) 50%, 
+        transparent 100%);
+    transition: left 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-explore::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, 
+        rgba(255, 255, 255, 0.05) 0%, 
+        transparent 70%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+}
+
+.btn-explore:hover {
+    border-color: rgba(255, 255, 255, 0.4);
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+    text-decoration: none;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.btn-explore:hover::before {
+    left: 100%;
+}
+
+.btn-explore:hover::after {
+    opacity: 1;
+}
+
+.btn-explore span {
+    position: relative;
+    z-index: 2;
+}
+
+.btn-explore svg {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    z-index: 2;
+}
+
+.btn-explore:hover svg {
+    transform: translateX(4px) translateY(-2px);
+}
+
 .modelo-placeholder:hover {
     transform: translateY(-5px);
     box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
@@ -2676,6 +2848,120 @@ main {
 
 .modelo-info {
     padding: 1rem;
+}
+
+/* Responsive para Gamas Horizontales */
+@media (max-width: 768px) {
+    .gamas-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .gama-card {
+        flex-direction: column;
+        min-height: auto;
+    }
+    
+    .gama-card__image {
+        width: 100%;
+        height: 180px;
+    }
+    
+    .gama-card__info {
+        padding: 1.5rem;
+        text-align: center;
+    }
+    
+    .gama-card__info h3 {
+        font-size: 1.1rem;
+    }
+    
+    .gama-card__info p {
+        font-size: 0.8rem;
+    }
+    
+    .btn-explore {
+        padding: 1rem 2rem;
+        font-size: 0.75rem;
+    }
+    
+    .gamas-cta {
+        margin-top: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .gama-card__image {
+        height: 160px;
+    }
+    
+    .gama-card__info {
+        padding: 1.25rem;
+    }
+    
+    .gama-card__info h3 {
+        font-size: 1rem;
+    }
+    
+    .gama-card__info p {
+        font-size: 0.75rem;
+    }
+    
+    .btn-explore {
+        padding: 0.875rem 1.75rem;
+        font-size: 0.7rem;
+        gap: 0.5rem;
+    }
+    
+    .gamas-cta {
+        margin-top: 1.25rem;
+    }
+}
+
+/* Reduced motion para Gamas Horizontales */
+@media (prefers-reduced-motion: reduce) {
+    .gama-card,
+    .gama-card__image img,
+    .gama-card__info h3,
+    .gama-card__info p,
+    .btn-explore,
+    .btn-explore::before,
+    .btn-explore::after {
+        transition: none;
+        transform: none;
+    }
+    
+    .gama-card:hover {
+        transform: none;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        border-color: rgba(255, 255, 255, 0.12);
+    }
+    
+    .gama-card:hover .gama-card__image img {
+        transform: none;
+    }
+    
+    .gama-card:hover .gama-card__info h3 {
+        color: #ffffff;
+    }
+    
+    .gama-card:hover .gama-card__info p {
+        color: rgba(255, 255, 255, 0.8);
+    }
+    
+    .btn-explore:hover {
+        transform: none;
+        border-color: rgba(255, 255, 255, 0.4);
+        background: rgba(255, 255, 255, 0.06);
+    }
+    
+    .btn-explore:hover::before {
+        left: -100%;
+    }
+    
+    .btn-explore:hover svg {
+        transform: none;
+    }
 }
 
 /* Responsive */
