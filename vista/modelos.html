@@ -245,7 +245,7 @@
                     <span class="visually-hidden">Next</span>
                 </button>
             </div>
-            <br><br><br>
+            <br><br><br><br>
         </section>
     </main>
 
@@ -542,6 +542,96 @@
             updateIndicatorsVisibility();
             updateButtonStates();
         }, 100);
+    });
+</script>
+
+<script type="module">
+    const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function setupCarouselParallax() {
+        if (prefersReducedMotion) return;
+
+        const carousel = document.getElementById('modelosCarousel');
+        if (!carousel) return;
+
+        const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
+
+        function getActiveMedia() {
+            const active = carousel.querySelector('.carousel-item.active');
+            if (!active) return null;
+            return active.querySelector('.modelo-slide__media');
+        }
+
+        function reset(media) {
+            if (!media) return;
+            media.style.setProperty('--mx', '0px');
+            media.style.setProperty('--my', '0px');
+            media.style.setProperty('--rx', '0deg');
+            media.style.setProperty('--ry', '0deg');
+        }
+
+        carousel.addEventListener('mousemove', (e) => {
+            const media = getActiveMedia();
+            if (!media) return;
+
+            const rect = carousel.getBoundingClientRect();
+            const px = (e.clientX - rect.left) / rect.width;
+            const py = (e.clientY - rect.top) / rect.height;
+
+            const dx = (px - 0.5);
+            const dy = (py - 0.5);
+
+            const maxMove = 10;
+            const maxTilt = 6;
+
+            const mx = clamp(dx * maxMove, -maxMove, maxMove);
+            const my = clamp(dy * maxMove, -maxMove, maxMove);
+            const rx = clamp(-dy * maxTilt, -maxTilt, maxTilt);
+            const ry = clamp(dx * maxTilt, -maxTilt, maxTilt);
+
+            media.style.setProperty('--mx', `${mx}px`);
+            media.style.setProperty('--my', `${my}px`);
+            media.style.setProperty('--rx', `${rx}deg`);
+            media.style.setProperty('--ry', `${ry}deg`);
+        });
+
+        carousel.addEventListener('mouseleave', () => reset(getActiveMedia()));
+
+        carousel.addEventListener('slid.bs.carousel', () => {
+            const media = getActiveMedia();
+            reset(media);
+        });
+    }
+
+    function setupScrollReveal() {
+        const revealTargets = document.querySelectorAll('.modelos-hero-carousel .modelo-slide__content, .modelos-hero-carousel .modelo-slide__media, footer');
+        revealTargets.forEach((el) => el.classList.add('reveal'));
+
+        if (prefersReducedMotion) {
+            revealTargets.forEach((el) => el.classList.add('is-visible'));
+            return;
+        }
+
+        if (!('IntersectionObserver' in window)) {
+            revealTargets.forEach((el) => el.classList.add('is-visible'));
+            return;
+        }
+
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    io.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15, rootMargin: '0px 0px -10% 0px' });
+
+        revealTargets.forEach((el) => io.observe(el));
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        setupCarouselParallax();
+        setupScrollReveal();
     });
 </script>
 
