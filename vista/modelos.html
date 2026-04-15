@@ -7,9 +7,10 @@
     <link rel="stylesheet" href="EstiloPrincipal.css">
     <link rel="stylesheet" href="modelos.css">
     <link rel="stylesheet" href="header-unique.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="modelos-page">
     <header>
         <nav>
             <!-- Logo como imagen -->
@@ -25,189 +26,227 @@
         </nav>
     </header>
 
-    <!-- Sección de filtros de gamas -->
-    <section class="gama-filters-section">
-        <!-- Título principal -->
-        <div class="gama-hero">
-            <h1>Nuestras Gamas</h1>
-            <p>En Nyura Motors, hemos revolucionado el concepto de movilidad con nuestra excepcional gama de vehículos. Cada modelo representa la perfecta fusión entre ingeniería de vanguardia, diseño audaz y compromiso con la sostenibilidad. Desde vehículos eléctricos que definen el futuro de la conducción urbana hasta supercars que desafían los límites de la física, nuestra colección ofrece opciones para cada conductor exigente. Descubre tecnología cuántica, materiales avanzados y un rendimiento que supera todas las expectativas.</p>
-        </div>
-        
-        <!-- Filtros de gamas -->
-        <div class="gama-filters-container">
-            <div class="filter-container">
-                <button class="filter-btn-header" data-filter="electrico" data-gama="electrico">
-                    <div class="filter-image">
-                        <img src="../Imagenes/gamas/electricofondo.png" alt="Gama Eléctrica">
-                    </div>
-                </button>
-                <button class="filter-btn-header" data-filter="combustion" data-gama="combustion">
-                    <div class="filter-image">
-                        <img src="../Imagenes/gamas/combustionfondo.png" alt="Gama Combustión">
-                    </div>
-                </button>
-                <button class="filter-btn-header active" data-filter="sport" data-gama="sport">
-                    <div class="filter-image">
-                        <img src="../Imagenes/gamas/Rfondo.png" alt="Gama Sport R">
-                    </div>
-                </button>
-            </div>
-        </div>
-    <!-- Indicador lateral derecho -->
-        <div class="gama-indicador-lateral" id="gama-indicador-lateral">
-            <div class="indicador-lateral-content">
-                <div class="indicador-lateral-icon">
-                    <img id="gama-icono" src="../Imagenes/gamas/R.png" alt="Gama Sport R">
-                </div>
-                <div class="indicador-lateral-text">
-                    <span class="indicador-gama" id="gama-lateral-gama">Sport R</span>
-                    <span class="indicador-estado">Seleccionado</span>
-                </div>
-            </div>
-        </div>
-
-
     <main>
-        <!-- Contenedor de vehículos -->
-        <section class="vehiculos-container">
-            <div class="vehiculos-grid">
-                <!-- Vehículos Eléctricos -->
-                <div class="vehiculo-card" data-category="electrico" data-vehiculo="terramar">
-                    <div class="vehiculo-image">
-                        <img src="../Imagenes/Imagenesmodelos/Terramar.png" alt="Nyura Terramar">
-                    </div>
-                    <div class="vehiculo-info">
-                        <h3>Terramar</h3>
-                        <p>SUV eléctrico con autonomía extendida y diseño futurista</p>
-                        <div class="vehiculo-specs">
-                            <span>Autonomía: 450km</span>
-                            <span>0-100: 5.2s</span>
-                            <span>Potencia: 300CV</span>
-                        </div>
-                        <div class="vehiculo-cta">
-                            <button class="configurar-vehiculo-btn" data-gama="electrico" data-vehiculo="terramar">Configurar</button>
-                        </div>
-                    </div>
+        <section class="modelos-hero-carousel" aria-label="Carrusel de modelos">
+            <div id="modelosCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-touch="true" data-bs-interval="9000">
+                <div class="carousel-indicators modelos-indicators">
                     
-                </div>
-
-                <!-- Vehículos Combustión -->
-                <div class="vehiculo-card" data-category="combustion" data-vehiculo="nova">
-                    <div class="vehiculo-image">
-                        <img src="../Imagenes/Imagenesmodelos/Nova.png" alt="Nyura Nova">
-                    </div>
-                    <div class="vehiculo-info">
-                        <h3>Nova</h3>
-                        <p>Compacto eficiente con motor de gasolina de última generación</p>
-                        <div class="vehiculo-specs">
-                            <span>Consumo: 5.2L/100km</span>
-                            <span>0-100: 8.5s</span>
-                            <span>Potencia: 150CV</span>
-                        </div>
-                        <div class="vehiculo-cta">
-                            <button class="configurar-vehiculo-btn" data-gama="combustion" data-vehiculo="nova">Configurar</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Vehículos Sport R -->
-                <div class="vehiculo-card" data-category="sport" data-vehiculo="nova-sport">
-                    <div class="vehiculo-image">
-                        <img src="../Imagenes/Imagenesmodelos/NovaSport.png" alt="Nyura Nova Sport">
-                    </div>
-                    <div class="vehiculo-info">
-                        <h3>Nova Sport</h3>
-                        <p>Deportivo de alto rendimiento con aerodinámica avanzada</p>
-                        <div class="vehiculo-specs">
-                            <span>0-100: 3.8s</span>
-                            <span>Velocidad: 280km/h</span>
-                            <span>Potencia: 450CV</span>
-                        </div>
-                        <div class="vehiculo-cta">
-                            <button class="configurar-vehiculo-btn" data-gama="sport" data-vehiculo="nova-sport">Configurar</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Más vehículos eléctricos -->
-                <div class="vehiculo-card" data-category="electrico" data-vehiculo="spark">
-                    <div class="vehiculo-image">
-                        <img src="../Imagenes/Imagenesmodelos/Spark.png" alt="Nyura Spark">
-                    </div>
-                    <div class="vehiculo-info">
-                        <h3>Spark</h3>
-                        <p>Compacto urbano 100% eléctrico perfect para ciudad</p>
-                        <div class="vehiculo-specs">
-                            <span>Autonomía: 280km</span>
-                            <span>0-100: 7.2s</span>
-                            <span>Potencia: 120CV</span>
-                        </div>
-                        <div class="vehiculo-cta">
-                            <button class="configurar-vehiculo-btn" data-gama="electrico" data-vehiculo="spark">Configurar</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Más vehículos combustión -->
-                <div class="vehiculo-card" data-category="combustion" data-vehiculo="fusion">
-                    <div class="vehiculo-image">
-                        <img src="../Imagenes/Imagenesmodelos/Fusion.png" alt="Nyura Fusion">
-                    </div>
-                    <div class="vehiculo-info">
-                        <h3>Fusion</h3>
-                        <p>Sedán familiar con espacio y tecnología avanzada</p>
-                        <div class="vehiculo-specs">
-                            <span>Consumo: 6.8L/100km</span>
-                            <span>0-100: 9.2s</span>
-                            <span>Potencia: 180CV</span>
-                        </div>
-                        <div class="vehiculo-cta">
-                            <button class="configurar-vehiculo-btn" data-gama="combustion" data-vehiculo="fusion">Configurar</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Más vehículos Sport R -->
-                <div class="vehiculo-card" data-category="sport" data-vehiculo="thunder">
-                    <div class="vehiculo-image">
-                        <img src="../Imagenes/Imagenesmodelos/Thunder.png" alt="Nyura Thunder">
-                    </div>
-                    <div class="vehiculo-info">
-                        <h3>Thunder</h3>
-                        <p>Supercar eléctrico con aceleración brutal y diseño agresivo</p>
-                        <div class="vehiculo-specs">
-                            <span>0-100: 4.8s</span>
-                            <span>Velocidad: 230km/h</span>
-                            <span>Potencia: 430CV</span>
-                        </div>
-                        <div class="vehiculo-cta">
-                            <button class="configurar-vehiculo-btn" data-gama="sport" data-vehiculo="thunder">Configurar</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Nuevo vehículo Sport R -->
-                <div class="vehiculo-card" data-category="sport" data-vehiculo="thunder-be">
-                    <div class="vehiculo-image">
-                        <img src="../Imagenes/Imagenesmodelos/ThunderBE.png" alt="Nyura Thunder Black Edition">
-                    </div>
-                    <div class="vehiculo-info">
-                        <h3>Thunder Black Edition</h3>
-                        <p>Hípercar eléctrico con tecnología cuántica y velocidad extrema</p>
-                        <div class="vehiculo-specs">
-                            <span>0-100: 2.3s</span>
-                            <span>Velocidad: 390km/h</span>
-                            <span>Potencia: 640CV</span>
-                        </div>
-                        <div class="vehiculo-cta">
-                            <button class="configurar-vehiculo-btn" data-gama="sport" data-vehiculo="thunder-be">Configurar</button>
-                        </div>
-                    </div>
+                    <button type="button" data-bs-target="#modelosCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Terramar">
+                        <span class="indicator-card">
+                            <img src="../Imagenes/Imagenesmodelos/Terramar.png" alt="Terramar" loading="lazy">
+                            <span class="indicator-title">TERRAMAR</span>
+                        </span>
+                    </button>
+                    <button type="button" data-bs-target="#modelosCarousel" data-bs-slide-to="1" aria-label="Nova">
+                        <span class="indicator-card">
+                            <img src="../Imagenes/Imagenesmodelos/Nova.png" alt="Nova" loading="lazy">
+                            <span class="indicator-title">NOVA</span>
+                        </span>
+                    </button>
+                    <button type="button" data-bs-target="#modelosCarousel" data-bs-slide-to="2" aria-label="Nova Sport">
+                        <span class="indicator-card">
+                            <img src="../Imagenes/Imagenesmodelos/NovaSport.png" alt="Nova Sport" loading="lazy">
+                            <span class="indicator-title">NOVA SPORT</span>
+                        </span>
+                    </button>
+                    <button type="button" data-bs-target="#modelosCarousel" data-bs-slide-to="3" aria-label="Spark">
+                        <span class="indicator-card">
+                            <img src="../Imagenes/Imagenesmodelos/Spark.png" alt="Spark" loading="lazy">
+                            <span class="indicator-title">SPARK</span>
+                        </span>
+                    </button>
+                    <button type="button" data-bs-target="#modelosCarousel" data-bs-slide-to="4" aria-label="Fusion">
+                        <span class="indicator-card">
+                            <img src="../Imagenes/Imagenesmodelos/Fusion.png" alt="Fusion" loading="lazy">
+                            <span class="indicator-title">FUSION</span>
+                        </span>
+                    </button>
+                    <button type="button" data-bs-target="#modelosCarousel" data-bs-slide-to="5" aria-label="Thunder">
+                        <span class="indicator-card">
+                            <img src="../Imagenes/Imagenesmodelos/Thunder.png" alt="Thunder" loading="lazy">
+                            <span class="indicator-title">THUNDER</span>
+                        </span>
+                    </button>
+                    <button type="button" data-bs-target="#modelosCarousel" data-bs-slide-to="6" aria-label="Thunder Black Edition">
+                        <span class="indicator-card">
+                            <img src="../Imagenes/Imagenesmodelos/ThunderBE.png" alt="Thunder Black Edition" loading="lazy">
+                            <span class="indicator-title">THUNDER BE</span>
+                        </span>
+                    </button>
                 </div>
                 
+                <!-- Flechas de navegación para indicadores -->
+                <button class="indicators-nav prev" id="indicatorsPrev" aria-label="Anterior">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+                    </svg>
+                </button>
+                <button class="indicators-nav next" id="indicatorsNext" aria-label="Siguiente">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+                    </svg>
+                </button>
+
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="modelo-slide">
+                            <div class="modelo-slide__content">
+                                <div class="modelo-kicker">NUEVO NYURA</div>
+                                <h2 class="modelo-title">TERRAMAR 2026</h2>
+                                <p class="modelo-desc">SUV eléctrico con autonomía extendida y diseño futurista.</p>
+                                <div class="modelo-price">
+                                    <span class="modelo-price__label">Desde</span>
+                                    <span class="modelo-price__value">42.900 EUR</span>
+                                </div>
+                                <div class="modelo-actions">
+                                    <a class="modelo-btn modelo-btn--primary" href="Configurador3D.html?gama=electrico&vehiculo=terramar">DESCÚBRELO</a>
+                                    <a class="modelo-btn modelo-btn--ghost" href="contacto.html?modelo=terramar">CONSIGUE TU OFERTA</a>
+                                </div>
+                            </div>
+                            <div class="modelo-slide__media">
+                                <img src="../Imagenes/Imagenesmodelos/Terramar.png" alt="Nyura Terramar" class="modelo-image" loading="eager">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="carousel-item">
+                        <div class="modelo-slide">
+                            <div class="modelo-slide__content">
+                                <div class="modelo-kicker">NUEVO NYURA</div>
+                                <h2 class="modelo-title">NOVA 2026</h2>
+                                <p class="modelo-desc">Compacto eficiente con motor de gasolina de última generación.</p>
+                                <div class="modelo-price">
+                                    <span class="modelo-price__label">Desde</span>
+                                    <span class="modelo-price__value">28.900 EUR</span>
+                                </div>
+                                <div class="modelo-actions">
+                                    <a class="modelo-btn modelo-btn--primary" href="Configurador3D.html?gama=combustion&vehiculo=nova">DESCÚBRELO</a>
+                                    <a class="modelo-btn modelo-btn--ghost" href="contacto.html?modelo=nova">CONSIGUE TU OFERTA</a>
+                                </div>
+                            </div>
+                            <div class="modelo-slide__media">
+                                <img src="../Imagenes/Imagenesmodelos/Nova.png" alt="Nyura Nova" class="modelo-image" loading="lazy">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="carousel-item">
+                        <div class="modelo-slide">
+                            <div class="modelo-slide__content">
+                                <div class="modelo-kicker">NUEVO NYURA</div>
+                                <h2 class="modelo-title">NOVA SPORT 2026</h2>
+                                <p class="modelo-desc">Deportivo de alto rendimiento con aerodinámica avanzada.</p>
+                                <div class="modelo-price">
+                                    <span class="modelo-price__label">Desde</span>
+                                    <span class="modelo-price__value">35.900 EUR</span>
+                                </div>
+                                <div class="modelo-actions">
+                                    <a class="modelo-btn modelo-btn--primary" href="Configurador3D.html?gama=sport&vehiculo=nova-sport">DESCÚBRELO</a>
+                                    <a class="modelo-btn modelo-btn--ghost" href="contacto.html?modelo=nova-sport">CONSIGUE TU OFERTA</a>
+                                </div>
+                            </div>
+                            <div class="modelo-slide__media">
+                                <img src="../Imagenes/Imagenesmodelos/NovaSport.png" alt="Nyura Nova Sport" class="modelo-image" loading="lazy">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="carousel-item">
+                        <div class="modelo-slide">
+                            <div class="modelo-slide__content">
+                                <div class="modelo-kicker">NUEVO NYURA</div>
+                                <h2 class="modelo-title">SPARK 2026</h2>
+                                <p class="modelo-desc">Compacto urbano 100% eléctrico perfecto para ciudad.</p>
+                                <div class="modelo-price">
+                                    <span class="modelo-price__label">Desde</span>
+                                    <span class="modelo-price__value">22.900 EUR</span>
+                                </div>
+                                <div class="modelo-actions">
+                                    <a class="modelo-btn modelo-btn--primary" href="Configurador3D.html?gama=electrico&vehiculo=spark">DESCÚBRELO</a>
+                                    <a class="modelo-btn modelo-btn--ghost" href="contacto.html?modelo=spark">CONSIGUE TU OFERTA</a>
+                                </div>
+                            </div>
+                            <div class="modelo-slide__media">
+                                <img src="../Imagenes/Imagenesmodelos/Spark.png" alt="Nyura Spark" class="modelo-image" loading="lazy">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="carousel-item">
+                        <div class="modelo-slide">
+                            <div class="modelo-slide__content">
+                                <div class="modelo-kicker">NUEVO NYURA</div>
+                                <h2 class="modelo-title">FUSION 2026</h2>
+                                <p class="modelo-desc">Sedán familiar con espacio y tecnología avanzada.</p>
+                                <div class="modelo-price">
+                                    <span class="modelo-price__label">Desde</span>
+                                    <span class="modelo-price__value">31.900 EUR</span>
+                                </div>
+                                <div class="modelo-actions">
+                                    <a class="modelo-btn modelo-btn--primary" href="Configurador3D.html?gama=combustion&vehiculo=fusion">DESCÚBRELO</a>
+                                    <a class="modelo-btn modelo-btn--ghost" href="contacto.html?modelo=fusion">CONSIGUE TU OFERTA</a>
+                                </div>
+                            </div>
+                            <div class="modelo-slide__media">
+                                <img src="../Imagenes/Imagenesmodelos/Fusion.png" alt="Nyura Fusion" class="modelo-image" loading="lazy">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="carousel-item">
+                        <div class="modelo-slide">
+                            <div class="modelo-slide__content">
+                                <div class="modelo-kicker">NUEVO NYURA</div>
+                                <h2 class="modelo-title">THUNDER 2026</h2>
+                                <p class="modelo-desc">Supercar eléctrico con aceleración brutal y diseño agresivo.</p>
+                                <div class="modelo-price">
+                                    <span class="modelo-price__label">Desde</span>
+                                    <span class="modelo-price__value">89.900 EUR</span>
+                                </div>
+                                <div class="modelo-actions">
+                                    <a class="modelo-btn modelo-btn--primary" href="Configurador3D.html?gama=sport&vehiculo=thunder">DESCÚBRELO</a>
+                                    <a class="modelo-btn modelo-btn--ghost" href="contacto.html?modelo=thunder">CONSIGUE TU OFERTA</a>
+                                </div>
+                            </div>
+                            <div class="modelo-slide__media">
+                                <img src="../Imagenes/Imagenesmodelos/Thunder.png" alt="Nyura Thunder" class="modelo-image" loading="lazy">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="carousel-item">
+                        <div class="modelo-slide">
+                            <div class="modelo-slide__content">
+                                <div class="modelo-kicker">NUEVO NYURA</div>
+                                <h2 class="modelo-title">THUNDER BLACK EDITION 2026</h2>
+                                <p class="modelo-desc">Hípercar eléctrico con tecnología cuántica y velocidad extrema.</p>
+                                <div class="modelo-price">
+                                    <span class="modelo-price__label">Desde</span>
+                                    <span class="modelo-price__value">125.900 EUR</span>
+                                </div>
+                                <div class="modelo-actions">
+                                    <a class="modelo-btn modelo-btn--primary" href="Configurador3D.html?gama=sport&vehiculo=thunder-be">DESCÚBRELO</a>
+                                    <a class="modelo-btn modelo-btn--ghost" href="contacto.html?modelo=thunder-be">CONSIGUE TU OFERTA</a>
+                                </div>
+                            </div>
+                            <div class="modelo-slide__media">
+                                <img src="../Imagenes/Imagenesmodelos/ThunderBE.png" alt="Nyura Thunder Black Edition" class="modelo-image" loading="lazy">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="carousel-control-prev" type="button" data-bs-target="#modelosCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#modelosCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             </div>
+            <br><br><br>
         </section>
-        </div>
     </main>
 
     <footer>
@@ -391,317 +430,6 @@
         });
     </script>
 
-    <!-- Script para filtrado de vehículos -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const filterButtons = document.querySelectorAll('.filter-btn');
-            const vehicleCards = document.querySelectorAll('.vehiculo-card');
-
-            // Filtrado de vehículos
-            filterButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    filterButtons.forEach(btn => btn.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    const filter = this.getAttribute('data-filter');
-                    
-                    vehicleCards.forEach(card => {
-                        const category = card.getAttribute('data-category');
-                        
-                        if (filter === 'todos' || category === filter) {
-                            card.classList.remove('hidden');
-                            card.classList.add('visible');
-                        } else {
-                            card.classList.remove('visible');
-                            card.classList.add('hidden');
-                        }
-                    });
-                });
-            });
-
-            // Eventos de clic en tarjetas de vehículos
-            vehicleCards.forEach(card => {
-                card.addEventListener('click', function() {
-                    const vehiculoId = this.getAttribute('data-vehiculo');
-                    console.log('Tarjeta clickeada:', vehiculoId); // Debug
-                    mostrarDetalles(vehiculoId);
-                });
-            });
-
-            // Botones de configurar (evitar que abra el modal al hacer click)
-            document.querySelectorAll('.configurar-vehiculo-btn').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    const gama = this.getAttribute('data-gama');
-                    const vehiculo = this.getAttribute('data-vehiculo');
-                    window.location.href = `Configurador3D.html?gama=${encodeURIComponent(gama)}&vehiculo=${encodeURIComponent(vehiculo)}`;
-                });
-            });
-        });
-
-        // Datos de vehículos
-        const vehiculos = {
-            'nova': {
-                nombre: 'Nyura Nova',
-                descripcion: 'Sedán eléctrico de alta autonomía',
-                imagen: '../Imagenes/coches/Nova.png',
-                features: ['⚡ 450km autonomía', '🔋 75kWh batería', '🏁 0-100km/h 5.8s'],
-                specs: {
-                    'Batería': '75 kWh',
-                    'Potencia': '204 CV',
-                    'Dimensiones': '4.75m x 1.85m x 1.42m',
-                    'Emisiones': '0 g/km CO₂'
-                }
-            },
-            'nova-sport': {
-                nombre: 'Nyura Nova Sport',
-                descripcion: 'Version deportiva del Nova',
-                imagen: '../Imagenes/coches/NovaSport.png',
-                features: ['⚡ 400km autonomía', '🏁 0-100km/h 4.2s', '🔥 265 CV'],
-                specs: {
-                    'Batería': '68 kWh',
-                    'Potencia': '265 CV',
-                    'Dimensiones': '4.75m x 1.85m x 1.40m',
-                    'Emisiones': '0 g/km CO₂'
-                }
-            },
-            'altamira': {
-                nombre: 'Nyura Altamira',
-                descripcion: 'SUV compacto eficiente',
-                imagen: '../Imagenes/coches/Altamira.png',
-                features: ['⛽ 5.2L/100km', '🏔️ Tracción 4x4', '🏁 0-100km/h 8.5s'],
-                specs: {
-                    'Motor': '2.0L Turbo',
-                    'Potencia': '180 CV',
-                    'Dimensiones': '4.35m x 1.80m x 1.65m',
-                    'Emisiones': '120 g/km CO₂'
-                }
-            },
-            'sport-r': {
-                nombre: 'Nyura Sport R',
-                descripcion: 'Deportivo de altas prestaciones',
-                imagen: '../Imagenes/coches/SportR.png',
-                features: ['🏁 0-100km/h 3.8s', '🔥 450cv potencia', '⚡ Eléctrico Híbrido'],
-                specs: {
-                    'Motor': 'V6 Híbrido',
-                    'Potencia': '450 CV',
-                    'Dimensiones': '4.50m x 1.90m x 1.25m',
-                    'Emisiones': '95 g/km CO₂'
-                }
-            }
-        };
-
-        // Función para mostrar detalles del vehículo
-        function mostrarDetalles(vehiculoId) {
-            console.log('Clic en vehículo:', vehiculoId); // Debug
-            const vehiculo = vehiculos[vehiculoId];
-            if (!vehiculo) return;
-
-            const contenido = `
-                <div class="modal-vehiculo">
-                    <div class="modal-vehiculo-imagen">
-                        <img src="${vehiculo.imagen}" alt="${vehiculo.nombre}">
-                    </div>
-                    <div class="modal-vehiculo-info">
-                        <h2>${vehiculo.nombre}</h2>
-                        <p>${vehiculo.descripcion}</p>
-                        <div class="modal-features">
-                            ${vehiculo.features.map(feature => `<span class="modal-feature-badge">${feature}</span>`).join('')}
-                        </div>
-                        <div class="modal-specs">
-                            ${Object.entries(vehiculo.specs).map(([key, value]) => `
-                                <div class="modal-spec-item">
-                                    <span class="modal-spec-label">${key}:</span>
-                                    <span class="modal-spec-value">${value}</span>
-                                </div>
-                            `).join('')}
-                        </div>
-                        <div class="modal-buttons">
-                            <a href="contacto.html" class="modal-btn primary">Solicitar Información</a>
-                            <a href="Configurador3D.html" class="modal-btn secondary">Configurar</a>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            document.getElementById('detallesContenido').innerHTML = contenido;
-            document.getElementById('detallesModal').style.display = 'block';
-        }
-
-        // Función para cerrar el modal
-        function cerrarModal() {
-            document.getElementById('detallesModal').style.display = 'none';
-        }
-
-        // Cerrar modal al hacer clic fuera del contenido
-        window.onclick = function(event) {
-            const modal = document.getElementById('detallesModal');
-            if (event.target === modal) {
-                cerrarModal();
-            }
-        }
-
-        // Hacer las funciones globales
-        window.mostrarDetalles = mostrarDetalles;
-        window.cerrarModal = cerrarModal;
-    </script>
-    
-    <!-- Script para filtros del header -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Obtener parámetro de filtro de la URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const filtroInicial = urlParams.get('filter') || 'sport'; // Por defecto sport
-            
-            // Establecer el filtro activo inicial
-            const botonesFiltro = document.querySelectorAll('.filter-btn-header');
-            botonesFiltro.forEach(boton => {
-                boton.classList.remove('active');
-                if (boton.getAttribute('data-filter') === filtroInicial) {
-                    boton.classList.add('active');
-                }
-            });
-            
-            // Aplicar filtro inicial y color del header
-            filtrarVehiculos(filtroInicial);
-            actualizarIndicadorLateral(filtroInicial);
-            actualizarColorHeader(filtroInicial);
-            
-            // Aplicar degradados laterales iniciales
-            actualizarDegradadosLaterales(filtroInicial);
-            
-            // Event listeners para los filtros
-            botonesFiltro.forEach(button => {
-                button.addEventListener('click', function() {
-                    // Remover clase active de todos los botones
-                    botonesFiltro.forEach(btn => btn.classList.remove('active'));
-                    
-                    // Añadir clase active al botón clickeado
-                    this.classList.add('active');
-                    
-                    // Obtener el filtro
-                    const filter = this.getAttribute('data-filter');
-                    
-                    // Aplicar efecto visual
-                    const gama = this.getAttribute('data-gama');
-                    
-                    // Actualizar color del header
-                    actualizarColorHeader(gama);
-                    
-                    // Actualizar indicador lateral
-                    actualizarIndicadorLateral(gama);
-                    
-                    // Actualizar degradados laterales del body
-                    actualizarDegradadosLaterales(gama);
-                    
-                    // Filtrar vehículos
-                    filtrarVehiculos(filter);
-                });
-            });
-            
-            // Función para actualizar el color del header
-            function actualizarColorHeader(gama) {
-                const header = document.querySelector('header');
-                // Remover todas las clases de gama
-                header.classList.remove('gama-electrico', 'gama-combustion', 'gama-sport');
-                // Añadir la clase correspondiente
-                if (gama === 'electrico') {
-                    header.classList.add('gama-electrico');
-                } else if (gama === 'combustion') {
-                    header.classList.add('gama-combustion');
-                } else if (gama === 'sport') {
-                    header.classList.add('gama-sport');
-                }
-                
-                // Actualizar degradados laterales del body
-                actualizarDegradadosLaterales(gama);
-            }
-            
-            // Función para actualizar los degradados laterales
-            function actualizarDegradadosLaterales(gama) {
-                const body = document.body;
-                // Remover todas las clases de gama del body
-                body.classList.remove('gama-electrica', 'gama-combustion', 'gama-sport');
-                // Añadir la clase correspondiente
-                if (gama === 'electrico') {
-                    body.classList.add('gama-electrica');
-                } else if (gama === 'combustion') {
-                    body.classList.add('gama-combustion');
-                } else if (gama === 'sport') {
-                    body.classList.add('gama-sport');
-                }
-            }
-            
-            // Función para filtrar vehículos
-            function filtrarVehiculos(filter) {
-                const vehicles = document.querySelectorAll('.vehiculo-card');
-                
-                vehicles.forEach(vehicle => {
-                    const vehicleCategory = vehicle.getAttribute('data-category');
-                    
-                    if (vehicleCategory === filter) {
-                        vehicle.style.display = 'block';
-                        vehicle.style.opacity = '0';
-                        setTimeout(() => {
-                            vehicle.style.opacity = '1';
-                        }, 50);
-                    } else {
-                        vehicle.style.display = 'none';
-                    }
-                });
-            }
-            
-            function aplicarEfectoGama(gama) {
-                // Sin animación - solo filtrado
-            }
-            
-            // Función para actualizar indicador lateral
-            function actualizarIndicadorLateral(gama) {
-                const indicador = document.getElementById('gama-indicador-lateral');
-                const icono = document.getElementById('gama-icono');
-                const gamaText = document.getElementById('gama-lateral-gama');
-                
-                // Limpiar timeout anterior si existe
-                if (window.indicadorTimeout) {
-                    clearTimeout(window.indicadorTimeout);
-                }
-                
-                // Mostrar indicador
-                indicador.style.opacity = '1';
-                indicador.style.pointerEvents = 'auto';
-                
-                // Actualizar imagen y texto
-                switch(gama) {
-                    case 'electrico':
-                        icono.src = '../Imagenes/gamas/electrico.png';
-                        icono.alt = 'Gama Eléctrica';
-                        gamaText.textContent = 'Eléctrico';
-                        indicador.className = 'gama-indicador-lateral electrico';
-                        break;
-                    case 'combustion':
-                        icono.src = '../Imagenes/gamas/combustion.png';
-                        icono.alt = 'Gama Combustión';
-                        gamaText.textContent = 'Combustión';
-                        indicador.className = 'gama-indicador-lateral combustion';
-                        break;
-                    case 'sport':
-                        icono.src = '../Imagenes/gamas/R.png';
-                        icono.alt = 'Gama Sport R';
-                        gamaText.textContent = 'Sport R';
-                        indicador.className = 'gama-indicador-lateral sport';
-                        break;
-                }
-                
-                // Ocultar después de 2 segundos
-                window.indicadorTimeout = setTimeout(() => {
-                    indicador.style.opacity = '0';
-                    indicador.style.pointerEvents = 'none';
-                }, 2000);
-            }
-        });
-    </script>
-
     <!-- Script para scroll a modelos -->
     <script>
         // Función para redirigir a home con scroll a modelos
@@ -711,5 +439,112 @@
             window.location.href = 'home.html#modelos';
         });
     </script>
+
+    <!-- Script para navegación de indicadores -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const indicatorsContainer = document.querySelector('.modelos-indicators');
+        const indicators = document.querySelectorAll('.modelos-indicators [data-bs-target]');
+        const prevBtn = document.getElementById('indicatorsPrev');
+        const nextBtn = document.getElementById('indicatorsNext');
+        
+        if (!indicatorsContainer || !indicators.length || !prevBtn || !nextBtn) return;
+        
+        let currentIndex = 0;
+        let maxIndex = indicators.length - 1;
+        
+        function updateIndicatorsVisibility() {
+            // Obtener el ancho disponible y el ancho total de los indicadores
+            const containerWidth = indicatorsContainer.offsetWidth;
+            const indicatorsWidth = Array.from(indicators).reduce((total, indicator) => {
+                return total + indicator.offsetWidth + 16; // 16px = gap
+            }, 0);
+            
+            // Mostrar u ocultar flechas según si hay overflow
+            const hasOverflow = indicatorsWidth > containerWidth;
+            prevBtn.style.display = hasOverflow ? 'flex' : 'none';
+            nextBtn.style.display = hasOverflow ? 'flex' : 'none';
+            
+            if (hasOverflow) {
+                // Centrar el indicador activo
+                const activeIndicator = indicators[currentIndex];
+                if (activeIndicator) {
+                    const indicatorLeft = activeIndicator.offsetLeft;
+                    const indicatorWidth = activeIndicator.offsetWidth;
+                    const containerLeft = indicatorsContainer.scrollLeft;
+                    const containerWidth = indicatorsContainer.offsetWidth;
+                    
+                    // Si el indicador activo no está visible, hacer scroll
+                    if (indicatorLeft < containerLeft || 
+                        indicatorLeft + indicatorWidth > containerLeft + containerWidth) {
+                        
+                        const scrollTo = indicatorLeft - (containerWidth - indicatorWidth) / 2;
+                        indicatorsContainer.scrollTo({
+                            left: Math.max(0, scrollTo),
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            } else {
+                // Si no hay overflow, centrar los indicadores
+                indicatorsContainer.scrollLeft = 0;
+            }
+        }
+        
+        function updateButtonStates() {
+            const container = indicatorsContainer;
+            const isAtStart = container.scrollLeft <= 0;
+            const isAtEnd = container.scrollLeft >= container.scrollWidth - container.offsetWidth;
+            
+            prevBtn.classList.toggle('disabled', isAtStart);
+            nextBtn.classList.toggle('disabled', isAtEnd);
+        }
+        
+        // Event listeners para las flechas
+        prevBtn.addEventListener('click', function() {
+            const container = indicatorsContainer;
+            const scrollAmount = container.offsetWidth * 0.8; // 80% del ancho visible
+            container.scrollTo({
+                left: Math.max(0, container.scrollLeft - scrollAmount),
+                behavior: 'smooth'
+            });
+        });
+        
+        nextBtn.addEventListener('click', function() {
+            const container = indicatorsContainer;
+            const scrollAmount = container.offsetWidth * 0.8; // 80% del ancho visible
+            const maxScroll = container.scrollWidth - container.offsetWidth;
+            container.scrollTo({
+                left: Math.min(maxScroll, container.scrollLeft + scrollAmount),
+                behavior: 'smooth'
+            });
+        });
+        
+        // Actualizar cuando cambia el slide del carrusel
+        const carousel = document.getElementById('modelosCarousel');
+        if (carousel) {
+            carousel.addEventListener('slid.bs.carousel', function(e) {
+                currentIndex = e.to;
+                updateIndicatorsVisibility();
+            });
+        }
+        
+        // Actualizar en resize
+        window.addEventListener('resize', function() {
+            updateIndicatorsVisibility();
+        });
+        
+        // Actualizar estado de botones al hacer scroll
+        indicatorsContainer.addEventListener('scroll', updateButtonStates);
+        
+        // Estado inicial
+        setTimeout(() => {
+            updateIndicatorsVisibility();
+            updateButtonStates();
+        }, 100);
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
