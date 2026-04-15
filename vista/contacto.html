@@ -48,7 +48,13 @@
 
             <div class="cards">
               <div class="card">
-                <div class="card__icon" aria-hidden="true">@</div>
+                <div class="card__icon" aria-hidden="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="4" width="20" height="16" rx="2"/>
+                    <path d="m22 7-10 4"/>
+                    <path d="m22 17-10-4"/>
+                  </svg>
+                </div>
                 <div class="card__body">
                   <p class="card__label">Email</p>
                   <p class="card__value">contacto@nyuramotors.com</p>
@@ -56,7 +62,13 @@
               </div>
 
               <div class="card">
-                <div class="card__icon" aria-hidden="true">☎</div>
+                <div class="card__icon" aria-hidden="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m22 16.92v3a2 2 0 0 1-2.18 2l-12-4a2 2 0 0 1-2.82-2v-12a2 2 0 0 1 2.82-2l12 4a2 2 0 0 1 2.82 2v12a2 2 0 0 1-.82 2z"/>
+                    <path d="M15 6H9"/>
+                    <path d="M10 9h4"/>
+                  </svg>
+                </div>
                 <div class="card__body">
                   <p class="card__label">Teléfono</p>
                   <p class="card__value">+34 612 345 678</p>
@@ -64,7 +76,13 @@
               </div>
 
               <div class="card">
-                <div class="card__icon" aria-hidden="true">⌂</div>
+                <div class="card__icon" aria-hidden="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 10c0 6-8 12-8 12s8-6 8-12a8 8 0 0 0-16 0c0 4 3.58 8 8 8s-8 6-8 12z"/>
+                    <path d="m12 14 4-4"/>
+                    <path d="M12 14 4 4"/>
+                  </svg>
+                </div>
                 <div class="card__body">
                   <p class="card__label">Dirección</p>
                   <p class="card__value">Carrer de Caracas, 11. Sant Andreu, 08030 Barcelona</p>
@@ -72,7 +90,12 @@
               </div>
 
               <div class="card">
-                <div class="card__icon" aria-hidden="true">⏱</div>
+                <div class="card__icon" aria-hidden="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12 6 12 12 16 12"/>
+                  </svg>
+                </div>
                 <div class="card__body">
                   <p class="card__label">Horario</p>
                   <p class="card__value">Lunes a Viernes · 09:00 — 13:00 / 15:00 — 19:00</p>
@@ -190,7 +213,7 @@
     </div>
 </footer>
 <script type="module">
-        import { getCurrentUser, createOrUpdateUserProfile, onAuthStateChange, signOut, createFormContacto, getUserByEmail } from '../controlador/BBDD/SupabaseCliente.js';
+        import { getCurrentUser, createOrUpdateUserProfile, onAuthStateChange, signOut, insertData, getUserByEmail } from '../controlador/BBDD/SupabaseCliente.js';
         
         document.addEventListener('DOMContentLoaded', async function() {
             const authMenu = document.getElementById('authMenu');
@@ -273,16 +296,11 @@
                 try {
                     const result = await signOut();
                     if (result.success) {
-                        console.log('Sesión cerrada correctamente');
                         updateAuthMenu(null);
-                        // Opcional: redirigir a página de login
-                        // window.location.href = 'InicioSesion.html';
                     } else {
-                        console.error('Error al cerrar sesión:', result.error);
                         alert('Error al cerrar sesión. Intenta de nuevo.');
                     }
                 } catch (error) {
-                    console.error('Error inesperado al cerrar sesión:', error);
                     alert('Error inesperado. Intenta de nuevo.');
                 }
             };
@@ -303,14 +321,11 @@
                 // Función para autorrellenar datos del usuario
                 async function autoFillUserData() {
                     try {
-                        console.log('Intentando autorrellenar datos del usuario...');
                         const currentUser = await getCurrentUser();
                         if (currentUser) {
-                            console.log('Usuario logueado encontrado:', currentUser);
                             
                             // Obtener datos adicionales del usuario desde la tabla users
                             const userData = await getUserByEmail(currentUser.email);
-                            console.log('Datos del usuario desde BD:', userData);
                             
                             // Rellenar nombre
                             const nombreInput = contactForm.querySelector('input[name="nombre"]');
@@ -340,7 +355,7 @@
                             if (emailInput) {
                                 emailInput.value = currentUser.email;
                                 emailInput.readOnly = true; // Hacer el campo de solo lectura
-                                emailInput.style.backgroundColor = '#f5f5f5';
+                                emailInput.style.backgroundColor = 'rgba(255, 255, 255, 0.08)';
                             }
                             
                             // Rellenar teléfono si está disponible
@@ -349,10 +364,7 @@
                             } else if (telefonoInput && currentUser.user_metadata?.telefono) {
                                 telefonoInput.value = currentUser.user_metadata.telefono;
                             }
-                            
-                            console.log('Formulario autorrellenado correctamente');
                         } else {
-                            console.log('No hay usuario logueado, formulario vacío');
                         }
                     } catch (error) {
                         console.error('Error al autorrellenar formulario:', error);
@@ -397,21 +409,8 @@
                     submitBtn.textContent = 'Enviando...';
                     
                     try {
-                        console.log('Iniciando envío del formulario...');
-                        
-                        // Obtener usuario actual si está logueado (con timeout)
-                        console.log('Llamando a getCurrentUser...');
-                        let currentUser = null;
-                        try {
-                            const timeoutPromise = new Promise((_, reject) => 
-                                setTimeout(() => reject(new Error('Timeout')), 3000)
-                            );
-                            currentUser = await Promise.race([getCurrentUser(), timeoutPromise]);
-                            console.log('Usuario actual recibido:', currentUser);
-                        } catch (error) {
-                            console.log('getCurrentUser falló o timeout, continuando sin usuario:', error.message);
-                            currentUser = null;
-                        }
+                        // Obtener usuario actual si está logueado
+                        let currentUser = await getCurrentUser();
                         
                         // Preparar datos para enviar
                         const contactData = {
@@ -422,12 +421,9 @@
                             asunto: asunto.trim(),
                             message: mensaje.trim()
                         };
-                        console.log('Datos a enviar:', contactData);
                         
                         // Enviar formulario
-                        console.log('Llamando a createFormContacto...');
-                        const result = await createFormContacto(contactData);
-                        console.log('Resultado de createFormContacto:', result);
+                        const result = await insertData('form_contacto', contactData);
                         
                         if (result.success) {
                             alert('¡Formulario enviado correctamente! Nos pondremos en contacto contigo pronto.');
@@ -454,25 +450,14 @@
             // Escuchar cambios en autenticación
             onAuthStateChange(async (event, session) => {
                 if (event === 'SIGNED_IN' && session?.user) {
-                    console.log('Usuario autenticado:', session.user);
                     
                     // Crear o actualizar perfil en tabla users
-                    const profileResult = await createOrUpdateUserProfile(session.user);
-                    
-                    if (profileResult.success) {
-                        console.log('Perfil procesado:', profileResult.action);
-                        if (profileResult.action === 'created') {
-                            console.log('Nuevo perfil creado para usuario de Google');
-                        }
-                    } else {
-                        console.error('Error procesando perfil:', profileResult.error);
-                    }
+                    await createOrUpdateUserProfile(session.user);
                     
                     updateAuthMenu(session.user);
                     // Autorrellenar formulario cuando el usuario inicia sesión
                     autoFillUserData();
                 } else if (event === 'SIGNED_OUT') {
-                    console.log('Usuario cerró sesión');
                     updateAuthMenu(null);
                     // Limpiar formulario cuando el usuario cierra sesión
                     if (contactForm) {
