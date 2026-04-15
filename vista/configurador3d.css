@@ -101,7 +101,7 @@ nav a:hover::after {
 .config-panel {
     position: absolute;
     top: 50%;
-    right: 0;
+    right: 20px;
     transform: translateY(-50%);
     width: 420px;
     max-height: 75vh;
@@ -122,7 +122,7 @@ nav a:hover::after {
 
 /* Header del panel de configuración */
 .config-header {
-    padding: 15px 20px;
+    padding: 10px 15px;
     background: linear-gradient(135deg, #ff1744 0%, #dc143c 25%, #b71c1c 100%);
     color: white;
     display: flex;
@@ -152,7 +152,7 @@ nav a:hover::after {
 
 .config-header h2 {
     font-family: 'Poppins', sans-serif;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     font-weight: 800;
     margin: 0;
     text-transform: uppercase;
@@ -166,6 +166,7 @@ nav a:hover::after {
     text-align: right;
     position: relative;
     z-index: 1;
+    margin-top: 5px;
 }
 
 .price-label {
@@ -192,7 +193,7 @@ nav a:hover::after {
 
 /* Secciones de configuración */
 .config-section {
-    padding: 12px 20px;
+    padding: 8px 15px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     flex-shrink: 0;
     background: rgba(255, 255, 255, 0.02);
@@ -212,7 +213,7 @@ nav a:hover::after {
 
 .config-section h3 {
     font-family: 'Poppins', sans-serif;
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     font-weight: 700;
     margin: 0 0 15px 0;
     color: #ffffff;
@@ -237,7 +238,7 @@ nav a:hover::after {
 /* Opciones de colores */
 .color-options {
     display: flex;
-    gap: 12px;
+    gap: 8px;
     flex-wrap: wrap;
     justify-content: center;
     padding: 5px 0;
@@ -335,7 +336,7 @@ nav a:hover::after {
 /* Opciones de llantas */
 .wheel-options {
     display: flex;
-    gap: 15px;
+    gap: 10px;
     justify-content: center;
     padding: 5px 0;
 }
@@ -548,7 +549,7 @@ box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 .package-options {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
 }
 
 .package-option {
@@ -571,10 +572,37 @@ box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .package-checkbox {
-    width: 16px;
-    height: 16px;
-    margin-right: 10px;
+    width: 18px;
+    height: 18px;
+    margin-right: 12px;
+    appearance: none;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(220, 20, 60, 0.6);
+    border-radius: 4px;
     cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.package-checkbox:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(220, 20, 60, 0.8);
+}
+
+.package-checkbox:checked {
+    background: linear-gradient(135deg, #ff1744, #dc143c);
+    border-color: #ff1744;
+}
+
+.package-checkbox:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
 }
 
 .package-label {
@@ -1136,10 +1164,12 @@ footer::before {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: url('../Imagenes/Escenario2.png') center / cover no-repeat;
+    width: 100vw;
+    height: 100vh;
+    background: url('../Imagenes/Escenario4.jpg') center / cover no-repeat;
     z-index: 5;
+    flex: none !important;
+    max-width: none !important;
 }
 
 .back-to-exterior {
@@ -1176,9 +1206,11 @@ footer::before {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: url('../Imagenes/Escenario2.png') center / cover no-repeat;
+    width: 100vw;
+    height: 100vh;
+    background: url('../Imagenes/Escenario4.jpg') center / cover no-repeat;
+    flex: none !important;
+    max-width: none !important;
 }
 
 #interior-canvas-container canvas {
@@ -1187,5 +1219,4 @@ footer::before {
     left: 0;
     width: 100%;
     height: 100%;
-    transform: translateX(-250px);
 }
