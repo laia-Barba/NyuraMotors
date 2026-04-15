@@ -64,7 +64,9 @@
             <!-- Panel derecho - Configuración -->
             <div class="config-panel">
                 <div class="config-header">
-                    <h2>Personaliza tu Thunder Black Edition</h2>
+                    <h3>Personaliza tu 
+                        <br>
+                        Thunder Black Edition</h3>
                     <div class="price-display">
                         <span class="price-label">Precio</span>
                         <span class="price-value">€89,900</span>
@@ -134,6 +136,9 @@
                 <div class="action-buttons">
                     <button class="btn-secondary" onclick="resetConfiguration()">
                         Restablecer Configuración
+                    </button>
+                    <button class="btn-primary">
+                        Seguir comprando
                     </button>
                 </div>
             </div>
@@ -1091,7 +1096,7 @@
         // Actualizar display del precio
         const priceElement = document.querySelector('.price-value');
         if (priceElement) {
-            priceElement.textContent = `EUR${totalPrice.toLocaleString('es-ES')}`;
+            priceElement.textContent = `${totalPrice.toLocaleString('es-ES')} €`;
         }
     }
     // Funciones para actualizar el modelo 3D
