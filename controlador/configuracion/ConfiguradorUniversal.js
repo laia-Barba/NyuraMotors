@@ -1,11 +1,14 @@
 /**
  * Sistema de Configurador Universal para Múltiples Modelos
- * Permite generar configuradores dinámicamente basados en configuración JSON
+ * Permite generar configuradores dinámicamente basados en configuración
  */
+
+import { MODELOS_CONFIG } from './modelosConfig.js';
 
 class ConfiguradorUniversal {
     constructor(modeloId) {
-        this.modeloId = modeloId;
+        // Mapeo mínimo para no afectar a otros modelos que no estén definidos aquí
+        this.modeloId = (modeloId === 'terramar') ? 'Vortex' : modeloId;
         this.configuracion = null;
         this.configuracionActual = {
             color: null,
@@ -23,6 +26,11 @@ class ConfiguradorUniversal {
         this.controls = null;
         this.animationId = null;
         this.modelLoaded = false;
+
+        this.groundMesh = null;
+        this.grassTexture = null;
+
+        this.currentModelPath = null;
         
         // Variables de sistema interior
         this.interiorScene = null;
@@ -38,8 +46,16 @@ class ConfiguradorUniversal {
         this.previousMousePosition = { x: 0, y: 0 };
         this.rotationX = 0;
         this.rotationY = Math.PI;
+
+        this.isRotating = true;
+        this.introAnimationId = null;
+        this.introAnimationRunning = false;
+
+        this.hasPlayedIntro = false;
+
+        this.modelLoadToken = 0;
         
-        this.init();
+        // No llamar init() aquí: el método estático crear() se encarga de inicializar
     }
     
     async init() {
@@ -56,9 +72,7 @@ class ConfiguradorUniversal {
     
     async cargarConfiguracion() {
         try {
-            const response = await fetch('../controlador/configuracion/modelos.json');
-            const data = await response.json();
-            this.configuracion = data.modelos[this.modeloId];
+            this.configuracion = MODELOS_CONFIG.modelos[this.modeloId];
             
             if (!this.configuracion) {
                 throw new Error(`Modelo ${this.modeloId} no encontrado`);
@@ -237,15 +251,39 @@ class ConfiguradorUniversal {
     }
     
     async cargarModeloInicial() {
-        const colorSeleccionado = this.configuracion.colores.find(c => c.id === this.configuracionActual.color);
-        if (colorSeleccionado) {
-            await this.cargarModelo(colorSeleccionado.modelo);
+        if (!this.configuracion) {
+            throw new Error(`Configuración inválida para '${this.modeloId}'`);
         }
+
+        const colorSeleccionado = this.configuracion.colores?.find(c => c.id === this.configuracionActual.color);
+        const modeloPath = colorSeleccionado?.modelo || this.configuracion.modelo;
+        if (!modeloPath) {
+            throw new Error(`Configuración inválida para '${this.modeloId}': falta 'modelo'`);
+        }
+
+        await this.cargarModelo(modeloPath);
     }
     
     async cargarModelo(modeloPath) {
+        if (typeof modeloPath !== 'string' || !modeloPath.trim()) {
+            throw new Error(`Ruta de modelo inválida para '${this.modeloId}': ${modeloPath}`);
+        }
+        const loadToken = ++this.modelLoadToken;
         return new Promise((resolve, reject) => {
             const loader = new THREE.GLTFLoader();
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            if (loadingOverlay) {
+                loadingOverlay.style.display = 'flex';
+            }
+
+            console.log(`[ConfiguradorUniversal] Cargando modelo: ${modeloPath}`);
+
+            this.modelLoaded = false;
+            this.introAnimationRunning = false;
+            if (this.introAnimationId) {
+                cancelAnimationFrame(this.introAnimationId);
+                this.introAnimationId = null;
+            }
             
             // Eliminar modelo anterior si existe
             if (this.model) {
@@ -257,24 +295,50 @@ class ConfiguradorUniversal {
             loader.load(
                 modeloPath,
                 (gltf) => {
+                    // Si se ha lanzado otra carga posterior, ignorar esta
+                    if (loadToken !== this.modelLoadToken) {
+                        gltf?.scene?.traverse?.((child) => {
+                            if (child.geometry) child.geometry.dispose?.();
+                            const mats = child.material ? (Array.isArray(child.material) ? child.material : [child.material]) : [];
+                            mats.forEach((m) => m?.dispose?.());
+                        });
+                        return;
+                    }
+
                     this.model = gltf.scene;
                     this.modelRoot = this.model;
                     this.scene.add(this.model);
+                    this.currentModelPath = modeloPath;
                     
                     // Ajustar escala
                     this.ajustarEscalaModelo();
                     
                     // Ajustar cámara
                     this.fitCameraToObject(this.model);
-                    
+
+                    this.addOrUpdateGroundForObject(this.modelRoot);
                     this.modelLoaded = true;
+
+                    // Intro en cada carga, sin mutar materiales (solo cámara/rotación)
+                    this.startIntroAnimation();
+
+                    if (loadingOverlay) {
+                        loadingOverlay.style.display = 'none';
+                    }
                     resolve();
                 },
                 (progress) => {
                     console.log('Progreso de carga:', (progress.loaded / progress.total * 100) + '%');
                 },
                 (error) => {
+                    if (loadToken !== this.modelLoadToken) return;
                     console.error('Error cargando modelo:', error);
+
+                    if (loadingOverlay) {
+                        loadingOverlay.style.display = 'none';
+                        const text = loadingOverlay.querySelector('p');
+                        if (text) text.textContent = 'Error cargando modelo 3D';
+                    }
                     reject(error);
                 }
             );
@@ -287,7 +351,8 @@ class ConfiguradorUniversal {
         const box = new THREE.Box3().setFromObject(this.model);
         const size = box.getSize(new THREE.Vector3());
         const maxDim = Math.max(size.x, size.y, size.z);
-        const escala = this.configuracion.escalado.exterior / maxDim;
+        const modelScale = this.configuracion?.escalado?.modelo ?? this.configuracion?.escalado?.exterior ?? 8;
+        const escala = modelScale / maxDim;
         this.model.scale.multiplyScalar(escala);
     }
     
@@ -300,7 +365,8 @@ class ConfiguradorUniversal {
         const fov = THREE.MathUtils.degToRad(this.camera.fov);
         const fitHeightDistance = (size.y / 2) / Math.tan(fov / 2);
         const fitWidthDistance = (size.x / 2) / (Math.tan(fov / 2) * this.camera.aspect);
-        const distance = this.configuracion.escalado.exterior * Math.max(fitHeightDistance, fitWidthDistance);
+        const cameraFit = this.configuracion?.escalado?.camera ?? 4.35;
+        const distance = cameraFit * Math.max(fitHeightDistance, fitWidthDistance);
         
         this.camera.position.set(center.x, center.y + size.y * 0.5, center.z + distance);
         this.camera.near = Math.max(0.01, distance / 100);
@@ -308,6 +374,124 @@ class ConfiguradorUniversal {
         this.camera.updateProjectionMatrix();
         
         this.controls.update();
+    }
+
+    addOrUpdateGroundForObject(object3D) {
+        if (!this.scene || !object3D) return;
+
+        if (this.groundMesh) {
+            this.scene.remove(this.groundMesh);
+            this.groundMesh.traverse?.((child) => {
+                if (child.geometry) child.geometry.dispose();
+                if (child.material) {
+                    if (Array.isArray(child.material)) child.material.forEach((m) => m.dispose());
+                    else child.material.dispose();
+                }
+            });
+            this.groundMesh = null;
+        }
+
+        const box = new THREE.Box3().setFromObject(object3D);
+        const size = box.getSize(new THREE.Vector3());
+        const center = box.getCenter(new THREE.Vector3());
+        const pad = 0.15;
+        const radius = Math.min(3.0, Math.max(1.4, (Math.max(size.x, size.z) / 2) + pad));
+
+        if (!this.grassTexture) {
+            const textureLoader = new THREE.TextureLoader();
+            const grassUrl = new URL('../../Imagenes/grass.jpg', import.meta.url);
+            this.grassTexture = textureLoader.load(String(grassUrl), (texture) => {
+                texture.wrapS = THREE.RepeatWrapping;
+                texture.wrapT = THREE.RepeatWrapping;
+                texture.repeat.set(2, 2);
+            });
+        }
+
+        const geometry = new THREE.CircleGeometry(radius, 64);
+        const material = new THREE.MeshStandardMaterial({
+            map: this.grassTexture,
+            roughness: 0.1,
+            metalness: 0.0,
+        });
+        const base = new THREE.Mesh(geometry, material);
+        base.rotation.x = -Math.PI / 2;
+        base.receiveShadow = true;
+        base.castShadow = false;
+
+        const ringInner = radius * 0.995;
+        const ringOuter = radius * 1.01;
+        const ringGeometry = new THREE.RingGeometry(ringInner, ringOuter, 128);
+        const ringMaterial = new THREE.MeshBasicMaterial({
+            color: new THREE.Color(1, 0, 0),
+            side: THREE.DoubleSide,
+            toneMapped: false,
+        });
+        const colorRing = new THREE.Mesh(ringGeometry, ringMaterial);
+        colorRing.rotation.x = -Math.PI / 2;
+        colorRing.position.y = 0.003;
+        colorRing.receiveShadow = true;
+        colorRing.castShadow = false;
+
+        this.groundMesh = new THREE.Group();
+        this.groundMesh.add(base);
+        this.groundMesh.add(colorRing);
+        this.groundMesh.position.set(center.x, box.min.y - 0.02, center.z);
+        this.scene.add(this.groundMesh);
+    }
+
+    startIntroAnimation() {
+        if (!this.camera || !this.controls) return;
+        if (!this.modelLoaded || !this.modelRoot) return;
+        if (this.introAnimationRunning) return;
+
+        this.introAnimationRunning = true;
+
+        const duration = 1400;
+        const startTime = performance.now();
+
+        const root = this.modelRoot || this.model;
+        const initialRotation = root.rotation.y;
+        const initialCameraPos = this.camera.position.clone();
+        const farCameraPos = initialCameraPos.clone().multiplyScalar(2.25);
+        const finalCameraPos = initialCameraPos.clone();
+
+        this.camera.position.copy(farCameraPos);
+        root.rotation.y = initialRotation;
+
+        const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+
+        const animateIntro = (now) => {
+            const elapsed = now - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+
+            const eased = easeOutCubic(progress);
+            this.camera.position.lerpVectors(farCameraPos, finalCameraPos, eased);
+
+            // Giro tipo Thunder durante la intro
+            root.rotation.y = initialRotation + (Math.PI * 2 * eased);
+
+            if (progress > 0.9) {
+                const bounceProgress = (progress - 0.9) / 0.1;
+                const bounce = Math.sin(bounceProgress * Math.PI) * 0.015;
+                this.camera.position.y += bounce;
+            }
+
+            this.controls.update();
+
+            if (progress < 1) {
+                this.introAnimationId = requestAnimationFrame(animateIntro);
+                return;
+            }
+
+            this.camera.position.copy(finalCameraPos);
+            this.controls.update();
+
+            this.introAnimationRunning = false;
+            this.introAnimationId = null;
+            this.hasPlayedIntro = true;
+        };
+
+        this.introAnimationId = requestAnimationFrame(animateIntro);
     }
     
     async seleccionarColor(colorId) {
@@ -320,9 +504,12 @@ class ConfiguradorUniversal {
         document.querySelectorAll('.color-option').forEach(el => {
             el.classList.toggle('active', el.dataset.color === colorId);
         });
-        
-        // Cargar nuevo modelo
-        await this.cargarModelo(color.modelo);
+
+        // Si el color tiene un GLB específico, siempre recargar ese modelo
+        if (color.modelo) {
+            await this.cargarModelo(color.modelo);
+        }
+
         this.actualizarPrecio();
     }
     
@@ -427,6 +614,14 @@ class ConfiguradorUniversal {
     iniciarAnimacion() {
         const animate = () => {
             this.animationId = requestAnimationFrame(animate);
+
+            // Rotación automática del modelo (solo en vista exterior)
+            if (this.isRotating && this.modelLoaded && this.currentCameraMode === 'exterior') {
+                const root = this.modelRoot || this.model;
+                if (root) {
+                    root.rotation.y += 0.005;
+                }
+            }
             
             if (this.controls) {
                 this.controls.update();
