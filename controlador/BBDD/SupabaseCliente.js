@@ -1040,10 +1040,13 @@ export async function getModelos(gama = null) {
 }
 
 export async function getModeloById(id) {
-    const modelos = await getData('modelos_coche', '*', { id });
-
-    return modelos.length > 0 ? modelos[0] : null;
-
+    try {
+        const modelos = await getData('modelos_coche', '*', { id });
+        return modelos.length > 0 ? modelos[0] : null;
+    } catch (error) {
+        console.error('Error obteniendo modelo:', error);
+        return null;
+    }
 }
 
 // COLORES
@@ -1270,4 +1273,124 @@ export async function getConfiguracionCompleta(configId) {
 
     }
 
+}
+
+// FUNCIONES CRUD PARA MODELOS
+
+// Obtener todos los modelos con sus colores
+export async function getModels() {
+    try {
+        const { data, error } = await supabase
+            .from('modelos_coche')
+            .select(`
+                id,
+                nombre,
+                gama,
+                precio,
+                descripcion_corta,
+                activo,
+                modelo_colores (
+                    color_id,
+                    colores (
+                        id,
+                        nombre,
+                        hex,
+                        precio_extra
+                    )
+                )
+            `)
+            .order('id', { ascending: false });
+
+        if (error) {
+            console.error('Error obteniendo modelos:', error);
+            return { success: false, error: error.message };
+        }
+
+        return { success: true, data };
+    } catch (error) {
+        console.error('Error inesperado obteniendo modelos:', error);
+        return { success: false, error: error.message };
+    }
+}
+
+// Crear un nuevo modelo
+export async function createModel(modelData) {
+    try {
+        const { data, error } = await supabase
+            .from('modelos_coche')
+            .insert([modelData])
+            .select();
+
+        if (error) {
+            console.error('Error creando modelo:', error);
+            return { success: false, error: error.message };
+        }
+
+        return { success: true, data: data[0] };
+    } catch (error) {
+        console.error('Error inesperado creando modelo:', error);
+        return { success: false, error: error.message };
+    }
+}
+
+// Actualizar un modelo existente
+export async function updateModel(id, modelData) {
+    try {
+        const { data, error } = await supabase
+            .from('modelos_coche')
+            .update(modelData)
+            .eq('id', id)
+            .select();
+
+        if (error) {
+            console.error('Error actualizando modelo:', error);
+            return { success: false, error: error.message };
+        }
+
+        return { success: true, data: data[0] };
+    } catch (error) {
+        console.error('Error inesperado actualizando modelo:', error);
+        return { success: false, error: error.message };
+    }
+}
+
+// Eliminar un modelo
+export async function deleteModel(id) {
+    try {
+        const { error } = await supabase
+            .from('modelos_coche')
+            .delete()
+            .eq('id', id);
+
+        if (error) {
+            console.error('Error eliminando modelo:', error);
+            return { success: false, error: error.message };
+        }
+
+        return { success: true };
+    } catch (error) {
+        console.error('Error inesperado eliminando modelo:', error);
+        return { success: false, error: error.message };
+    }
+}
+
+// Activar/Desactivar un modelo
+export async function toggleModelStatus(id, activo) {
+    try {
+        const { data, error } = await supabase
+            .from('modelos_coche')
+            .update({ activo })
+            .eq('id', id)
+            .select();
+
+        if (error) {
+            console.error('Error actualizando estado del modelo:', error);
+            return { success: false, error: error.message };
+        }
+
+        return { success: true, data: data[0] };
+    } catch (error) {
+        console.error('Error inesperado actualizando estado del modelo:', error);
+        return { success: false, error: error.message };
+    }
 }
