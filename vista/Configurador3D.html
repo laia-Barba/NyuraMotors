@@ -6,7 +6,7 @@
     <title>Nyura Motors - Configurador 3D</title>
     <link rel="stylesheet" href="EstiloPrincipal.css">
     <link rel="stylesheet" href="header-unique.css">
-    <link rel="stylesheet" href="configurador3d.css">
+    <link rel="stylesheet" href="configurador3d.css?v=2">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -61,7 +61,7 @@
                     </div>
                 </div>
             </div>
-            <!-- Panel derecho - Configuración -->
+            <!-- Panel derecho - Configuración por Pasos -->
             <div class="config-panel">
                 <div class="config-header">
                     <h3>Personaliza tu 
@@ -71,74 +71,102 @@
                         <span class="price-label">Precio</span>
                         <span class="price-value">€89,900</span>
                     </div>
-                </div>
-                <!-- Sección de Colores -->
-                <div class="config-section">
-                    <h3>Color Exterior</h3>
-                    <div class="color-options">
-                        <div class="color-option active" data-color="negro" title="Negro Mate">
-                            <div class="color-swatch" style="background: linear-gradient(135deg, #1a1a1a, #000000);"></div>
-                            <span>Negro</span>
+                    
+                    <!-- Indicador de Pasos -->
+                    <div class="step-indicator">
+                        <div class="step active" data-step="1">
+                            <span class="step-number">1</span>
+                            <span class="step-title">Color</span>
                         </div>
-                        <div class="color-option" data-color="rojo" title="Rojo Passion">
-                            <div class="color-swatch" style="background: linear-gradient(135deg, #dc143c, #8b0000);"></div>
-                            <span>Rojo</span>
+                        <div class="step" data-step="2">
+                            <span class="step-number">2</span>
+                            <span class="step-title">Llantas</span>
                         </div>
-                    </div>
-                </div>
-                <!-- Sección de Llantas -->
-                <div class="config-section">
-                    <h3>Llantas</h3>
-                    <div class="wheel-options">
-                        <div class="wheel-option active" data-wheel="acero">
-                            <div class="wheel-preview">
-                                <div class="wheel-icon"><img src="../modelo/llantas/llantaacero.png" alt="Llanta Acero" style="width: 100%; height: 100%; object-fit: contain; background: white; border-radius: 4px;"></div>
-                            </div>
-                            <div class="wheel-info">
-                                <span class="wheel-name">Acero</span>
-                                <span class="wheel-price">Incluido</span>
-                            </div>
-                        </div>
-                        <div class="wheel-option" data-wheel="sport">
-                            <div class="wheel-preview">
-                                <div class="wheel-icon"><img src="../modelo/llantas/llantassport.png" alt="Llanta Sport" style="width: 100%; height: 100%; object-fit: contain; background: white; border-radius: 4px;"></div>
-                            </div>
-                            <div class="wheel-info">
-                                <span class="wheel-name">Sport</span>
-                                <br>
-                                <span class="wheel-price">€2,500</span>
-                            </div>
+                        <div class="step" data-step="3">
+                            <span class="step-number">3</span>
+                            <span class="step-title">Paquetes</span>
                         </div>
                     </div>
                 </div>
-                <!-- Sección de Paquetes -->
-                <div class="config-section">
-                    <h3>Paquetes Tecnológicos</h3>
-                    <div class="package-options">
-                        <div class="package-option">
-                            <div class="package-header">
-                                <input type="checkbox" id="package-premium" class="package-checkbox">
-                                <label for="package-premium" class="package-label">
-                                    <span class="package-name">Tech Premium</span>
-                                    <span class="package-price">+€6,800</span>
-                                </label>
+                
+                <!-- Contenido de Pasos -->
+                <div class="step-content">
+                    <!-- Paso 1: Color -->
+                    <div class="step-panel active" id="step1">
+                        <h4>1. Elige tu Color Exterior</h4>
+                        <div class="color-options">
+                            <div class="color-option active" data-color="negro" title="Negro Mate">
+                                <div class="color-swatch" style="background: linear-gradient(135deg, #1a1a1a, #000000);"></div>
+                                <span>Negro</span>
                             </div>
-                            <div class="package-features">
-                                <span>• Pantalla 15"</span>
-                                <span>• Sistema Audio Premium</span>
-                                <span>• Conducción Autónoma Nivel 2</span>
-                                <span>• Control por Voz</span>
+                            <div class="color-option" data-color="rojo" title="Rojo Passion">
+                                <div class="color-swatch" style="background: linear-gradient(135deg, #dc143c, #8b0000);"></div>
+                                <span>Rojo</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Paso 2: Llantas -->
+                    <div class="step-panel" id="step2">
+                        <h4>2. Elige tus Llantas</h4>
+                        <div class="wheel-options">
+                            <div class="wheel-option active" data-wheel="acero">
+                                <div class="wheel-preview">
+                                    <div class="wheel-icon"><img src="../modelo/llantas/llantaacero.png" alt="Llanta Acero" style="width: 100%; height: 100%; object-fit: contain; background: white; border-radius: 4px;"></div>
+                                </div>
+                                <div class="wheel-info">
+                                    <span class="wheel-name">Acero</span>
+                                    <span class="wheel-price">Incluido</span>
+                                </div>
+                            </div>
+                            <div class="wheel-option" data-wheel="sport">
+                                <div class="wheel-preview">
+                                    <div class="wheel-icon"><img src="../modelo/llantas/llantassport.png" alt="Llanta Sport" style="width: 100%; height: 100%; object-fit: contain; background: white; border-radius: 4px;"></div>
+                                </div>
+                                <div class="wheel-info">
+                                    <span class="wheel-name">Sport</span>
+                                    <span class="wheel-price">€2,500</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Paso 3: Paquetes -->
+                    <div class="step-panel" id="step3">
+                        <h4>3. Elige tus Paquetes Tecnológicos</h4>
+                        <div class="package-options">
+                            <div class="package-option">
+                                <div class="package-header">
+                                    <input type="checkbox" id="package-premium" class="package-checkbox">
+                                    <label for="package-premium" class="package-label">
+                                        <span class="package-name">Tech Premium</span>
+                                        <span class="package-price">+€6,800</span>
+                                    </label>
+                                </div>
+                                <div class="package-features">
+                                    <span>• Pantalla 15"</span>
+                                    <span>• Sistema Audio Premium</span>
+                                    <span>• Conducción Autónoma Nivel 2</span>
+                                    <span>• Control por Voz</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Botón de acción -->
+                
+                <!-- Botones de Acción -->
                 <div class="action-buttons">
-                    <button class="btn-secondary" onclick="resetConfiguration()">
-                        Restablecer Configuración
+                    <button class="nav-btn nav-prev" id="bottomPrevBtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 16px; height: 16px;">
+                            <path d="M15.41 7.41L14 6l-1.41 1.41L14 8.17l1.42 1.41L15.41 10l1.41 1.41L14 12.17l1.42 1.42L15.41 14l1.41 1.41L14 15.17l1.42 1.42z"/>
+                        </svg>
+                        Anterior
                     </button>
-                    <button class="btn-primary">
-                        Seguir comprando
+                    <button class="nav-btn nav-next" id="bottomNextBtn">
+                        Siguiente
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 16px; height: 16px;">
+                            <path d="M8.59 16.59L10 18l1.41 1.41L10 15.83l-1.42-1.41L8.59 14l-1.41-1.41L10 11.83l1.42-1.42L8.59 10l-1.41-1.41L10 8.17l1.42-1.42L8.59 6l1.41-1.41L10 4.83l1.42-1.42L8.59 4l-1.41-1.41L10 1.17l1.42-1.42z"/>
+                        </svg>
                     </button>
                 </div>
             </div>
@@ -215,6 +243,19 @@
         </p>
     </div>
 </footer>
+
+<!-- Popup de confirmación personalizado -->
+<div id="exitConfirmationPopup" class="exit-confirmation-popup">
+    <div class="popup-content">
+        <h3>¿Salir de vista interior?</h3>
+        <p>¿Estás seguro de que quieres salir de la vista interior y volver a la vista exterior?</p>
+        <div class="popup-buttons">
+            <button class="popup-btn cancel-btn" id="cancelExitBtn">Cancelar</button>
+            <button class="popup-btn confirm-btn" id="confirmExitBtn">Salir</button>
+        </div>
+    </div>
+</div>
+
 <!-- Three.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -225,11 +266,23 @@
     let scene, camera, renderer, model, modelRoot, controls;
     let isRotating = true;
     let animationId;
+    let exteriorCamera = null;
+    let savedModelPosition = null;
+    let savedModelRotation = null;
+    let savedModelScale = null;
     let modelLoaded = false;
     let originalWheelColors = []; // Guardar colores originales de las llantas
     // Variables para gestión de cámaras
     let currentCameraMode = 'exterior'; // 'exterior' o 'interior'
-    let exteriorCamera;
+    // Variables para sistema interior
+    let interiorScene, interiorCamera, interiorRenderer, interiorControls, interiorModel;
+    let interiorLoaded = false;
+    let interiorAnimationId = null;
+    // Variables globales para el sistema de rotación de cabeza
+    let isDragging = false;
+    let previousMousePosition = { x: 0, y: 0 };
+    let rotationX = 0;
+    let rotationY = Math.PI;
     // Función de inicialización
     function init() {
         // Crear la escena
@@ -297,6 +350,13 @@
         camera.near = Math.max(0.01, distance / 100);
         camera.far = Math.max(1000, distance * 100);
         camera.updateProjectionMatrix();
+        
+        // Fijar la escala del modelo para evitar cambios
+        if (!modelScaleFixed) {
+            modelScaleFixed = true;
+            console.log('Escala del modelo fijada para evitar cambios:', object3D.scale);
+        }
+        
         // Si el zoom está desactivado, fijar la distancia actual para evitar que el coche se quede pequeño
         if (controls && controls.enableZoom === false) {
             const d = camera.position.distanceTo(controls.target);
@@ -306,6 +366,9 @@
         controls.update();
     }
     let groundMesh = null;
+    let grassTexture = null; // Declarar grassTexture en el ámbito global
+    let modelScaleFixed = false; // Variable para controlar si la escala ya fue fijada
+
     function addOrUpdateGroundForObject(object3D) {
         if (!scene || !object3D) return;
         if (groundMesh) {
@@ -327,10 +390,37 @@
             3.0,
             Math.max(1.4, (Math.max(size.x, size.z) / 2) + pad)
         );
+        
+        // Cargar textura de césped si no está cargada
+        if (!grassTexture) {
+            console.log('Intentando cargar textura grass.jpg desde: ../Imagenes/grass.jpg');
+            const textureLoader = new THREE.TextureLoader();
+            grassTexture = textureLoader.load(
+                '../Imagenes/grass.jpg',
+                function(texture) {
+                    console.log('Textura grass.jpg cargada exitosamente');
+                    console.log('Dimensiones de la textura:', texture.image.width, 'x', texture.image.height);
+                    // Configurar la textura para que se repita correctamente
+                    grassTexture.wrapS = THREE.RepeatWrapping;
+                    grassTexture.wrapT = THREE.RepeatWrapping;
+                    grassTexture.repeat.set(2, 2); // Reducir repetición aún más para mayor visibilidad
+                },
+                function(progress) {
+                    console.log('Progreso de carga grass.jpg:', (progress.loaded / progress.total * 100) + '%');
+                },
+                function(error) {
+                    console.error('Error cargando grass.jpg:', error);
+                }
+            );
+        } else {
+            console.log('Usando textura grass.jpg existente');
+        }
+        
+        // Crear la geometría para el césped (sin plataforma gris)
         const geometry = new THREE.CircleGeometry(radius, 64);
         const material = new THREE.MeshStandardMaterial({
-            color: 0x2b2b2b,
-            roughness: 0.95,
+            map: grassTexture,
+            roughness: 0.1,
             metalness: 0.0
         });
         const base = new THREE.Mesh(geometry, material);
@@ -387,6 +477,46 @@
         pointLight.position.set(0, 5, 10);
         scene.add(pointLight);
     }
+
+    function setupStepNavigation() {
+        const steps = Array.from(document.querySelectorAll('.step-indicator .step'));
+        const panels = Array.from(document.querySelectorAll('.step-panel'));
+        const bottomPrevBtn = document.getElementById('bottomPrevBtn');
+        const bottomNextBtn = document.getElementById('bottomNextBtn');
+
+        if (steps.length === 0 || panels.length === 0) return;
+
+        const maxStep = Math.max(...steps.map((s) => Number(s.dataset.step) || 0));
+        let currentStep = Number((document.querySelector('.step-indicator .step.active')?.dataset.step) || 1);
+        if (!Number.isFinite(currentStep) || currentStep < 1) currentStep = 1;
+
+        const setActiveStep = (stepNumber) => {
+            const step = Math.min(Math.max(1, Number(stepNumber) || 1), maxStep);
+            currentStep = step;
+
+            steps.forEach((s) => s.classList.toggle('active', Number(s.dataset.step) === step));
+            panels.forEach((p) => p.classList.toggle('active', p.id === `step${step}`));
+
+            // Actualizar estado de los botones de navegación inferiores
+            if (bottomPrevBtn) bottomPrevBtn.disabled = step <= 1;
+            if (bottomNextBtn) bottomNextBtn.disabled = step >= maxStep;
+        };
+
+        // Configurar event listeners para los botones inferiores
+        if (bottomPrevBtn) {
+            bottomPrevBtn.addEventListener('click', () => setActiveStep(currentStep - 1));
+        }
+        if (bottomNextBtn) {
+            bottomNextBtn.addEventListener('click', () => setActiveStep(currentStep + 1));
+        }
+
+        steps.forEach((s) => {
+            s.addEventListener('click', () => setActiveStep(s.dataset.step));
+        });
+
+        setActiveStep(currentStep);
+    }
+
     // Cargar el modelo 3D (función deshabilitada para evitar conflictos)
     // function loadModel() {
     //     // Esta función está deshabilitada para evitar conflictos con loadThunderBEModel y loadThunderBERojoModel
@@ -565,342 +695,350 @@
                 const bounce = Math.sin(bounceProgress * Math.PI) * 0.015;
                 camera.position.y += bounce;
             }
-            // Actualizar controles
-            controls.update();
-            if (progress < 1) {
-                requestAnimationFrame(animateIntro);
-            } else {
-                // Asegurar que todo esté completamente opaco
-                restoreIntroMaterials();
-                // Posición final exacta
-                camera.position.copy(finalCameraPos);
-                controls.update();
-                // Efecto final de brillo sutil
-                setTimeout(() => {
-                    root.traverse((child) => {
-                        if (child.isMesh && child.material && child.material.emissive) {
-                            const originalEmissive = child.material.emissive.clone();
-                            child.material.emissive = new THREE.Color(0x222222);
-                            setTimeout(() => {
-                                child.material.emissive = originalEmissive;
-                            }, 300);
-                        }
-                    });
-                }, 200);
-            }
-        }
-        // Iniciar la animación
-        animateIntro();
-    }
-    // Configurar event listeners
-    function setupEventListeners() {
-        // Resize de ventana
-        window.addEventListener('resize', onWindowResize);
-        // Event listeners para botones de cámara
-        const exteriorBtn = document.getElementById('exteriorCameraBtn');
-        const interiorBtn = document.getElementById('interiorCameraBtn');
-        const backToExteriorBtn = document.getElementById('backToExteriorBtn');
-        if (exteriorBtn) {
-            exteriorBtn.addEventListener('click', () => showExteriorView());
-        }
-        if (interiorBtn) {
-            interiorBtn.addEventListener('click', () => showInteriorView());
-        }
-        if (backToExteriorBtn) {
-            backToExteriorBtn.addEventListener('click', () => showExteriorView());
-        }
-    }
-    // Funciones para navegar entre vistas
-    function showExteriorView() {
-        const layout = document.querySelector('.configurator-layout');
-        const viewerPanel = document.querySelector('.viewer-panel');
-        const configPanel = document.querySelector('.config-panel');
-        const interiorView = document.getElementById('interiorView');
-        const exteriorBtn = document.getElementById('exteriorCameraBtn');
-        const interiorBtn = document.getElementById('interiorCameraBtn');
-        const exteriorContainer = document.getElementById('canvas-container');
-        const interiorContainer = document.getElementById('interior-canvas-container');
-        viewerPanel.style.display = 'block';
-        if (configPanel) configPanel.style.display = 'block';
-        interiorView.style.display = 'none';
-        // Restaurar estilos de layout
-        if (layout) {
-            layout.style.alignItems = '';
-        }
-        if (interiorView) {
-            interiorView.style.flex = '';
-            interiorView.style.width = '';
-            interiorView.style.maxWidth = '';
-        }
-        exteriorBtn.classList.add('active');
-        interiorBtn.classList.remove('active');
-        // Cambiar modo de cámara
-        currentCameraMode = 'exterior';
-        // Detener animación interior
-        if (interiorAnimationId) {
-            cancelAnimationFrame(interiorAnimationId);
-            interiorAnimationId = null;
-        }
-        // Limpiar contenedor interior
-        if (interiorContainer) {
-            interiorContainer.innerHTML = '<div class="loading-overlay" id="interiorLoadingOverlay"><div class="loading-spinner"></div><p>Cargando vista interior...</p></div>';
-        }
-        // Asegurar que el renderer exterior esté en su contenedor
-        if (renderer && exteriorContainer && !exteriorContainer.contains(renderer.domElement)) {
-            exteriorContainer.innerHTML = '';
-            exteriorContainer.appendChild(renderer.domElement);
-        }
-        // Ajustar tamaño del renderer exterior
-        if (renderer && exteriorContainer) {
-            const width = Math.max(1, exteriorContainer.clientWidth);
-            const height = Math.max(1, exteriorContainer.clientHeight);
-            renderer.setSize(width, height);
-            camera.aspect = width / height;
-            camera.updateProjectionMatrix();
-        }
-        // Restaurar controles exteriores
-        if (controls) {
-            controls.enableRotate = true;
-            controls.enablePan = false;
-            controls.enableZoom = false;
-            controls.object = camera;
-            controls.update();
-        }
-        // Restaurar posición de cámara exterior
-        if (exteriorCamera && modelRoot) {
-            camera.position.copy(exteriorCamera.position);
-            camera.rotation.copy(exteriorCamera.rotation);
-            fitCameraToObject(modelRoot);
-        } else if (modelRoot) {
-            fitCameraToObject(modelRoot);
-        }
-        // Resetear sistema interior
-        interiorLoaded = false;
-    }
-    function showInteriorView() {
-        const layout = document.querySelector('.configurator-layout');
-        const viewerPanel = document.querySelector('.viewer-panel');
-        const configPanel = document.querySelector('.config-panel');
-        const interiorView = document.getElementById('interiorView');
-        const exteriorBtn = document.getElementById('exteriorCameraBtn');
-        const interiorBtn = document.getElementById('interiorCameraBtn');
-        const exteriorContainer = document.getElementById('canvas-container');
-        const interiorContainer = document.getElementById('interior-canvas-container');
-        viewerPanel.style.display = 'none';
-        if (configPanel) configPanel.style.display = 'none';
-        interiorView.style.display = 'block';
-        // Expandir interior para ocupar todo el ancho
-        if (layout) {
-            layout.style.alignItems = 'stretch';
-        }
-        if (interiorView) {
-            interiorView.style.flex = '1 1 auto';
-            interiorView.style.width = '100%';
-            interiorView.style.maxWidth = '100%';
-        }
-        exteriorBtn.classList.remove('active');
-        interiorBtn.classList.add('active');
-        // Cambiar modo de cámara
-        currentCameraMode = 'interior';
-        // Guardar posición de cámara exterior antes de cambiar
-        if (!exteriorCamera && camera) {
-            exteriorCamera = camera.clone();
-        }
-        // Inicializar el sistema interior independiente
-        if (!interiorLoaded) {
-            initInteriorView();
-        }
-    }
-    // Sistema completamente independiente para vista interior
-    let interiorScene, interiorCamera, interiorRenderer, interiorControls, interiorModel;
-    let interiorLoaded = false;
-    let interiorAnimationId = null;
-    // Variables globales para el sistema de rotación de cabeza
-    let isDragging = false;
-    let previousMousePosition = { x: 0, y: 0 };
-    let rotationX = 0;
-    let rotationY = Math.PI;
-    // Función para inicializar la vista interior (sistema independiente)
-    function initInteriorView() {
-        const container = document.getElementById('interior-canvas-container');
-        const loadingOverlay = document.getElementById('interiorLoadingOverlay');
-        // Crear escena independiente para interior
-        interiorScene = new THREE.Scene();
-        interiorScene.background = null;
-        // Resetear orientación de “cabeza” al entrar en interior
-        rotationX = 0;
-        rotationY = Math.PI;
-        // Crear cámara independiente para interior
-        interiorCamera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
-        interiorCamera.position.set(1.20, 1.2, 2.5); // Entre asientos delanteros
-        interiorCamera.lookAt(0, 0.7, 2); // Hacia parabrisas
-        // Crear renderer independiente para interior
-        interiorRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        interiorRenderer.setPixelRatio(window.devicePixelRatio);
-        interiorRenderer.setSize(container.clientWidth, container.clientHeight);
-        interiorRenderer.shadowMap.enabled = true;
-        interiorRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
-        interiorRenderer.setClearColor(0x000000, 0);
-        interiorRenderer.physicallyCorrectLights = true;
-        interiorRenderer.outputEncoding = THREE.sRGBEncoding;
-        interiorRenderer.toneMapping = THREE.ACESFilmicToneMapping;
-        interiorRenderer.toneMappingExposure = 1.65;
-        container.innerHTML = '';
-        container.appendChild(interiorRenderer.domElement);
-        // Sistema de rotación de cabeza (vista pura)
-        const canvas = interiorRenderer.domElement;
-        // Sistema de rotación manual (sin OrbitControls)
-        // Eventos para rotación de cabeza
-        canvas.addEventListener('mousedown', (e) => {
-            isDragging = true;
-            previousMousePosition = { x: e.clientX, y: e.clientY };
-        });
-        canvas.addEventListener('mousemove', (e) => {
-            if (!isDragging) return;
-            const deltaX = e.clientX - previousMousePosition.x;
-            const deltaY = e.clientY - previousMousePosition.y;
-            // Rotación horizontal (cabeza de lado a lado)
-            rotationY += deltaX * 0.005;
-            // Rotación vertical (mira arriba/abajo)
-            rotationX += -deltaY * 0.005;
-            // Limitar rotación vertical a ±30 grados
-            rotationX = Math.max(-Math.PI/6, Math.min(Math.PI/6, rotationX));
-            previousMousePosition = { x: e.clientX, y: e.clientY };
-        });
-        canvas.addEventListener('mouseup', () => {
-            isDragging = false;
-        });
-        canvas.addEventListener('mouseleave', () => {
-            isDragging = false;
-        });
-        // Configurar iluminación para interior
-        const interiorAmbient = new THREE.AmbientLight(0xffffff, 1.2);
-        interiorScene.add(interiorAmbient);
-        const interiorDirectional = new THREE.DirectionalLight(0xffffff, 2.0);
-        interiorDirectional.position.set(5, 5, 5);
-        interiorScene.add(interiorDirectional);
-        // Cargar el modelo para vista interior
-        loadInteriorModel();
-        // Ocultar loading
-        loadingOverlay.style.display = 'none';
-        interiorLoaded = true;
-    }
-    // Función para cargar modelo en escena interior
-    function loadInteriorModel() {
-        const loader = new THREE.GLTFLoader();
-        loader.load(
-            '../coches/ThunderBE/ThunderBE.glb',
-            function(gltf) {
-                // Eliminar modelo anterior si existe
-                if (interiorModel) {
-                    interiorScene.remove(interiorModel);
-                }
-                interiorModel = gltf.scene;
-                // Posicionar y escalar modelo para vista interior
-                interiorModel.position.set(0, 0, 0);
-                interiorModel.rotation.y = Math.PI; // Girar para vista interior
-                // Escalar el modelo apropiadamente
-                const box = new THREE.Box3().setFromObject(interiorModel);
-                const size = box.getSize(new THREE.Vector3());
-                const maxDim = Math.max(size.x, size.y, size.z);
-                const scale = 8 / maxDim; // Ajustar escala para vista interior
-                interiorModel.scale.multiplyScalar(scale);
-                interiorScene.add(interiorModel);
-                // Iniciar animación de interior
-                animateInterior();
-            },
-            function(progress) {
-                console.log('Interior loading progress:', (progress.loaded / progress.total * 100) + '%');
-            },
-            function(error) {
-                console.error('Error loading interior model:', error);
-            }
-        );
-    }
-    // Función de animación para rotación de cabeza
-    function animateInterior() {
-        interiorAnimationId = requestAnimationFrame(animateInterior);
-        // Aplicar rotación de cabeza a la cámara
-        if (interiorCamera) {
-            // Posición base fija
-            const basePosition = new THREE.Vector3(1.20, 1.1, 2.5);
-            interiorCamera.position.copy(basePosition);
-            // Calcular punto de mira basado en rotación de cabeza
-            const lookDirection = new THREE.Vector3(0, 0, 1);
-            const upAxis = new THREE.Vector3(0, 1, 0);
-            // Yaw (giro izquierda/derecha) sobre el eje Y global
-            const yawQuat = new THREE.Quaternion().setFromAxisAngle(upAxis, rotationY);
-            lookDirection.applyQuaternion(yawQuat);
-            // Pitch (arriba/abajo) sobre el eje X LOCAL (derecha) tras aplicar yaw
-            const rightAxis = new THREE.Vector3(1, 0, 0).applyQuaternion(yawQuat).normalize();
-            lookDirection.applyAxisAngle(rightAxis, rotationX);
-            // Calcular punto final de mira
-            const lookAtPoint = basePosition.clone().add(lookDirection.multiplyScalar(5));
-            // Aplicar rotación a la cámara
-            interiorCamera.lookAt(lookAtPoint);
-        }
-        // Renderizar
-        if (interiorRenderer && interiorScene && interiorCamera) {
-            interiorRenderer.render(interiorScene, interiorCamera);
-        }
-    }
-    // Función para crear la cámara interior
-    function createInteriorCamera() {
-        if (!modelRoot) {
-            console.warn('El modelo no está cargado, no se puede crear la cámara interior');
-            return;
-        }
-        // Crear cámara interior en posición fija entre los asientos delanteros
-        interiorCamera = new THREE.PerspectiveCamera(75, renderer.domElement.width / renderer.domElement.height, 0.1, 1000);
-        // Posición dentro del vehículo (ajustada para estar realmente dentro)
-        // Valores ajustados para estar dentro del coche
-        interiorCamera.position.set(0, 0.6, -0.5); // Centrado, altura de ojos, dentro del vehículo
-        // Mirar hacia adelante (hacia el parabrisas)
-        interiorCamera.lookAt(0, 0.6, 2);
-        console.log('Cámara interior creada en posición:', interiorCamera.position);
-    }
-    function updateRendererSize() {
-        if (!renderer || !camera) return;
-        let container;
-        if (currentCameraMode === 'interior') {
-            container = document.getElementById('interior-canvas-container');
+        // Actualizar controles
+        controls.update();
+        if (progress < 1) {
+            requestAnimationFrame(animateIntro);
         } else {
-            container = document.getElementById('canvas-container');
+            // Asegurar que todo esté completamente opaco
+            restoreIntroMaterials();
+            // Posición final exacta
+            camera.position.copy(finalCameraPos);
+            controls.update();
+            // Efecto final de brillo sutil
+            setTimeout(() => {
+                root.traverse((child) => {
+                    if (child.isMesh && child.material && child.material.emissive) {
+                        const originalEmissive = child.material.emissive.clone();
+                        child.material.emissive = new THREE.Color(0x222222);
+                        setTimeout(() => {
+                            child.material.emissive = originalEmissive;
+                        }, 300);
+                    }
+                });
+            }, 200);
         }
-        if (!container) return;
-        const width = Math.max(1, container.clientWidth);
-        const height = Math.max(1, container.clientHeight);
+    }
+    // Iniciar la animación
+    animateIntro();
+}
+
+function setupEventListeners() {
+    window.addEventListener('resize', onWindowResize);
+    
+    // Configurar navegación por pasos
+    setupStepNavigation();
+    
+    // Event listeners para botones de cámara
+    const exteriorBtn = document.getElementById('exteriorCameraBtn');
+    const interiorBtn = document.getElementById('interiorCameraBtn');
+    const backToExteriorBtn = document.getElementById('backToExteriorBtn');
+
+    if (exteriorBtn) {
+        exteriorBtn.addEventListener('click', showExteriorView);
+    }
+    if (interiorBtn) {
+        interiorBtn.addEventListener('click', showInteriorView);
+    }
+    if (backToExteriorBtn) {
+        backToExteriorBtn.addEventListener('click', showExteriorView);
+    }
+}
+
+// Funciones para navegar entre vistas
+function showExteriorView() {
+    const layout = document.querySelector('.configurator-layout');
+    const viewerPanel = document.querySelector('.viewer-panel');
+    const configPanel = document.querySelector('.config-panel');
+    const interiorView = document.getElementById('interiorView');
+    const exteriorBtn = document.getElementById('exteriorCameraBtn');
+    const interiorBtn = document.getElementById('interiorCameraBtn');
+    const exteriorContainer = document.getElementById('canvas-container');
+    const interiorContainer = document.getElementById('interior-canvas-container');
+    viewerPanel.style.display = 'block';
+    if (configPanel) configPanel.style.display = 'block';
+    interiorView.style.display = 'none';
+    // Restaurar estilos de layout
+    if (layout) {
+        layout.style.alignItems = '';
+    }
+    if (interiorView) {
+        interiorView.style.flex = '';
+        interiorView.style.width = '';
+        interiorView.style.maxWidth = '';
+    }
+    exteriorBtn.classList.add('active');
+    interiorBtn.classList.remove('active');
+    // Cambiar modo de cámara
+    currentCameraMode = 'exterior';
+    // Detener animación interior
+    if (interiorAnimationId) {
+        cancelAnimationFrame(interiorAnimationId);
+        interiorAnimationId = null;
+    }
+    // Resetear variables del sistema interior para permitir recargas futuras
+    interiorLoaded = false;
+    // Limpiar contenedor interior
+    if (interiorContainer) {
+        interiorContainer.innerHTML = '<div class="loading-overlay" id="interiorLoadingOverlay"><div class="loading-spinner"></div><p>Cargando vista interior...</p></div>';
+    }
+    // Asegurar que el renderer exterior esté en su contenedor
+    if (renderer && exteriorContainer && !exteriorContainer.contains(renderer.domElement)) {
+        exteriorContainer.innerHTML = '';
+        exteriorContainer.appendChild(renderer.domElement);
+    }
+    // Ajustar tamaño del renderer exterior
+    if (renderer && exteriorContainer) {
+        const width = Math.max(1, exteriorContainer.clientWidth);
+        const height = Math.max(1, exteriorContainer.clientHeight);
+        renderer.setSize(width, height);
         camera.aspect = width / height;
         camera.updateProjectionMatrix();
-        renderer.setSize(width, height);
     }
-    // Resize de ventana
-    function onWindowResize() {
-        updateRendererSize();
-        if (modelLoaded && modelRoot) {
+    // Restaurar controles exteriores
+    if (controls) {
+        controls.enableRotate = true;
+        controls.enablePan = false;
+        controls.enableZoom = false;
+        controls.object = camera;
+        controls.update();
+    }
+
+    // Restaurar posición de cámara exterior
+    if (exteriorCamera && modelRoot) {
+        camera.position.copy(exteriorCamera.position);
+        camera.rotation.copy(exteriorCamera.rotation);
+        // Solo ajustar cámara si el modelo ya tiene escala correcta
+        if (!modelScaleFixed) {
             fitCameraToObject(modelRoot);
         }
+    } else if (modelRoot && !modelScaleFixed) {
+        fitCameraToObject(modelRoot);
     }
-    // Bucle de animación principal
-    function animate() {
+
+    // RESTAURAR POSICIÓN Y ESCALA DEL MODELO GUARDADAS ANTES DE ENTRAR AL MODO INTERIOR
+    if (modelRoot && savedModelPosition && savedModelRotation && savedModelScale) {
+        modelRoot.position.copy(savedModelPosition);
+        modelRoot.rotation.copy(savedModelRotation);
+        modelRoot.scale.copy(savedModelScale);
+        savedModelPosition = null;
+        savedModelRotation = null;
+        savedModelScale = null;
+        console.log('Restaurada posición y escala del modelo:', modelRoot.position, modelRoot.rotation, modelRoot.scale);
+    }
+}
+
+function showInteriorView() {
+    const layout = document.querySelector('.configurator-layout');
+    const viewerPanel = document.querySelector('.viewer-panel');
+    const configPanel = document.querySelector('.config-panel');
+    const interiorView = document.getElementById('interiorView');
+    const exteriorBtn = document.getElementById('exteriorCameraBtn');
+    const interiorBtn = document.getElementById('interiorCameraBtn');
+    const exteriorContainer = document.getElementById('canvas-container');
+    const interiorContainer = document.getElementById('interior-canvas-container');
+    viewerPanel.style.display = 'none';
+    if (configPanel) configPanel.style.display = 'none';
+    interiorView.style.display = 'block';
+    // Expandir interior para ocupar todo el ancho
+    if (layout) {
+        layout.style.alignItems = 'stretch';
+    }
+    if (interiorView) {
+        interiorView.style.flex = '1 1 auto';
+        interiorView.style.width = '100%';
+        interiorView.style.maxWidth = '100%';
+    }
+    exteriorBtn.classList.remove('active');
+    interiorBtn.classList.add('active');
+    // Cambiar modo de cámara
+    currentCameraMode = 'interior';
+    // Guardar posición de cámara exterior antes de cambiar
+    if (!exteriorCamera && camera) {
+        exteriorCamera = camera.clone();
+    }
+    // Inicializar el sistema interior independiente
+    if (!interiorLoaded) {
+        initInteriorView();
+    }
+}
+
+function initInteriorView() {
+    const container = document.getElementById('interior-canvas-container');
+    const loadingOverlay = document.getElementById('interiorLoadingOverlay');
+    // Crear escena independiente para interior
+    interiorScene = new THREE.Scene();
+    interiorScene.background = null;
+    // Resetear orientación de "cabeza" al entrar en interior
+    rotationX = 0;
+    rotationY = Math.PI;
+    // Crear cámara independiente para interior
+    interiorCamera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+    interiorCamera.position.set(1.20, 1.2, 2.5); // Entre asientos delanteros
+    interiorCamera.lookAt(0, 0.7, 2); // Hacia parabrisas
+    // Crear renderer independiente para interior
+    interiorRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    interiorRenderer.setPixelRatio(window.devicePixelRatio);
+    interiorRenderer.setSize(container.clientWidth, container.clientHeight);
+    interiorRenderer.shadowMap.enabled = true;
+    interiorRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    interiorRenderer.setClearColor(0x000000, 0);
+    interiorRenderer.physicallyCorrectLights = true;
+    interiorRenderer.outputEncoding = THREE.sRGBEncoding;
+    interiorRenderer.toneMapping = THREE.ACESFilmicToneMapping;
+    interiorRenderer.toneMappingExposure = 1.65;
+    container.innerHTML = '';
+    container.appendChild(interiorRenderer.domElement);
+    // Sistema de rotación de cabeza (vista pura)
+    const canvas = interiorRenderer.domElement;
+    // Sistema de rotación manual (sin OrbitControls)
+    // Eventos para rotación de cabeza
+    canvas.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        previousMousePosition = { x: e.clientX, y: e.clientY };
+    });
+    canvas.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        const deltaX = e.clientX - previousMousePosition.x;
+        const deltaY = e.clientY - previousMousePosition.y;
+        // Rotación horizontal (cabeza de lado a lado)
+        rotationY += deltaX * 0.005;
+        // Rotación vertical (mira arriba/abajo)
+        rotationX += -deltaY * 0.005;
+        // Limitar rotación vertical a ±30 grados
+        rotationX = Math.max(-Math.PI/6, Math.min(Math.PI/6, rotationX));
+        previousMousePosition = { x: e.clientX, y: e.clientY };
+    });
+    canvas.addEventListener('mouseup', () => {
+        isDragging = false;
+    });
+    canvas.addEventListener('mouseleave', () => {
+        isDragging = false;
+    });
+    // Configurar iluminación para interior
+    const interiorAmbient = new THREE.AmbientLight(0xffffff, 1.2);
+    interiorScene.add(interiorAmbient);
+    const interiorDirectional = new THREE.DirectionalLight(0xffffff, 2.0);
+    interiorDirectional.position.set(5, 5, 5);
+    interiorScene.add(interiorDirectional);
+    // Cargar el modelo para vista interior
+    loadInteriorModel();
+    // Ocultar loading
+    loadingOverlay.style.display = 'none';
+    interiorLoaded = true;
+}
+
+function loadInteriorModel() {
+    const loader = new THREE.GLTFLoader();
+    loader.load(
+        '../coches/ThunderBE/ThunderBE.glb',
+        function(gltf) {
+            // Eliminar modelo anterior si existe
+            if (interiorModel) {
+                interiorScene.remove(interiorModel);
+            }
+            interiorModel = gltf.scene;
+            // Posicionar y escalar modelo para vista interior
+            interiorModel.position.set(0, 0, 0);
+            interiorModel.rotation.y = Math.PI; // Girar para vista interior
+            // Escalar el modelo apropiadamente
+            const box = new THREE.Box3().setFromObject(interiorModel);
+            const size = box.getSize(new THREE.Vector3());
+            const maxDim = Math.max(size.x, size.y, size.z);
+            const scale = 8 / maxDim; // Ajustar escala para vista interior
+            interiorModel.scale.multiplyScalar(scale);
+            interiorScene.add(interiorModel);
+            // Iniciar animación de interior
+            animateInterior();
+        },
+        function(progress) {
+            console.log('Interior loading progress:', (progress.loaded / progress.total * 100) + '%');
+        },
+        function(error) {
+            console.error('Error loading interior model:', error);
+        }
+    );
+}
+
+function animateInterior() {
+    interiorAnimationId = requestAnimationFrame(animateInterior);
+    // Aplicar rotación de cabeza a la cámara
+    if (interiorCamera) {
+        // Posición base fija
+        const basePosition = new THREE.Vector3(1.20, 1.1, 2.5);
+        interiorCamera.position.copy(basePosition);
+        // Calcular punto de mira basado en rotación de cabeza
+        const lookDirection = new THREE.Vector3(0, 0, 1);
+        const upAxis = new THREE.Vector3(0, 1, 0);
+        // Yaw (giro izquierda/derecha) sobre el eje Y global
+        const yawQuat = new THREE.Quaternion().setFromAxisAngle(upAxis, rotationY);
+        lookDirection.applyQuaternion(yawQuat);
+        // Pitch (arriba/abajo) sobre el eje X LOCAL (derecha) tras aplicar yaw
+        const rightAxis = new THREE.Vector3(1, 0, 0).applyQuaternion(yawQuat).normalize();
+        lookDirection.applyAxisAngle(rightAxis, rotationX);
+        // Calcular punto final de mira
+        const lookAtPoint = basePosition.clone().add(lookDirection.multiplyScalar(5));
+        // Aplicar rotación a la cámara
+        interiorCamera.lookAt(lookAtPoint);
+    }
+    // Renderizar
+    if (interiorRenderer && interiorScene && interiorCamera) {
+        interiorRenderer.render(interiorScene, interiorCamera);
+    }
+}
+
+function updateRendererSize() {
+    if (!renderer || !camera) return;
+    let container;
+    if (currentCameraMode === 'interior') {
+        container = document.getElementById('interior-canvas-container');
+    } else {
+        container = document.getElementById('canvas-container');
+    }
+    if (!container) return;
+    const width = Math.max(1, container.clientWidth);
+    const height = Math.max(1, container.clientHeight);
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+    renderer.setSize(width, height);
+}
+
+// Resize de ventana
+function onWindowResize() {
+    updateRendererSize();
+    // Solo ajustar cámara si la escala no está fijada
+    if (modelLoaded && modelRoot && !modelScaleFixed) {
+        fitCameraToObject(modelRoot);
+    }
+}
+
+// Bucle de animación principal
+function animate() {
     animationId = requestAnimationFrame(animate);
     // Rotación automática del modelo (solo en vista exterior)
     if (isRotating && modelLoaded && currentCameraMode === 'exterior') {
         const root = modelRoot || model;
-        if (root) root.rotation.y += 0.005;
+        if (root) {
+            root.rotation.y += 0.005;
+        }
     }
     // Actualizar controles (solo vista exterior, interior tiene su propio sistema)
     if (currentCameraMode === 'exterior' && controls) {
         controls.update();
     }
     // Renderizar
-    renderer.render(scene, camera);
+    if (renderer && scene && camera) {
+        renderer.render(scene, camera);
+    }
 }
-    // Manejo de autenticación
-    document.addEventListener('DOMContentLoaded', async function() {
-        const authMenu = document.getElementById('authMenu');
-        // Función para actualizar el menú de autenticación
-        async function updateAuthMenu(user) {
+
+// Manejo de autenticación
+document.addEventListener('DOMContentLoaded', async function() {
+    const authMenu = document.getElementById('authMenu');
+
+    // Función para actualizar el menú de autenticación
+    async function updateAuthMenu(user) {
+        // ... (rest of the code remains the same)
             if (user) {
                 // Obtener datos completos del usuario incluyendo el rol
                 const userData = await getUserByEmail(user.email);
