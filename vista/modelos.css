@@ -58,6 +58,57 @@ main {
     transition: background-image 0.5s ease;
 }
 
+ .modelos-hero-carousel {
+     background: radial-gradient(1200px 600px at 70% 50%, rgba(255, 255, 255, 0.06), transparent 60%),
+         linear-gradient(135deg, #05070b 0%, #0b0f18 45%, #070a10 100%);
+     color: #ffffff;
+     position: relative;
+     overflow: hidden;
+ }
+
+ @keyframes modelos-bg-pan {
+     0% {
+         transform: translate3d(-6%, -4%, 0) scale(1);
+         opacity: 0.65;
+     }
+     50% {
+         transform: translate3d(6%, 4%, 0) scale(1.05);
+         opacity: 0.95;
+     }
+     100% {
+         transform: translate3d(-6%, -4%, 0) scale(1);
+         opacity: 0.65;
+     }
+ }
+
+ @keyframes modelos-float {
+     0%, 100% {
+         transform: translateY(0);
+     }
+     50% {
+         transform: translateY(-12px);
+     }
+ }
+
+ .modelos-hero-carousel::before {
+     content: '';
+     position: absolute;
+     inset: -30% -20% -30% -20%;
+     background:
+         radial-gradient(700px 500px at 25% 30%, rgba(0, 212, 255, 0.18), transparent 65%),
+         radial-gradient(820px 520px at 78% 46%, rgba(220, 20, 60, 0.16), transparent 66%),
+         radial-gradient(560px 420px at 65% 80%, rgba(255, 255, 255, 0.10), transparent 70%);
+     pointer-events: none;
+     filter: blur(2px);
+     animation: modelos-bg-pan 12s ease-in-out infinite;
+     z-index: 0;
+ }
+
+ .modelos-hero-carousel .carousel {
+     position: relative;
+     z-index: 1;
+ }
+
 body.gama-electrica .gama-filters-section,
 body.gama-electrica main {
     background: #ffffff;
@@ -82,13 +133,532 @@ main {
     background: #ffffff;
     padding: 0;
     margin-top: 0;
-    min-height: 60vh;
+    flex: 1;
 }
+
+ body.modelos-page main {
+     background: transparent;
+ }
 
 .vehiculos-container {
     background: #ffffff;
     margin-top: 0;
 }
+
+ /* Hero carousel */
+ .modelos-hero-carousel {
+     position: relative;
+     margin: 0;
+     padding: 0;
+     width: 100%;
+     overflow: hidden;
+ }
+
+ .modelos-hero-carousel .carousel-inner {
+     padding: 6.5rem 0 5rem;
+     margin: 0;
+     width: 100%;
+     transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+ }
+
+ .modelo-slide {
+     display: grid;
+     grid-template-columns: minmax(280px, 520px) 1fr;
+     gap: 3.5rem;
+     align-items: center;
+     min-height: min(72vh, 720px);
+     width: min(1200px, calc(100% - 3rem));
+     margin: 0 auto;
+     opacity: 0;
+     transform: translateY(24px);
+     transition: opacity 0.55s ease, transform 0.55s ease;
+ }
+
+ .carousel-item.active .modelo-slide {
+     opacity: 1;
+     transform: translateY(0);
+ }
+
+ .modelo-slide__content {
+     padding: 0.5rem 0;
+ }
+
+ .modelo-slide__content > * {
+     opacity: 0;
+     transform: translateY(16px);
+     transition: opacity 0.6s ease, transform 0.6s ease;
+     will-change: transform, opacity;
+ }
+
+ .carousel-item.active .modelo-slide__content > * {
+     opacity: 1;
+     transform: translateY(0);
+ }
+
+ .carousel-item.active .modelo-slide__content > * {
+     opacity: 1;
+     transform: translateY(0);
+ }
+
+ .carousel-item.active .modelo-kicker {
+     transition-delay: 0.05s;
+ }
+
+ .carousel-item.active .modelo-title {
+     transition-delay: 0.12s;
+ }
+
+ .carousel-item.active .modelo-desc {
+     transition-delay: 0.18s;
+ }
+
+ .carousel-item.active .modelo-price {
+     transition-delay: 0.24s;
+ }
+
+ .carousel-item.active .modelo-actions {
+     transition-delay: 0.30s;
+ }
+
+ .modelo-kicker {
+     font-family: 'Inter', sans-serif;
+     letter-spacing: 0.2em;
+     text-transform: uppercase;
+     font-weight: 700;
+     font-size: 0.8rem;
+     color: rgba(255, 255, 255, 0.75);
+ }
+
+ .modelo-title {
+     font-family: 'Poppins', sans-serif;
+     font-size: clamp(2.6rem, 4vw, 4.8rem);
+     font-weight: 800;
+     line-height: 1.02;
+     margin: 0.6rem 0 1.2rem;
+     text-transform: uppercase;
+ }
+
+ .modelo-desc {
+     font-family: 'Inter', sans-serif;
+     font-size: 1rem;
+     line-height: 1.6;
+     max-width: 44ch;
+     color: rgba(255, 255, 255, 0.78);
+     margin: 0 0 1.6rem;
+ }
+
+ .modelo-price {
+     display: flex;
+     flex-direction: column;
+     gap: 0.2rem;
+     margin-bottom: 1.8rem;
+ }
+
+ .modelo-price__label {
+     font-family: 'Inter', sans-serif;
+     text-transform: uppercase;
+     letter-spacing: 0.16em;
+     font-size: 0.75rem;
+     color: rgba(255, 255, 255, 0.7);
+ }
+
+ .modelo-price__value {
+     font-family: 'Poppins', sans-serif;
+     font-weight: 800;
+     font-size: clamp(1.6rem, 2vw, 2.2rem);
+ }
+
+ .modelo-actions {
+     display: flex;
+     flex-wrap: wrap;
+     gap: 0.9rem;
+ }
+
+ .modelo-btn {
+     display: inline-flex;
+     align-items: center;
+     justify-content: center;
+     padding: 0.85rem 1.4rem;
+     border-radius: 999px;
+     text-decoration: none;
+     font-family: 'Inter', sans-serif;
+     font-weight: 700;
+     letter-spacing: 0.08em;
+     text-transform: uppercase;
+     font-size: 0.85rem;
+     transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+ }
+
+ .modelo-btn--primary {
+     background: #ffffff;
+     color: #0b0f18;
+     box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
+ }
+
+ .modelo-btn--primary:hover {
+     transform: translateY(-1px);
+     box-shadow: 0 18px 55px rgba(0, 0, 0, 0.45);
+ }
+
+ .modelo-btn--ghost {
+     background: rgba(255, 255, 255, 0.08);
+     color: #ffffff;
+     border: 1px solid rgba(255, 255, 255, 0.22);
+ }
+
+ .modelo-btn--ghost:hover {
+     transform: translateY(-1px);
+     background: rgba(255, 255, 255, 0.12);
+ }
+
+ .modelo-slide__media {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+ }
+
+ .modelo-slide__media {
+     --mx: 0px;
+     --my: 0px;
+     --rx: 0deg;
+     --ry: 0deg;
+     transform: translate3d(var(--mx), var(--my), 0) rotateX(var(--rx)) rotateY(var(--ry));
+     transform-style: preserve-3d;
+     transition: transform 220ms ease;
+     will-change: transform;
+ }
+
+ .modelo-image {
+     width: min(860px, 100%);
+     height: auto;
+     object-fit: contain;
+     filter: drop-shadow(0 28px 60px rgba(0, 0, 0, 0.55));
+     transform: translateY(0);
+ }
+
+ .carousel-item.active .modelo-image {
+     animation: modelos-float 6s ease-in-out infinite;
+ }
+
+ @media (prefers-reduced-motion: reduce) {
+     .modelos-hero-carousel::before {
+         animation: none;
+     }
+
+     .modelo-slide__content > * {
+         transition: none;
+         transform: none;
+         opacity: 1;
+     }
+
+     .carousel-item.active .modelo-slide {
+         transition: none;
+         opacity: 1;
+         transform: none;
+     }
+
+     .carousel-item.active .modelo-image {
+         animation: none;
+     }
+
+     .modelo-slide__media {
+         transition: none;
+         transform: none;
+     }
+
+     .indicator-card,
+     .indicator-card::before,
+     .indicator-card img,
+     .indicator-title {
+         transition: none;
+         transform: none;
+     }
+
+     .indicator-card::before {
+         opacity: 0;
+     }
+
+     .modelos-hero-carousel .carousel-control-prev,
+     .modelos-hero-carousel .carousel-control-next {
+         transition: none;
+         transform: none;
+         opacity: 1;
+     }
+ }
+
+ .reveal {
+     opacity: 0;
+     transform: translateY(18px);
+     transition: opacity 0.65s ease, transform 0.65s ease;
+     will-change: transform, opacity;
+ }
+
+ .reveal.is-visible {
+     opacity: 1;
+     transform: translateY(0);
+ }
+
+ @media (prefers-reduced-motion: reduce) {
+     .reveal {
+         opacity: 1;
+         transform: none;
+         transition: none;
+     }
+ }
+
+ /* Custom indicators as cards */
+ .modelos-indicators {
+     position: absolute !important;
+     left: 0 !important;
+     transform: none !important;
+     right: 0 !important;
+     bottom: 2.5rem;
+     margin: 0 !important;
+     display: flex;
+     align-items: stretch;
+     justify-content: center;
+     gap: 1rem;
+     width: 100% !important;
+     overflow: hidden;
+     padding: 0.35rem 4rem !important;
+     z-index: 5;
+ }
+
+ /* Flechas de navegación para indicadores */
+ .indicators-nav {
+     position: absolute;
+     top: 50%;
+     transform: translateY(-50%);
+     background: rgba(255, 255, 255, 0.1);
+     border: 1px solid rgba(255, 255, 255, 0.2);
+     border-radius: 50%;
+     width: 2rem;
+     height: 2rem;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     cursor: pointer;
+     transition: all 0.3s ease;
+     z-index: 6;
+     backdrop-filter: blur(10px);
+ }
+
+ .indicators-nav:hover {
+     background: rgba(255, 255, 255, 0.2);
+     border-color: rgba(255, 255, 255, 0.3);
+     transform: translateY(-50%) scale(1.1);
+ }
+
+ .indicators-nav.prev {
+     left: 0.2rem;
+ }
+
+ .indicators-nav.next {
+     right: 0.2rem;
+ }
+
+ .indicators-nav svg {
+     width: 1rem;
+     height: 1rem;
+     fill: #ffffff;
+ }
+
+ .indicators-nav.disabled {
+     opacity: 0.3;
+     cursor: not-allowed;
+ }
+
+ .indicators-nav.disabled:hover {
+     transform: translateY(-50%);
+     background: rgba(255, 255, 255, 0.1);
+ }
+
+ .modelos-indicators [data-bs-target] {
+     width: auto !important;
+     height: auto !important;
+     margin: 0 !important;
+     padding: 0 !important;
+     text-indent: 0 !important;
+     opacity: 1 !important;
+     background-color: transparent !important;
+     border: 0 !important;
+     border-top: 0 !important;
+     border-bottom: 0 !important;
+     flex: 0 0 auto;
+     display: inline-flex;
+     align-items: stretch;
+ }
+
+ .modelos-indicators [data-bs-target]::before,
+ .modelos-indicators [data-bs-target]::after {
+     content: none !important;
+ }
+
+ .indicator-card {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     justify-content: center;
+     gap: 0.6rem;
+     padding: 1rem 1.1rem;
+     border-radius: 16px;
+     background: 
+         linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%),
+         rgba(255, 255, 255, 0.06);
+     border: 1px solid rgba(255, 255, 255, 0.18);
+     backdrop-filter: blur(14px);
+     min-width: 220px;
+     transition: transform 0.24s cubic-bezier(0.4, 0, 0.2, 1), background 0.24s ease, border-color 0.24s ease, box-shadow 0.24s ease;
+     box-shadow: 
+         0 4px 20px rgba(0, 0, 0, 0.12),
+         0 1px 3px rgba(0, 0, 0, 0.08),
+         inset 0 1px 0 rgba(255, 255, 255, 0.08);
+     position: relative;
+     overflow: hidden;
+ }
+
+ .indicator-card::before {
+     content: '';
+     position: absolute;
+     inset: 0;
+     border-radius: 16px;
+     padding: 1px;
+     background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), transparent);
+     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+     -webkit-mask-composite: xor;
+     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+     mask-composite: exclude;
+     opacity: 0;
+     transition: opacity 0.24s ease;
+     pointer-events: none;
+ }
+
+ .indicator-card img {
+     width: 86px;
+     height: 50px;
+     object-fit: contain;
+     filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.38));
+     transition: transform 0.24s ease, filter 0.24s ease;
+ }
+
+ .indicator-title {
+     font-family: 'Inter', sans-serif;
+     font-weight: 800;
+     font-size: 0.78rem;
+     letter-spacing: 0.12em;
+     text-transform: uppercase;
+     color: rgba(255, 255, 255, 0.90);
+     line-height: 1.2;
+     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+     transition: color 0.24s ease;
+ }
+
+ .modelos-indicators [data-bs-target]:hover .indicator-card {
+     transform: translateY(-3px) scale(1.03);
+     background: 
+         linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.06) 100%),
+         rgba(255, 255, 255, 0.08);
+     border-color: rgba(255, 255, 255, 0.30);
+     box-shadow: 
+         0 8px 30px rgba(0, 0, 0, 0.18),
+         0 2px 6px rgba(0, 0, 0, 0.12),
+         inset 0 1px 0 rgba(255, 255, 255, 0.12);
+ }
+
+ .modelos-indicators [data-bs-target]:hover .indicator-card::before {
+     opacity: 1;
+ }
+
+ .modelos-indicators [data-bs-target]:hover .indicator-card img {
+     transform: scale(1.06);
+     filter: drop-shadow(0 16px 26px rgba(0, 0, 0, 0.42));
+ }
+
+ .modelos-indicators [data-bs-target]:hover .indicator-title {
+     color: rgba(255, 255, 255, 0.96);
+ }
+
+ .modelos-indicators .active .indicator-card {
+     background: 
+         linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.08) 100%),
+         rgba(255, 255, 255, 0.10);
+     border-color: rgba(255, 255, 255, 0.44);
+     box-shadow: 
+         0 10px 36px rgba(0, 0, 0, 0.22),
+         0 3px 8px rgba(0, 0, 0, 0.14),
+         inset 0 1px 0 rgba(255, 255, 255, 0.16);
+     transform: translateY(-2px) scale(1.02);
+ }
+
+ .modelos-indicators .active .indicator-card::before {
+     opacity: 1;
+ }
+
+ .modelos-indicators .active .indicator-card img {
+     transform: scale(1.04);
+     filter: drop-shadow(0 14px 24px rgba(0, 0, 0, 0.40));
+ }
+
+ .modelos-indicators .active .indicator-title {
+     color: rgba(255, 255, 255, 1);
+ }
+
+ /* Controls */
+ .modelos-hero-carousel .carousel-control-prev,
+ .modelos-hero-carousel .carousel-control-next {
+     width: 4.5rem;
+     opacity: 0.85;
+     transition: opacity 0.3s ease, transform 0.3s ease;
+ }
+
+ .modelos-hero-carousel .carousel-control-prev:hover,
+ .modelos-hero-carousel .carousel-control-next:hover {
+     opacity: 1;
+     transform: scale(1.05);
+ }
+
+ /* Responsive */
+ @media (max-width: 992px) {
+     .modelos-hero-carousel .carousel-inner {
+         padding: 6.5rem 0 9.5rem;
+     }
+
+     .modelo-slide {
+         grid-template-columns: 1fr;
+         gap: 2rem;
+         text-align: center;
+     }
+
+     .modelo-desc {
+         margin-left: auto;
+         margin-right: auto;
+     }
+
+     .modelo-actions {
+         justify-content: center;
+     }
+
+     .modelos-indicators {
+         bottom: 1.2rem;
+     }
+ }
+
+ @media (max-width: 520px) {
+     .indicator-card {
+         min-width: 160px;
+         padding: 0.85rem 0.95rem;
+         gap: 0.5rem;
+     }
+
+     .indicator-card img {
+         width: 74px;
+         height: 42px;
+     }
+
+     .indicator-title {
+         font-size: 0.74rem;
+     }
+ }
 
 /* Sección Hero */
 .gama-hero {
@@ -499,7 +1069,6 @@ main {
 /* Contenedor de vehículos con transiciones suaves */
 .vehiculos-container {
     padding: 3rem 1.5rem 2.25rem;
-    min-height: 500px;
     position: relative;
 }
 

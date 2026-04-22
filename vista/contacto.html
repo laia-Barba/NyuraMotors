@@ -48,7 +48,13 @@
 
             <div class="cards">
               <div class="card">
-                <div class="card__icon" aria-hidden="true">@</div>
+                <div class="card__icon" aria-hidden="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="4" width="20" height="16" rx="2"/>
+                    <path d="m22 7-10 4"/>
+                    <path d="m22 17-10-4"/>
+                  </svg>
+                </div>
                 <div class="card__body">
                   <p class="card__label">Email</p>
                   <p class="card__value">contacto@nyuramotors.com</p>
@@ -56,7 +62,13 @@
               </div>
 
               <div class="card">
-                <div class="card__icon" aria-hidden="true">☎</div>
+                <div class="card__icon" aria-hidden="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m22 16.92v3a2 2 0 0 1-2.18 2l-12-4a2 2 0 0 1-2.82-2v-12a2 2 0 0 1 2.82-2l12 4a2 2 0 0 1 2.82 2v12a2 2 0 0 1-.82 2z"/>
+                    <path d="M15 6H9"/>
+                    <path d="M10 9h4"/>
+                  </svg>
+                </div>
                 <div class="card__body">
                   <p class="card__label">Teléfono</p>
                   <p class="card__value">+34 612 345 678</p>
@@ -64,7 +76,13 @@
               </div>
 
               <div class="card">
-                <div class="card__icon" aria-hidden="true">⌂</div>
+                <div class="card__icon" aria-hidden="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 10c0 6-8 12-8 12s8-6 8-12a8 8 0 0 0-16 0c0 4 3.58 8 8 8s-8 6-8 12z"/>
+                    <path d="m12 14 4-4"/>
+                    <path d="M12 14 4 4"/>
+                  </svg>
+                </div>
                 <div class="card__body">
                   <p class="card__label">Dirección</p>
                   <p class="card__value">Carrer de Caracas, 11. Sant Andreu, 08030 Barcelona</p>
@@ -72,7 +90,12 @@
               </div>
 
               <div class="card">
-                <div class="card__icon" aria-hidden="true">⏱</div>
+                <div class="card__icon" aria-hidden="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12 6 12 12 16 12"/>
+                  </svg>
+                </div>
                 <div class="card__body">
                   <p class="card__label">Horario</p>
                   <p class="card__value">Lunes a Viernes · 09:00 — 13:00 / 15:00 — 19:00</p>
@@ -134,7 +157,7 @@
               <label class="check">
                 <input class="check__input" type="checkbox" id="privacyCheck" required />
                 <span class="check__box" aria-hidden="true"></span>
-                <span class="check__text">He leído y acepto la política de privacidad</span>
+                <span class="check__text">He leído y acepto la <a href="#" onclick="openPrivacyModal()" style="color: var(--primary-color); text-decoration: underline;">política de privacidad</a></span>
               </label>
 
               <div class="actions">
@@ -190,7 +213,7 @@
     </div>
 </footer>
 <script type="module">
-        import { getCurrentUser, createOrUpdateUserProfile, onAuthStateChange, signOut, createFormContacto, getUserByEmail } from '../controlador/BBDD/SupabaseCliente.js';
+        import { getCurrentUser, createOrUpdateUserProfile, onAuthStateChange, signOut, insertData, getUserByEmail } from '../controlador/BBDD/SupabaseCliente.js';
         
         document.addEventListener('DOMContentLoaded', async function() {
             const authMenu = document.getElementById('authMenu');
@@ -273,16 +296,11 @@
                 try {
                     const result = await signOut();
                     if (result.success) {
-                        console.log('Sesión cerrada correctamente');
                         updateAuthMenu(null);
-                        // Opcional: redirigir a página de login
-                        // window.location.href = 'InicioSesion.html';
                     } else {
-                        console.error('Error al cerrar sesión:', result.error);
                         alert('Error al cerrar sesión. Intenta de nuevo.');
                     }
                 } catch (error) {
-                    console.error('Error inesperado al cerrar sesión:', error);
                     alert('Error inesperado. Intenta de nuevo.');
                 }
             };
@@ -303,14 +321,11 @@
                 // Función para autorrellenar datos del usuario
                 async function autoFillUserData() {
                     try {
-                        console.log('Intentando autorrellenar datos del usuario...');
                         const currentUser = await getCurrentUser();
                         if (currentUser) {
-                            console.log('Usuario logueado encontrado:', currentUser);
                             
                             // Obtener datos adicionales del usuario desde la tabla users
                             const userData = await getUserByEmail(currentUser.email);
-                            console.log('Datos del usuario desde BD:', userData);
                             
                             // Rellenar nombre
                             const nombreInput = contactForm.querySelector('input[name="nombre"]');
@@ -340,7 +355,7 @@
                             if (emailInput) {
                                 emailInput.value = currentUser.email;
                                 emailInput.readOnly = true; // Hacer el campo de solo lectura
-                                emailInput.style.backgroundColor = '#f5f5f5';
+                                emailInput.style.backgroundColor = 'rgba(255, 255, 255, 0.08)';
                             }
                             
                             // Rellenar teléfono si está disponible
@@ -349,10 +364,7 @@
                             } else if (telefonoInput && currentUser.user_metadata?.telefono) {
                                 telefonoInput.value = currentUser.user_metadata.telefono;
                             }
-                            
-                            console.log('Formulario autorrellenado correctamente');
                         } else {
-                            console.log('No hay usuario logueado, formulario vacío');
                         }
                     } catch (error) {
                         console.error('Error al autorrellenar formulario:', error);
@@ -397,21 +409,8 @@
                     submitBtn.textContent = 'Enviando...';
                     
                     try {
-                        console.log('Iniciando envío del formulario...');
-                        
-                        // Obtener usuario actual si está logueado (con timeout)
-                        console.log('Llamando a getCurrentUser...');
-                        let currentUser = null;
-                        try {
-                            const timeoutPromise = new Promise((_, reject) => 
-                                setTimeout(() => reject(new Error('Timeout')), 3000)
-                            );
-                            currentUser = await Promise.race([getCurrentUser(), timeoutPromise]);
-                            console.log('Usuario actual recibido:', currentUser);
-                        } catch (error) {
-                            console.log('getCurrentUser falló o timeout, continuando sin usuario:', error.message);
-                            currentUser = null;
-                        }
+                        // Obtener usuario actual si está logueado
+                        let currentUser = await getCurrentUser();
                         
                         // Preparar datos para enviar
                         const contactData = {
@@ -422,12 +421,9 @@
                             asunto: asunto.trim(),
                             message: mensaje.trim()
                         };
-                        console.log('Datos a enviar:', contactData);
                         
                         // Enviar formulario
-                        console.log('Llamando a createFormContacto...');
-                        const result = await createFormContacto(contactData);
-                        console.log('Resultado de createFormContacto:', result);
+                        const result = await insertData('form_contacto', contactData);
                         
                         if (result.success) {
                             alert('¡Formulario enviado correctamente! Nos pondremos en contacto contigo pronto.');
@@ -454,25 +450,14 @@
             // Escuchar cambios en autenticación
             onAuthStateChange(async (event, session) => {
                 if (event === 'SIGNED_IN' && session?.user) {
-                    console.log('Usuario autenticado:', session.user);
                     
                     // Crear o actualizar perfil en tabla users
-                    const profileResult = await createOrUpdateUserProfile(session.user);
-                    
-                    if (profileResult.success) {
-                        console.log('Perfil procesado:', profileResult.action);
-                        if (profileResult.action === 'created') {
-                            console.log('Nuevo perfil creado para usuario de Google');
-                        }
-                    } else {
-                        console.error('Error procesando perfil:', profileResult.error);
-                    }
+                    await createOrUpdateUserProfile(session.user);
                     
                     updateAuthMenu(session.user);
                     // Autorrellenar formulario cuando el usuario inicia sesión
                     autoFillUserData();
                 } else if (event === 'SIGNED_OUT') {
-                    console.log('Usuario cerró sesión');
                     updateAuthMenu(null);
                     // Limpiar formulario cuando el usuario cierra sesión
                     if (contactForm) {
@@ -496,6 +481,256 @@
             e.preventDefault();
             // Redirigir al home con parámetro para scroll
             window.location.href = 'home.html#modelos';
+        });
+    </script>
+</main>
+
+    <!-- Popup Modal -->
+    <div id="legalModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle" class="modal-title">Título</h2>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="modalContent" class="modal-text">
+                    <!-- Content will be loaded here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-accept" onclick="acceptTerms()">Aceptar</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { getCurrentUser, createOrUpdateUserProfile, onAuthStateChange, signOut, insertData, getUserByEmail } from '../controlador/BBDD/SupabaseCliente.js';
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Variables del DOM
+            const authMenu = document.getElementById('authMenu');
+            const contactForm = document.getElementById('contactForm');
+            const privacyCheck = document.getElementById('privacyCheck');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            // Verificar estado inicial de autenticación
+            getCurrentUser().then(user => {
+                updateAuthMenu(user);
+                if (user) {
+                    autoFillUserData(user);
+                }
+            });
+            
+            // Escuchar cambios en la autenticación
+            onAuthStateChange((user) => {
+                updateAuthMenu(user);
+                if (user) {
+                    autoFillUserData(user);
+                }
+            });
+            
+            function updateAuthMenu(user) {
+                if (user) {
+                    authMenu.innerHTML = `
+                        <div class="auth-dropdown">
+                            <button class="auth-dropdown-toggle">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; vertical-align: -2px; margin-right: 6px;">
+                                    <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.41 0-8 2-8 4.5V21h16v-2.5c0-2.5-3.59-4.5-8-4.5Z"/>
+                                </svg>
+                                Mi cuenta
+                            </button>
+                            <div class="auth-dropdown-menu">
+                                <a href="Configurador3D.html">Configurador 3D</a>
+                                <a href="#" onclick="handleSignOut()">Cerrar sesión</a>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    authMenu.innerHTML = `
+                        <a href="InicioSesion.html">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; vertical-align: -2px; margin-right: 6px;">
+                                <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.41 0-8 2-8 4.5V21h16v-2.5c0-2.5-3.59-4.5-8-4.5Z"/>
+                            </svg>
+                            Iniciar sesión
+                        </a>
+                    `;
+                }
+            }
+            
+            function autoFillUserData(user) {
+                if (!user) return;
+                
+                // Obtener datos completos del usuario
+                getUserByEmail(user.email).then(userData => {
+                    if (userData && userData.length > 0) {
+                        const userInfo = userData[0];
+                        
+                        // Rellenar campos del formulario
+                        const nombreInput = document.getElementById('nombre');
+                        const apellidosInput = document.getElementById('apellidos');
+                        const emailInput = document.getElementById('email');
+                        
+                        if (nombreInput && userInfo.nombre) {
+                            nombreInput.value = userInfo.nombre;
+                        }
+                        
+                        if (apellidosInput && userInfo.apellidos) {
+                            apellidosInput.value = userInfo.apellidos;
+                        }
+                        
+                        if (emailInput && user.email) {
+                            emailInput.value = user.email;
+                            emailInput.readOnly = true;
+                            emailInput.style.backgroundColor = 'rgba(255, 255, 255, 0.08)';
+                        }
+                    }
+                });
+            }
+            
+            // Event listener para el formulario de contacto
+            if (contactForm) {
+                contactForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    
+                    // Validar checkbox de privacidad
+                    if (!privacyCheck.checked) {
+                        alert('Debes aceptar la política de privacidad para enviar el formulario.');
+                        return;
+                    }
+                    
+                    // Recoger datos del formulario
+                    const formData = new FormData(contactForm);
+                    const contactData = {
+                        nombre: formData.get('nombre') || '',
+                        apellidos: formData.get('apellidos') || '',
+                        email: formData.get('email') || '',
+                        telefono: formData.get('telefono') || '',
+                        asunto: formData.get('asunto') || '',
+                        mensaje: formData.get('mensaje') || '',
+                        fecha_envio: new Date().toISOString()
+                    };
+                    
+                    try {
+                        // Deshabilitar botón de envío
+                        submitBtn.disabled = true;
+                        submitBtn.textContent = 'Enviando...';
+                        
+                        // Insertar datos en la base de datos
+                        const result = await insertData('form_contacto', contactData);
+                        
+                        if (result.success) {
+                            alert('Mensaje enviado correctamente. Nos pondremos en contacto contigo pronto.');
+                            contactForm.reset();
+                            
+                            // Limpiar checkbox
+                            privacyCheck.checked = false;
+                        } else {
+                            alert('Error al enviar el mensaje: ' + result.error);
+                        }
+                    } catch (error) {
+                        console.error('Error al enviar formulario:', error);
+                        alert('Error inesperado al enviar el mensaje. Por favor, inténtalo de nuevo.');
+                    } finally {
+                        // Rehabilitar botón de envío
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Enviar';
+                    }
+                });
+            }
+            
+            window.handleSignOut = async function() {
+                await signOut();
+                window.location.href = 'home.html';
+            };
+        });
+
+        // Modal functions
+        window.openPrivacyModal = function() {
+            const modal = document.getElementById('legalModal');
+            const title = document.getElementById('modalTitle');
+            const content = document.getElementById('modalContent');
+            
+            title.textContent = 'Política de Privacidad';
+            content.innerHTML = `
+                <div class="legal-content">
+                    <h3>Información que recopilamos</h3>
+                    <ul>
+                        <li><strong>Datos personales:</strong> Nombre, apellidos, email, teléfono y dirección</li>
+                        <li><strong>Datos de cuenta:</strong> Contraseña y preferencias de configuración</li>
+                        <li><strong>Datos de uso:</strong> Información sobre cómo interactúas con nuestros servicios</li>
+                        <li><strong>Datos técnicos:</strong> Dirección IP, tipo de navegador y dispositivo</li>
+                    </ul>
+                    
+                    <h3>Cómo utilizamos tus datos</h3>
+                    <ul>
+                        <li>Proporcionar nuestros servicios y atención al cliente</li>
+                        <li>Procesar tus solicitudes y reservas de vehículos</li>
+                        <li>Mejorar nuestros servicios y experiencia de usuario</li>
+                        <li>Enviarte información relevante sobre nuestros productos</li>
+                        <li>Cumplir con obligaciones legales y regulatorias</li>
+                    </ul>
+                    
+                    <h3>Protección de datos</h3>
+                    <ul>
+                        <li>Encriptación de datos sensibles</li>
+                        <li>Acceso restringido a la información personal</li>
+                        <li>Actualizaciones regulares de seguridad</li>
+                        <li>Cumplimiento con RGPD y normativa europea</li>
+                    </ul>
+                    
+                    <h3>Tus derechos</h3>
+                    <ul>
+                        <li>Acceder a tus datos personales</li>
+                        <li>Rectificar información incorrecta</li>
+                        <li>Suprimir tus datos personales</li>
+                        <li>Limitar el tratamiento de tus datos</li>
+                        <li>Portabilidad de tus datos</li>
+                        <li>Oponerte al tratamiento de tus datos</li>
+                    </ul>
+                    
+                    <h3>Cookies</h3>
+                    <ul>
+                        <li><strong>Cookies esenciales:</strong> Necesarias para el funcionamiento del sitio</li>
+                        <li><strong>Cookies de rendimiento:</strong> Analizan el uso del sitio</li>
+                        <li><strong>Cookies de funcionalidad:</strong> Recuerdan tus preferencias</li>
+                        <li><strong>Cookies de marketing:</strong> Para publicidad personalizada</li>
+                    </ul>
+                    
+                    <h3>Contacto para privacidad</h3>
+                    <ul>
+                        <li><strong>Email:</strong> privacidad@nyuramotors.com</li>
+                        <li><strong>Teléfono:</strong> +34 612 345 678</li>
+                        <li><strong>Dirección:</strong> Carrer de Caracas, 11. Sant Andreu, 08030 Barcelona</li>
+                    </ul>
+                    
+                    <p><strong>Última actualización:</strong> 15 de abril de 2026</p>
+                </div>
+            `;
+            
+            modal.style.display = 'flex';
+        };
+
+        window.closeModal = function() {
+            const modal = document.getElementById('legalModal');
+            modal.style.display = 'none';
+        };
+
+        window.acceptTerms = function() {
+            const privacyCheckbox = document.getElementById('privacyCheck');
+            
+            // Marcar el checkbox
+            privacyCheckbox.checked = true;
+            
+            // Cerrar el modal
+            closeModal();
+        };
+
+        // Cerrar modal al hacer clic fuera del contenido
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('legalModal');
+            if (event.target === modal) {
+                closeModal();
+            }
         });
     </script>
 </body>
