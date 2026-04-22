@@ -7,8 +7,14 @@ import { MODELOS_CONFIG } from './modelosConfig.js';
 
 class ConfiguradorUniversal {
     constructor(modeloId) {
-        // Mapeo mínimo para no afectar a otros modelos que no estén definidos aquí
-        this.modeloId = (modeloId === 'terramar') ? 'Vortex' : modeloId;
+        // Mapeo de modelos para asegurar IDs correctos
+        const modeloMap = {
+            'terramar': 'Vortex',
+            'altamira': 'Altamira',
+            'nova': 'Nova',
+            'nova-sport': 'NovaSport'
+        };
+        this.modeloId = modeloMap[modeloId] || modeloId;
         this.configuracion = null;
         this.configuracionActual = {
             color: null,
@@ -41,6 +47,9 @@ class ConfiguradorUniversal {
         this.interiorAnimationId = null;
         this.currentCameraMode = 'exterior';
         
+        // Variables para gestión de llantas
+        this.originalWheelColors = []; // Guardar colores originales de las llantas
+        
         // Variables de rotación de cabeza
         this.isDragging = false;
         this.previousMousePosition = { x: 0, y: 0 };
@@ -57,16 +66,82 @@ class ConfiguradorUniversal {
         
         // No llamar init() aquí: el método estático crear() se encarga de inicializar
     }
+
+    isWheelPart(mesh, material) {
+        const meshName = (mesh?.name || '').toLowerCase();
+        const matName = (material?.name || '').toLowerCase();
+        const isNova = String(this.modeloId || '').toLowerCase() === 'nova';
+
+        const genericWheelMatch = (
+            meshName.includes('wheel') ||
+            meshName.includes('rim') ||
+            meshName.includes('llanta') ||
+            meshName.includes('tire') ||
+            meshName.includes('tyre') ||
+            matName.includes('wheel') ||
+            matName.includes('rim') ||
+            matName.includes('llanta') ||
+            matName.includes('tire') ||
+            matName.includes('tyre')
+        );
+
+        if (genericWheelMatch) return true;
+
+        // Ajuste específico para Nova: en el GLB, la llanta (hub) usa material "chrome"
+        // y el mesh suele contener "hub_mesh".
+        // Lo restringimos a Nova para no afectar cromados de otros modelos.
+        if (!isNova) return false;
+
+        return (
+            meshName.includes('hub') ||
+            meshName.includes('hub_mesh') ||
+            matName.includes('chrome')
+        );
+    }
+
+    ensureUniqueWheelMaterials() {
+        if (!this.model) return;
+
+        this.model.traverse((child) => {
+            if (!child.isMesh || !child.material) return;
+            const materials = Array.isArray(child.material) ? child.material : [child.material];
+            const hasWheelMaterial = materials.some((mat) => this.isWheelPart(child, mat));
+            if (!hasWheelMaterial) return;
+
+            if (Array.isArray(child.material)) {
+                child.material = child.material.map((mat) => {
+                    if (!this.isWheelPart(child, mat)) return mat;
+                    return mat?.clone ? mat.clone() : mat;
+                });
+            } else {
+                const mat = child.material;
+                if (this.isWheelPart(child, mat) && mat?.clone) {
+                    child.material = mat.clone();
+                }
+            }
+        });
+    }
     
     async init() {
         try {
             await this.cargarConfiguracion();
             this.inicializarThreeJS();
             this.setupEventListeners();
-            this.cargarModeloInicial();
+            await this.cargarModeloInicial();
+            // Ocultar overlay de carga inicial
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            if (loadingOverlay) {
+                loadingOverlay.style.display = 'none';
+            }
+            this.startIntroAnimation();
             this.iniciarAnimacion();
         } catch (error) {
             console.error('Error al inicializar configurador:', error);
+            // Ocultar overlay incluso en caso de error
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            if (loadingOverlay) {
+                loadingOverlay.style.display = 'none';
+            }
         }
     }
     
@@ -80,7 +155,10 @@ class ConfiguradorUniversal {
             
             this.precioBase = this.configuracion.precio;
             this.configuracionActual.color = this.configuracion.colores[0].id;
-            this.configuracionActual.llantas = this.configuracion.llantas[0].id;
+            this.configuracionActual.llantas = this.configuracion.llantas?.[0]?.id || 'original';
+            
+            // Actualizar precio inicial
+            this.actualizarPrecio();
             
         } catch (error) {
             console.error('Error cargando configuración:', error);
@@ -139,37 +217,47 @@ class ConfiguradorUniversal {
     }
     
     setupLighting() {
-        // Iluminación base
-        const ambientLight = new THREE.AmbientLight(0xffffff, 1.15);
+        // Limpiar luces existentes
+        this.scene.traverse((child) => {
+            if (child.isLight) {
+                this.scene.remove(child);
+            }
+        });
+
+        // Ajustar intensidad según modelo para Nova
+        const isNova = String(this.modeloId || '').toLowerCase() === 'nova';
+        const ambientIntensity = isNova ? 0.4 : 0.6;
+        const directionalIntensity = isNova ? 0.5 : 0.8;
+        const fillIntensity = isNova ? 0.2 : 0.3;
+        const accentIntensity = isNova ? 0.1 : 0.2;
+
+        // Luz ambiental suave
+        const ambientLight = new THREE.AmbientLight(0xffffff, ambientIntensity);
         this.scene.add(ambientLight);
-        
-        const hemiLight = new THREE.HemisphereLight(0xffffff, 0x6b7380, 1.05);
-        hemiLight.position.set(0, 12, 0);
-        this.scene.add(hemiLight);
-        
-        // Luz principal
-        const keyLight = new THREE.DirectionalLight(0xffffff, 3.4);
-        keyLight.position.set(7, 10, 8);
-        keyLight.castShadow = true;
-        keyLight.shadow.mapSize.width = 2048;
-        keyLight.shadow.mapSize.height = 2048;
-        keyLight.shadow.camera.near = 0.5;
-        keyLight.shadow.camera.far = 60;
-        keyLight.shadow.bias = -0.00015;
-        this.scene.add(keyLight);
-        
-        // Luces de relleno
-        const fillLight = new THREE.DirectionalLight(0xffffff, 2.2);
-        fillLight.position.set(-8, 6, 6);
+
+        // Luz direccional principal
+        const directionalLight = new THREE.DirectionalLight(0xffffff, directionalIntensity);
+        directionalLight.position.set(5, 10, 7.5);
+        directionalLight.castShadow = true;
+        directionalLight.shadow.mapSize.width = 2048;
+        directionalLight.shadow.mapSize.height = 2048;
+        directionalLight.shadow.camera.near = 0.5;
+        directionalLight.shadow.camera.far = 50;
+        directionalLight.shadow.camera.left = -10;
+        directionalLight.shadow.camera.right = 10;
+        directionalLight.shadow.camera.top = 10;
+        directionalLight.shadow.camera.bottom = -10;
+        this.scene.add(directionalLight);
+
+        // Luz de relleno desde arriba
+        const fillLight = new THREE.DirectionalLight(0xffffff, fillIntensity);
+        fillLight.position.set(-5, 5, -5);
         this.scene.add(fillLight);
-        
-        const rimLight = new THREE.DirectionalLight(0xffffff, 1.8);
-        rimLight.position.set(-6, 8, -10);
-        this.scene.add(rimLight);
-        
-        const pointLight = new THREE.PointLight(0xffffff, 1.6, 40);
-        pointLight.position.set(0, 5, 10);
-        this.scene.add(pointLight);
+
+        // Luz de acento lateral
+        const accentLight = new THREE.DirectionalLight(0xffffff, accentIntensity);
+        accentLight.position.set(5, 2, -5);
+        this.scene.add(accentLight);
     }
     
     setupEventListeners() {
@@ -271,10 +359,7 @@ class ConfiguradorUniversal {
         const loadToken = ++this.modelLoadToken;
         return new Promise((resolve, reject) => {
             const loader = new THREE.GLTFLoader();
-            const loadingOverlay = document.getElementById('loadingOverlay');
-            if (loadingOverlay) {
-                loadingOverlay.style.display = 'flex';
-            }
+            // SIN loading overlay para cambios rápidos y optimizados
 
             console.log(`[ConfiguradorUniversal] Cargando modelo: ${modeloPath}`);
 
@@ -309,6 +394,11 @@ class ConfiguradorUniversal {
                     this.modelRoot = this.model;
                     this.scene.add(this.model);
                     this.currentModelPath = modeloPath;
+
+                    this.ensureUniqueWheelMaterials();
+
+                    // Guardar colores originales de las llantas
+                    this.saveOriginalWheelColors();
                     
                     // Ajustar escala
                     this.ajustarEscalaModelo();
@@ -319,12 +409,9 @@ class ConfiguradorUniversal {
                     this.addOrUpdateGroundForObject(this.modelRoot);
                     this.modelLoaded = true;
 
-                    // Intro en cada carga, sin mutar materiales (solo cámara/rotación)
-                    this.startIntroAnimation();
+                    // Aplicar configuración de llantas por defecto
+                    this.updateModelWheels(this.configuracionActual.llantas);
 
-                    if (loadingOverlay) {
-                        loadingOverlay.style.display = 'none';
-                    }
                     resolve();
                 },
                 (progress) => {
@@ -334,11 +421,6 @@ class ConfiguradorUniversal {
                     if (loadToken !== this.modelLoadToken) return;
                     console.error('Error cargando modelo:', error);
 
-                    if (loadingOverlay) {
-                        loadingOverlay.style.display = 'none';
-                        const text = loadingOverlay.querySelector('p');
-                        if (text) text.textContent = 'Error cargando modelo 3D';
-                    }
                     reject(error);
                 }
             );
@@ -395,7 +477,9 @@ class ConfiguradorUniversal {
         const size = box.getSize(new THREE.Vector3());
         const center = box.getCenter(new THREE.Vector3());
         const pad = 0.15;
-        const radius = Math.min(3.0, Math.max(1.4, (Math.max(size.x, size.z) / 2) + pad));
+        const baseRadius = Math.min(3.0, Math.max(1.4, (Math.max(size.x, size.z) / 2) + pad));
+        const platformScale = this.configuracion?.escalado?.plataforma ?? 1;
+        const radius = Math.max(0.5, baseRadius * platformScale);
 
         if (!this.grassTexture) {
             const textureLoader = new THREE.TextureLoader();
@@ -440,58 +524,88 @@ class ConfiguradorUniversal {
     }
 
     startIntroAnimation() {
-        if (!this.camera || !this.controls) return;
-        if (!this.modelLoaded || !this.modelRoot) return;
-        if (this.introAnimationRunning) return;
-
-        this.introAnimationRunning = true;
-
-        const duration = 1400;
-        const startTime = performance.now();
-
+        if (!this.modelLoaded) return;
+        // Guardar posiciones iniciales
         const root = this.modelRoot || this.model;
         const initialRotation = root.rotation.y;
         const initialCameraPos = this.camera.position.clone();
-        const farCameraPos = initialCameraPos.clone().multiplyScalar(2.25);
+        const farCameraPos = initialCameraPos.clone().multiplyScalar(2.5);
         const finalCameraPos = initialCameraPos.clone();
 
         this.camera.position.copy(farCameraPos);
-        root.rotation.y = initialRotation;
+        root.rotation.y = 0;
 
-        const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+        // Si ya se ha reproducido la intro, solo cámara/rotación (sin tocar materiales)
+        if (this.hasPlayedIntro) {
+            const duration = 1400;
+            const startTime = performance.now();
+            const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
 
-        const animateIntro = (now) => {
-            const elapsed = now - startTime;
+            const animateIntro = (now) => {
+                const elapsed = now - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const eased = easeOutCubic(progress);
+                this.camera.position.lerpVectors(farCameraPos, finalCameraPos, eased);
+                root.rotation.y = initialRotation + (Math.PI * 2 * eased);
+                if (progress > 0.9) {
+                    const bounceProgress = (progress - 0.9) / 0.1;
+                    const bounce = Math.sin(bounceProgress * Math.PI) * 0.015;
+                    this.camera.position.y += bounce;
+                }
+                this.controls.update();
+                if (progress < 1) {
+                    requestAnimationFrame(animateIntro);
+                    return;
+                }
+                this.camera.position.copy(finalCameraPos);
+                this.controls.update();
+            };
+            animateIntro();
+            return;
+        }
+
+        // === INTRO SOLO CÁMARA (SIN TOCAR MATERIALES) ===
+        const duration = 4000; // 4 segundos para la animación completa
+        const startTime = Date.now();
+        const animateIntro = () => {
+            const elapsed = Date.now() - startTime;
             const progress = Math.min(elapsed / duration, 1);
-
-            const eased = easeOutCubic(progress);
-            this.camera.position.lerpVectors(farCameraPos, finalCameraPos, eased);
-
-            // Giro tipo Thunder durante la intro
-            root.rotation.y = initialRotation + (Math.PI * 2 * eased);
-
+            // Easing functions
+            const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+            const easeInOutCubic = (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+            const easeOutElastic = (t) => {
+                const c4 = (2 * Math.PI) / 3;
+                return t === 0 ? 0 : t === 1 ? 1 : Math.pow(2, -10 * t) * Math.sin((t * 10 - 0.75) * c4) + 1;
+            };
+            // Fase 1: Zoom de cámara (0-50% de la animación)
+            const zoomProgress = Math.min(progress / 0.5, 1);
+            const easedZoom = easeOutCubic(zoomProgress);
+            this.camera.position.lerpVectors(farCameraPos, finalCameraPos, easedZoom);
+            // SIN FADE DE MATERIALES - solo cámara para evitar cambios en interior/asientos
+            // Fase 3: Rotación suave del coche (60-100% de la animación)
+            const rotationProgress = Math.min(Math.max((progress - 0.6) / 0.4, 0), 1);
+            const easedRotation = easeOutCubic(rotationProgress);
+            root.rotation.y = initialRotation + (Math.PI * 2 * easedRotation);
+            // Fase 4: Efecto de "bounce" final (90-100% de la animación)
             if (progress > 0.9) {
                 const bounceProgress = (progress - 0.9) / 0.1;
                 const bounce = Math.sin(bounceProgress * Math.PI) * 0.015;
                 this.camera.position.y += bounce;
             }
-
-            this.controls.update();
-
-            if (progress < 1) {
-                this.introAnimationId = requestAnimationFrame(animateIntro);
-                return;
-            }
-
+        // Actualizar controles
+        this.controls.update();
+        if (progress < 1) {
+            requestAnimationFrame(animateIntro);
+        } else {
+            // Posición final exacta
             this.camera.position.copy(finalCameraPos);
             this.controls.update();
-
-            this.introAnimationRunning = false;
-            this.introAnimationId = null;
+            // SIN EFECTOS DE MATERIALES para evitar cambios en interior/asientos
             this.hasPlayedIntro = true;
-        };
-
-        this.introAnimationId = requestAnimationFrame(animateIntro);
+        }
+    }
+    // Iniciar la animación
+    animateIntro();
     }
     
     async seleccionarColor(colorId) {
@@ -524,7 +638,127 @@ class ConfiguradorUniversal {
             el.classList.toggle('active', el.dataset.wheel === llantaId);
         });
         
+        // Actualizar modelo 3D de llantas
+        this.updateModelWheels(llantaId);
+        
         this.actualizarPrecio();
+    }
+    
+    updateModelWheels(wheelType) {
+        console.log('Cambiando tipo de llantas a:', wheelType);
+        if (!this.modelLoaded || !this.model) return;
+        
+        let wheelsFound = 0;
+        let wheelsChanged = 0;
+        
+        // Recorrer todo el modelo y buscar llantas
+        this.model.traverse((child) => {
+            if (!child.isMesh || !child.material) return;
+            const materials = Array.isArray(child.material) ? child.material : [child.material];
+
+            materials.forEach((mat) => {
+                const isWheel = this.isWheelPart(child, mat);
+                
+                if (isWheel) {
+                    wheelsFound++;
+                    console.log('LLANTA ENCONTRADA:', (child.name || ''));
+                    
+                    if (mat.color) {
+                        if (wheelType === 'original') {
+                            // Restaurar colores originales
+                            this.restoreOriginalWheels();
+                            wheelsChanged++;
+                            console.log('Restaurando llantas a estado original:', (child.name || ''));
+                            return;
+                        }
+
+                        if (wheelType === 'blanco') {
+                            mat.color.setHex(0xffffff);
+                            mat.roughness = 0.35;
+                            mat.metalness = 0.0;
+                        } else if (wheelType === 'negro') {
+                            mat.color.setHex(0x000000);
+                            mat.roughness = 1.0;
+                            mat.metalness = 0.0;
+                        } else if (wheelType === 'gris') {
+                            mat.color.setHex(0x777777);
+                            mat.roughness = 0.65;
+                            mat.metalness = 0.15;
+                        } else if (wheelType === 'serie') {
+                            // Para serie (acero), aplicar negro completamente oscuro
+                            mat.color.setHex(0x000000);
+                            mat.roughness = 1.0;
+                            mat.metalness = 0.0;
+                        } else if (wheelType === 'offroad') {
+                            // Para offroad, aplicar color gris oscuro metalizado
+                            mat.color.setHex(0x444444);
+                            mat.roughness = 0.5;
+                            mat.metalness = 0.8;
+                        }
+
+                        if (mat.emissive) {
+                            mat.emissive.setHex(0x000000);
+                            mat.emissiveIntensity = 0;
+                        }
+                        if (wheelType === 'negro' || wheelType === 'serie') {
+                            if (typeof mat.envMapIntensity === 'number') {
+                                mat.envMapIntensity = 0;
+                            }
+                        }
+                        mat.needsUpdate = true;
+                        wheelsChanged++;
+                    }
+                }
+            });
+        });
+        
+        console.log(`Llantas encontradas: ${wheelsFound}, Llantas cambiadas: ${wheelsChanged}`);
+        console.log(`Tipo de llantas cambiado a ${wheelType}`);
+    }
+    
+    saveOriginalWheelColors() {
+        // Limpiar colores originales anteriores
+        this.originalWheelColors = [];
+        
+        if (!this.model) return;
+        
+        this.model.traverse((child) => {
+            if (!child.isMesh || !child.material) return;
+            const materials = Array.isArray(child.material) ? child.material : [child.material];
+            
+            materials.forEach((mat) => {
+                const isWheel = this.isWheelPart(child, mat);
+                
+                if (isWheel && mat.color) {
+                    this.originalWheelColors.push({
+                        mesh: child,
+                        material: mat,
+                        originalColor: mat.color.getHex(),
+                        originalRoughness: mat.roughness,
+                        originalMetalness: mat.metalness
+                    });
+                }
+            });
+        });
+        
+        console.log('Colores originales de llantas guardados:', this.originalWheelColors.length);
+    }
+    
+    restoreOriginalWheels() {
+        console.log('Restaurando colores originales de llantas...');
+        let wheelsRestored = 0;
+        
+        this.originalWheelColors.forEach((wheelData) => {
+            if (wheelData.material && wheelData.material.color) {
+                wheelData.material.color.setHex(wheelData.originalColor);
+                wheelData.material.roughness = wheelData.originalRoughness;
+                wheelData.material.metalness = wheelData.originalMetalness;
+                wheelData.material.needsUpdate = true;
+                wheelsRestored++;
+            }
+        });
+        
+        console.log(`Llantas restauradas: ${wheelsRestored}`);
     }
     
     togglePaquete(paqueteId, activado) {
@@ -570,27 +804,278 @@ class ConfiguradorUniversal {
         }).format(precio);
     }
     
-    // Métodos de vista (similar a los existentes pero adaptados)
-    showExteriorView() {
-        // Implementación similar a la existente
-        this.currentCameraMode = 'exterior';
-        // Resetear interiorLoaded
-        this.interiorLoaded = false;
-        // Resto de la lógica...
-    }
-    
+        
     showInteriorView() {
-        // Implementación similar a la existente
+        const layout = document.querySelector('.configurator-layout');
+        const viewerPanel = document.querySelector('.viewer-panel');
+        const configPanel = document.querySelector('.config-panel');
+        const interiorView = document.getElementById('interiorView');
+        const exteriorBtn = document.getElementById('exteriorCameraBtn');
+        const interiorBtn = document.getElementById('interiorCameraBtn');
+        const exteriorContainer = document.getElementById('canvas-container');
+        const interiorContainer = document.getElementById('interior-canvas-container');
+        
+        viewerPanel.style.display = 'none';
+        if (configPanel) configPanel.style.display = 'none';
+        interiorView.style.display = 'block';
+        
+        // Expandir interior para ocupar todo el ancho
+        if (layout) {
+            layout.style.alignItems = 'stretch';
+        }
+        if (interiorView) {
+            interiorView.style.flex = '1 1 auto';
+            interiorView.style.width = '100%';
+            interiorView.style.maxWidth = '100%';
+        }
+        
+        exteriorBtn.classList.remove('active');
+        interiorBtn.classList.add('active');
+        
         this.currentCameraMode = 'interior';
+        
         if (!this.interiorLoaded) {
             this.initInteriorView();
         }
     }
     
+    showExteriorView() {
+        const layout = document.querySelector('.configurator-layout');
+        const viewerPanel = document.querySelector('.viewer-panel');
+        const configPanel = document.querySelector('.config-panel');
+        const interiorView = document.getElementById('interiorView');
+        const exteriorBtn = document.getElementById('exteriorCameraBtn');
+        const interiorBtn = document.getElementById('interiorCameraBtn');
+        const exteriorContainer = document.getElementById('canvas-container');
+        const interiorContainer = document.getElementById('interior-canvas-container');
+        
+        viewerPanel.style.display = 'block';
+        if (configPanel) configPanel.style.display = 'block';
+        interiorView.style.display = 'none';
+        
+        // Restaurar estilos de layout
+        if (layout) {
+            layout.style.alignItems = '';
+        }
+        if (interiorView) {
+            interiorView.style.flex = '';
+            interiorView.style.width = '';
+            interiorView.style.maxWidth = '';
+        }
+        
+        exteriorBtn.classList.add('active');
+        interiorBtn.classList.remove('active');
+        
+        this.currentCameraMode = 'exterior';
+        
+        // Detener animación interior
+        if (this.interiorAnimationId) {
+            cancelAnimationFrame(this.interiorAnimationId);
+            this.interiorAnimationId = null;
+        }
+        
+        // Resetear variables del sistema interior
+        this.interiorLoaded = false;
+        
+        // Limpiar contenedor interior
+        if (interiorContainer) {
+            interiorContainer.innerHTML = '<div class="loading-overlay" id="interiorLoadingOverlay"><div class="loading-spinner"></div><p>Cargando vista interior...</p></div>';
+        }
+        
+        // Asegurar que el renderer exterior esté en su contenedor
+        if (this.renderer && exteriorContainer && !exteriorContainer.contains(this.renderer.domElement)) {
+            exteriorContainer.innerHTML = '';
+            exteriorContainer.appendChild(this.renderer.domElement);
+        }
+        
+        // Ajustar tamaño del renderer exterior
+        if (this.renderer && exteriorContainer) {
+            const width = Math.max(1, exteriorContainer.clientWidth);
+            const height = Math.max(1, exteriorContainer.clientHeight);
+            this.renderer.setSize(width, height);
+            this.camera.aspect = width / height;
+            this.camera.updateProjectionMatrix();
+        }
+        
+        // Restaurar controles exteriores
+        if (this.controls) {
+            this.controls.enableRotate = true;
+            this.controls.enablePan = false;
+            this.controls.enableZoom = false;
+            this.controls.object = this.camera;
+            this.controls.update();
+        }
+    }
+    
     initInteriorView() {
-        // Implementación similar a la existente pero usando configuración
+        const container = document.getElementById('interior-canvas-container');
+        const loadingOverlay = document.getElementById('interiorLoadingOverlay');
+        
+        // Crear escena independiente para interior
+        this.interiorScene = new THREE.Scene();
+        this.interiorScene.background = null;
+        
+        // Variables para rotación de cabeza
+        this.rotationX = 0;
+        this.rotationY = Math.PI;
+        this.isDragging = false;
+        this.previousMousePosition = { x: 0, y: 0 };
+        
+        // Crear cámara independiente para interior
+        this.interiorCamera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
         const camaraConfig = this.configuracion.camaras.interior;
-        // Resto de la lógica...
+        this.interiorCamera.position.set(...camaraConfig.posicion);
+        this.interiorCamera.lookAt(...camaraConfig.target);
+        
+        // Crear renderer independiente para interior
+        this.interiorRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        this.interiorRenderer.setPixelRatio(window.devicePixelRatio);
+        this.interiorRenderer.setSize(container.clientWidth, container.clientHeight);
+        this.interiorRenderer.shadowMap.enabled = true;
+        this.interiorRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        this.interiorRenderer.setClearColor(0x000000, 0);
+        this.interiorRenderer.physicallyCorrectLights = true;
+        this.interiorRenderer.outputEncoding = THREE.sRGBEncoding;
+        this.interiorRenderer.toneMapping = THREE.ACESFilmicToneMapping;
+        this.interiorRenderer.toneMappingExposure = 1.65;
+        
+        container.innerHTML = '';
+        container.appendChild(this.interiorRenderer.domElement);
+        
+        // Sistema de rotación de cabeza
+        this.setupInteriorControls();
+        
+        // Configurar iluminación para interior
+        this.setupInteriorLighting();
+        
+        // Cargar el modelo para vista interior
+        this.loadInteriorModel();
+        
+        // Ocultar loading
+        if (loadingOverlay) {
+            loadingOverlay.style.display = 'none';
+        }
+        
+        this.interiorLoaded = true;
+    }
+    
+    setupInteriorControls() {
+        const canvas = this.interiorRenderer.domElement;
+        
+        canvas.addEventListener('mousedown', (e) => {
+            this.isDragging = true;
+            this.previousMousePosition = { x: e.clientX, y: e.clientY };
+        });
+        
+        canvas.addEventListener('mousemove', (e) => {
+            if (!this.isDragging) return;
+            
+            const deltaX = e.clientX - this.previousMousePosition.x;
+            const deltaY = e.clientY - this.previousMousePosition.y;
+            
+            // Rotación horizontal (cabeza de lado a lado)
+            this.rotationY += deltaX * 0.005;
+            
+            // Rotación vertical (mira arriba/abajo)
+            this.rotationX += -deltaY * 0.005;
+            
+            // Limitar rotación vertical a ±30 grados
+            this.rotationX = Math.max(-Math.PI/6, Math.min(Math.PI/6, this.rotationX));
+            
+            this.previousMousePosition = { x: e.clientX, y: e.clientY };
+        });
+        
+        canvas.addEventListener('mouseup', () => {
+            this.isDragging = false;
+        });
+        
+        canvas.addEventListener('mouseleave', () => {
+            this.isDragging = false;
+        });
+    }
+    
+    setupInteriorLighting() {
+        // Iluminación base para interior
+        const interiorAmbient = new THREE.AmbientLight(0xffffff, 1.2);
+        this.interiorScene.add(interiorAmbient);
+        
+        const interiorDirectional = new THREE.DirectionalLight(0xffffff, 2.0);
+        interiorDirectional.position.set(5, 5, 5);
+        this.interiorScene.add(interiorDirectional);
+    }
+    
+    loadInteriorModel() {
+        // Usar el mismo modelo que el exterior pero configurado para vista interior
+        const colorSeleccionado = this.configuracion.colores?.find(c => c.id === this.configuracionActual.color);
+        const modeloPath = colorSeleccionado?.modelo || this.configuracion.modelo;
+        
+        const loader = new THREE.GLTFLoader();
+        loader.load(
+            modeloPath,
+            (gltf) => {
+                // Eliminar modelo anterior si existe
+                if (this.interiorModel) {
+                    this.interiorScene.remove(this.interiorModel);
+                }
+                
+                this.interiorModel = gltf.scene;
+                
+                // Posicionar y escalar modelo para vista interior
+                this.interiorModel.position.set(0, 0, 0);
+                this.interiorModel.rotation.y = Math.PI; // Girar para vista interior
+                
+                // Escalar el modelo apropiadamente para interior
+                const box = new THREE.Box3().setFromObject(this.interiorModel);
+                const size = box.getSize(new THREE.Vector3());
+                const maxDim = Math.max(size.x, size.y, size.z);
+                const scale = 8 / maxDim; // Ajustar escala para vista interior
+                this.interiorModel.scale.multiplyScalar(scale);
+                
+                this.interiorScene.add(this.interiorModel);
+                
+                // Iniciar animación de interior
+                this.animateInterior();
+            },
+            (progress) => {
+                console.log('Interior loading progress:', (progress.loaded / progress.total * 100) + '%');
+            },
+            (error) => {
+                console.error('Error loading interior model:', error);
+            }
+        );
+    }
+    
+    animateInterior() {
+        this.interiorAnimationId = requestAnimationFrame(() => this.animateInterior());
+        
+        // Aplicar rotación de cabeza a la cámara
+        if (this.interiorCamera) {
+            // Posición base fija
+            const basePosition = new THREE.Vector3(...this.configuracion.camaras.interior.posicion);
+            this.interiorCamera.position.copy(basePosition);
+            
+            // Calcular punto de mira basado en rotación de cabeza
+            const lookDirection = new THREE.Vector3(0, 0, 1);
+            const upAxis = new THREE.Vector3(0, 1, 0);
+            
+            // Yaw (giro izquierda/derecha) sobre el eje Y global
+            const yawQuat = new THREE.Quaternion().setFromAxisAngle(upAxis, this.rotationY);
+            lookDirection.applyQuaternion(yawQuat);
+            
+            // Pitch (arriba/abajo) sobre el eje X LOCAL tras aplicar yaw
+            const rightAxis = new THREE.Vector3(1, 0, 0).applyQuaternion(yawQuat).normalize();
+            lookDirection.applyAxisAngle(rightAxis, this.rotationX);
+            
+            // Calcular punto final de mira
+            const target = new THREE.Vector3(...this.configuracion.camaras.interior.target);
+            const finalTarget = target.clone().add(lookDirection);
+            
+            this.interiorCamera.lookAt(finalTarget);
+        }
+        
+        if (this.interiorRenderer && this.interiorScene && this.interiorCamera) {
+            this.interiorRenderer.render(this.interiorScene, this.interiorCamera);
+        }
     }
     
     updateRendererSize() {

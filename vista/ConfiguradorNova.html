@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nyura Motors - Configurador 3D Nova</title>
+    <link rel="stylesheet" href="EstiloPrincipal.css">
+    <link rel="stylesheet" href="header-unique.css">
+    <link rel="stylesheet" href="configurador3d.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="home.html"><img src="../Imagenes/LogoBlancoNyura.png" alt="Nyura Motors" class="logo-img"></a>
+            <ul>
+                <li><a href="home.html">Inicio</a></li>
+                <li><a href="modelos.html" id="modelosLink">Modelos</a></li>
+                <li><a href="Configurador3D.html" class="active">Configurador 3D</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+                <li id="authMenu"><a href="InicioSesion.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; vertical-align: -2px; margin-right: 6px;"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.41 0-8 2-8 4.5V21h16v-2.5c0-2.5-3.59-4.5-8-4.5Z"/></svg>Iniciar sesión</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="configurator-container" style="margin-top: 60px;">
+        <div class="configurator-layout">
+            <div class="viewer-panel">
+                <div class="camera-selector">
+                    <button class="camera-btn active" data-camera="exterior" id="exteriorCameraBtn">
+                        Exterior
+                    </button>
+                    <button class="camera-btn" data-camera="interior" id="interiorCameraBtn">
+                        Interior
+                    </button>
+                </div>
+                <div id="canvas-container">
+                    <div class="loading-overlay" id="loadingOverlay">
+                        <div class="loading-spinner"></div>
+                        <p>Cargando modelo 3D...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="interior-view" id="interiorView" style="display: none;">
+                <div class="back-to-exterior">
+                    <button class="back-btn" id="backToExteriorBtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 16px; height: 16px; margin-right: 6px;">
+                            <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                        </svg>
+                        Volver al Exterior
+                    </button>
+                </div>
+                <div id="interior-canvas-container">
+                    <div class="loading-overlay" id="interiorLoadingOverlay">
+                        <div class="loading-spinner"></div>
+                        <p>Cargando vista interior...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="config-panel">
+                <div class="config-header">
+                    <h3>Personaliza tu 
+                        <br>
+                        Nova</h3>
+                    <div class="price-display">
+                        <span class="price-label">Precio</span>
+                        <span class="price-value">-</span>
+                    </div>
+
+                    <div class="step-indicator">
+                        <div class="step active" data-step="1">
+                            <span class="step-number">1</span>
+                            <span class="step-title">Color</span>
+                        </div>
+                        <div class="step" data-step="2">
+                            <span class="step-number">2</span>
+                            <span class="step-title">Llantas</span>
+                        </div>
+                        <div class="step" data-step="3">
+                            <span class="step-number">3</span>
+                            <span class="step-title">Paquetes</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-content">
+                    <div class="step-panel active" id="step1">
+                        <h4>1. Elige tu Color</h4>
+                        <div class="color-options">
+                            <div class="color-option active" data-color="negro" title="Negro">
+                                <div class="color-swatch" style="background: linear-gradient(135deg, #1a1a1a, #000000);"></div>
+                                <span>Negro</span>
+                            </div>
+                            <br>
+                            <div class="color-option" data-color="blanco" title="Blanco">
+                                <div class="color-swatch" style="background: linear-gradient(135deg, #f8fafc, #e2e8f0);"></div>
+                                <span>Blanco</span>
+                            </div>
+                            <br>
+                            <div class="color-option" data-color="gris" title="Gris">
+                                <div class="color-swatch" style="background: linear-gradient(135deg, #6c757d, #495057);"></div>
+                                <span>Gris</span>
+                            </div>
+                            <br>
+                            <div class="color-option" data-color="azul" title="Azul">
+                                <div class="color-swatch" style="background: linear-gradient(135deg, #1f5eff, #0056b3);"></div>
+                                <span>Azul</span>
+                            </div>
+                            <br>
+                            <div class="color-option" data-color="rojo" title="Rojo">
+                                <div class="color-swatch" style="background: linear-gradient(135deg, #dc143c, #8b0000);"></div>
+                                <span>Rojo</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-panel" id="step2">
+                        <h4>2. Elige tus Llantas</h4>
+                        <div class="wheel-options">
+                            <div class="wheel-option active" data-wheel="blanco">
+                                <div class="wheel-preview">
+                                    <div class="wheel-icon"><img src="../modelo/llantas/llantaacero.png" alt="De serie" style="width: 100%; height: 100%; object-fit: contain; background: white; border-radius: 4px;"></div>
+                                </div>
+                                <div class="wheel-info">
+                                    <span class="wheel-name">De serie</span>
+                                    <span class="wheel-price">Incluido</span>
+                                </div>
+                            </div>
+                            <div class="wheel-option" data-wheel="negro">
+                                <div class="wheel-preview">
+                                    <div class="wheel-icon"><img src="../modelo/llantas/llantaacero.png" alt="Pack Dark" style="width: 100%; height: 100%; object-fit: contain; background: white; border-radius: 4px;"></div>
+                                </div>
+                                <div class="wheel-info">
+                                    <span class="wheel-name">Pack Dark</span>
+                                    <span class="wheel-price">+800,00&nbsp;EUR</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-panel" id="step3">
+                        <h4>3. Elige tus Paquetes Tecnológicos</h4>
+                        <div class="package-options">
+                            <div class="package-option">
+                                <div class="package-header">
+                                    <input type="checkbox" id="package-adventure" class="package-checkbox">
+                                    <label for="package-adventure" class="package-label">
+                                        <span class="package-name">Adventure Pack</span>
+                                        <span class="package-price">+5.500,00&nbsp;EUR</span>
+                                    </label>
+                                </div>
+                                <div class="package-features">
+                                    <span>· Suspensión Elevada</span>
+                                    <span>· Barras de Techo</span>
+                                    <span>· Protectores de Cárter</span>
+                                    <span>· Modo Off-Road</span>
+                                </div>
+                            </div>
+                            <div class="package-option">
+                                <div class="package-header">
+                                    <input type="checkbox" id="package-luxury" class="package-checkbox">
+                                    <label for="package-luxury" class="package-label">
+                                        <span class="package-name">Luxury Pack</span>
+                                        <span class="package-price">+8.900,00&nbsp;EUR</span>
+                                    </label>
+                                </div>
+                                <div class="package-features">
+                                    <span>· Asientos de Cuero Napa</span>
+                                    <span>· Techo Panorámico</span>
+                                    <span>· Sistema Audio Bang &amp; Olufsen</span>
+                                    <span>· Climatización Quad-Zone</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="nav-btn nav-prev" id="bottomPrevBtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 16px; height: 16px;">
+                        </svg>
+                        Anterior
+                    </button>
+                    <button class="nav-btn nav-next" id="bottomNextBtn">
+                        Siguiente
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 16px; height: 16px;">
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+    <div class="footer-content">
+        <div class="footer-section">
+            <img src="../Imagenes/LogoBlancoNyura.png" alt="Nyura Motors" class="logo-img" style="height: 143px; opacity: 0.9;">
+            <p>El futur de la mobilitat elèctrica. Disseny innovador, rendiment superior i tecnologia punta.</p>
+        </div>
+
+        <div class="footer-section">
+            <h3>Paginas de Nyura Motors</h3>
+            <div class="footer-links">
+                <a href="home.html">Home</a>
+                <a href="modelos.html">Modelos</a>
+                <a href="Configurador3D.html">Configurador 3D</a>
+                <a href="contacto.html">Contacto</a>
+            </div>
+        </div>
+
+        <div class="footer-section">
+            <h3>Contacte</h3>
+            <div class="footer-links">
+                <a href="mailto:info@nyuramotors.com">info@nyuramotors.com</a>
+                <a href="tel:+34931234567">+34 931 234 567</a>
+                <a href="#">Carrer d'Andorra, La Massana, AD500</a>
+            </div>
+        </div>
+
+        <div class="footer-section">
+            <h3>Segueix-nos</h3>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v8.385c5.737-.9 10.125-5.864 10.125-11.854z"/>
+                        <path d="M12 23c-6.074 0-11-4.926-11-11S5.926 1 12 1s11 4.926 11 11-4.926 11-11 11zm0-18.5c-4.136 0-7.5 3.364-7.5 7.5s3.364 7.5 7.5 7.5 7.5-3.364 7.5-7.5-3.364-7.5-7.5-7.5z"/>
+                    </svg>
+                </a>
+                <a href="#" aria-label="Twitter">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 00-2.143-5.138 4.958 4.958 0 00-.775-2.825 10 10 0 012.825-.775 4.958 4.958 0 002.143 5.138 4.958 4.958 0 00.775 2.825 10 10 0 01-2.825.775 4.958 4.958 0 00-2.143-5.138 4.958 4.958 0 00-.775-2.825zM3.5 12a8.5 8.5 0 1117 0 8.5 8.5 0 01-17 0z"/>
+                    </svg>
+                </a>
+                <a href="#" aria-label="Instagram">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                        <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                    </svg>
+                </a>
+                <a href="#" aria-label="LinkedIn">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4V8a6 6 0 016-6z"/>
+                        <rect x="2" y="9" width="4" height="12"/>
+                        <circle cx="4" cy="4" r="2"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2024 Nyura Motors. Tots els drets reservats.</p>
+        <div class="footer-bottom-links">
+            <a href="#">Política de Privacidad</a>
+            <a href="#">Política de Cookies</a>
+            <a href="#">Avís Legal</a>
+        </div>
+    </div>
+</footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script type="module" src="../controlador/configuracion/ConfiguradorUniversal.js"></script>
+    <script type="module">
+        import { ConfiguradorUniversal } from '../controlador/configuracion/ConfiguradorUniversal.js';
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                await ConfiguradorUniversal.crear('nova');
+                console.log('Configurador Nova inicializado correctamente');
+            } catch (error) {
+                console.error('Error al inicializar configurador Nova:', error);
+            }
+        });
+    </script>
+</body>
+</html>
