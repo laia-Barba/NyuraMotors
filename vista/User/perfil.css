@@ -14,6 +14,7 @@
   --danger-hover: #c82333;
   --secondary: #6b7280;
   --secondary-hover: #4b5563;
+  --bg: #eef0f3;
 }
 
 * {
@@ -32,17 +33,45 @@ body {
   background: radial-gradient(900px 400px at 20% 10%, #ffffff 0%, var(--bg) 60%, #eef0f3 100%);
 }
 
+.back-button {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background: #1a1a1a;
+  color: #ffffff;
+  padding: 12px 20px;
+  border-radius: 12px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+  z-index: 1000;
+}
+
+.back-button:hover {
+  background: #2d2d2d;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+.back-button i {
+  font-size: 16px;
+}
+
 .page {
   min-height: 100dvh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 36px 16px;
+  display: block;
+  padding: 100px 16px 56px;
 }
 
 .shell {
   width: 100%;
   max-width: 1200px;
+  margin: 0 auto;
 }
 
 .hero {
