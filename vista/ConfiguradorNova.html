@@ -16,7 +16,7 @@
             <ul>
                 <li><a href="home.html">Inicio</a></li>
                 <li><a href="modelos.html" id="modelosLink">Modelos</a></li>
-                <li><a href="Configurador3D.html" class="active">Configurador 3D</a></li>
+                <li><span class="active">Configurador 3D</span></li>
                 <li><a href="contacto.html">Contacto</a></li>
                 <li id="authMenu"><a href="InicioSesion.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; vertical-align: -2px; margin-right: 6px;"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.41 0-8 2-8 4.5V21h16v-2.5c0-2.5-3.59-4.5-8-4.5Z"/></svg>Iniciar sesión</a></li>
             </ul>
@@ -27,6 +27,12 @@
         <div class="configurator-layout">
             <div class="viewer-panel">
                 <div class="camera-selector">
+                    <button class="back-btn" onclick="window.location.href='modelos.html'">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 16px; height: 16px; margin-right: 6px;">
+                            <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                        </svg>
+                        Ver todos los modelos
+                    </button>
                     <button class="camera-btn active" data-camera="exterior" id="exteriorCameraBtn">
                         Exterior
                     </button>
@@ -37,7 +43,6 @@
                 <div id="canvas-container">
                     <div class="loading-overlay" id="loadingOverlay">
                         <div class="loading-spinner"></div>
-                        <p>Cargando modelo 3D...</p>
                     </div>
                 </div>
             </div>
@@ -89,14 +94,14 @@
                     <div class="step-panel active" id="step1">
                         <h4>1. Elige tu Color</h4>
                         <div class="color-options">
-                            <div class="color-option active" data-color="negro" title="Negro">
-                                <div class="color-swatch" style="background: linear-gradient(135deg, #1a1a1a, #000000);"></div>
-                                <span>Negro</span>
-                            </div>
-                            <br>
-                            <div class="color-option" data-color="blanco" title="Blanco">
+                            <div class="color-option active" data-color="blanco" title="Blanco">
                                 <div class="color-swatch" style="background: linear-gradient(135deg, #f8fafc, #e2e8f0);"></div>
                                 <span>Blanco</span>
+                            </div>
+                            <br>
+                            <div class="color-option" data-color="negro" title="Negro">
+                                <div class="color-swatch" style="background: linear-gradient(135deg, #1a1a1a, #000000);"></div>
+                                <span>Negro</span>
                             </div>
                             <br>
                             <div class="color-option" data-color="gris" title="Gris">
@@ -205,7 +210,6 @@
             <div class="footer-links">
                 <a href="home.html">Home</a>
                 <a href="modelos.html">Modelos</a>
-                <a href="Configurador3D.html">Configurador 3D</a>
                 <a href="contacto.html">Contacto</a>
             </div>
         </div>

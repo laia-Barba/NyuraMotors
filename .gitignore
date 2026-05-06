@@ -143,3 +143,9 @@ vite.config.ts.timestamp-*
 
 # Ignorar todos los JSON
 *.json
+
+# Ignorar archivos blend
+*.blend
+
+# Ignorar spark
+*/coches/Spark/Spark.blend

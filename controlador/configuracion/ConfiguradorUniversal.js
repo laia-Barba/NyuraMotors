@@ -12,7 +12,8 @@ class ConfiguradorUniversal {
             'terramar': 'Vortex',
             'altamira': 'Altamira',
             'nova': 'Nova',
-            'nova-sport': 'NovaSport'
+            'nova-sport': 'NovaSport',
+            'spark': 'Spark'
         };
         this.modeloId = modeloMap[modeloId] || modeloId;
         this.configuracion = null;
@@ -361,7 +362,7 @@ class ConfiguradorUniversal {
             const loader = new THREE.GLTFLoader();
             // SIN loading overlay para cambios rápidos y optimizados
 
-            console.log(`[ConfiguradorUniversal] Cargando modelo: ${modeloPath}`);
+            // console.log(`[ConfiguradorUniversal] Cargando modelo: ${modeloPath}`);
 
             this.modelLoaded = false;
             this.introAnimationRunning = false;
@@ -398,15 +399,22 @@ class ConfiguradorUniversal {
                     this.ensureUniqueWheelMaterials();
 
                     // Guardar colores originales de las llantas
+                    this.originalWheelColors = [];
                     this.saveOriginalWheelColors();
                     
                     // Ajustar escala
                     this.ajustarEscalaModelo();
+
+                    // Centrar modelo en la plataforma para evitar desplazamientos
+                    this.centrarModeloEnPlataforma();
                     
                     // Ajustar cámara
                     this.fitCameraToObject(this.model);
 
                     this.addOrUpdateGroundForObject(this.modelRoot);
+
+                    // Ajuste fino por modelo (sin afectar a la plataforma)
+                    this.aplicarOffsetModelo();
                     this.modelLoaded = true;
 
                     // Aplicar configuración de llantas por defecto
@@ -436,6 +444,29 @@ class ConfiguradorUniversal {
         const modelScale = this.configuracion?.escalado?.modelo ?? this.configuracion?.escalado?.exterior ?? 8;
         const escala = modelScale / maxDim;
         this.model.scale.multiplyScalar(escala);
+    }
+
+    centrarModeloEnPlataforma() {
+        if (!this.model) return;
+
+        // Recalcular bounding box tras cualquier escalado
+        const box = new THREE.Box3().setFromObject(this.model);
+        const center = box.getCenter(new THREE.Vector3());
+
+        // Centrar X/Z y apoyar en el suelo (Y=0)
+        this.model.position.x -= center.x;
+        this.model.position.z -= center.z;
+        this.model.position.y -= box.min.y;
+    }
+
+    aplicarOffsetModelo() {
+        if (!this.model) return;
+        const offset = this.configuracion?.offset;
+        if (!offset) return;
+
+        this.model.position.x += Number(offset.x || 0);
+        this.model.position.y += Number(offset.y || 0);
+        this.model.position.z += Number(offset.z || 0);
     }
     
     fitCameraToObject(object3D) {
@@ -1055,10 +1086,11 @@ class ConfiguradorUniversal {
             this.interiorCamera.position.copy(basePosition);
             
             // Calcular punto de mira basado en rotación de cabeza
-            const lookDirection = new THREE.Vector3(0, 0, 1);
+            const forwardZ = Number(this.configuracion?.camaras?.interior?.forwardZ ?? 1);
+            const lookDirection = new THREE.Vector3(0, 0, forwardZ);
             const upAxis = new THREE.Vector3(0, 1, 0);
             
-            // Yaw (giro izquierda/derecha) sobre el eje Y global
+            // Aplicar rotaciones
             const yawQuat = new THREE.Quaternion().setFromAxisAngle(upAxis, this.rotationY);
             lookDirection.applyQuaternion(yawQuat);
             

@@ -1146,8 +1146,6 @@ export async function getLlantas() {
 
 }
 
-
-
 export async function getLlantaById(id) {
 
     const llantas = await getData('llantas', '*', { id });
@@ -1156,46 +1154,164 @@ export async function getLlantaById(id) {
 
 }
 
+// PAQUETES
 
+export async function getPaquetes() {
 
-// CONFIGURACIONES
-
-export async function createConfiguracion(configData) {
-
-    return await insertData('configuraciones', configData);
+    return await getData('paquetes', '*');
 
 }
 
+export async function getPaqueteById(id) {
 
+    const paquetes = await getData('paquetes', '*', { id });
+
+    return paquetes.length > 0 ? paquetes[0] : null;
+
+}
 
 export async function getConfiguracionesByUser(userId) {
-
-    return await getData('configuraciones', '*', { user_id: userId });
-
+    try {
+        const { data, error } = await supabase
+            .from('configuraciones')
+            .select(`
+                id,
+                user_id,
+                modelo_coche_id,
+                color_exterior_id,
+                color_interior_id,
+                llantas_id,
+                precio_total,
+                nombre,
+                fecha_creacion,
+                configuracion_paquetes (
+                    paquete_id,
+                    paquetes (
+                        id,
+                        nombre,
+                        descripcion,
+                        precio
+                    )
+                )
+            `)
+            .eq('user_id', userId)
+            .order('fecha_creacion', { ascending: false });
+        
+        if (error) {
+            console.error('Error obteniendo configuraciones del usuario:', error);
+            return [];
+        }
+        
+        return data || [];
+    } catch (error) {
+        console.error('Error en getConfiguracionesByUser:', error);
+        return [];
+    }
 }
 
 // Función para obtener todas las configuraciones
 export async function getConfiguraciones() {
-    return await getData('configuraciones', '*');
+    try {
+        const { data, error } = await supabase
+            .from('configuraciones')
+            .select(`
+                id,
+                user_id,
+                modelo_coche_id,
+                color_exterior_id,
+                color_interior_id,
+                llantas_id,
+                precio_total,
+                nombre,
+                fecha_creacion,
+                configuracion_paquetes (
+                    paquete_id,
+                    paquetes (
+                        id,
+                        nombre,
+                        descripcion,
+                        precio
+                    )
+                )
+            `)
+            .order('fecha_creacion', { ascending: false });
+        
+        if (error) {
+            console.error('Error obteniendo configuraciones:', error);
+            return [];
+        }
+        
+        return data || [];
+    } catch (error) {
+        console.error('Error en getConfiguraciones:', error);
+        return [];
+    }
 }
 
 export async function getConfiguracionById(id) {
-
-    const configs = await getData('configuraciones', '*', { id });
-
-    return configs.length > 0 ? configs[0] : null;
-
+    try {
+        const { data, error } = await supabase
+            .from('configuraciones')
+            .select(`
+                id,
+                user_id,
+                modelo_coche_id,
+                color_exterior_id,
+                color_interior_id,
+                llantas_id,
+                precio_total,
+                nombre,
+                fecha_creacion,
+                configuracion_paquetes (
+                    paquete_id,
+                    paquetes (
+                        id,
+                        nombre,
+                        descripcion,
+                        precio
+                    )
+                )
+            `)
+            .eq('id', id)
+            .single();
+        
+        if (error) {
+            console.error('Error obteniendo configuración:', error);
+            return null;
+        }
+        
+        return data;
+    } catch (error) {
+        console.error('Error en getConfiguracionById:', error);
+        return null;
+    }
 }
-
-
 
 export async function updateConfiguracion(id, configData) {
+    try {
+        // Mapear campo imagen a Imagenes_Modelos si existe
+        const dataToUpdate = { ...configData };
+        if (dataToUpdate.imagen !== undefined) {
+            dataToUpdate.Imagenes_Modelos = dataToUpdate.imagen;
+            delete dataToUpdate.imagen;
+        }
 
-    return await updateData('configuraciones', configData, { id });
+        const { data, error } = await supabase
+            .from('configuraciones')
+            .update(dataToUpdate)
+            .eq('id', id);
 
+        if (error) {
+            console.error('Error actualizando configuración:', error);
+            return { success: false, error: error.message };
+        }
+
+        return { success: true, data };
+    } catch (error) {
+        console.error('Error en updateConfiguracion:', error);
+        return { success: false, error: error.message };
+    }
 }
-
-
 
 export async function deleteConfiguracion(id) {
 
@@ -1203,7 +1319,44 @@ export async function deleteConfiguracion(id) {
 
 }
 
+// Reemplaza los paquetes asociados a una configuración (tabla puente configuracion_paquetes)
+export async function setConfiguracionPaquetes(configuracionId, paqueteIds = []) {
+    try {
+        const ids = (paqueteIds || []).map((id) => Number(id)).filter((n) => Number.isFinite(n));
 
+        // Primero eliminar paquetes existentes
+        const { error: delRes } = await supabase
+            .from('configuracion_paquetes')
+            .delete()
+            .eq('configuracion_id', configuracionId);
+
+        if (delRes) {
+            console.warn('setConfiguracionPaquetes: error eliminando paquetes:', delRes);
+            return { success: false, error: delRes };
+        }
+
+        if (ids.length > 0) {
+            const rows = ids.map((paqueteId) => ({
+                configuracion_id: configuracionId,
+                paquete_id: paqueteId
+            }));
+
+            const { error: insRes } = await supabase
+                .from('configuracion_paquetes')
+                .insert(rows);
+
+            if (insRes) {
+                console.warn('setConfiguracionPaquetes: error insertando paquetes:', insRes);
+                return { success: false, error: insRes };
+            }
+        }
+
+        return { success: true };
+    } catch (error) {
+        console.error('setConfiguracionPaquetes: error inesperado:', error);
+        return { success: false, error: error.message };
+    }
+}
 
 // FEEDBACK
 
@@ -1225,85 +1378,88 @@ export async function updateFormContactoEstado(id, estado) {
     return await updateData('form_contacto', { estado }, { id });
 }
 
-// Función para obtener configuración completa con detalles
-
-export async function getConfiguracionCompleta(configId) {
-
-    try {
-
-        const config = await getConfiguracionById(configId);
-
-        if (!config) return null;
-
-
-
-        const [modelo, colorExt, colorInt, llantas] = await Promise.all([
-
-            getModeloById(config.modelo_coche_id),
-
-            getColorById(config.color_exterior_id),
-
-            getColorById(config.color_interior_id),
-
-            getLlantaById(config.llantas_id)
-
-        ]);
-
-
-
-        return {
-
-            ...config,
-
-            modelo,
-
-            color_exterior: colorExt,
-
-            color_interior: colorInt,
-
-            llantas
-
-        };
-
-    } catch (error) {
-
-        console.error('Error obteniendo configuración completa:', error);
-
-        throw error;
-
-    }
-
-}
-
 // FUNCIONES CRUD PARA MODELOS
 
 // Obtener todos los modelos con sus colores
 export async function getModels() {
     try {
-        const { data, error } = await supabase
-            .from('modelos_coche')
-            .select(`
-                id,
-                nombre,
-                gama,
-                precio,
-                descripcion_corta,
-                activo,
-                modelo_colores (
-                    color_id,
-                    colores (
-                        id,
-                        nombre,
-                        hex,
-                        precio_extra
-                    )
+        const selectWithImage = `
+            id,
+            nombre,
+            gama,
+            precio,
+            Imagenes_Modelos,
+            descripcion_corta,
+            activo,
+            modelo_colores (
+                color_id,
+                colores (
+                    id,
+                    nombre,
+                    hex,
+                    precio_extra
                 )
-            `)
-            .order('id', { ascending: false });
+            ),
+            modelo_llantas (
+                llanta_id,
+                llantas (
+                    id,
+                    nombre,
+                    medida,
+                    precio_extra
+                )
+            ),
+            modelo_paquetes (
+                paquete_id,
+                paquetes (
+                    id,
+                    nombre,
+                    descripcion,
+                    precio
+                )
+            )
+        `;
+
+        const attempt = async (select) => {
+            return await supabase
+                .from('modelos_coche')
+                .select(select)
+                .order('id', { ascending: false });
+        };
+
+        let { data, error } = await attempt(selectWithImage);
 
         if (error) {
-            console.error('Error obteniendo modelos:', error);
+            console.error('Error obteniendo modelos (select con imagen):', error);
+
+            const msg = (error.message || '').toLowerCase();
+            const details = (error.details || '').toLowerCase();
+            const hint = (error.hint || '').toLowerCase();
+            const looksLikeMissingImageColumn = msg.includes('imagenes_modelos') || details.includes('imagenes_modelos') || hint.includes('imagenes_modelos');
+
+            if (looksLikeMissingImageColumn) {
+                ({ data, error } = await attempt(selectWithoutImage));
+                if (error) {
+                    console.error('Error obteniendo modelos (select sin imagen):', error);
+                    return { success: false, error: error.message };
+                }
+                return { success: true, data };
+            }
+
             return { success: false, error: error.message };
+        }
+
+        // Mapear Imagenes_Modelos a imagen para compatibilidad con el frontend
+        if (data) {
+            data = data.map(model => {
+                console.log('Raw model from DB:', model);
+                const mappedModel = {
+                    ...model,
+                    imagen: model.Imagenes_Modelos
+                };
+                console.log('Mapped model for frontend:', mappedModel);
+                return mappedModel;
+            });
         }
 
         return { success: true, data };
@@ -1316,14 +1472,54 @@ export async function getModels() {
 // Crear un nuevo modelo
 export async function createModel(modelData) {
     try {
+        // Mapear campo imagen a Imagenes_Modelos si existe
+        const dataToInsert = { ...modelData };
+        if (dataToInsert.imagen !== undefined) {
+            dataToInsert.Imagenes_Modelos = dataToInsert.imagen;
+            delete dataToInsert.imagen;
+        }
+
         const { data, error } = await supabase
             .from('modelos_coche')
-            .insert([modelData])
+            .insert([dataToInsert])
             .select();
 
         if (error) {
-            console.error('Error creando modelo:', error);
+            console.error('Error creando modelo (intento con todos los campos):', error);
+
+            // Si el error menciona una columna que no existe (ej: descripcion_corta), reintentar sin esos campos
+            const msg = (error.message || '').toLowerCase();
+            const details = (error.details || '').toLowerCase();
+            const hint = (error.hint || '').toLowerCase();
+            const looksLikeMissingColumn = msg.includes('could not find') && (msg.includes('column') || msg.includes('descripcion_corta'));
+
+            if (looksLikeMissingColumn) {
+                // Crear copia sin campos problemáticos
+                const safeData = { ...dataToInsert };
+                delete safeData.descripcion_corta;
+
+                const { data: data2, error: error2 } = await supabase
+                    .from('modelos_coche')
+                    .insert([safeData])
+                    .select();
+
+                if (error2) {
+                    console.error('Error creando modelo (intento sin campos problemáticos):', error2);
+                    return { success: false, error: error2.message };
+                }
+
+                return { success: true, data: data2[0] };
+            }
+
             return { success: false, error: error.message };
+        }
+
+        // Mapear Imagenes_Modelos a imagen para compatibilidad con el frontend
+        if (data && data[0]) {
+            data[0] = {
+                ...data[0],
+                imagen: data[0].Imagenes_Modelos
+            };
         }
 
         return { success: true, data: data[0] };
@@ -1336,18 +1532,62 @@ export async function createModel(modelData) {
 // Actualizar un modelo existente
 export async function updateModel(id, modelData) {
     try {
+        // Mapear campo imagen a Imagenes_Modelos si existe
+        const dataToUpdate = { ...modelData };
+        if (dataToUpdate.imagen !== undefined) {
+            dataToUpdate.Imagenes_Modelos = dataToUpdate.imagen;
+            delete dataToUpdate.imagen;
+        }
+
+        console.log('updateModel - Enviando a BBDD:', {
+            id,
+            dataToUpdate,
+            Imagenes_Modelos: dataToUpdate.Imagenes_Modelos
+        });
+
         const { data, error } = await supabase
             .from('modelos_coche')
-            .update(modelData)
+            .update(dataToUpdate)
             .eq('id', id)
             .select();
 
         if (error) {
             console.error('Error actualizando modelo:', error);
+            console.error('Error details:', {
+                message: error.message,
+                details: error.details,
+                hint: error.hint,
+                code: error.code
+            });
             return { success: false, error: error.message };
         }
 
-        return { success: true, data: data[0] };
+        console.log('updateModel - Respuesta de BBDD:', { data, error });
+
+        // Verificar si hay datos en la respuesta
+        if (data && data.length > 0) {
+            console.log('updateModel - Datos actualizados:', data[0]);
+            console.log('updateModel - Verificando Imagenes_Modelos:', data[0].Imagenes_Modelos);
+        } else {
+            console.warn('updateModel - ADVERTENCIA: No hay datos en la respuesta de BBDD');
+        }
+
+        // Mapear Imagenes_Modelos a imagen para compatibilidad con el frontend
+        if (data && data[0]) {
+            data[0] = {
+                ...data[0],
+                imagen: data[0].Imagenes_Modelos
+            };
+            console.log('updateModel - Modelo mapeado para frontend:', {
+                id: data[0].id,
+                nombre: data[0].nombre,
+                imagen: data[0].imagen
+            });
+        } else {
+            console.warn('updateModel - ADVERTENCIA: No hay datos para mapear');
+        }
+
+        return { success: true, data: data && data.length > 0 ? data[0] : null };
     } catch (error) {
         console.error('Error inesperado actualizando modelo:', error);
         return { success: false, error: error.message };
@@ -1392,5 +1632,377 @@ export async function toggleModelStatus(id, activo) {
     } catch (error) {
         console.error('Error inesperado actualizando estado del modelo:', error);
         return { success: false, error: error.message };
+    }
+}
+
+// Reemplaza los colores asociados a un modelo (tabla puente modelo_colores)
+export async function setModelColors(modelId, colorIds = []) {
+    try {
+        const normalizedModelId = Number(modelId);
+        const ids = (colorIds || []).map((id) => Number(id)).filter((n) => Number.isFinite(n));
+
+        const fkCandidates = ['modelo_coche_id', 'modelo_id'];
+
+        const attempt = async (fkColumn) => {
+            // Primero intentar eliminar colores existentes
+            const delRes = await supabase
+                .from('modelo_colores')
+                .delete()
+                .eq(fkColumn, normalizedModelId);
+
+            if (delRes.error) {
+                console.warn(`setModelColors: error eliminando colores con FK ${fkColumn}:`, delRes.error);
+                return { success: false, error: delRes.error };
+            }
+
+            // Si no hay colores que agregar, terminar aquí
+            if (ids.length === 0) {
+                return { success: true };
+            }
+
+            // Insertar nuevos colores
+            const rows = ids.map((colorId) => ({
+                [fkColumn]: normalizedModelId,
+                color_id: colorId
+            }));
+
+            const insRes = await supabase
+                .from('modelo_colores')
+                .insert(rows);
+
+            if (insRes.error) {
+                console.warn(`setModelColors: error insertando colores con FK ${fkColumn}:`, insRes.error);
+                return { success: false, error: insRes.error };
+            }
+
+            return { success: true };
+        };
+
+        let lastErr = null;
+        for (const fk of fkCandidates) {
+            const res = await attempt(fk);
+            if (res.success) {
+                return { success: true };
+            }
+            lastErr = res.error;
+        }
+
+        // Si ambos intentos fallaron, intentar un enfoque más simple
+        console.warn('setModelColors: ambos FK fallaron, intentando enfoque simple');
+        try {
+            // Verificar si ya existen colores para este modelo
+            const { data: existingData, error: checkError } = await supabase
+                .from('modelo_colores')
+                .select('color_id')
+                .or(`modelo_id.eq.${normalizedModelId},modelo_coche_id.eq.${normalizedModelId}`);
+
+            if (checkError) {
+                console.warn('setModelColors: error verificando colores existentes:', checkError);
+            } else if (existingData && existingData.length > 0) {
+                // Si existen, intentar eliminar con ambas columnas
+                await supabase
+                    .from('modelo_colores')
+                    .delete()
+                    .or(`modelo_id.eq.${normalizedModelId},modelo_coche_id.eq.${normalizedModelId}`);
+            }
+
+            // Insertar nuevos colores
+            if (ids.length > 0) {
+                const rows = ids.map((colorId) => ({
+                    modelo_id: normalizedModelId,
+                    color_id: colorId
+                }));
+
+                const { error: insertError } = await supabase
+                    .from('modelo_colores')
+                    .insert(rows);
+
+                if (insertError) {
+                    console.error('setModelColors: error en inserción final:', insertError);
+                    return { success: false, error: insertError.message };
+                }
+            }
+
+            return { success: true };
+        } catch (fallbackError) {
+            console.error('setModelColors: error en fallback:', fallbackError);
+            return { success: false, error: fallbackError.message };
+        }
+    } catch (error) {
+        console.error('setModelColors: error inesperado:', error);
+        return { success: false, error: error.message };
+    }
+}
+
+// Reemplaza las llantas asociadas a un modelo (tabla puente modelo_llantas)
+export async function setModelLlantas(modelId, llantaIds = []) {
+    try {
+        const normalizedModelId = Number(modelId);
+        const ids = (llantaIds || []).map((id) => Number(id)).filter((n) => Number.isFinite(n));
+
+        const fkCandidates = ['modelo_coche_id', 'modelo_id'];
+
+        const attempt = async (fkColumn) => {
+            // Primero intentar eliminar llantas existentes
+            const delRes = await supabase
+                .from('modelo_llantas')
+                .delete()
+                .eq(fkColumn, normalizedModelId);
+
+            if (delRes.error) {
+                console.warn(`setModelLlantas: error eliminando llantas con FK ${fkColumn}:`, delRes.error);
+                return { success: false, error: delRes.error };
+            }
+
+            // Si no hay llantas que agregar, terminar aquí
+            if (ids.length === 0) {
+                return { success: true };
+            }
+
+            // Insertar nuevas llantas
+            const rows = ids.map((llantaId) => ({
+                [fkColumn]: normalizedModelId,
+                llanta_id: llantaId
+            }));
+
+            const insRes = await supabase
+                .from('modelo_llantas')
+                .insert(rows);
+
+            if (insRes.error) {
+                console.warn(`setModelLlantas: error insertando llantas con FK ${fkColumn}:`, insRes.error);
+                return { success: false, error: insRes.error };
+            }
+
+            return { success: true };
+        };
+
+        let lastErr = null;
+        for (const fk of fkCandidates) {
+            const res = await attempt(fk);
+            if (res.success) {
+                return { success: true };
+            }
+            lastErr = res.error;
+        }
+
+        // Si ambos intentos fallaron, intentar un enfoque más simple
+        console.warn('setModelLlantas: ambos FK fallaron, intentando enfoque simple');
+        try {
+            // Verificar si ya existen llantas para este modelo
+            const { data: existingData, error: checkError } = await supabase
+                .from('modelo_llantas')
+                .select('llanta_id')
+                .or(`modelo_id.eq.${normalizedModelId},modelo_coche_id.eq.${normalizedModelId}`);
+
+            if (checkError) {
+                console.warn('setModelLlantas: error verificando llantas existentes:', checkError);
+            } else if (existingData && existingData.length > 0) {
+                // Si existen, intentar eliminar con ambas columnas
+                await supabase
+                    .from('modelo_llantas')
+                    .delete()
+                    .or(`modelo_id.eq.${normalizedModelId},modelo_coche_id.eq.${normalizedModelId}`);
+            }
+
+            // Insertar nuevas llantas
+            if (ids.length > 0) {
+                const rows = ids.map((llantaId) => ({
+                    modelo_id: normalizedModelId,
+                    llanta_id: llantaId
+                }));
+
+                const { error: insertError } = await supabase
+                    .from('modelo_llantas')
+                    .insert(rows);
+
+                if (insertError) {
+                    console.error('setModelLlantas: error en inserción final:', insertError);
+                    return { success: false, error: insertError.message };
+                }
+            }
+
+            return { success: true };
+        } catch (fallbackError) {
+            console.error('setModelLlantas: error en fallback:', fallbackError);
+            return { success: false, error: fallbackError.message };
+        }
+    } catch (error) {
+        console.error('setModelLlantas: error inesperado:', error);
+        return { success: false, error: error.message };
+    }
+}
+
+// Reemplaza los paquetes asociados a un modelo (tabla puente modelo_paquetes)
+export async function setModelPaquetes(modelId, paqueteIds = []) {
+    try {
+        const normalizedModelId = Number(modelId);
+        const ids = (paqueteIds || []).map((id) => Number(id)).filter((n) => Number.isFinite(n));
+
+        // Intentar con modelo_coche_id primero
+        const fkColumn = 'modelo_coche_id';
+        const { error: delRes } = await supabase
+            .from('modelo_paquetes')
+            .delete()
+            .eq(fkColumn, normalizedModelId);
+
+        if (delRes) {
+            console.warn(`setModelPaquetes: error eliminando paquetes con FK ${fkColumn}:`, delRes);
+            return { success: false, error: delRes };
+        }
+
+        if (ids.length > 0) {
+            const rows = ids.map((paqueteId) => ({
+                [fkColumn]: normalizedModelId,
+                paquete_id: paqueteId
+            }));
+
+            const { error: insRes } = await supabase
+                .from('modelo_paquetes')
+                .insert(rows);
+
+            if (insRes) {
+                console.warn(`setModelPaquetes: error insertando paquetes con FK ${fkColumn}:`, insRes);
+                return { success: false, error: insRes };
+            }
+        }
+
+        return { success: true };
+    } catch (error) {
+        console.error('setModelPaquetes: error inesperado:', error);
+        return { success: false, error: error.message };
+    }
+}
+
+// Subir imagen de modelo a Supabase Storage (bucket "imagenes-modelos")
+export async function uploadModelImage(file, modelId = null, modelName = null, oldImageUrl = null) {
+    try {
+        if (!file || !file.type.startsWith('image/')) {
+            return { success: false, error: 'El archivo debe ser una imagen válida' };
+        }
+
+        const bucketName = 'imagenes-modelos';
+        
+        // Eliminar imagen vieja si existe
+        if (oldImageUrl) {
+            await deleteOldImage(oldImageUrl, modelName);
+        }
+
+        // Generar nombre de archivo con el nombre del coche
+        let safeFileName;
+        if (modelName) {
+            // Limpiar el nombre del coche para usarlo como nombre de archivo
+            const cleanModelName = modelName
+                .toLowerCase()
+                .replace(/[^a-z0-9]/g, '_')
+                .replace(/_+/g, '_')
+                .replace(/^_|_$/g, '');
+            safeFileName = cleanModelName;
+        } else {
+            safeFileName = modelId ? String(modelId).replace(/[^a-zA-Z0-9]/g, '_') : 'new';
+        }
+
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${safeFileName}.${fileExt}`;
+        const filePath = fileName;
+
+        const { data: uploadData, error: uploadError } = await supabase.storage
+            .from(bucketName)
+            .upload(filePath, file, {
+                cacheControl: '3600',
+                upsert: true // Permitir sobreescribir si ya existe
+            });
+
+        if (uploadError) {
+            console.error('Error subiendo imagen a Storage:', uploadError);
+            return { success: false, error: uploadError.message };
+        }
+
+        const { data: publicData } = supabase.storage
+            .from(bucketName)
+            .getPublicUrl(filePath);
+
+        const publicUrl = publicData?.publicUrl;
+        if (!publicUrl) {
+            return { success: false, error: 'No se pudo obtener la URL pública de la imagen subida' };
+        }
+
+        return { success: true, publicUrl, fileName };
+    } catch (error) {
+        console.error('uploadModelImage: error inesperado:', error);
+        return { success: false, error: error.message };
+    }
+}
+
+// Eliminar imagen vieja del bucket
+async function deleteOldImage(imageUrl, modelName) {
+    try {
+        console.log('deleteOldImage - Intentando eliminar:', imageUrl);
+        
+        if (!imageUrl) {
+            console.log('deleteOldImage - No hay URL de imagen vieja, saltando');
+            return;
+        }
+
+        // Eliminar la imagen específica
+        const urlParts = imageUrl.split('/');
+        const fileName = urlParts[urlParts.length - 1];
+        const cleanFileName = fileName.split('?')[0];
+
+        console.log('deleteOldImage - Archivo específico a eliminar:', cleanFileName);
+
+        const { error } = await supabase.storage
+            .from('imagenes-modelos')
+            .remove([cleanFileName]);
+
+        if (error) {
+            console.warn('No se pudo eliminar la imagen específica:', error);
+        } else {
+            console.log('Imagen específica eliminada:', cleanFileName);
+        }
+
+        // También eliminar cualquier otra imagen con el nombre del modelo
+        if (modelName) {
+            const cleanModelName = modelName
+                .toLowerCase()
+                .replace(/[^a-z0-9]/g, '_')
+                .replace(/_+/g, '_')
+                .replace(/^_|_$/g, '');
+
+            console.log('deleteOldImage - Buscando imágenes con nombre de modelo:', cleanModelName);
+
+            // Listar todos los archivos del bucket
+            const { data: files, error: listError } = await supabase.storage
+                .from('imagenes-modelos')
+                .list('', { limit: 100 });
+
+            if (listError) {
+                console.warn('Error listando archivos:', listError);
+                return;
+            }
+
+            // Encontrar archivos que coincidan con el nombre del modelo
+            const modelFiles = files.filter(file => 
+                file.name.startsWith(cleanModelName + '.') || 
+                file.name.includes(cleanModelName + '_')
+            );
+
+            console.log('deleteOldImage - Archivos del modelo encontrados:', modelFiles);
+
+            if (modelFiles.length > 0) {
+                const filesToDelete = modelFiles.map(f => f.name);
+                const { error: deleteError } = await supabase.storage
+                    .from('imagenes-modelos')
+                    .remove(filesToDelete);
+
+                if (deleteError) {
+                    console.warn('Error eliminando archivos del modelo:', deleteError);
+                } else {
+                    console.log('Archivos del modelo eliminados:', filesToDelete);
+                }
+            }
+        }
+    } catch (error) {
+        console.warn('Error eliminando imagen vieja:', error);
     }
 }

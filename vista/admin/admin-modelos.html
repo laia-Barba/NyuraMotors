@@ -133,13 +133,14 @@
         }
         
         .btn-edit {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            background: var(--gradient-primary);
             color: white;
+            box-shadow: 0 6px 18px rgba(102, 126, 234, 0.25);
         }
         
         .btn-edit:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 10px 26px rgba(102, 126, 234, 0.35);
         }
         
         .btn-delete {
@@ -260,41 +261,63 @@
                             <input type="text" id="modelName" class="field__input" required>
                         </div>
                         <div class="field">
+                            <label class="field__label">Gama</label>
+                            <select id="modelGama" class="field__input" required>
+                                <option value="">Selecciona una gama</option>
+                                <option value="R">R</option>
+                                <option value="Electric">Electric</option>
+                                <option value="Nyura">Nyura</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form__row">
+                        <div class="field">
                             <label class="field__label">Precio</label>
                             <input type="number" id="modelPrice" class="field__input" min="0" step="0.01" required>
                         </div>
                     </div>
                     
-                    <div class="form__row">
-                        <div class="field">
-                            <label class="field__label">Autonomía (km)</label>
-                            <input type="number" id="modelRange" class="field__input" min="0" required>
-                        </div>
-                        <div class="field">
-                            <label class="field__label">Potencia (kW)</label>
-                            <input type="number" id="modelPower" class="field__input" min="0" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form__row">
-                        <div class="field">
-                            <label class="field__label">Aceleración 0-100 (s)</label>
-                            <input type="number" id="modelAcceleration" class="field__input" min="0" step="0.1" required>
-                        </div>
-                        <div class="field">
-                            <label class="field__label">Velocidad Máxima (km/h)</label>
-                            <input type="number" id="modelMaxSpeed" class="field__input" min="0" required>
-                        </div>
-                    </div>
-                    
                     <div class="field">
-                        <label class="field__label">URL de la Imagen</label>
-                        <input type="url" id="modelImage" class="field__input" placeholder="https://ejemplo.com/imagen.jpg">
+                        <label class="field__label">Imagen del Modelo</label>
+                        <div class="image-upload-container">
+                            <div class="image-preview" id="imagePreview">
+                                <span class="image-preview__placeholder">Sin imagen</span>
+                            </div>
+                            <div class="image-upload-controls">
+                                <input type="file" id="modelImageFile" class="image-upload__input" accept="image/*">
+                                <button type="button" class="image-upload__btn" onclick="document.getElementById('modelImageFile').click()">Seleccionar imagen</button>
+                                <button type="button" class="image-upload__btn image-upload__btn--upload" id="uploadImageBtn" onclick="uploadModelImageFile()">Subir</button>
+                                <div class="image-upload__status" id="imageUploadStatus"></div>
+                            </div>
+                            <input type="hidden" id="modelImage" class="field__input">
+                        </div>
                     </div>
                     
                     <div class="field">
                         <label class="field__label">Descripción</label>
-                        <textarea id="modelDescription" class="field__input field__input--textarea" rows="4"></textarea>
+                        <textarea id="modelDescription" class="field__input field__input--textarea" rows="4" placeholder="Descripción corta para mostrar en la card"></textarea>
+                    </div>
+
+                    <div class="field">
+                        <label class="field__label">Colores disponibles</label>
+                        <div id="modelColors" class="model-colors-selector">
+                            <div class="loading">Cargando colores...</div>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="field__label">Llantas disponibles</label>
+                        <div id="modelLlantas" class="model-llantas-selector">
+                            <div class="loading">Cargando llantas...</div>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="field__label">Paquetes disponibles</label>
+                        <div id="modelPaquetes" class="model-paquetes-selector">
+                            <div class="loading">Cargando paquetes...</div>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -305,10 +328,14 @@
     </div>
 
     <script type="module">
-        import { getCurrentUser, onAuthStateChange, getModels, createModel, updateModel, deleteModel, toggleModelStatus } from '../../controlador/BBDD/SupabaseCliente.js';
+        import { getCurrentUser, onAuthStateChange, getModels, createModel, updateModel, deleteModel, toggleModelStatus, getColores, setModelColors, uploadModelImage, getLlantas, setModelLlantas, getPaquetes, setModelPaquetes } from '../../controlador/BBDD/SupabaseCliente.js';
         
         let currentEditingId = null;
         let models = [];
+        let allColors = [];
+        let allLlantas = [];
+        let allPaquetes = [];
+        let uploadedImageUrl = null;
         
         document.addEventListener('DOMContentLoaded', function() {
             // Verificar si el usuario es administrador
@@ -335,17 +362,139 @@
             try {
                 const result = await getModels();
                 if (result.success) {
+                    // Forzar actualización del array models con datos frescos
                     models = result.data;
+                    console.log('loadModels - Array models actualizado:', models);
                     displayModels(models);
+                    return result; // Devolver el resultado para que se pueda usar en .then()
                 } else {
                     showMessage('Error al cargar modelos: ' + result.error, 'error');
+                    return result; // Devolver el resultado incluso si hay error
                 }
             } catch (error) {
                 console.error('Error:', error);
                 showMessage('Error inesperado al cargar modelos', 'error');
+                return { success: false, error: error.message }; // Devolver un resultado de error
             }
         }
-        
+
+        async function loadColors() {
+            try {
+                allColors = await getColores();
+            } catch (error) {
+                console.error('Error cargando colores:', error);
+                allColors = [];
+            }
+        }
+
+        async function loadLlantas() {
+            try {
+                const result = await getLlantas();
+                console.log('loadLlantas - Resultado:', result);
+                allLlantas = Array.isArray(result) ? result : (result.success ? result.data : []);
+                console.log('loadLlantas - allLlantas:', allLlantas);
+            } catch (error) {
+                console.error('Error cargando llantas:', error);
+                allLlantas = [];
+            }
+        }
+
+        async function loadPaquetes() {
+            try {
+                const result = await getPaquetes();
+                console.log('loadPaquetes - Resultado:', result);
+                allPaquetes = Array.isArray(result) ? result : (result.success ? result.data : []);
+                console.log('loadPaquetes - allPaquetes:', allPaquetes);
+            } catch (error) {
+                console.error('Error cargando paquetes:', error);
+                allPaquetes = [];
+            }
+        }
+
+        function renderColorsSelector(selectedColorIds = []) {
+            const container = document.getElementById('modelColors');
+            if (!container) return;
+
+            if (!allColors || allColors.length === 0) {
+                container.innerHTML = '<div class="loading">No hay colores disponibles</div>';
+                return;
+            }
+
+            const selectedSet = new Set((selectedColorIds || []).map((id) => Number(id)));
+
+            container.innerHTML = allColors
+                .map((color) => {
+                    const isChecked = selectedSet.has(Number(color.id));
+                    const hex = color.hex || '#ffffff';
+                    const extra = Number(color.precio_extra || 0);
+                    return `
+                        <label class="color-choice">
+                            <input type="checkbox" class="color-choice__check" value="${color.id}" ${isChecked ? 'checked' : ''}>
+                            <span class="color-choice__swatch" style="background-color: ${hex}"></span>
+                            <span class="color-choice__name">${color.nombre || 'Color'}</span>
+                            ${extra > 0 ? `<span class="color-choice__extra">+${formatPrice(extra)}</span>` : ''}
+                        </label>
+                    `;
+                })
+                .join('');
+        }
+
+        function renderLlantasSelector(selectedLlantaIds = []) {
+            const container = document.getElementById('modelLlantas');
+            if (!container) return;
+
+            if (!allLlantas || allLlantas.length === 0) {
+                container.innerHTML = '<div class="loading">No hay llantas disponibles</div>';
+                return;
+            }
+
+            const selectedSet = new Set((selectedLlantaIds || []).map((id) => Number(id)));
+
+            container.innerHTML = allLlantas
+                .map((llanta) => {
+                    const isChecked = selectedSet.has(Number(llanta.id));
+                    const extra = Number(llanta.precio_extra || 0);
+                    const medida = llanta.medida || '';
+                    return `
+                        <label class="color-choice">
+                            <input type="checkbox" class="color-choice__check" value="${llanta.id}" ${isChecked ? 'checked' : ''}>
+                            <span class="color-choice__name">${llanta.nombre || 'Llanta'}</span>
+                            ${medida ? `<span class="color-choice__extra">${medida}</span>` : ''}
+                            ${extra > 0 ? `<span class="color-choice__extra">+${formatPrice(extra)}</span>` : ''}
+                        </label>
+                    `;
+                })
+                .join('');
+        }
+
+        function renderPaquetesSelector(selectedPaqueteIds = []) {
+            const container = document.getElementById('modelPaquetes');
+            if (!container) return;
+
+            if (!allPaquetes || allPaquetes.length === 0) {
+                container.innerHTML = '<div class="loading">No hay paquetes disponibles</div>';
+                return;
+            }
+
+            const selectedSet = new Set((selectedPaqueteIds || []).map((id) => Number(id)));
+
+            container.innerHTML = allPaquetes
+                .map((paquete) => {
+                    const isChecked = selectedSet.has(Number(paquete.id));
+                    const precio = Number(paquete.precio || 0);
+                    const descripcion = paquete.descripcion || '';
+                    return `
+                        <label class="color-choice">
+                            <input type="checkbox" class="color-choice__check" value="${paquete.id}" ${isChecked ? 'checked' : ''}>
+                            <span class="color-choice__name">${paquete.nombre || 'Paquete'}</span>
+                            ${precio > 0 ? `<span class="color-choice__extra">+${formatPrice(precio)}</span>` : ''}
+                            ${descripcion ? `<span class="color-choice__extra">${descripcion}</span>` : ''}
+                        </label>
+                    `;
+                })
+                .join('');
+        }
+
         function displayModels(modelsToDisplay) {
             const container = document.getElementById('modelsContainer');
             
@@ -354,12 +503,26 @@
                 return;
             }
             
-            container.innerHTML = modelsToDisplay.map(model => `
+            console.log('displayModels - Renderizando con datos:', modelsToDisplay);
+            container.innerHTML = modelsToDisplay.map(model => {
+                // Debug: log para ver qué contiene el campo imagen
+                console.log(`Modelo ${model.nombre}:`, {
+                    imagen: model.imagen,
+                    Imagenes_Modelos: model.Imagenes_Modelos
+                });
+                
+                const imageUrl = model.imagen || model.Imagenes_Modelos || null;
+                console.log(`displayModels - imageUrl para ${model.nombre}:`, imageUrl);
+                // Forzar uso directo de la URL si existe
+                const imageSrc = imageUrl ? imageUrl : null;
+                
+                return `
                 <div class="model-card">
-                    <img src="${model.imagen || 'https://picsum.photos/seed/' + model.nombre + '/400/200.jpg'}" 
+                    ${imageSrc ? `<img src="${imageSrc}" 
                          alt="${model.nombre}" 
                          class="model-image"
-                         onerror="this.src='https://picsum.photos/seed/default/400/200.jpg'">
+                         loading="lazy"
+                         onerror="this.onerror=null; console.error('Error cargando imagen:', this.src); this.src='https://picsum.photos/seed/default/400/200.jpg'">` : '<div class="model-image-placeholder"></div>'}
                     <div class="model-content">
                         <div class="model-header">
                             <h3 class="model-name">${model.nombre}</h3>
@@ -392,13 +555,41 @@
                                 </div>
                             </div>
                         ` : ''}
+                        ${model.modelo_llantas && model.modelo_llantas.length > 0 ? `
+                            <div class="model-colors">
+                                <h4>Llantas disponibles:</h4>
+                                <div class="colors-list">
+                                    ${model.modelo_llantas.map(ml => `
+                                        <div class="color-item">
+                                            <span class="color-name">${ml.llantas.nombre}</span>
+                                            ${ml.llantas.medida ? `<span class="color-price">${ml.llantas.medida}</span>` : ''}
+                                            ${ml.llantas.precio_extra > 0 ? `<span class="color-price">+${formatPrice(ml.llantas.precio_extra)}</span>` : ''}
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                        ${model.modelo_paquetes && model.modelo_paquetes.length > 0 ? `
+                            <div class="model-colors">
+                                <h4>Paquetes disponibles:</h4>
+                                <div class="colors-list">
+                                    ${model.modelo_paquetes.map(mp => `
+                                        <div class="color-item">
+                                            <span class="color-name">${mp.paquetes.nombre}</span>
+                                            ${mp.paquetes.precio > 0 ? `<span class="color-price">+${formatPrice(mp.paquetes.precio)}</span>` : ''}
+                                            ${mp.paquetes.descripcion ? `<span class="color-price">${mp.paquetes.descripcion}</span>` : ''}
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
                         <div class="model-actions">
                             <button class="btn-edit" onclick="editModel('${model.id}')">Editar</button>
                             <button class="btn-delete" onclick="confirmDelete('${model.id}')">Eliminar</button>
                         </div>
                     </div>
                 </div>
-            `).join('');
+            `}).join('');
         }
         
         function formatPrice(price) {
@@ -412,59 +603,176 @@
             currentEditingId = null;
             document.getElementById('modalTitle').textContent = 'Añadir Modelo';
             document.getElementById('modelForm').reset();
+            renderColorsSelector([]);
+            renderLlantasSelector([]);
+            renderPaquetesSelector([]);
             document.getElementById('modelModal').style.display = 'flex';
         }
         
         function editModel(id) {
-            const model = models.find(m => m.id === id);
+            const numericId = Number(id);
+            const model = models.find(m => Number(m.id) === numericId);
             if (!model) return;
             
-            currentEditingId = id;
+            currentEditingId = numericId;
+            uploadedImageUrl = null; // Resetear la URL subida al editar
             document.getElementById('modalTitle').textContent = 'Editar Modelo';
             
             // Rellenar el formulario
             document.getElementById('modelName').value = model.nombre || '';
+            document.getElementById('modelGama').value = model.gama || '';
             document.getElementById('modelPrice').value = model.precio || '';
-            document.getElementById('modelRange').value = model.autonomia || '';
-            document.getElementById('modelPower').value = model.potencia || '';
-            document.getElementById('modelAcceleration').value = model.aceleracion || '';
-            document.getElementById('modelMaxSpeed').value = model.velocidad_max || '';
             document.getElementById('modelImage').value = model.imagen || '';
-            document.getElementById('modelDescription').value = model.descripcion || '';
+            document.getElementById('modelDescription').value = model.descripcion_corta || '';
+
+            // Mostrar imagen actual si existe
+            const preview = document.getElementById('imagePreview');
+            const uploadBtn = document.getElementById('uploadImageBtn');
+            const status = document.getElementById('imageUploadStatus');
             
+            if (model.imagen) {
+                preview.innerHTML = `<img src="${model.imagen}" alt="Imagen actual" class="image-preview__img">`;
+                uploadBtn.style.display = 'inline-block';
+                uploadBtn.textContent = 'Reemplazar';
+                status.textContent = 'Imagen actual cargada';
+                status.className = 'image-upload__status image-upload__status--info';
+            } else {
+                preview.innerHTML = '<span class="image-preview__placeholder">Sin imagen</span>';
+                uploadBtn.style.display = 'none';
+                status.textContent = '';
+                status.className = 'image-upload__status';
+            }
+
+            const selectedColorIds = (model.modelo_colores || []).map((mc) => mc.color_id);
+            renderColorsSelector(selectedColorIds);
+
+            const selectedLlantaIds = (model.modelo_llantas || []).map((ml) => ml.llanta_id);
+            renderLlantasSelector(selectedLlantaIds);
+
+            const selectedPaqueteIds = (model.modelo_paquetes || []).map((mp) => mp.paquete_id);
+            renderPaquetesSelector(selectedPaqueteIds);
+
             document.getElementById('modelModal').style.display = 'flex';
         }
-        
+
         function closeModal() {
             document.getElementById('modelModal').style.display = 'none';
             document.getElementById('modelForm').reset();
             currentEditingId = null;
+            uploadedImageUrl = null;
+            renderColorsSelector([]);
+            renderLlantasSelector([]);
+            renderPaquetesSelector([]);
+            
+            // Resetear la vista de imagen
+            const preview = document.getElementById('imagePreview');
+            const uploadBtn = document.getElementById('uploadImageBtn');
+            const status = document.getElementById('imageUploadStatus');
+            const fileInput = document.getElementById('modelImageFile');
+            
+            preview.innerHTML = '<span class="image-preview__placeholder">Sin imagen</span>';
+            uploadBtn.style.display = 'none';
+            uploadBtn.textContent = 'Subir';
+            status.textContent = '';
+            status.className = 'image-upload__status';
+            fileInput.value = '';
         }
         
         async function saveModel() {
+            // Usar la URL de la imagen subida si existe, si no, mantener la existente
+            const imageUrl = uploadedImageUrl || document.getElementById('modelImage').value || '';
+            
+            console.log('saveModel - Debug:', {
+                currentEditingId,
+                uploadedImageUrl,
+                imageUrlFromInput: document.getElementById('modelImage').value,
+                finalImageUrl: imageUrl
+            });
+            
             const formData = {
-                nombre: document.getElementById('modelName').value,
-                precio: parseFloat(document.getElementById('modelPrice').value),
-                autonomia: parseInt(document.getElementById('modelRange').value),
-                potencia: parseInt(document.getElementById('modelPower').value),
-                aceleracion: parseFloat(document.getElementById('modelAcceleration').value),
-                velocidad_max: parseInt(document.getElementById('modelMaxSpeed').value),
-                imagen: document.getElementById('modelImage').value,
-                descripcion: document.getElementById('modelDescription').value
+                nombre: document.getElementById('modelName').value.trim(),
+                gama: document.getElementById('modelGama').value,
+                precio: Number(document.getElementById('modelPrice').value),
+                imagen: imageUrl.trim() || null,
+                descripcion_corta: (document.getElementById('modelDescription').value || '').trim() || null
             };
+
+            if (!formData.nombre || !formData.gama || Number.isNaN(formData.precio)) {
+                showMessage('Completa los campos obligatorios: nombre, gama y precio.', 'error');
+                return;
+            }
             
             try {
                 let result;
                 if (currentEditingId) {
                     result = await updateModel(currentEditingId, formData);
                 } else {
+                    formData.activo = true;
                     result = await createModel(formData);
                 }
                 
                 if (result.success) {
+                    const modelId = currentEditingId || result.data?.id;
+                    const colorsContainer = document.getElementById('modelColors');
+                    const checked = colorsContainer
+                        ? Array.from(colorsContainer.querySelectorAll('input[type="checkbox"]:checked')).map((el) => Number(el.value))
+                        : [];
+
+                    if (modelId) {
+                        const colorsResult = await setModelColors(modelId, checked);
+                        if (!colorsResult.success) {
+                            showMessage('Modelo guardado, pero error guardando colores: ' + colorsResult.error, 'error');
+                        }
+                    }
+
+                    if (modelId) {
+                        const llantasContainer = document.getElementById('modelLlantas');
+                        const checkedLlantas = llantasContainer
+                            ? Array.from(llantasContainer.querySelectorAll('input[type="checkbox"]:checked')).map((el) => Number(el.value))
+                            : [];
+
+                        const llantasResult = await setModelLlantas(modelId, checkedLlantas);
+                        if (!llantasResult.success) {
+                            showMessage('Modelo guardado, pero error guardando llantas: ' + llantasResult.error, 'error');
+                        }
+                    }
+
+                    if (modelId) {
+                        const paquetesContainer = document.getElementById('modelPaquetes');
+                        const checkedPaquetes = paquetesContainer
+                            ? Array.from(paquetesContainer.querySelectorAll('input[type="checkbox"]:checked')).map((el) => Number(el.value))
+                            : [];
+
+                        const paquetesResult = await setModelPaquetes(modelId, checkedPaquetes);
+                        if (!paquetesResult.success) {
+                            showMessage('Modelo guardado, pero error guardando paquetes: ' + paquetesResult.error, 'error');
+                        }
+                    }
+
                     showMessage(currentEditingId ? 'Modelo actualizado correctamente' : 'Modelo creado correctamente', 'success');
                     closeModal();
-                    loadModels();
+                    // Llamar a loadModels y pasar el resultado a displayModels
+                    loadModels().then(result => {
+                        if (result && result.success) {
+                            displayModels(result.data);
+                            // Forzar recarga completa de la página para evitar caché
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 100);
+                        } else {
+                            console.error('loadModels devolvió resultado inesperado:', result);
+                            // Si loadModels falla, recargar igualmente para mostrar datos frescos
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 100);
+                        }
+                    }).catch(error => {
+                        console.error('Error en loadModels:', error);
+                        // Si hay error, recargar igualmente
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 100);
+                    });
                 } else {
                     showMessage('Error: ' + result.error, 'error');
                 }
@@ -473,12 +781,107 @@
                 showMessage('Error inesperado', 'error');
             }
         }
+
+        // Cargar colores y llantas al iniciar
+        document.addEventListener('DOMContentLoaded', async function() {
+            await loadColors();
+            await loadLlantas();
+            await loadPaquetes();
+            renderColorsSelector([]);
+            renderLlantasSelector([]);
+            renderPaquetesSelector([]);
+
+            // Configurar evento de selección de archivo
+            document.getElementById('modelImageFile').addEventListener('change', handleImageFileSelect);
+        });
+
+        // Manejar selección de archivo de imagen
+        function handleImageFileSelect(event) {
+            const file = event.target.files[0];
+            const preview = document.getElementById('imagePreview');
+            const uploadBtn = document.getElementById('uploadImageBtn');
+            const status = document.getElementById('imageUploadStatus');
+            
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.innerHTML = `<img src="${e.target.result}" alt="Preview" class="image-preview__img">`;
+                    uploadBtn.style.display = 'inline-block';
+                    status.textContent = '';
+                    status.className = 'image-upload__status';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                preview.innerHTML = '<span class="image-preview__placeholder">Sin imagen</span>';
+                uploadBtn.style.display = 'none';
+                status.textContent = '';
+                status.className = 'image-upload__status';
+            }
+        }
+
+        // Subir imagen a Supabase Storage
+        async function uploadModelImageFile() {
+            const fileInput = document.getElementById('modelImageFile');
+            const file = fileInput.files[0];
+            const status = document.getElementById('imageUploadStatus');
+            const uploadBtn = document.getElementById('uploadImageBtn');
+            
+            if (!file) {
+                status.textContent = 'Por favor, selecciona una imagen primero';
+                status.className = 'image-upload__status image-upload__status--error';
+                return;
+            }
+            
+            // Deshabilitar botón durante la subida
+            uploadBtn.disabled = true;
+            uploadBtn.textContent = 'Subiendo...';
+            status.textContent = 'Subiendo imagen...';
+            status.className = 'image-upload__status image-upload__status--uploading';
+            
+            try {
+                // Obtener el nombre del modelo y la imagen vieja
+                const modelName = document.getElementById('modelName').value.trim();
+                const oldImageUrl = document.getElementById('modelImage').value.trim();
+                
+                console.log('uploadModelImageFile - Datos:', {
+                    modelName,
+                    oldImageUrl,
+                    currentEditingId
+                });
+                
+                const result = await uploadModelImage(file, currentEditingId, modelName, oldImageUrl);
+                
+                if (result.success) {
+                    uploadedImageUrl = result.publicUrl;
+                    document.getElementById('modelImage').value = uploadedImageUrl;
+                    status.textContent = 'Imagen subida correctamente';
+                    status.className = 'image-upload__status image-upload__status--success';
+                    uploadBtn.textContent = 'Reemplazar';
+                } else {
+                    status.textContent = 'Error: ' + result.error;
+                    status.className = 'image-upload__status image-upload__status--error';
+                    uploadBtn.textContent = 'Subir';
+                }
+            } catch (error) {
+                console.error('Error subiendo imagen:', error);
+                status.textContent = 'Error inesperado al subir imagen';
+                status.className = 'image-upload__status image-upload__status--error';
+                uploadBtn.textContent = 'Subir';
+            } finally {
+                uploadBtn.disabled = false;
+            }
+        }
         
         function confirmDelete(id) {
             if (confirm('¿Estás seguro de que quieres eliminar este modelo? Esta acción no se puede deshacer.')) {
                 deleteModelFromUI(id);
             }
         }
+        
+        // Exportar funciones al ámbito global para onclick
+        window.uploadModelImageFile = uploadModelImageFile;
+        window.deleteModelFromUI = deleteModelFromUI;
+        window.confirmDelete = confirmDelete;
         
         async function deleteModelFromUI(id) {
             try {
