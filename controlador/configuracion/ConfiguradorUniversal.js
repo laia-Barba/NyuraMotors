@@ -225,12 +225,31 @@ class ConfiguradorUniversal {
             }
         });
 
-        // Ajustar intensidad según modelo para Nova
+        // Ajustar intensidad según modelo
         const isNova = String(this.modeloId || '').toLowerCase() === 'nova';
-        const ambientIntensity = isNova ? 0.4 : 0.6;
-        const directionalIntensity = isNova ? 0.5 : 0.8;
-        const fillIntensity = isNova ? 0.2 : 0.3;
-        const accentIntensity = isNova ? 0.1 : 0.2;
+        const isSpark = String(this.modeloId || '').toLowerCase() === 'spark';
+        
+        let ambientIntensity, directionalIntensity, fillIntensity, accentIntensity;
+        
+        if (isSpark) {
+            // Configuración específica para Spark - más intensidad para colores vivos
+            ambientIntensity = 0.8;
+            directionalIntensity = 1.2;
+            fillIntensity = 0.6;
+            accentIntensity = 0.4;
+        } else if (isNova) {
+            // Configuración para Nova
+            ambientIntensity = 0.4;
+            directionalIntensity = 0.5;
+            fillIntensity = 0.2;
+            accentIntensity = 0.1;
+        } else {
+            // Configuración por defecto para otros modelos
+            ambientIntensity = 0.6;
+            directionalIntensity = 0.8;
+            fillIntensity = 0.3;
+            accentIntensity = 0.2;
+        }
 
         // Luz ambiental suave
         const ambientLight = new THREE.AmbientLight(0xffffff, ambientIntensity);

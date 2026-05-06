@@ -80,7 +80,7 @@ export const MODELOS_CONFIG = {
             ],
             llantas: [
                 { id: 'blanco', nombre: 'De serie', precio: 0 },
-                { id: 'negro', nombre: 'Pack Dark', precio: 1200 }
+                { id: 'negro', nombre: 'Pack Sport', precio: 1200 }
             ],
             paquetes: [
                 {
