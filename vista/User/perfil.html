@@ -84,9 +84,11 @@
           <div class="panel">
             <h2 class="panel__title">Cuenta</h2>
             <div class="account-actions">
+              <button class="btn btn--secondary" id="changePasswordBtn">Cambiar contraseña</button>
               <button class="btn btn--danger" id="deleteAccountBtn">Eliminar Cuenta</button>
               <button class="btn btn--secondary" id="signOutBtn">Cerrar Sesión</button>
             </div>
+            <p class="panel__text" id="accountMessage" style="display: none;"></p>
           </div>
         </section>
       </section>
@@ -114,7 +116,7 @@
         <div class="footer-section">
             <h3>Contacto</h3>
             <div class="footer-links">
-                <a href="mailto:contacto@nyuramotors.com">📍 Carrer de Caracas, 11. Sant Andreu, 08030 Barcelona</a>
+                <a href="mailto:contacto@nyuramotors.com"> Carrer de Caracas, 11. Sant Andreu, 08030 Barcelona</a>
                 <div class="social-links">
                     <a href="#" aria-label="Twitter">𝕏</a>
                     <a href="#" aria-label="Instagram">📷</a>
@@ -135,7 +137,7 @@
 </footer>
 
 <script type="module">
-        import { getCurrentUser, createOrUpdateUserProfile, onAuthStateChange, signOut, getUserByEmail, getConfiguracionesByUser, deleteConfiguracion, updateUser, updateUserProfile, testUsersTable, logout, deleteAccount } from '../../controlador/BBDD/SupabaseCliente.js';
+        import { getCurrentUser, createOrUpdateUserProfile, onAuthStateChange, signOut, getUserByEmail, getConfiguracionesByUser, deleteConfiguracion, updateUser, updateUserProfile, testUsersTable, logout, deleteAccount, resetPassword } from '../../controlador/BBDD/SupabaseCliente.js';
         
         document.addEventListener('DOMContentLoaded', async function() {
             const profileForm = document.getElementById('profileForm');
@@ -143,12 +145,58 @@
             const saveBtn = document.getElementById('saveBtn');
             const cancelBtn = document.getElementById('cancelBtn');
             const deleteAccountBtn = document.getElementById('deleteAccountBtn');
+            const changePasswordBtn = document.getElementById('changePasswordBtn');
+            const accountMessage = document.getElementById('accountMessage');
             const configurationsList = document.getElementById('configurationsList');
             const viewActions = document.getElementById('viewActions');
             const editActions = document.getElementById('editActions');
             
             let currentUser = null;
             let originalUserData = {};
+            let changePasswordListenerAttached = false;
+
+            const setAccountMessage = (text) => {
+                if (!accountMessage) return;
+                accountMessage.textContent = text;
+                accountMessage.style.display = 'block';
+            };
+
+            const clearAccountMessage = () => {
+                if (!accountMessage) return;
+                accountMessage.textContent = '';
+                accountMessage.style.display = 'none';
+            };
+
+            if (changePasswordBtn && !changePasswordListenerAttached) {
+                changePasswordListenerAttached = true;
+                changePasswordBtn.addEventListener('click', async function() {
+                    if (!currentUser?.email) {
+                        setAccountMessage('No se pudo obtener el email del usuario.');
+                        return;
+                    }
+
+                    clearAccountMessage();
+
+                    changePasswordBtn.disabled = true;
+                    const previousText = changePasswordBtn.textContent;
+                    changePasswordBtn.textContent = 'Enviando...';
+
+                    try {
+                        const res = await resetPassword(currentUser.email);
+                        setAccountMessage(
+                            res.success
+                                ? 'Email enviado. Revisa tu bandeja de entrada.'
+                                : (res.error || 'No se pudo enviar el email de recuperación')
+                        );
+                    } catch (error) {
+                        console.error('Error enviando email de recuperación:', error);
+                        setAccountMessage('Error inesperado al enviar el email de recuperación.');
+                    } finally {
+                        changePasswordBtn.disabled = false;
+                        changePasswordBtn.textContent = previousText;
+                    }
+                });
+            }
             
             // Función para activar modo edición
             function enableEditMode() {
@@ -224,6 +272,7 @@
                         e.preventDefault();
                         await saveProfile();
                     });
+
                     cancelBtn.addEventListener('click', function() {
                         if (confirm('¿Estás seguro de que quieres cancelar los cambios?')) {
                             loadUserData(); // Recargar datos originales
