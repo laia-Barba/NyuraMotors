@@ -213,6 +213,44 @@ export const MODELOS_CONFIG = {
                 exterior: { fov: 75, posicion: [0, 1.5, 5], target: [0, 0.5, 0] },
                 interior: { fov: 75, posicion: [-0.001, 2.45, 0.35], target: [-0.001, 1.98, 0.2], forwardZ: 1 }
             }
+        },
+        Daemon: {
+            nombre: 'Daemon',
+            precio: 28900,
+            descripcion: 'El deportivo eléctrico con diseño agresivo y rendimiento excepcional',
+            modelo: '../coches/Daemon/DeamonBlanco.glb',
+            escalado: { modelo: 2.0, camera: 2.2, plataforma: 1 },
+            offset: { x: 0.45, y: -0.10, z: 0 },
+            colores: [
+                { id: 'blanco', nombre: 'Blanco', hex: '#f8f8f8', material: 'carroceria', modelo: '../coches/Daemon/DeamonBlanco.glb' },
+                { id: 'negro', nombre: 'Negro', hex: '#1a1a1a', material: 'carroceria', modelo: '../coches/Daemon/DeamonNegro.glb' },
+                { id: 'gris', nombre: 'Gris', hex: '#6c757d', material: 'carroceria', modelo: '../coches/Daemon/DeamonGris.glb' },
+                { id: 'azul', nombre: 'Azul', hex: '#1f5eff', material: 'carroceria', modelo: '../coches/Daemon/DeamonAzul.glb' },
+                { id: 'rojo', nombre: 'Rojo', hex: '#dc143c', material: 'carroceria', modelo: '../coches/Daemon/DeamonRojo.glb' }
+            ],
+            llantas: [
+                { id: 'blanco', nombre: 'De serie', precio: 0 },
+                { id: 'negro', nombre: 'Pack Dark', precio: 800 }
+            ],
+            paquetes: [
+                {
+                    id: 'sport',
+                    nombre: 'Sport Pack',
+                    descripcion: 'Suspensión deportiva y modo de conducción Sport+',
+                    precio: 4500
+                },
+                {
+                    id: 'tech',
+                    nombre: 'Tech Pack',
+                    descripcion: 'Sistema de audio premium y pantalla táctil de 12 pulgadas',
+                    precio: 3200
+                }
+            ],
+            moneda: 'EUR',
+            camaras: {
+                exterior: { fov: 75, posicion: [0, 1.5, 5], target: [0, 0.5, 0] },
+                interior: { fov: 75, posicion: [0, 1.9, 0.4], target: [0, 1.3, 0] }
+            }
         }
     }
 };
