@@ -146,6 +146,3 @@ vite.config.ts.timestamp-*
 
 # Ignorar archivos blend
 *.blend
-
-# Ignorar spark
-*/coches/Spark/Spark.blend
