@@ -39,7 +39,7 @@
                         </label>
 
                         <div class="auth-row">
-                            <a class="auth-link" href="#">¿Olvidaste tu contraseña?</a>
+                            <a class="auth-link" href="#" id="forgotPasswordLink">¿Olvidaste tu contraseña?</a>
                         </div>
 
                         <button class="auth-submit" type="submit">Entrar</button>
@@ -65,7 +65,7 @@
         </section>
     </main>
 <script type="module">
-        import { signIn, signInWithGoogle, getCurrentUser } from '../controlador/BBDD/SupabaseCliente.js';
+        import { signIn, signInWithGoogle, getCurrentUser, resetPassword } from '../controlador/BBDD/SupabaseCliente.js';
         
         document.addEventListener('DOMContentLoaded', async function() {
             // Verificar si ya hay sesión activa (sin mostrar error si no hay)
@@ -84,6 +84,50 @@
             const emailInput = form.querySelector('[name="email"]');
             const passwordInput = form.querySelector('[name="contrasena"]');
             const googleBtn = document.querySelector('.google-btn');
+            const forgotPasswordLink = document.getElementById('forgotPasswordLink');
+
+            const showInlineMessage = (text, targetEl) => {
+                const existing = targetEl.parentNode.querySelector('.field-error');
+                if (existing) existing.remove();
+                const div = document.createElement('div');
+                div.className = 'field-error';
+                div.textContent = text;
+                targetEl.parentNode.appendChild(div);
+            };
+
+            forgotPasswordLink.addEventListener('click', async function(e) {
+                e.preventDefault();
+
+                const email = (emailInput.value || '').trim() || (prompt('Introduce tu email para recuperar la contraseña:') || '').trim();
+                if (!email) {
+                    showInlineMessage('El email es obligatorio para recuperar la contraseña', emailInput);
+                    return;
+                }
+
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    showInlineMessage('El email no es válido', emailInput);
+                    return;
+                }
+
+                forgotPasswordLink.style.pointerEvents = 'none';
+                forgotPasswordLink.style.opacity = '0.7';
+
+                try {
+                    const res = await resetPassword(email);
+                    if (res.success) {
+                        showInlineMessage('Email enviado. Revisa tu bandeja de entrada.', emailInput);
+                    } else {
+                        showInlineMessage(res.error || 'No se pudo enviar el email de recuperación', emailInput);
+                    }
+                } catch (err) {
+                    console.error('Error en recuperar contraseña:', err);
+                    showInlineMessage('Error inesperado al enviar el email de recuperación', emailInput);
+                } finally {
+                    forgotPasswordLink.style.pointerEvents = '';
+                    forgotPasswordLink.style.opacity = '';
+                }
+            });
 
             // Validación completa del formulario
             form.addEventListener('submit', async function(e) {
