@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Configuraciones - NyuraMotors</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="Panel.css">
+    <link rel="stylesheet" href="admin.css">
+    <style>
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .admin-header {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(20px);
+        }
+        
+        .admin-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .admin-subtitle {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+        
+        .configurations-grid {
+            width: 100%;
+        }
+
+        .configs-table-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: linear-gradient(145deg, rgba(20, 20, 30, 0.95), rgba(30, 30, 40, 0.9));
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            overflow-x: auto;
+        }
+
+        .configs-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Inter', sans-serif;
+            min-width: 820px;
+        }
+
+        .configs-table th {
+            padding: 1rem;
+            text-align: left;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            white-space: nowrap;
+        }
+
+        .configs-table td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            vertical-align: middle;
+        }
+
+        .configs-table tr:hover {
+            background: rgba(102, 126, 234, 0.06);
+        }
+
+        .cell-muted {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .config-price-cell {
+            font-weight: 800;
+            color: var(--primary-color);
+            white-space: nowrap;
+        }
+
+        .configs-actions {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+            align-items: center;
+            white-space: nowrap;
+        }
+
+        .btn-action {
+            padding: 0.5rem 0.75rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 700;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .btn-view {
+            background: rgba(102, 126, 234, 0.12);
+            color: #b8c2ff;
+            border: 1px solid rgba(102, 126, 234, 0.22);
+        }
+
+        .btn-view:hover {
+            background: rgba(102, 126, 234, 0.2);
+        }
+
+        .btn-more {
+            display: none;
+        }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            z-index: 9999;
+        }
+
+        .modal__content {
+            width: min(900px, 95vw);
+            max-height: 90vh;
+            overflow: auto;
+            border-radius: 16px;
+        }
+
+        .modal__close {
+            position: sticky;
+            top: 0;
+            display: flex;
+            justify-content: flex-end;
+            padding: 0.75rem;
+            background: rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .modal__close button {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            padding: 0.5rem 0.75rem;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .modal__close button:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+        
+        .config-card {
+            background: linear-gradient(145deg, rgba(20, 20, 30, 0.95), rgba(30, 30, 40, 0.9));
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+        }
+        
+        .config-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.15);
+        }
+        
+        .config-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .config-header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .config-header-date {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .config-name {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .config-user {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .config-body {
+            padding: 1.5rem;
+        }
+        
+        .config-price {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .config-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+        }
+        
+        .detail-label {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .detail-value {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
+            font-weight: 600;
+            text-align: right;
+        }
+        
+        .config-packages {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+        }
+        
+        .config-packages h4 {
+            font-family: 'Inter', sans-serif;
+            color: var(--primary-color);
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .package-item {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            padding: 0.25rem 0;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .config-footer {
+            padding: 1rem 1.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .config-date {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+        
+        .btn-delete {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-delete.btn-action {
+            padding: 0.5rem 0.75rem;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+        
+        .btn-delete:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 4rem;
+            color: var(--text-secondary);
+        }
+        
+        .error {
+            background: rgba(231, 76, 60, 0.1);
+            border: 1px solid rgba(231, 76, 60, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            color: #e74c3c;
+            margin-bottom: 2rem;
+        }
+        
+        .empty {
+            text-align: center;
+            padding: 4rem;
+            color: var(--text-secondary);
+        }
+        
+        .empty i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+        
+        @media (max-width: 768px) {
+            .admin-container {
+                padding: 1rem;
+            }
+            
+            .configurations-grid {
+                width: 100%;
+            }
+            
+            .admin-header {
+                padding: 1.5rem;
+            }
+            
+            .admin-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="Panel.html" class="back-button">
+                <i class="fas fa-arrow-left"></i>
+                Volver al Panel
+            </a>
+        </nav>
+    </header>
+    
+    <main>
+        <div class="admin-container">
+            <div class="admin-header">
+                <h1 class="admin-title">Gestión de Configuraciones</h1>
+                <p class="admin-subtitle">Revisa todas las configuraciones de coches creadas por los usuarios</p>
+            </div>
+            
+            <div id="messages"></div>
+            
+            <div id="configurationsContainer" class="configurations-grid">
+                <div class="configs-table-container">
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        Cargando configuraciones...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="detailsModal" class="modal" aria-hidden="true">
+        <div class="modal__content">
+            <div class="modal__close">
+                <button type="button" onclick="closeDetailsModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="detailsModalBody"></div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { getCurrentUser, getUserByEmail, getUsersForAdmin, getConfiguraciones, getModels, getColores, getLlantas, getPaquetes, deleteConfiguracion } from '../../controlador/BBDD/SupabaseCliente.js';
+        
+        let configurations = [];
+        let models = [];
+        let colors = [];
+        let llantas = [];
+        let paquetes = [];
+        let users = [];
+        
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                // Verificar si el usuario está autenticado
+                const currentUser = await getCurrentUser();
+                if (!currentUser) {
+                    window.location.href = '../InicioSesion.html';
+                    return;
+                }
+
+                // Verificar si es administrador
+                const userData = await getUserByEmail(currentUser.email);
+                if (!userData || userData.rol !== 'admin') {
+                    showMessage('No tienes permisos de administrador para acceder a esta página.', 'error');
+                    return;
+                }
+
+                // Cargar datos
+                await loadData();
+            } catch (error) {
+                console.error('Error:', error);
+                showMessage('Error al cargar la página', 'error');
+            }
+        });
+        
+        async function loadData() {
+            try {
+                users = await getUsersForAdmin();
+                console.log('Usuarios cargados:', users);
+
+                // Cargar configuraciones
+                const configsResult = await getConfiguraciones();
+                configurations = configsResult || [];
+                console.log('Configuraciones cargadas:', configurations);
+                
+                // Cargar modelos
+                const modelsResult = await getModels();
+                models = modelsResult.success ? modelsResult.data : [];
+                console.log('Modelos cargados:', models);
+                
+                // Cargar colores
+                colors = await getColores();
+                console.log('Colores cargados:', colors);
+                
+                // Cargar llantas
+                llantas = await getLlantas();
+                console.log('Llantas cargadas:', llantas);
+                
+                // Cargar paquetes
+                paquetes = await getPaquetes();
+                console.log('Paquetes cargados:', paquetes);
+                
+                displayConfigurations();
+            } catch (error) {
+                console.error('Error cargando datos:', error);
+                showMessage('Error al cargar los datos', 'error');
+            }
+        }
+        
+        function displayConfigurations() {
+            const container = document.getElementById('configurationsContainer');
+            
+            if (configurations.length === 0) {
+                container.innerHTML = `
+                    <div class="empty">
+                        <i class="fas fa-cogs"></i>
+                        <h3>No hay configuraciones</h3>
+                        <p>Aún no hay configuraciones de coches creadas por los usuarios.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const rowsHtml = configurations.map((config) => {
+                const model = models.find(m => m.id === config.modelo_coche_id);
+                const user = users.find((u) => String(u.id) === String(config.user_id));
+                const userName = user?.nombre || user?.full_name || user?.name || 'Desconocido';
+                const userShort = config.user_id ? config.user_id.substring(0, 8) + '...' : 'Desconocido';
+                return `
+                    <tr>
+                        <td class="cell-muted">${userShort}</td>
+                        <td>${userName}</td>
+                        <td>${config.nombre || 'Configuración sin nombre'}</td>
+                        <td>${model ? model.nombre : 'Desconocido'}</td>
+                        <td class="config-price-cell">${formatPrice(config.precio_total)}</td>
+                        <td>
+                            <div class="configs-actions">
+                                <button class="btn-action btn-view" onclick="openDetailsModal('${config.id}')">
+                                    <i class="fas fa-eye"></i>
+                                    Ver más
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+
+            container.innerHTML = `
+                <div class="configs-table-container">
+                    <table class="configs-table">
+                        <thead>
+                            <tr>
+                                <th>ID Usuario</th>
+                                <th>Nombre Usuario</th>
+                                <th>Configuración</th>
+                                <th>Modelo</th>
+                                <th>Precio</th>
+                                <th style="text-align: right;">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${rowsHtml}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        window.openDetailsModal = function(id) {
+            const config = configurations.find((c) => String(c.id) === String(id));
+            if (!config) {
+                showMessage('No se ha encontrado la configuración', 'error');
+                return;
+            }
+
+            const model = models.find(m => m.id === config.modelo_coche_id);
+            const colorExt = colors.find(c => c.id === config.color_exterior_id);
+            const colorInt = colors.find(c => c.id === config.color_interior_id);
+            const llanta = llantas.find(l => l.id === config.llantas_id);
+            const configPackages = config.configuracion_paquetes || [];
+
+            const formattedDate = new Date(config.fecha_creacion).toLocaleDateString('es-ES', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            const detailsHtml = `
+                <div class="config-card">
+                    <div class="config-header">
+                        <div class="config-header-top">
+                            <h3 class="config-name">${config.nombre || 'Configuración sin nombre'}</h3>
+                            <span class="config-header-date"><i class="fas fa-clock"></i>${formattedDate}</span>
+                        </div>
+                        <div class="config-user">
+                            <i class="fas fa-user"></i>
+                            <span>ID: ${config.user_id ? config.user_id.substring(0, 8) + '...' : 'Desconocido'}</span>
+                        </div>
+                    </div>
+                    <div class="config-body">
+                        <div class="config-price">${formatPrice(config.precio_total)}</div>
+                        <div class="config-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Modelo</span>
+                                <span class="detail-value">${model ? model.nombre : 'Desconocido'}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Color Exterior</span>
+                                <span class="detail-value" style="display: flex; align-items: center; gap: 0.5rem;">
+                                    ${colorExt ? `<span style="width: 16px; height: 16px; border-radius: 50%; background-color: ${colorExt.hex}; border: 1px solid rgba(255,255,255,0.3);"></span>` : ''}
+                                    ${colorExt ? colorExt.nombre : 'Desconocido'}
+                                </span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Color Interior</span>
+                                <span class="detail-value" style="display: flex; align-items: center; gap: 0.5rem;">
+                                    ${colorInt ? `<span style="width: 16px; height: 16px; border-radius: 50%; background-color: ${colorInt.hex}; border: 1px solid rgba(255,255,255,0.3);"></span>` : ''}
+                                    ${colorInt ? colorInt.nombre : 'Desconocido'}
+                                </span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Llantas</span>
+                                <span class="detail-value">${llanta ? llanta.nombre : 'Desconocido'}</span>
+                            </div>
+                        </div>
+                        <div class="config-packages">
+                            <h4><i class="fas fa-box"></i> Paquetes (${configPackages.length})</h4>
+                            ${configPackages.length > 0 ? configPackages.map(cp => {
+                                const pkg = paquetes.find(p => p.id === cp.paquete_id);
+                                return pkg ? `
+                                    <div class="package-item">
+                                        <span>${pkg.nombre}</span>
+                                        <span>+${formatPrice(pkg.precio)}</span>
+                                    </div>
+                                ` : `<div class="package-item" style="color: #e74c3c;">Paquete no encontrado (ID: ${cp.paquete_id})</div>`;
+                            }).join('') : '<div class="package-item" style="color: var(--text-muted);">Sin paquetes</div>'}
+                        </div>
+                    </div>
+                    <div class="config-footer">
+                        <button class="btn-delete" onclick="confirmDelete('${config.id}')">
+                            <i class="fas fa-trash"></i>
+                            Eliminar
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('detailsModalBody').innerHTML = detailsHtml;
+
+            const modal = document.getElementById('detailsModal');
+            modal.style.display = 'flex';
+            modal.setAttribute('aria-hidden', 'false');
+        };
+
+        window.closeDetailsModal = function() {
+            const modal = document.getElementById('detailsModal');
+            modal.style.display = 'none';
+            modal.setAttribute('aria-hidden', 'true');
+            document.getElementById('detailsModalBody').innerHTML = '';
+        };
+
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('detailsModal');
+            if (modal && modal.style.display === 'flex' && event.target === modal) {
+                closeDetailsModal();
+            }
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const modal = document.getElementById('detailsModal');
+                if (modal && modal.style.display === 'flex') {
+                    closeDetailsModal();
+                }
+            }
+        });
+        
+        function formatPrice(price) {
+            return new Intl.NumberFormat('es-ES', {
+                style: 'currency',
+                currency: 'EUR'
+            }).format(price || 0);
+        }
+        
+        window.confirmDelete = function(id) {
+            if (confirm('¿Estás seguro de que quieres eliminar esta configuración? Esta acción no se puede deshacer.')) {
+                deleteConfiguration(id);
+            }
+        };
+        
+        async function deleteConfiguration(id) {
+            try {
+                const result = await deleteConfiguracion(id);
+                if (result.success) {
+                    showMessage('Configuración eliminada correctamente', 'success');
+                    closeDetailsModal();
+                    // Recargar configuraciones
+                    await loadData();
+                } else {
+                    showMessage('Error al eliminar la configuración: ' + result.error, 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showMessage('Error al eliminar la configuración', 'error');
+            }
+        }
+        
+        function showMessage(message, type) {
+            const container = document.getElementById('messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = type;
+            messageDiv.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-triangle'}"></i><div>${message}</div>`;
+            container.appendChild(messageDiv);
+            
+            setTimeout(() => {
+                messageDiv.remove();
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
