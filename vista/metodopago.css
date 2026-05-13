@@ -1,0 +1,564 @@
+/* Página de Métodos de Pago - Nyura Motors - Layout Comprimido Estilo Temu */
+
+:root {
+    --payment-primary: #0b0f18;
+    --payment-secondary: #1a1f2e;
+    --payment-accent: #4A6FFF;
+    --payment-accent-hover: #3a5fe6;
+    --payment-success: #00C853;
+    --payment-text: #ffffff;
+    --payment-text-muted: rgba(255, 255, 255, 0.7);
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --card-border: rgba(255, 255, 255, 0.1);
+    --card-hover: rgba(255, 255, 255, 0.1);
+}
+
+body.payment-page {
+    background: linear-gradient(135deg, #05070b 0%, #0b0f18 50%, #070a10 100%);
+    color: var(--payment-text);
+    min-height: 100vh;
+}
+
+/* Layout Principal */
+.payment-layout {
+    padding: 2rem;
+    min-height: calc(100vh - 200px);
+}
+
+.payment-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 450px;
+    gap: 2rem;
+    align-items: start;
+}
+
+/* Sección del Producto (Izquierda) */
+.product-section {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 2rem;
+    backdrop-filter: blur(20px);
+}
+
+.product-image {
+    width: 100%;
+    height: 400px;
+    border-radius: 16px;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(74, 111, 255, 0.1) 0%, transparent 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.product-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.5));
+}
+
+.product-details {
+    padding: 1rem 0;
+}
+
+.product-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.product-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    color: var(--payment-text-muted);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.product-specs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.spec-item {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.spec-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    color: var(--payment-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.spec-value {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--payment-accent);
+}
+
+.product-price {
+    background: linear-gradient(135deg, rgba(74, 111, 255, 0.15) 0%, rgba(74, 111, 255, 0.05) 100%);
+    border: 1px solid var(--payment-accent);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.price-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    color: var(--payment-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.price-value {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--payment-accent);
+}
+
+.product-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.feature-tag {
+    background: rgba(0, 200, 83, 0.15);
+    border: 1px solid rgba(0, 200, 83, 0.3);
+    color: var(--payment-success);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* Sección de Pago (Derecha) */
+.payment-section {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 2rem;
+    backdrop-filter: blur(20px);
+    position: sticky;
+    top: 2rem;
+}
+
+.payment-header {
+    margin-bottom: 2rem;
+}
+
+.payment-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.payment-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    color: var(--payment-text-muted);
+}
+
+/* Métodos de Pago Compactos */
+.payment-methods-compact {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+}
+
+.payment-option {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.payment-option:hover {
+    background: var(--card-hover);
+    border-color: var(--payment-accent);
+}
+
+.payment-option.selected {
+    background: linear-gradient(135deg, rgba(74, 111, 255, 0.15) 0%, rgba(74, 111, 255, 0.05) 100%);
+    border-color: var(--payment-accent);
+}
+
+.option-radio {
+    position: relative;
+}
+
+.option-radio input[type="radio"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--card-border);
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.option-radio input[type="radio"]:checked {
+    border-color: var(--payment-accent);
+    background: var(--payment-accent);
+}
+
+.option-radio input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+}
+
+.option-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(74, 111, 255, 0.15);
+    color: var(--payment-accent);
+}
+
+.option-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+.option-icon.paypal {
+    background: rgba(0, 48, 135, 0.2);
+    color: #003087;
+}
+
+.option-icon.bank {
+    background: rgba(0, 96, 100, 0.2);
+    color: #006064;
+}
+
+.option-icon.financing {
+    background: rgba(255, 87, 34, 0.2);
+    color: #ff5722;
+}
+
+.option-icon.crypto {
+    background: rgba(255, 193, 7, 0.2);
+    color: #ffc107;
+}
+
+.option-icon.leasing {
+    background: rgba(156, 39, 176, 0.2);
+    color: #9c27b0;
+}
+
+.option-info {
+    flex: 1;
+}
+
+.option-info h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem 0;
+    color: var(--payment-text);
+}
+
+.option-info p {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    color: var(--payment-text-muted);
+    margin: 0;
+}
+
+.option-arrow {
+    color: var(--payment-text-muted);
+    transition: all 0.3s ease;
+}
+
+.option-arrow svg {
+    width: 20px;
+    height: 20px;
+}
+
+.payment-option:hover .option-arrow {
+    color: var(--payment-accent);
+    transform: translateX(4px);
+}
+
+/* Formulario Compacto */
+.payment-form-compact {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.form-title-compact {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-row-compact {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.form-group-compact {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group-compact.small {
+    flex: 0 0 auto;
+}
+
+.form-group-compact label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--payment-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-input-compact {
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    color: var(--payment-text);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.form-input-compact:focus {
+    outline: none;
+    border-color: var(--payment-accent);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.form-input-compact::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.pay-btn {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(135deg, var(--payment-accent) 0%, var(--payment-accent-hover) 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 0.75rem;
+}
+
+.pay-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(74, 111, 255, 0.3);
+}
+
+.cancel-btn-compact {
+    width: 100%;
+    padding: 0.75rem;
+    background: transparent;
+    color: var(--payment-text-muted);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cancel-btn-compact:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--payment-text);
+}
+
+/* Badges de Seguridad */
+.security-badges {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--card-border);
+}
+
+.security-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    color: var(--payment-text-muted);
+}
+
+.security-badge svg {
+    width: 16px;
+    height: 16px;
+    color: var(--payment-success);
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .payment-container {
+        grid-template-columns: 1fr 400px;
+    }
+}
+
+@media (max-width: 992px) {
+    .payment-container {
+        grid-template-columns: 1fr;
+    }
+
+    .payment-section {
+        position: static;
+    }
+
+    .product-image {
+        height: 300px;
+    }
+}
+
+@media (max-width: 768px) {
+    .payment-layout {
+        padding: 1rem;
+    }
+
+    .product-section,
+    .payment-section {
+        padding: 1.5rem;
+    }
+
+    .product-image {
+        height: 250px;
+    }
+
+    .product-title {
+        font-size: 1.5rem;
+    }
+
+    .product-specs {
+        grid-template-columns: 1fr;
+    }
+
+    .form-row-compact {
+        grid-template-columns: 1fr;
+    }
+
+    .security-badges {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 480px) {
+    .payment-layout {
+        padding: 0.75rem;
+    }
+
+    .product-section,
+    .payment-section {
+        padding: 1rem;
+    }
+
+    .product-image {
+        height: 200px;
+    }
+
+    .product-price {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .payment-methods-compact {
+        gap: 0.5rem;
+    }
+
+    .payment-option {
+        padding: 0.75rem;
+    }
+
+    .option-icon {
+        width: 36px;
+        height: 36px;
+    }
+
+    .option-icon svg {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    .payment-option:hover {
+        transform: none;
+    }
+
+    .option-arrow {
+        transition: none;
+    }
+
+    .pay-btn:hover {
+        transform: none;
+    }
+}

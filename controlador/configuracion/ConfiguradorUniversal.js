@@ -13,7 +13,8 @@ class ConfiguradorUniversal {
             'altamira': 'Altamira',
             'nova': 'Nova',
             'nova-sport': 'NovaSport',
-            'spark': 'Spark'
+            'spark': 'Spark',
+            'daemon': 'Daemon'
         };
         this.modeloId = modeloMap[modeloId] || modeloId;
         this.configuracion = null;
@@ -697,6 +698,13 @@ class ConfiguradorUniversal {
     updateModelWheels(wheelType) {
         console.log('Cambiando tipo de llantas a:', wheelType);
         if (!this.modelLoaded || !this.model) return;
+
+        // Para Daemon, no cambiar colores de llantas ya que los GLB ya incluyen las llantas correctas
+        const isDaemon = String(this.modeloId || '').toLowerCase() === 'daemon';
+        if (isDaemon) {
+            console.log('Daemon: No se modifican las llantas, se usan los GLB específicos');
+            return;
+        }
         
         let wheelsFound = 0;
         let wheelsChanged = 0;

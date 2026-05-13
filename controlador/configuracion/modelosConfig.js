@@ -219,8 +219,8 @@ export const MODELOS_CONFIG = {
             precio: 28900,
             descripcion: 'El deportivo eléctrico con diseño agresivo y rendimiento excepcional',
             modelo: '../coches/Daemon/DeamonBlanco.glb',
-            escalado: { modelo: 2.0, camera: 2.2, plataforma: 1 },
-            offset: { x: 0.45, y: -0.10, z: 0 },
+            escalado: { modelo: 2.0, camera: 3.6, plataforma: 1 },
+            offset: { x: 0, y: -0.01, z: 0 },
             colores: [
                 { id: 'blanco', nombre: 'Blanco', hex: '#f8f8f8', material: 'carroceria', modelo: '../coches/Daemon/DeamonBlanco.glb' },
                 { id: 'negro', nombre: 'Negro', hex: '#1a1a1a', material: 'carroceria', modelo: '../coches/Daemon/DeamonNegro.glb' },
@@ -248,8 +248,8 @@ export const MODELOS_CONFIG = {
             ],
             moneda: 'EUR',
             camaras: {
-                exterior: { fov: 75, posicion: [0, 1.5, 5], target: [0, 0.5, 0] },
-                interior: { fov: 75, posicion: [0, 1.9, 0.4], target: [0, 1.3, 0] }
+                exterior: { fov: 75, posicion: [-0.5, 2.0, 5], target: [0, 0.5, 0] },
+                interior: { fov: 75, posicion: [0, 2.0, 0], target: [0, 1.3, 0] }
             }
         }
     }

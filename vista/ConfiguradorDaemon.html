@@ -48,44 +48,66 @@
             </div>
 
             <div class="interior-view" id="interiorView" style="display: none;">
-                <div class="camera-selector">
-                    <button class="back-btn" onclick="window.location.href='modelos.html'">
+                <div class="back-to-exterior">
+                    <button class="back-btn" id="backToExteriorBtn">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 16px; height: 16px; margin-right: 6px;">
                             <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
                         </svg>
-                        Ver todos los modelos
-                    </button>
-                    <button class="camera-btn" data-camera="exterior" id="exteriorCameraBtnInterior">
-                        Exterior
-                    </button>
-                    <button class="camera-btn active" data-camera="interior" id="interiorCameraBtnInterior">
-                        Interior
+                        Volver al Exterior
                     </button>
                 </div>
-                <div id="canvas-container-interior">
+                <div id="interior-canvas-container">
                     <div class="loading-overlay" id="loadingOverlayInterior">
                         <div class="loading-spinner"></div>
                     </div>
                 </div>
             </div>
+            
+            <div class="config-panel">
+                <div class="config-header">
+                    <h3>Personaliza tu 
+                        <br>
+                        Daemon</h3>
+                    <div class="price-display">
+                        <span class="price-label">Precio</span>
+                        <span class="price-value">-</span>
+                    </div>
 
-            <div class="options-panel">
-                <div class="configurator-steps">
-                    <div class="step active" id="step1">
+                    <div class="step-indicator">
+                        <div class="step active" data-step="1">
+                            <span class="step-number">1</span>
+                            <span class="step-title">Color</span>
+                        </div>
+                        <div class="step" data-step="2">
+                            <span class="step-number">2</span>
+                            <span class="step-title">Llantas</span>
+                        </div>
+                        <div class="step" data-step="3">
+                            <span class="step-number">3</span>
+                            <span class="step-title">Paquetes</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-content">
+                    <div class="step-panel active" id="step1">
                         <h4>1. Elige tu Color</h4>
                         <div class="color-options">
                             <div class="color-option active" data-color="blanco" title="Blanco">
                                 <div class="color-swatch" style="background: linear-gradient(135deg, #f8f8f8, #e0e0e0);"></div>
                                 <span>Blanco</span>
                             </div>
+                            <br>
                             <div class="color-option" data-color="negro" title="Negro">
                                 <div class="color-swatch" style="background: linear-gradient(135deg, #1a1a1a, #000000);"></div>
                                 <span>Negro</span>
                             </div>
+                            <br>
                             <div class="color-option" data-color="gris" title="Gris">
                                 <div class="color-swatch" style="background: linear-gradient(135deg, #6c757d, #495057);"></div>
                                 <span>Gris</span>
                             </div>
+                            <br>
                             <div class="color-option" data-color="azul" title="Azul">
                                 <div class="color-swatch" style="background: linear-gradient(135deg, #1f5eff, #0056b3);"></div>
                                 <span>Azul</span>
@@ -103,87 +125,57 @@
                         <div class="wheel-options">
                             <div class="wheel-option active" data-wheel="blanco">
                                 <div class="wheel-preview">
-                                    <div class="wheel-icon"><img src="../modelo/llantas/llantassport.png" alt="De serie" style="width: 100%; height: 100%; object-fit: contain; background: white; border-radius: 4px;"></div>
+                                    <div class="wheel-icon"><img src="../modelo/llantas/llantaacero.png" alt="De serie" style="width: 100%; height: 100%; object-fit: contain; background: white; border-radius: 4px;"></div>
                                 </div>
                                 <div class="wheel-info">
                                     <span class="wheel-name">De serie</span>
                                     <span class="wheel-price">Incluido</span>
                                 </div>
                             </div>
-                            <div class="wheel-option" data-wheel="negro">
-                                <div class="wheel-preview">
-                                    <div class="wheel-icon"><img src="../modelo/llantas/llantaacero.png" alt="Pack Dark" style="width: 100%; height: 100%; object-fit: contain; background: white; border-radius: 4px;"></div>
-                                </div>
-                                <div class="wheel-info">
-                                    <span class="wheel-name">Pack Dark</span>
-                                    <span class="wheel-price">+800,00&nbsp;EUR</span>
-                                </div>
-                            </div>
                         </div>
                     </div>
-
                     <div class="step-panel" id="step3">
                         <h4>3. Elige tus Paquetes Tecnológicos</h4>
                         <div class="package-options">
-                            <div class="package-option" data-package="sport">
+                            <div class="package-option">
                                 <div class="package-header">
-                                    <h5>Sport Pack</h5>
-                                    <span class="package-price">+4.500,00&nbsp;EUR</span>
+                                    <input type="checkbox" id="package-sport" class="package-checkbox">
+                                    <label for="package-sport" class="package-label">
+                                        <span class="package-name">Sport Pack</span>
+                                        <span class="package-price">+4.500,00&nbsp;EUR</span>
+                                    </label>
                                 </div>
-                                <p>Suspensión deportiva y modo de conducción Sport+</p>
+                                <div class="package-features">
+                                    <span>· Suspensión deportiva</span>
+                                    <span>· Modo de conducción Sport+</span>
+                                </div>
                             </div>
-                            <div class="package-option" data-package="tech">
+                            <div class="package-option">
                                 <div class="package-header">
-                                    <h5>Tech Pack</h5>
-                                    <span class="package-price">+3.200,00&nbsp;EUR</span>
+                                    <input type="checkbox" id="package-tech" class="package-checkbox">
+                                    <label for="package-tech" class="package-label">
+                                        <span class="package-name">Tech Pack</span>
+                                        <span class="package-price">+3.200,00&nbsp;EUR</span>
+                                    </label>
                                 </div>
-                                <p>Sistema de audio premium y pantalla táctil de 12 pulgadas</p>
+                                <div class="package-features">
+                                    <span>· Sistema de audio premium</span>
+                                    <span>· Pantalla táctil de 12 pulgadas</span>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="step-panel" id="step4">
-                        <h4>4. Resumen de tu Configuración</h4>
-                        <div class="summary">
-                            <div class="summary-item">
-                                <span class="summary-label">Modelo:</span>
-                                <span class="summary-value" id="summaryModel">Daemon</span>
-                            </div>
-                            <div class="summary-item">
-                                <span class="summary-label">Color:</span>
-                                <span class="summary-value" id="summaryColor">Blanco</span>
-                            </div>
-                            <div class="summary-item">
-                                <span class="summary-label">Llantas:</span>
-                                <span class="summary-value" id="summaryWheels">De serie</span>
-                            </div>
-                            <div class="summary-item">
-                                <span class="summary-label">Paquetes:</span>
-                                <span class="summary-value" id="summaryPackages">Ninguno</span>
-                            </div>
-                            <div class="summary-total">
-                                <span class="total-label">Precio Total:</span>
-                                <span class="total-value" id="totalPrice">28.900,00 EUR</span>
-                            </div>
-                        </div>
-                        <div class="action-buttons">
-                            <button class="btn-secondary" onclick="resetConfiguration()">Reiniciar Configuración</button>
-                            <button class="btn-primary" onclick="saveConfiguration()">Guardar Configuración</button>
                         </div>
                     </div>
                 </div>
 
-                <div class="navigation-buttons">
-                    <button class="nav-btn prev-btn" id="prevBtn" onclick="changeStep(-1)" disabled>
+                <div class="action-buttons">
+                    <button class="nav-btn nav-prev" id="bottomPrevBtn">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 16px; height: 16px;">
-                            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
                         </svg>
                         Anterior
                     </button>
-                    <button class="nav-btn next-btn" id="nextBtn" onclick="changeStep(1)">
+                    <button class="nav-btn nav-next" id="bottomNextBtn">
                         Siguiente
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 16px; height: 16px;">
-                            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
                         </svg>
                     </button>
                 </div>

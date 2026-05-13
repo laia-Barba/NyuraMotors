@@ -13,9 +13,8 @@
 <body class="modelos-page">
     <header>
         <nav>
-            <!-- Logo como imagen -->
             <a href="home.html"><img src="../Imagenes/LogoBlancoNyura.png" alt="Nyura Motors" class="logo-img"></a>
-            
+
             <ul>
                 <li><a href="home.html">Inicio</a></li>
                 <li><a href="modelos.html" id="modelosLink" class="active">Modelos</a></li>
@@ -27,9 +26,8 @@
 
     <main>
         <section class="modelos-hero-carousel" aria-label="Carrusel de modelos">
-            <div id="modelosCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-touch="true" data-bs-interval="9000">
+            <div id="modelosCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-touch="true" data-bs-interval="5000" data-bs-pause="false">
                 <div class="carousel-indicators modelos-indicators">
-                    
                     <button type="button" data-bs-target="#modelosCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Terramar">
                         <span class="indicator-card">
                             <img src="../Imagenes/Imagenesmodelos/Vortex.png" alt="Vortex" loading="lazy">
@@ -79,8 +77,7 @@
                         </span>
                     </button>
                 </div>
-                
-                <!-- Flechas de navegación para indicadores -->
+
                 <button class="indicators-nav prev" id="indicatorsPrev" aria-label="Anterior">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
@@ -276,63 +273,56 @@
     </main>
 
     <footer>
-    <div class="footer-content">
-        <!-- Nyura Motors -->
-        <div class="footer-section">
-            <img src="../Imagenes/LogoBlancoNyura.png" alt="Nyura Motors" class="logo-img" style="height: 143px; opacity: 0.9;">
-            <p>El futur de la mobilitat elèctrica. Disseny innovador, rendiment superior i tecnologia punta.</p>
-        </div>
+        <div class="footer-content">
+            <div class="footer-section">
+                <img src="../Imagenes/LogoBlancoNyura.png" alt="Nyura Motors" class="logo-img" style="height: 143px; opacity: 0.9;">
+                <p>El futur de la mobilitat elèctrica. Disseny innovador, rendiment superior i tecnologia punta.</p>
+            </div>
 
-        <!-- Enllaços principals -->
-        <div class="footer-section">
-            <h3>Paginas de Nyura Motors</h3>
-            <div class="footer-links">
-                <a href="home.html">Home</a>
-                <a href="modelos.html">Modelos</a>
-                <a href="contacto.html">Contacto</a>
+            <div class="footer-section">
+                <h3>Paginas de Nyura Motors</h3>
+                <div class="footer-links">
+                    <a href="home.html">Home</a>
+                    <a href="modelos.html">Modelos</a>
+                    <a href="contacto.html">Contacto</a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contacte</h3>
+                <p>📧 contacto@nyuramotors.com<br>
+                   📱 +34 612 345 678<br>
+                   📍 Carrer de Caracas, 11. Sant Andreu, 08030 Barcelona</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Twitter">𝕏</a>
+                    <a href="#" aria-label="Instagram">📷</a>
+                    <a href="#" aria-label="YouTube">📺</a>
+                    <a href="#" aria-label="LinkedIn">💼</a>
+                </div>
             </div>
         </div>
 
-        
-
-        <!-- Contacte & Xarxes -->
-        <div class="footer-section">
-            <h3>Contacte</h3>
-            <p>📧 contacto@nyuramotors.com<br>
-               📱 +34 612 345 678<br>
-               📍 Carrer de Caracas, 11. Sant Andreu, 08030 Barcelona</p>
-            <div class="social-links">
-                <a href="#" aria-label="Twitter">𝕏</a>
-                <a href="#" aria-label="Instagram">📷</a>
-                <a href="#" aria-label="YouTube">📺</a>
-                <a href="#" aria-label="LinkedIn">💼</a>
-            </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Nyura Motors. Tots els drets reservats. |
+               <a href="#" style="color: #4A6FFF;">Política de Privacitat</a> |
+               <a href="#" style="color: #4A6FFF;">Condicions d'ús</a> |
+               <a href="#" style="color: #4A6FFF;">Cookies</a>
+            </p>
         </div>
-    </div>
-    
-    <div class="footer-bottom">
-        <p>&copy; 2026 Nyura Motors. Tots els drets reservats. | 
-           <a href="#" style="color: #4A6FFF;">Política de Privacitat</a> | 
-           <a href="#" style="color: #4A6FFF;">Condicions d'ús</a> | 
-           <a href="#" style="color: #4A6FFF;">Cookies</a>
-        </p>
-    </div>
-</footer>
+    </footer>
 
-<script type="module">
+    <script type="module">
         import { getCurrentUser, createOrUpdateUserProfile, onAuthStateChange, signOut, getUserByEmail } from '../controlador/BBDD/SupabaseCliente.js';
-        
+
         document.addEventListener('DOMContentLoaded', async function() {
             const authMenu = document.getElementById('authMenu');
-            
-            // Función para actualizar el menú de autenticación
+
             async function updateAuthMenu(user) {
                 if (user) {
-                    // Obtener datos completos del usuario incluyendo el rol
                     const userData = await getUserByEmail(user.email);
                     const isAdmin = userData && userData.rol === 'admin';
                     const displayName = user.user_metadata?.nombre || user.email.split('@')[0];
-                    
+
                     authMenu.innerHTML = `
                         <div class="auth-dropdown">
                             <button class="auth-dropdown-toggle" onclick="toggleAuthMenu()">
@@ -378,32 +368,27 @@
                     `;
                 }
             }
-            
-            // Función para toggle del menú desplegable
+
             window.toggleAuthMenu = function() {
                 const menu = document.getElementById('authDropdownMenu');
                 menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
             };
-            
-            // Función para ver perfil
+
             window.viewProfile = function() {
                 const currentUser = getCurrentUser();
                 if (currentUser) {
                     const displayName = currentUser.user_metadata?.nombre || currentUser.email.split('@')[0];
                     alert(`Perfil de ${displayName}\n\nEmail: ${currentUser.email}\nTeléfono: ${currentUser.user_metadata?.telefono || 'No especificado'}`);
                 }
-                toggleAuthMenu(); // Cerrar el menú
+                toggleAuthMenu();
             };
-            
-            // Función para cerrar sesión
+
             window.handleSignOut = async function() {
                 try {
                     const result = await signOut();
                     if (result.success) {
                         console.log('Sesión cerrada correctamente');
                         updateAuthMenu(null);
-                        // Opcional: redirigir a página de login
-                        // window.location.href = 'InicioSesion.html';
                     } else {
                         console.error('Error al cerrar sesión:', result.error);
                         alert('Error al cerrar sesión. Intenta de nuevo.');
@@ -413,8 +398,7 @@
                     alert('Error inesperado. Intenta de nuevo.');
                 }
             };
-            
-            // Cerrar menú al hacer clic fuera
+
             document.addEventListener('click', function(event) {
                 const dropdown = document.querySelector('.auth-dropdown');
                 if (dropdown && !dropdown.contains(event.target)) {
@@ -424,19 +408,16 @@
                     }
                 }
             });
-            
-            // Verificar estado inicial
+
             const currentUser = await getCurrentUser();
             updateAuthMenu(currentUser);
-            
-            // Escuchar cambios en autenticación
+
             onAuthStateChange(async (event, session) => {
                 if (event === 'SIGNED_IN' && session?.user) {
                     console.log('Usuario autenticado:', session.user);
-                    
-                    // Crear o actualizar perfil en tabla users
+
                     const profileResult = await createOrUpdateUserProfile(session.user);
-                    
+
                     if (profileResult.success) {
                         console.log('Perfil procesado:', profileResult.action);
                         if (profileResult.action === 'created') {
@@ -445,7 +426,7 @@
                     } else {
                         console.error('Error procesando perfil:', profileResult.error);
                     }
-                    
+
                     updateAuthMenu(session.user);
                 } else if (event === 'SIGNED_OUT') {
                     console.log('Usuario cerró sesión');
@@ -455,211 +436,224 @@
         });
     </script>
 
-    <!-- Script para scroll a modelos -->
     <script>
-        // Función para redirigir a home con scroll a modelos
-        document.getElementById('modelosLink').addEventListener('click', function(e) {
-            e.preventDefault();
-            // Redirigir al home con parámetro para scroll
-            window.location.href = 'home.html#modelos';
+        document.addEventListener('DOMContentLoaded', function() {
+            const indicatorsContainer = document.querySelector('.modelos-indicators');
+            const indicators = document.querySelectorAll('.modelos-indicators [data-bs-target]');
+            const prevBtn = document.getElementById('indicatorsPrev');
+            const nextBtn = document.getElementById('indicatorsNext');
+
+            if (!indicatorsContainer || !indicators.length || !prevBtn || !nextBtn) return;
+
+            let currentIndex = 0;
+
+            function updateIndicatorsVisibility() {
+                const containerWidth = indicatorsContainer.offsetWidth;
+                const indicatorsWidth = Array.from(indicators).reduce((total, indicator) => {
+                    return total + indicator.offsetWidth + 16;
+                }, 0);
+
+                const hasOverflow = indicatorsWidth > containerWidth;
+                prevBtn.style.display = hasOverflow ? 'flex' : 'none';
+                nextBtn.style.display = hasOverflow ? 'flex' : 'none';
+
+                if (hasOverflow) {
+                    const activeIndicator = indicators[currentIndex];
+                    if (activeIndicator) {
+                        const indicatorLeft = activeIndicator.offsetLeft;
+                        const indicatorWidth = activeIndicator.offsetWidth;
+                        const containerLeft = indicatorsContainer.scrollLeft;
+                        const visibleWidth = indicatorsContainer.offsetWidth;
+
+                        if (indicatorLeft < containerLeft || indicatorLeft + indicatorWidth > containerLeft + visibleWidth) {
+                            const scrollTo = indicatorLeft - (visibleWidth - indicatorWidth) / 2;
+                            indicatorsContainer.scrollTo({
+                                left: Math.max(0, scrollTo),
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                } else {
+                    indicatorsContainer.scrollLeft = 0;
+                }
+            }
+
+            function updateButtonStates() {
+                const isAtStart = indicatorsContainer.scrollLeft <= 0;
+                const isAtEnd = indicatorsContainer.scrollLeft >= indicatorsContainer.scrollWidth - indicatorsContainer.offsetWidth;
+
+                prevBtn.classList.toggle('disabled', isAtStart);
+                nextBtn.classList.toggle('disabled', isAtEnd);
+            }
+
+            prevBtn.addEventListener('click', function() {
+                const scrollAmount = indicatorsContainer.offsetWidth * 0.8;
+                indicatorsContainer.scrollTo({
+                    left: Math.max(0, indicatorsContainer.scrollLeft - scrollAmount),
+                    behavior: 'smooth'
+                });
+            });
+
+            nextBtn.addEventListener('click', function() {
+                const scrollAmount = indicatorsContainer.offsetWidth * 0.8;
+                const maxScroll = indicatorsContainer.scrollWidth - indicatorsContainer.offsetWidth;
+                indicatorsContainer.scrollTo({
+                    left: Math.min(maxScroll, indicatorsContainer.scrollLeft + scrollAmount),
+                    behavior: 'smooth'
+                });
+            });
+
+            const carousel = document.getElementById('modelosCarousel');
+            if (carousel) {
+                carousel.addEventListener('slid.bs.carousel', function(e) {
+                    currentIndex = e.to;
+                    updateIndicatorsVisibility();
+                });
+            }
+
+            window.addEventListener('resize', function() {
+                updateIndicatorsVisibility();
+            });
+
+            indicatorsContainer.addEventListener('scroll', updateButtonStates);
+
+            setTimeout(() => {
+                updateIndicatorsVisibility();
+                updateButtonStates();
+            }, 100);
         });
     </script>
 
-    <!-- Script para navegación de indicadores -->
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const indicatorsContainer = document.querySelector('.modelos-indicators');
-        const indicators = document.querySelectorAll('.modelos-indicators [data-bs-target]');
-        const prevBtn = document.getElementById('indicatorsPrev');
-        const nextBtn = document.getElementById('indicatorsNext');
-        
-        if (!indicatorsContainer || !indicators.length || !prevBtn || !nextBtn) return;
-        
-        let currentIndex = 0;
-        let maxIndex = indicators.length - 1;
-        
-        function updateIndicatorsVisibility() {
-            // Obtener el ancho disponible y el ancho total de los indicadores
-            const containerWidth = indicatorsContainer.offsetWidth;
-            const indicatorsWidth = Array.from(indicators).reduce((total, indicator) => {
-                return total + indicator.offsetWidth + 16; // 16px = gap
-            }, 0);
-            
-            // Mostrar u ocultar flechas según si hay overflow
-            const hasOverflow = indicatorsWidth > containerWidth;
-            prevBtn.style.display = hasOverflow ? 'flex' : 'none';
-            nextBtn.style.display = hasOverflow ? 'flex' : 'none';
-            
-            if (hasOverflow) {
-                // Centrar el indicador activo
-                const activeIndicator = indicators[currentIndex];
-                if (activeIndicator) {
-                    const indicatorLeft = activeIndicator.offsetLeft;
-                    const indicatorWidth = activeIndicator.offsetWidth;
-                    const containerLeft = indicatorsContainer.scrollLeft;
-                    const containerWidth = indicatorsContainer.offsetWidth;
-                    
-                    // Si el indicador activo no está visible, hacer scroll
-                    if (indicatorLeft < containerLeft || 
-                        indicatorLeft + indicatorWidth > containerLeft + containerWidth) {
-                        
-                        const scrollTo = indicatorLeft - (containerWidth - indicatorWidth) / 2;
-                        indicatorsContainer.scrollTo({
-                            left: Math.max(0, scrollTo),
-                            behavior: 'smooth'
-                        });
-                    }
-                }
-            } else {
-                // Si no hay overflow, centrar los indicadores
-                indicatorsContainer.scrollLeft = 0;
+    <script type="module">
+        const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        function setupCarouselParallax() {
+            if (prefersReducedMotion) return;
+
+            const carousel = document.getElementById('modelosCarousel');
+            if (!carousel) return;
+
+            const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
+
+            function getActiveMedia() {
+                const active = carousel.querySelector('.carousel-item.active');
+                if (!active) return null;
+                return active.querySelector('.modelo-slide__media');
             }
-        }
-        
-        function updateButtonStates() {
-            const container = indicatorsContainer;
-            const isAtStart = container.scrollLeft <= 0;
-            const isAtEnd = container.scrollLeft >= container.scrollWidth - container.offsetWidth;
-            
-            prevBtn.classList.toggle('disabled', isAtStart);
-            nextBtn.classList.toggle('disabled', isAtEnd);
-        }
-        
-        // Event listeners para las flechas
-        prevBtn.addEventListener('click', function() {
-            const container = indicatorsContainer;
-            const scrollAmount = container.offsetWidth * 0.8; // 80% del ancho visible
-            container.scrollTo({
-                left: Math.max(0, container.scrollLeft - scrollAmount),
-                behavior: 'smooth'
+
+            function reset(media) {
+                if (!media) return;
+                media.style.setProperty('--mx', '0px');
+                media.style.setProperty('--my', '0px');
+                media.style.setProperty('--rx', '0deg');
+                media.style.setProperty('--ry', '0deg');
+            }
+
+            carousel.addEventListener('mousemove', (e) => {
+                const media = getActiveMedia();
+                if (!media) return;
+
+                const rect = carousel.getBoundingClientRect();
+                const px = (e.clientX - rect.left) / rect.width;
+                const py = (e.clientY - rect.top) / rect.height;
+
+                const dx = (px - 0.5);
+                const dy = (py - 0.5);
+
+                const maxMove = 10;
+                const maxTilt = 6;
+
+                const mx = clamp(dx * maxMove, -maxMove, maxMove);
+                const my = clamp(dy * maxMove, -maxMove, maxMove);
+                const rx = clamp(-dy * maxTilt, -maxTilt, maxTilt);
+                const ry = clamp(dx * maxTilt, -maxTilt, maxTilt);
+
+                media.style.setProperty('--mx', `${mx}px`);
+                media.style.setProperty('--my', `${my}px`);
+                media.style.setProperty('--rx', `${rx}deg`);
+                media.style.setProperty('--ry', `${ry}deg`);
             });
-        });
-        
-        nextBtn.addEventListener('click', function() {
-            const container = indicatorsContainer;
-            const scrollAmount = container.offsetWidth * 0.8; // 80% del ancho visible
-            const maxScroll = container.scrollWidth - container.offsetWidth;
-            container.scrollTo({
-                left: Math.min(maxScroll, container.scrollLeft + scrollAmount),
-                behavior: 'smooth'
-            });
-        });
-        
-        // Actualizar cuando cambia el slide del carrusel
-        const carousel = document.getElementById('modelosCarousel');
-        if (carousel) {
-            carousel.addEventListener('slid.bs.carousel', function(e) {
-                currentIndex = e.to;
-                updateIndicatorsVisibility();
+
+            carousel.addEventListener('mouseleave', () => reset(getActiveMedia()));
+
+            carousel.addEventListener('slid.bs.carousel', () => {
+                const media = getActiveMedia();
+                reset(media);
             });
         }
-        
-        // Actualizar en resize
-        window.addEventListener('resize', function() {
-            updateIndicatorsVisibility();
+
+        function setupScrollReveal() {
+            const revealTargets = document.querySelectorAll('.modelos-hero-carousel .modelo-slide__content, .modelos-hero-carousel .modelo-slide__media, footer');
+            revealTargets.forEach((el) => el.classList.add('reveal'));
+
+            if (prefersReducedMotion) {
+                revealTargets.forEach((el) => el.classList.add('is-visible'));
+                return;
+            }
+
+            if (!('IntersectionObserver' in window)) {
+                revealTargets.forEach((el) => el.classList.add('is-visible'));
+                return;
+            }
+
+            const io = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        io.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15, rootMargin: '0px 0px -10% 0px' });
+
+            revealTargets.forEach((el) => io.observe(el));
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setupCarouselParallax();
+            setupScrollReveal();
         });
-        
-        // Actualizar estado de botones al hacer scroll
-        indicatorsContainer.addEventListener('scroll', updateButtonStates);
-        
-        // Estado inicial
-        setTimeout(() => {
-            updateIndicatorsVisibility();
-            updateButtonStates();
-        }, 100);
-    });
-</script>
+    </script>
 
-<script type="module">
-    const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    function setupCarouselParallax() {
-        if (prefersReducedMotion) return;
+    <script>
+        (() => {
+            if (!document.body.classList.contains('modelos-page')) return;
 
-        const carousel = document.getElementById('modelosCarousel');
-        if (!carousel) return;
+            function initModelosCarousel(resetToFirst = false) {
+                const carouselElement = document.getElementById('modelosCarousel');
+                if (!carouselElement || typeof bootstrap === 'undefined' || !bootstrap.Carousel) return;
 
-        const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
-
-        function getActiveMedia() {
-            const active = carousel.querySelector('.carousel-item.active');
-            if (!active) return null;
-            return active.querySelector('.modelo-slide__media');
-        }
-
-        function reset(media) {
-            if (!media) return;
-            media.style.setProperty('--mx', '0px');
-            media.style.setProperty('--my', '0px');
-            media.style.setProperty('--rx', '0deg');
-            media.style.setProperty('--ry', '0deg');
-        }
-
-        carousel.addEventListener('mousemove', (e) => {
-            const media = getActiveMedia();
-            if (!media) return;
-
-            const rect = carousel.getBoundingClientRect();
-            const px = (e.clientX - rect.left) / rect.width;
-            const py = (e.clientY - rect.top) / rect.height;
-
-            const dx = (px - 0.5);
-            const dy = (py - 0.5);
-
-            const maxMove = 10;
-            const maxTilt = 6;
-
-            const mx = clamp(dx * maxMove, -maxMove, maxMove);
-            const my = clamp(dy * maxMove, -maxMove, maxMove);
-            const rx = clamp(-dy * maxTilt, -maxTilt, maxTilt);
-            const ry = clamp(dx * maxTilt, -maxTilt, maxTilt);
-
-            media.style.setProperty('--mx', `${mx}px`);
-            media.style.setProperty('--my', `${my}px`);
-            media.style.setProperty('--rx', `${rx}deg`);
-            media.style.setProperty('--ry', `${ry}deg`);
-        });
-
-        carousel.addEventListener('mouseleave', () => reset(getActiveMedia()));
-
-        carousel.addEventListener('slid.bs.carousel', () => {
-            const media = getActiveMedia();
-            reset(media);
-        });
-    }
-
-    function setupScrollReveal() {
-        const revealTargets = document.querySelectorAll('.modelos-hero-carousel .modelo-slide__content, .modelos-hero-carousel .modelo-slide__media, footer');
-        revealTargets.forEach((el) => el.classList.add('reveal'));
-
-        if (prefersReducedMotion) {
-            revealTargets.forEach((el) => el.classList.add('is-visible'));
-            return;
-        }
-
-        if (!('IntersectionObserver' in window)) {
-            revealTargets.forEach((el) => el.classList.add('is-visible'));
-            return;
-        }
-
-        const io = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    io.unobserve(entry.target);
+                const existingInstance = bootstrap.Carousel.getInstance(carouselElement);
+                if (existingInstance) {
+                    existingInstance.dispose();
                 }
+
+                const carouselInstance = new bootstrap.Carousel(carouselElement, {
+                    interval: 5000,
+                    ride: 'carousel',
+                    touch: true,
+                    pause: false,
+                    wrap: true
+                });
+
+                if (resetToFirst) {
+                    carouselInstance.to(0);
+                }
+
+                carouselInstance.cycle();
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', () => initModelosCarousel(true), { once: true });
+            } else {
+                initModelosCarousel(true);
+            }
+
+            window.addEventListener('pageshow', () => {
+                initModelosCarousel(true);
             });
-        }, { threshold: 0.15, rootMargin: '0px 0px -10% 0px' });
-
-        revealTargets.forEach((el) => io.observe(el));
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        setupCarouselParallax();
-        setupScrollReveal();
-    });
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        })();
+    </script>
 </body>
 </html>
