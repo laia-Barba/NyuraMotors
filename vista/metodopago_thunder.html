@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nyura Motors - Métodos de Pago</title>
+    <title>Nyura Motors - Métodos de Pago Thunder Black Edition</title>
     <link rel="stylesheet" href="EstiloPrincipal.css">
     <link rel="stylesheet" href="metodopago.css">
     <link rel="stylesheet" href="header-unique.css">
@@ -29,8 +29,8 @@
                 <div class="payment-section">
                     <div class="payment-scroll-container">
                         <div class="payment-info-header">
-                            <h1 class="product-title" id="paymentModelName">Nyura Nova 2026</h1>
-                            <div class="payment-config-details" id="paymentConfigDetails">
+                            <h1 class="product-title">Thunder Black Edition</h1>
+                            <div class="payment-config-details">
                                 <div class="config-detail-item">
                                     <span class="config-detail-label">Color</span>
                                     <span class="config-detail-value" id="configColor">-</span>
@@ -46,7 +46,7 @@
                             </div>
                             <div class="product-price">
                                 <span class="price-label">Precio total</span>
-                                <span class="price-value" id="paymentTotalPrice">€ 28.900</span>
+                                <span class="price-value" id="paymentTotalPrice">€ 32.490</span>
                             </div>
                         </div>
 
@@ -230,7 +230,7 @@
             <div class="success-details">
                 <div class="success-detail">
                     <span class="detail-label">Modelo</span>
-                    <span class="detail-value">Nyura Nova 2026</span>
+                    <span class="detail-value">Thunder Black Edition</span>
                 </div>
                 <div class="success-detail">
                     <span class="detail-label">Método de pago</span>
@@ -238,7 +238,7 @@
                 </div>
                 <div class="success-detail">
                     <span class="detail-label">Importe</span>
-                    <span class="detail-value">€ 28.900</span>
+                    <span class="detail-value" id="successTotalPrice">€ 32.490</span>
                 </div>
             </div>
             <button type="button" class="success-close-btn" id="closeSuccessModal">Continuar</button>
@@ -287,33 +287,21 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Cargar configuración desde localStorage
             const loadConfiguration = () => {
                 const configData = localStorage.getItem('carConfiguration');
                 if (configData) {
                     const config = JSON.parse(configData);
                     
-                    // Actualizar nombre del modelo
-                    const modelName = document.getElementById('paymentModelName');
-                    if (modelName && config.modelName) {
-                        modelName.textContent = config.modelName;
-                    }
-                    
-                    // Actualizar precio total
-                    const totalPrice = document.getElementById('paymentTotalPrice');
-                    if (totalPrice && config.totalPrice) {
-                        totalPrice.textContent = config.totalPrice;
-                    }
-                    
-                    // Actualizar configuraciones
                     const configColor = document.getElementById('configColor');
                     const configWheels = document.getElementById('configWheels');
                     const configPackages = document.getElementById('configPackages');
+                    const totalPrice = document.getElementById('paymentTotalPrice');
+                    const successTotalPrice = document.getElementById('successTotalPrice');
                     
                     if (configColor) {
                         const colorNames = {
-                            'negro': 'Negro Mate',
-                            'rojo': 'Rojo Passion'
+                            'negro': 'Negro',
+                            'rojo': 'Rojo Racing'
                         };
                         configColor.textContent = config.colorName || colorNames[config.color] || config.color;
                     }
@@ -329,8 +317,7 @@
                     if (configPackages) {
                         const packageNames = {
                             'tech': 'Tech Premium',
-                            'premium': 'Premium Plus',
-                            'sport': 'Sport Pack'
+                            'premium': 'Premium Plus'
                         };
                         if (config.packageNames && config.packageNames.length > 0) {
                             configPackages.textContent = config.packageNames.join(', ');
@@ -341,35 +328,13 @@
                         }
                     }
                     
-                    // Actualizar visor 3D con el modelo correcto
-                    update3DViewer(config);
-                }
-            };
-            
-            const update3DViewer = (config) => {
-                const container = document.getElementById('paymentCarViewer');
-                if (!container) return;
-                
-                // Limpiar el visor 3D existente
-                const existingCanvas = container.querySelector('canvas');
-                if (existingCanvas) {
-                    existingCanvas.remove();
-                }
-                
-                // Determinar qué modelo cargar según la configuración
-                let modelPath = config.modelPath || '../coches/Nyura Nova/NovaAzul.glb';
-                if (!config.modelPath && config.modelName === 'Thunder Black Edition') {
-                    if (config.color === 'rojo') {
-                        modelPath = '../coches/ThunderBE/ThunderBERojo.glb';
-                    } else {
-                        modelPath = '../coches/ThunderBE/ThunderBE.glb';
+                    if (totalPrice && config.totalPrice) {
+                        totalPrice.textContent = config.totalPrice;
+                    }
+                    if (successTotalPrice && config.totalPrice) {
+                        successTotalPrice.textContent = config.totalPrice;
                     }
                 }
-                
-                // Actualizar la función initPaymentCarViewer para usar el modelo correcto
-                window.paymentModelPath = modelPath;
-                window.paymentWheelType = config.wheel || config.llantas || null;
-                window.paymentModelId = config.modeloId || config.modelName || null;
             };
             
             loadConfiguration();
@@ -491,7 +456,7 @@
                                 <label>NIF/DNI</label>
                                 <input type="text" id="leasingDNI" class="form-input-compact" placeholder="12345678A">
                             </div>
-                            <p style="color: var(--payment-text-muted); font-size: 0.8rem; margin: 1rem 0;">Cuota mensual estimada: € 450 | Incluye mantenimiento y seguro.</p>
+                            <p style="color: var(--payment-text-muted); font-size: 0.8rem; margin: 1rem 0;">Cuota mensual estimada: € 400 | Incluye mantenimiento y seguro.</p>
                         `;
                         break;
                 }
@@ -511,7 +476,7 @@
                             <div class="payment-form-compact" id="paymentForm">
                                 <form id="paymentFormElement">
                                     ${formContent}
-                                    <button type="submit" class="pay-btn">Pagar € 28.900</button>
+                                    <button type="submit" class="pay-btn">Pagar € 32.490</button>
                                     <button type="button" class="cancel-btn-compact" id="cancelPayment">Cambiar método</button>
                                     <div class="payment-dropdown-security">
                                         <span>SSL 256-bit</span>
@@ -750,18 +715,12 @@
             function initPaymentCarViewer() {
                 const container = document.getElementById('paymentCarViewer');
                 const loading = document.getElementById('payment3dLoading');
-                const sceneTitle = document.getElementById('sceneTitle');
-                const sceneDescription = document.getElementById('sceneDescription');
                 if (!container || typeof THREE === 'undefined') return;
 
-                const paymentModelId = String(window.paymentModelId || '').toLowerCase();
-                const isVortex = paymentModelId.includes('vortex');
-                const isAltamira = paymentModelId.includes('altamira');
-
-                let cinematicScenes = [
+                const cinematicScenes = [
                     {
                         title: 'Diseño exterior',
-                        description: 'Explora las líneas aerodinámicas del Nyura Nova.',
+                        description: 'Explora las líneas aerodinámicas del Thunder Black Edition.',
                         camera: new THREE.Vector3(4.5, 2.2, 5.8),
                         target: new THREE.Vector3(0, 0.35, 0)
                     },
@@ -784,54 +743,11 @@
                         target: new THREE.Vector3(0, 0.35, 0)
                     }
                 ];
-
-                if (isVortex) {
-                    cinematicScenes = [
-                        {
-                            title: 'Vista principal',
-                            description: '',
-                            camera: new THREE.Vector3(0, 2.0, 7.2),
-                            target: new THREE.Vector3(0, 0.75, 0)
-                        },
-                        {
-                            title: 'Perfil SUV',
-                            description: '',
-                            camera: new THREE.Vector3(6.2, 1.9, 2.8),
-                            target: new THREE.Vector3(0, 0.75, 0)
-                        },
-                        {
-                            title: 'Trasera',
-                            description: '',
-                            camera: new THREE.Vector3(0, 2.0, -7.4),
-                            target: new THREE.Vector3(0, 0.75, 0)
-                        }
-                    ];
-                } else if (isAltamira) {
-                    cinematicScenes = [
-                        {
-                            title: 'Vista premium',
-                            description: '',
-                            camera: new THREE.Vector3(0, 2.2, 6.6),
-                            target: new THREE.Vector3(0, 0.8, 0)
-                        },
-                        {
-                            title: 'Lateral',
-                            description: '',
-                            camera: new THREE.Vector3(5.8, 2.0, 2.4),
-                            target: new THREE.Vector3(0, 0.8, 0)
-                        },
-                        {
-                            title: 'Trasera',
-                            description: '',
-                            camera: new THREE.Vector3(0, 2.1, -6.8),
-                            target: new THREE.Vector3(0, 0.8, 0)
-                        }
-                    ];
-                }
+                
                 let currentSceneIndex = 0;
                 let nextSceneIndex = 1;
                 let transitionProgress = 0;
-                const transitionSpeed = 0.01;
+                const transitionSpeed = 0.005;
 
                 const scene = new THREE.Scene();
                 const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
@@ -855,7 +771,19 @@
                 const controls = new THREE.OrbitControls(camera, renderer.domElement);
                 controls.enabled = false;
 
-                const modelPath = window.paymentModelPath || '../coches/Nyura Nova/NovaAzul.glb';
+                const configData = localStorage.getItem('carConfiguration');
+                let modelPath = '../coches/ThunderBE/ThunderBE.glb';
+                let wheelType = null;
+                
+                if (configData) {
+                    const config = JSON.parse(configData);
+                    if (config.color === 'rojo') {
+                        modelPath = '../coches/ThunderBE/ThunderBERojo.glb';
+                    }
+                    modelPath = config.modelPath || modelPath;
+                    wheelType = config.wheel || config.llantas || null;
+                }
+
                 const isWheelPart = (mesh, material) => {
                     const meshName = (mesh?.name || '').toLowerCase();
                     const matName = (material?.name || '').toLowerCase();
@@ -890,7 +818,7 @@
                 };
 
                 const applyWheelType = (car, wheelType) => {
-                    if (!wheelType || wheelType === 'original' || wheelType === 'blanco') return;
+                    if (!wheelType || wheelType === 'blanco') return;
 
                     car.traverse((child) => {
                         if (!child.isMesh || !child.material) return;
@@ -899,7 +827,7 @@
                         materials.forEach((mat) => {
                             if (!isWheelPart(child, mat) || !mat.color) return;
 
-                            if (wheelType === 'negro' || wheelType === 'serie') {
+                            if (wheelType === 'negro') {
                                 mat.color.setHex(0x000000);
                                 mat.roughness = 1.0;
                                 mat.metalness = 0.0;
@@ -907,21 +835,13 @@
                                 mat.color.setHex(0x777777);
                                 mat.roughness = 0.65;
                                 mat.metalness = 0.15;
-                            } else if (wheelType === 'offroad') {
-                                mat.color.setHex(0x444444);
-                                mat.roughness = 0.5;
-                                mat.metalness = 0.8;
-                            } else if (wheelType === 'sport') {
-                                mat.color.setHex(0x111111);
-                                mat.roughness = 0.35;
-                                mat.metalness = 0.8;
                             }
 
                             if (mat.emissive) {
                                 mat.emissive.setHex(0x000000);
                                 mat.emissiveIntensity = 0;
                             }
-                            if (typeof mat.envMapIntensity === 'number' && (wheelType === 'negro' || wheelType === 'serie')) {
+                            if (typeof mat.envMapIntensity === 'number' && wheelType === 'negro') {
                                 mat.envMapIntensity = 0;
                             }
                             mat.needsUpdate = true;
@@ -933,17 +853,17 @@
                 loader.load(modelPath, (gltf) => {
                     const car = gltf.scene;
                     ensureUniqueWheelMaterials(car);
-                    applyWheelType(car, window.paymentWheelType);
+                    applyWheelType(car, wheelType);
                     scene.add(car);
 
                     const box = new THREE.Box3().setFromObject(car);
                     const size = box.getSize(new THREE.Vector3());
                     const center = box.getCenter(new THREE.Vector3());
                     car.position.sub(center);
-                    car.position.y += isVortex ? 0.15 : 0.6;
+                    car.position.y += 0.6;
 
                     const maxDim = Math.max(size.x, size.y, size.z);
-                    const scaleTarget = isVortex ? 3.35 : (isAltamira ? 3.7 : 4.2);
+                    const scaleTarget = 4.2;
                     car.scale.multiplyScalar(scaleTarget / maxDim);
 
                     camera.position.copy(cinematicScenes[0].camera);
@@ -952,12 +872,6 @@
 
                     if (loading) loading.style.display = 'none';
                 });
-
-                const updateOverlay = () => {
-                    const currentScene = cinematicScenes[currentSceneIndex];
-                    if (sceneTitle) sceneTitle.textContent = currentScene.title;
-                    if (sceneDescription) sceneDescription.textContent = currentScene.description;
-                };
 
                 function animate() {
                     requestAnimationFrame(animate);
@@ -976,7 +890,6 @@
                     camera.position.lerpVectors(fromScene.camera, toScene.camera, eased);
                     controls.target.lerpVectors(fromScene.target, toScene.target, eased);
                     controls.update();
-                    updateOverlay();
                     renderer.render(scene, camera);
                 }
                 animate();
