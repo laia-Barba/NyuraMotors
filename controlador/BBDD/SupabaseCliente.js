@@ -20,10 +20,12 @@ function getPublicBaseUrl() {
 
     // En GitHub Pages el proyecto vive bajo /<repo>/
     // Ej: https://laia-barba.github.io/NyuraMotors/
-    const pathParts = (window.location.pathname || '').split('/').filter(Boolean);
-    const repoName = (origin.includes('github.io') && pathParts.length > 0) ? pathParts[0] : '';
+    // Para este proyecto específico, hardcodeamos el repo name para OAuth
+    if (origin.includes('github.io')) {
+        return `${origin}/NyuraMotors`;
+    }
 
-    return repoName ? `${origin}/${repoName}` : origin;
+    return origin;
 
 }
 
