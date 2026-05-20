@@ -1569,6 +1569,18 @@ export async function updateModel(id, modelData) {
 // Eliminar un modelo
 export async function deleteModel(id) {
     try {
+        // Primero eliminar todas las configuraciones asociadas al modelo
+        const { error: configError } = await supabase
+            .from('configuraciones')
+            .delete()
+            .eq('modelo_coche_id', id);
+
+        if (configError) {
+            console.error('Error eliminando configuraciones asociadas:', configError);
+            return { success: false, error: 'No se pudieron eliminar las configuraciones asociadas: ' + configError.message };
+        }
+
+        // Luego eliminar el modelo
         const { error } = await supabase
             .from('modelos_coche')
             .delete()
