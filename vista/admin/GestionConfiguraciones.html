@@ -81,6 +81,28 @@
             vertical-align: middle;
         }
 
+        .config-image {
+            width: 80px;
+            height: 60px;
+            object-fit: contain;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 5px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .config-image-placeholder {
+            width: 80px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+        }
+
         .configs-table tr:hover {
             background: rgba(102, 126, 234, 0.06);
         }
@@ -146,7 +168,7 @@
         .modal__content {
             width: min(900px, 95vw);
             max-height: 90vh;
-            overflow: auto;
+            overflow: hidden;
             border-radius: 16px;
         }
 
@@ -507,8 +529,15 @@
                 const user = users.find((u) => String(u.id) === String(config.user_id));
                 const userName = user?.nombre || user?.full_name || user?.name || 'Desconocido';
                 const userShort = config.user_id ? config.user_id.substring(0, 8) + '...' : 'Desconocido';
+
+                // Imagen del modelo o placeholder
+                const modelImage = model?.imagen
+                    ? `<img src="${model.imagen}" alt="${model.nombre}" class="config-image">`
+                    : `<div class="config-image-placeholder"><i class="fas fa-car"></i></div>`;
+
                 return `
                     <tr>
+                        <td>${modelImage}</td>
                         <td class="cell-muted">${userShort}</td>
                         <td>${userName}</td>
                         <td>${config.nombre || 'Configuración sin nombre'}</td>
@@ -531,6 +560,7 @@
                     <table class="configs-table">
                         <thead>
                             <tr>
+                                <th>Imagen</th>
                                 <th>ID Usuario</th>
                                 <th>Nombre Usuario</th>
                                 <th>Configuración</th>
@@ -579,6 +609,9 @@
                             <i class="fas fa-user"></i>
                             <span>ID: ${config.user_id ? config.user_id.substring(0, 8) + '...' : 'Desconocido'}</span>
                         </div>
+                        ${model?.imagen ? `<div style="margin-top: 1rem; display: flex; justify-content: center;">
+                            <img src="${model.imagen}" alt="${model.nombre}" style="width: 100%; max-width: 400px; height: auto; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                        </div>` : ''}
                     </div>
                     <div class="config-body">
                         <div class="config-price">${formatPrice(config.precio_total)}</div>
