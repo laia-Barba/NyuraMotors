@@ -872,11 +872,19 @@
                     const size = box.getSize(new THREE.Vector3());
                     const center = box.getCenter(new THREE.Vector3());
                     car.position.sub(center);
-                    car.position.y += 0;
+                    car.position.y += 2.5;
 
                     const maxDim = Math.max(size.x, size.y, size.z);
-                    const scaleTarget = 4.75;
+                    const scaleTarget = 4.2;
                     car.scale.multiplyScalar(scaleTarget / maxDim);
+
+                    console.log('Modelo Altamira:');
+                    console.log('Posición del coche:', car.position);
+                    console.log('Escala del coche:', car.scale);
+                    console.log('Tamaño del coche:', size);
+                    console.log('Centro del coche:', center);
+                    console.log('Posición de la cámara:', cinematicScenes[0].camera);
+                    console.log('Target de la cámara:', cinematicScenes[0].target);
 
                     camera.position.copy(cinematicScenes[0].camera);
                     controls.target.copy(cinematicScenes[0].target);
