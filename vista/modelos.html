@@ -224,7 +224,8 @@
     </script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        // Función para inicializar la navegación de indicadores
+        function initIndicatorsNavigation() {
             const indicatorsContainer = document.querySelector('.modelos-indicators');
             const indicators = document.querySelectorAll('.modelos-indicators [data-bs-target]');
             const prevBtn = document.getElementById('indicatorsPrev');
@@ -308,6 +309,10 @@
                 updateIndicatorsVisibility();
                 updateButtonStates();
             }, 100);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initIndicatorsNavigation();
         });
     </script>
 
@@ -413,6 +418,12 @@
             // Re-inicializar el carrusel de Bootstrap
             const carouselElement = document.getElementById('modelosCarousel');
             if (carouselElement && window.bootstrap) {
+                // Destruir instancia anterior si existe
+                const existingCarousel = bootstrap.Carousel.getInstance(carouselElement);
+                if (existingCarousel) {
+                    existingCarousel.dispose();
+                }
+                // Crear nueva instancia
                 const carousel = new bootstrap.Carousel(carouselElement, {
                     ride: 'carousel',
                     touch: true,
@@ -420,6 +431,11 @@
                     pause: false
                 });
             }
+
+            // Re-inicializar la navegación de indicadores después de cargar los modelos
+            setTimeout(() => {
+                initIndicatorsNavigation();
+            }, 100);
         }
 
         // Cargar modelos cuando el DOM esté listo
