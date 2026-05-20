@@ -295,8 +295,13 @@
                     </div>
                     
                     <div class="field">
-                        <label class="field__label">Descripción</label>
-                        <textarea id="modelDescription" class="field__input field__input--textarea" rows="4" placeholder="Descripción corta para mostrar en la card"></textarea>
+                        <label class="field__label">Descripción Corta</label>
+                        <textarea id="modelDescription" class="field__input field__input--textarea" rows="3" placeholder="Descripción corta para mostrar en la card"></textarea>
+                    </div>
+
+                    <div class="field">
+                        <label class="field__label">Descripción Completa</label>
+                        <textarea id="modelFullDescription" class="field__input field__input--textarea" rows="6" placeholder="Descripción completa del modelo"></textarea>
                     </div>
 
                     <div class="field">
@@ -624,6 +629,7 @@
             document.getElementById('modelPrice').value = model.precio || '';
             document.getElementById('modelImage').value = model.imagen || '';
             document.getElementById('modelDescription').value = model.descripcion_corta || '';
+            document.getElementById('modelFullDescription').value = model.descripcion || '';
 
             // Mostrar imagen actual si existe
             const preview = document.getElementById('imagePreview');
@@ -694,7 +700,8 @@
                 gama: document.getElementById('modelGama').value,
                 precio: Number(document.getElementById('modelPrice').value),
                 imagen: imageUrl.trim() || null,
-                descripcion_corta: (document.getElementById('modelDescription').value || '').trim() || null
+                descripcion_corta: (document.getElementById('modelDescription').value || '').trim() || null,
+                descripcion: (document.getElementById('modelFullDescription').value || '').trim() || null
             };
 
             if (!formData.nombre || !formData.gama || Number.isNaN(formData.precio)) {
