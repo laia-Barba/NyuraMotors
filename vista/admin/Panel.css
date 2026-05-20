@@ -8,10 +8,10 @@
 }
 
 :root {
-    --bg-primary: #0f1419;
-    --bg-secondary: #1a1f2e;
-    --bg-card: #1e2433;
-    --bg-card-hover: #252b3d;
+    --bg-primary: #22262e;
+    --bg-secondary: #2c323d;
+    --bg-card: #363c4a;
+    --bg-card-hover: #404758;
     --text-primary: #e1e8ed;
     --text-secondary: #8899a6;
     --text-muted: #657786;
@@ -19,13 +19,13 @@
     --accent-secondary: #17bf63;
     --accent-danger: #e0245e;
     --accent-warning: #ffad1f;
-    --border-color: #38444d;
-    --shadow-light: rgba(0, 0, 0, 0.2);
-    --shadow-medium: rgba(0, 0, 0, 0.4);
-    --shadow-heavy: rgba(0, 0, 0, 0.6);
+    --border-color: #525d70;
+    --shadow-light: rgba(0, 0, 0, 0.12);
+    --shadow-medium: rgba(0, 0, 0, 0.25);
+    --shadow-heavy: rgba(0, 0, 0, 0.4);
     --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    --gradient-card: linear-gradient(135deg, #1e2433 0%, #2a3441 100%);
+    --gradient-card: linear-gradient(135deg, #363c4a 0%, #404758 100%);
 }
 
 /* Reset y estilos base */
