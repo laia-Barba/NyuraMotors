@@ -216,20 +216,22 @@
                 inputs.forEach(input => {
                     input.readOnly = false;
                     input.style.backgroundColor = '#ffffff';
+                    input.style.color = '#000000';
                 });
-                
+
                 viewActions.style.display = 'none';
                 editActions.style.display = 'flex';
             }
-            
+
             // Función para desactivar modo edición
             function disableEditMode() {
                 const inputs = profileForm.querySelectorAll('input[type="text"], input[type="tel"], input[type="email"]');
                 inputs.forEach(input => {
                     input.readOnly = true;
                     input.style.backgroundColor = '#f5f5f5';
+                    input.style.color = '';
                 });
-                
+
                 viewActions.style.display = 'flex';
                 editActions.style.display = 'none';
             }
@@ -287,7 +289,19 @@
 
                     cancelBtn.addEventListener('click', function() {
                         if (confirm('¿Estás seguro de que quieres cancelar los cambios?')) {
-                            loadUserData(); // Recargar datos originales
+                            // Restaurar valores originales sin guardar
+                            const nombreInput = profileForm.querySelector('input[name="nombre"]');
+                            const apellidosInput = profileForm.querySelector('input[name="apellidos"]');
+                            const telefonoInput = profileForm.querySelector('input[name="telefono"]');
+
+                            if (originalUserData.nombre) {
+                                const nombreParts = originalUserData.nombre.split(' ');
+                                nombreInput.value = nombreParts[0] || '';
+                                apellidosInput.value = nombreParts.slice(1).join(' ') || '';
+                            }
+                            telefonoInput.value = originalUserData.telefono || '';
+
+                            disableEditMode();
                         }
                     });
                     
@@ -510,13 +524,6 @@
                 });
             }
             
-            if (cancelBtn) {
-                cancelBtn.addEventListener('click', function() {
-                    if (confirm('¿Estás seguro de que quieres cancelar los cambios?')) {
-                        loadUserData(); // Recargar datos originales
-                    }
-                });
-            }
             
             if (deleteAccountBtn) {
                 deleteAccountBtn.addEventListener('click', handleDeleteAccount);
