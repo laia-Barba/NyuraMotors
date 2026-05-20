@@ -751,18 +751,33 @@
                 renderer.setPixelRatio(window.devicePixelRatio);
                 renderer.setSize(container.clientWidth, container.clientHeight);
                 renderer.setClearColor(0x000000, 0);
+                renderer.shadowMap.enabled = true;
+                renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+                renderer.physicallyCorrectLights = true;
                 renderer.outputEncoding = THREE.sRGBEncoding;
                 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-                renderer.toneMappingExposure = 1.25;
+                renderer.toneMappingExposure = 1.1;
                 container.appendChild(renderer.domElement);
 
-                scene.add(new THREE.AmbientLight(0xffffff, 1.2));
-                const keyLight = new THREE.DirectionalLight(0xffffff, 2.4);
-                keyLight.position.set(5, 6, 7);
+                scene.add(new THREE.AmbientLight(0xffffff, 0.35));
+                const keyLight = new THREE.DirectionalLight(0xffffff, 0.45);
+                keyLight.position.set(5, 10, 7.5);
+                keyLight.castShadow = true;
+                keyLight.shadow.mapSize.width = 2048;
+                keyLight.shadow.mapSize.height = 2048;
+                keyLight.shadow.camera.near = 0.5;
+                keyLight.shadow.camera.far = 50;
+                keyLight.shadow.camera.left = -10;
+                keyLight.shadow.camera.right = 10;
+                keyLight.shadow.camera.top = 10;
+                keyLight.shadow.camera.bottom = -10;
                 scene.add(keyLight);
-                const fillLight = new THREE.DirectionalLight(0xffffff, 1.4);
-                fillLight.position.set(-5, 3, 5);
+                const fillLight = new THREE.DirectionalLight(0xffffff, 0.18);
+                fillLight.position.set(-5, 5, -5);
                 scene.add(fillLight);
+                const accentLight = new THREE.DirectionalLight(0xffffff, 0.08);
+                accentLight.position.set(5, 2, -5);
+                scene.add(accentLight);
 
                 const controls = new THREE.OrbitControls(camera, renderer.domElement);
                 controls.enabled = false;
@@ -781,7 +796,7 @@
                     const meshName = (mesh?.name || '').toLowerCase();
                     const matName = (material?.name || '').toLowerCase();
 
-                    return (
+                    const genericWheelMatch = (
                         meshName.includes('wheel') ||
                         meshName.includes('rim') ||
                         meshName.includes('llanta') ||
@@ -792,6 +807,15 @@
                         matName.includes('llanta') ||
                         matName.includes('tire') ||
                         matName.includes('tyre')
+                    );
+
+                    if (genericWheelMatch) return true;
+
+                    // Detección específica para Nova
+                    return (
+                        meshName.includes('hub') ||
+                        meshName.includes('hub_mesh') ||
+                        matName.includes('chrome')
                     );
                 };
 
@@ -811,7 +835,7 @@
                 };
 
                 const applyWheelType = (car, wheelType) => {
-                    if (!wheelType || wheelType === 'blanco') return;
+                    if (!wheelType || wheelType === 'original') return;
 
                     car.traverse((child) => {
                         if (!child.isMesh || !child.material) return;
@@ -820,7 +844,11 @@
                         materials.forEach((mat) => {
                             if (!isWheelPart(child, mat) || !mat.color) return;
 
-                            if (wheelType === 'negro') {
+                            if (wheelType === 'blanco') {
+                                mat.color.setHex(0xffffff);
+                                mat.roughness = 0.35;
+                                mat.metalness = 0.0;
+                            } else if (wheelType === 'negro') {
                                 mat.color.setHex(0x000000);
                                 mat.roughness = 1.0;
                                 mat.metalness = 0.0;
@@ -828,13 +856,25 @@
                                 mat.color.setHex(0x777777);
                                 mat.roughness = 0.65;
                                 mat.metalness = 0.15;
+                            } else if (wheelType === 'serie') {
+                                mat.color.setHex(0x000000);
+                                mat.roughness = 1.0;
+                                mat.metalness = 0.0;
+                            } else if (wheelType === 'offroad') {
+                                mat.color.setHex(0x444444);
+                                mat.roughness = 0.5;
+                                mat.metalness = 0.8;
+                            } else if (wheelType === 'sport') {
+                                mat.color.setHex(0x111111);
+                                mat.roughness = 0.35;
+                                mat.metalness = 0.8;
                             }
 
                             if (mat.emissive) {
                                 mat.emissive.setHex(0x000000);
                                 mat.emissiveIntensity = 0;
                             }
-                            if (typeof mat.envMapIntensity === 'number' && wheelType === 'negro') {
+                            if (typeof mat.envMapIntensity === 'number' && (wheelType === 'negro' || wheelType === 'serie')) {
                                 mat.envMapIntensity = 0;
                             }
                             mat.needsUpdate = true;
@@ -846,6 +886,7 @@
                 loader.load(modelPath, (gltf) => {
                     const car = gltf.scene;
                     ensureUniqueWheelMaterials(car);
+                    console.log('Aplicando tipo de ruedas:', wheelType);
                     applyWheelType(car, wheelType);
                     scene.add(car);
 

@@ -755,16 +755,19 @@
                 renderer.setPixelRatio(window.devicePixelRatio);
                 renderer.setSize(container.clientWidth, container.clientHeight);
                 renderer.setClearColor(0x000000, 0);
+                renderer.shadowMap.enabled = true;
+                renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+                renderer.physicallyCorrectLights = true;
                 renderer.outputEncoding = THREE.sRGBEncoding;
                 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-                renderer.toneMappingExposure = 1.25;
+                renderer.toneMappingExposure = 1.65;
                 container.appendChild(renderer.domElement);
 
-                scene.add(new THREE.AmbientLight(0xffffff, 1.2));
-                const keyLight = new THREE.DirectionalLight(0xffffff, 2.4);
+                scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+                const keyLight = new THREE.DirectionalLight(0xffffff, 0.8);
                 keyLight.position.set(5, 6, 7);
                 scene.add(keyLight);
-                const fillLight = new THREE.DirectionalLight(0xffffff, 1.4);
+                const fillLight = new THREE.DirectionalLight(0xffffff, 0.3);
                 fillLight.position.set(-5, 3, 5);
                 scene.add(fillLight);
 
@@ -818,7 +821,7 @@
                 };
 
                 const applyWheelType = (car, wheelType) => {
-                    if (!wheelType || wheelType === 'blanco') return;
+                    if (!wheelType || wheelType === 'original') return;
 
                     car.traverse((child) => {
                         if (!child.isMesh || !child.material) return;
@@ -827,7 +830,11 @@
                         materials.forEach((mat) => {
                             if (!isWheelPart(child, mat) || !mat.color) return;
 
-                            if (wheelType === 'negro') {
+                            if (wheelType === 'blanco') {
+                                mat.color.setHex(0xffffff);
+                                mat.roughness = 0.35;
+                                mat.metalness = 0.0;
+                            } else if (wheelType === 'negro') {
                                 mat.color.setHex(0x000000);
                                 mat.roughness = 1.0;
                                 mat.metalness = 0.0;
@@ -835,13 +842,25 @@
                                 mat.color.setHex(0x777777);
                                 mat.roughness = 0.65;
                                 mat.metalness = 0.15;
+                            } else if (wheelType === 'serie') {
+                                mat.color.setHex(0x000000);
+                                mat.roughness = 1.0;
+                                mat.metalness = 0.0;
+                            } else if (wheelType === 'offroad') {
+                                mat.color.setHex(0x444444);
+                                mat.roughness = 0.5;
+                                mat.metalness = 0.8;
+                            } else if (wheelType === 'sport') {
+                                mat.color.setHex(0x111111);
+                                mat.roughness = 0.35;
+                                mat.metalness = 0.8;
                             }
 
                             if (mat.emissive) {
                                 mat.emissive.setHex(0x000000);
                                 mat.emissiveIntensity = 0;
                             }
-                            if (typeof mat.envMapIntensity === 'number' && wheelType === 'negro') {
+                            if (typeof mat.envMapIntensity === 'number' && (wheelType === 'negro' || wheelType === 'serie')) {
                                 mat.envMapIntensity = 0;
                             }
                             mat.needsUpdate = true;
