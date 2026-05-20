@@ -51,7 +51,7 @@
     position: relative;
 }
 
-/* Degradados laterales SOLO para Nuestras Gamas y sección de coches - Cambiado a tema blanco */
+/* Degradados laterales SOLO para Nuestras Gamas y secciÃ³n de coches - Cambiado a tema blanco */
 .gama-filters-section,
 main {
     background: #ffffff;
@@ -124,7 +124,7 @@ body.gama-sport main {
     background: #ffffff;
 }
 
-/* Evitar cortes entre secciones por padding/márgenes globales */
+/* Evitar cortes entre secciones por padding/mÃ¡rgenes globales */
 .gama-filters-section {
     margin-bottom: 3rem;
 }
@@ -424,7 +424,7 @@ main {
      z-index: 5;
  }
 
- /* Flechas de navegación para indicadores */
+ /* Flechas de navegaciÃ³n para indicadores */
  .indicators-nav {
      position: absolute;
      top: 50%;
@@ -660,7 +660,7 @@ main {
      }
  }
 
-/* Sección Hero */
+/* SecciÃ³n Hero */
 .gama-hero {
     text-align: center;
     padding: 10rem 2rem 4rem;
@@ -718,7 +718,7 @@ main {
     font-size: 1.2rem;
 }
 
-/* Sección de filtros independiente */
+/* SecciÃ³n de filtros independiente */
 .gama-filters-section {
     background-color: #ffffff;
     position: relative;
@@ -801,7 +801,7 @@ main {
     transform: scale(1.05);
 }
 
-/* Efecto de integración con fondo para el seleccionado */
+/* Efecto de integraciÃ³n con fondo para el seleccionado */
 .filter-btn-header.active::after {
     content: '';
     position: absolute;
@@ -828,7 +828,7 @@ main {
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
 }
 
-/* Efectos específicos por gama eliminados */
+/* Efectos especÃ­ficos por gama eliminados */
 .filter-btn-header[data-gama="electrico"]:hover {
     border-color: transparent;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
@@ -844,7 +844,7 @@ main {
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
-/* Animaciones para Motor Turbo - Rápido y Potente */
+/* Animaciones para Motor Turbo - RÃ¡pido y Potente */
 
 @keyframes motor-explosion {
     0% {
@@ -968,7 +968,7 @@ main {
     font-weight: 500;
 }
 
-/* Estados específicos del indicador lateral */
+/* Estados especÃ­ficos del indicador lateral */
 .gama-indicador-lateral.electrico .indicador-lateral-icon {
     background: #e3f2fd;
 }
@@ -1066,7 +1066,7 @@ main {
     border-color: rgba(0, 0, 0, 1);
 }
 
-/* Contenedor de vehículos con transiciones suaves */
+/* Contenedor de vehÃ­culos con transiciones suaves */
 .vehiculos-container {
     padding: 3rem 1.5rem 2.25rem;
     position: relative;
@@ -1096,7 +1096,7 @@ main {
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Tarjeta de vehículo */
+/* Tarjeta de vehÃ­culo */
 .vehiculo-card {
     background: linear-gradient(180deg, #1a1a1a 0%, #2a2a2a 100%);
     border-radius: 16px;
@@ -1301,7 +1301,7 @@ main {
         0 0 12px #ff4081;
 }
 
-/* Animación flotante */
+/* AnimaciÃ³n flotante */
 @keyframes float {
     0%, 100% { 
         transform: translateY(0px) scale(1); 
@@ -1455,7 +1455,7 @@ main {
     }
 }
 
-/* Animación de entrada inicial para las tarjetas */
+/* AnimaciÃ³n de entrada inicial para las tarjetas */
 .vehiculo-card {
     opacity: 0;
     animation: fadeInUp 0.8s ease-out forwards;
@@ -1489,7 +1489,7 @@ main {
     animation: fadeInScale 0.6s ease-out;
 }
 
-/* Animaciones específicas por categoría */
+/* Animaciones especÃ­ficas por categorÃ­a */
 .vehiculo-card[data-category="electrico"].visible {
     animation: slideInLeft 0.6s ease-out;
 }
@@ -1751,8 +1751,8 @@ main {
 /* Card con bordes suaves glassmorphism */
 .vehiculo-card {
   background: transparent;
-  padding: 0.4rem; /* padding más fino */
-  border-radius: 24px; /* radio más grande */
+  padding: 0.4rem; /* padding mÃ¡s fino */
+  border-radius: 24px; /* radio mÃ¡s grande */
   box-shadow: 
     0 8px 32px rgba(15, 23, 42, 0.08),
     0 4px 12px rgba(15, 23, 42, 0.06);
@@ -1779,7 +1779,7 @@ main {
   backdrop-filter: blur(12px);
 }
 
-/* imagen superior con tamaño uniforme */
+/* imagen superior con tamaÃ±o uniforme */
 .vehiculo-image {
   background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
   padding: 1.2rem;
@@ -1805,7 +1805,7 @@ main {
   transform: translateY(-2px);
 }
 
-/* badge más sutil */
+/* badge mÃ¡s sutil */
 .vehiculo-badge {
   position: absolute;
   top: 0.8rem;
@@ -1841,7 +1841,7 @@ main {
   line-height: 1.4;
 }
 
-/* specs con tamaño uniforme y contenedor fijo */
+/* specs con tamaÃ±o uniforme y contenedor fijo */
 .vehiculo-specs {
   display: flex;
   justify-content: center;
@@ -1867,7 +1867,7 @@ main {
   display: inline-block;
 }
 
-/* botón más sutil */
+/* botÃ³n mÃ¡s sutil */
 .configurar-vehiculo-btn {
   width: 100%;
   max-width: 160px;

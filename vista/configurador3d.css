@@ -108,6 +108,12 @@ nav a:hover::after {
     position: relative;
 }
 
+/* Cuando la vista interior está activa, ocupar todo el ancho */
+.configurator-layout.interior-active {
+    max-width: 100%;
+    width: 100vw;
+}
+
 /* Panel izquierdo - Visualizador 3D */
 .viewer-panel {
     position: absolute;
