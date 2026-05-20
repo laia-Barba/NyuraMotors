@@ -985,13 +985,30 @@
                     const scaleTarget = isVortex ? 3.35 : (isAltamira ? 3.7 : (isSpark ? 4.0 : 4.2));
                     car.scale.multiplyScalar(scaleTarget / maxDim);
 
-                    console.log('Modelo Spark:');
-                    console.log('Posición del coche:', car.position);
-                    console.log('Escala del coche:', car.scale);
-                    console.log('Tamaño del coche:', size);
-                    console.log('Centro del coche:', center);
-                    console.log('Posición de la cámara:', cinematicScenes[0].camera);
-                    console.log('Target de la cámara:', cinematicScenes[0].target);
+                    console.log('paymentModelId:', paymentModelId);
+                    console.log('isAltamira:', isAltamira);
+                    console.log('isSpark:', isSpark);
+                    console.log('isVortex:', isVortex);
+
+                    if (isSpark) {
+                        console.log('Modelo Spark:');
+                        console.log('Posición del coche:', car.position);
+                        console.log('Escala del coche:', car.scale);
+                        console.log('Tamaño del coche:', size);
+                        console.log('Centro del coche:', center);
+                        console.log('Posición de la cámara:', cinematicScenes[0].camera);
+                        console.log('Target de la cámara:', cinematicScenes[0].target);
+                    }
+
+                    if (isAltamira) {
+                        console.log('Modelo Altamira:');
+                        console.log('Posición del coche:', car.position);
+                        console.log('Escala del coche:', car.scale);
+                        console.log('Tamaño del coche:', size);
+                        console.log('Centro del coche:', center);
+                        console.log('Posición de la cámara:', cinematicScenes[0].camera);
+                        console.log('Target de la cámara:', cinematicScenes[0].target);
+                    }
 
                     camera.position.copy(cinematicScenes[0].camera);
                     controls.target.copy(cinematicScenes[0].target);

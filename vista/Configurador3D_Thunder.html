@@ -61,10 +61,10 @@
 
             <div class="config-panel">
                 <div class="config-header">
-                    <h3>Personaliza tu <br> Thunder Black Edition</h3>
+                    <h3>Personaliza tu <br> Thunder</h3>
                     <div class="price-display">
                         <span class="price-label">Precio</span>
-                        <span class="price-value">125.900 €</span>
+                        <span class="price-value">89.900 €</span>
                     </div>
 
                     <div class="step-indicator">
@@ -96,6 +96,21 @@
                                 <div class="color-swatch" style="background: linear-gradient(135deg, #dc143c, #8b0000);"></div>
                                 <span>Rojo</span>
                             </div>
+                            <br>
+                            <div class="color-option" data-color="blanco" title="Blanco Perla">
+                                <div class="color-swatch" style="background: linear-gradient(135deg, #f8f8f8, #e0e0e0);"></div>
+                                <span>Blanco</span>
+                            </div>
+                            <br>
+                            <div class="color-option" data-color="gris" title="Gris Metalizado">
+                                <div class="color-swatch" style="background: linear-gradient(135deg, #6c757d, #495057);"></div>
+                                <span>Gris</span>
+                            </div>
+                            <br>
+                            <div class="color-option" data-color="azul" title="Azul Eléctrico">
+                                <div class="color-swatch" style="background: linear-gradient(135deg, #1f5eff, #0044cc);"></div>
+                                <span>Azul</span>
+                            </div>
                         </div>
                     </div>
 
@@ -113,7 +128,7 @@
                             </div>
                             <div class="wheel-option" data-wheel="sport">
                                 <div class="wheel-preview">
-                                    <div class="wheel-icon"><img src="../modelo/llantas/llantassport.png" alt="Llanta Sport" style="width: 100%; height: 100%; object-fit: contain; background: white; border-radius: 4px;"></div>
+                                    <div class="wheel-icon"><img src="../modelo/llantas/llantaacero.png" alt="Llanta Sport" style="width: 100%; height: 100%; object-fit: contain; background: white; border-radius: 4px;"></div>
                                 </div>
                                 <div class="wheel-info">
                                     <span class="wheel-name">Sport</span>
@@ -236,7 +251,7 @@
             color: 'negro',
             wheel: 'acero',
             packages: [],
-            basePrice: 125900
+            basePrice: 89900
         };
 
         const prices = {
@@ -293,11 +308,7 @@
             initConfigurationEvents();
             updatePrice();
 
-            if (currentConfiguration.color === 'negro') {
-                loadThunderBEModel();
-            } else {
-                loadThunderBERojoModel();
-            }
+            loadThunderModel(currentConfiguration.color);
 
             animate();
         }
@@ -459,11 +470,11 @@
                         const configData = {
                             ...currentConfiguration,
                             totalPrice: document.querySelector('.price-value')?.textContent || '',
-                            modelName: window.currentModelName || 'Thunder Black Edition',
+                            modelName: window.currentModelName || 'Thunder',
                             timestamp: new Date().toISOString()
                         };
                         localStorage.setItem('carConfiguration', JSON.stringify(configData));
-                        window.location.href = 'metodopago_thunderbe.html';
+                        window.location.href = 'metodopago_thunder.html';
                     } else {
                         setActiveStep(currentStep + 1);
                     }
@@ -695,16 +706,16 @@
             interiorDirectional.position.set(5, 5, 5);
             interiorScene.add(interiorDirectional);
 
-            loadInteriorModel();
+            loadThunderInteriorModel();
 
             if (loadingOverlay) loadingOverlay.style.display = 'none';
             interiorLoaded = true;
         }
 
-        function loadInteriorModel() {
+        function loadThunderInteriorModel() {
             const loader = new THREE.GLTFLoader();
             loader.load(
-                '../coches/ThunderBE/ThunderBE.glb',
+                '../coches/Thunder/ThunderNegro.glb',
                 (gltf) => {
                     if (interiorModel) interiorScene.remove(interiorModel);
 
@@ -846,9 +857,15 @@
 
         function updateModelColorAndModel(color) {
             if (color === 'negro') {
-                loadThunderBEModel();
+                loadThunderModel('negro');
             } else if (color === 'rojo') {
-                loadThunderBERojoModel();
+                loadThunderModel('rojo');
+            } else if (color === 'blanco') {
+                loadThunderModel('blanco');
+            } else if (color === 'gris') {
+                loadThunderModel('gris');
+            } else if (color === 'azul') {
+                loadThunderModel('azul');
             }
         }
 
@@ -924,7 +941,7 @@
             startIntroAnimation();
         }
 
-        function loadThunderBEModel() {
+        function loadThunderModel(color) {
             const loadingOverlay = document.getElementById('loadingOverlay');
             if (loadingOverlay) {
                 loadingOverlay.style.display = 'flex';
@@ -937,50 +954,29 @@
                 modelRoot = null;
             }
 
+            const colorModelMap = {
+                'negro': 'ThunderNegro.glb',
+                'rojo': 'ThunderRojo.glb',
+                'blanco': 'ThunderBlanco.glb',
+                'gris': 'ThunderGris.glb',
+                'azul': 'ThunderAzul.glb'
+            };
+
+            const modelFile = colorModelMap[color] || 'ThunderNegro.glb';
+            const sizeAdjustment = color === 'negro' ? 0.85 : 1;
+
             const loader = new THREE.GLTFLoader();
             loader.load(
-                '../coches/ThunderBE/ThunderBE.glb',
+                `../coches/Thunder/${modelFile}`,
                 (gltf) => {
-                    applyCommonModelSetup(gltf.scene, 0.85);
+                    applyCommonModelSetup(gltf.scene, sizeAdjustment);
                     if (loadingOverlay) loadingOverlay.style.display = 'none';
                 },
                 (xhr) => {
                     if (xhr.total) console.log((xhr.loaded / xhr.total * 100) + '% cargado');
                 },
                 (error) => {
-                    console.error('Error al cargar el modelo ThunderBE:', error);
-                    if (loadingOverlay) {
-                        loadingOverlay.innerHTML = '<div style="text-align: center;"><p style="color: #dc143c; font-size: 18px;">Error al cargar el modelo 3D</p><p style="margin-top: 10px;">Por favor, recarga la página</p></div>';
-                    }
-                }
-            );
-        }
-
-        function loadThunderBERojoModel() {
-            const loadingOverlay = document.getElementById('loadingOverlay');
-            if (loadingOverlay) {
-                loadingOverlay.style.display = 'flex';
-                loadingOverlay.innerHTML = '<div class="loading-spinner"></div>';
-            }
-
-            if (model && modelRoot) {
-                scene.remove(modelRoot);
-                model = null;
-                modelRoot = null;
-            }
-
-            const loader = new THREE.GLTFLoader();
-            loader.load(
-                '../coches/ThunderBE/ThunderBERojo.glb',
-                (gltf) => {
-                    applyCommonModelSetup(gltf.scene, 1);
-                    if (loadingOverlay) loadingOverlay.style.display = 'none';
-                },
-                (xhr) => {
-                    if (xhr.total) console.log((xhr.loaded / xhr.total * 100) + '% cargado');
-                },
-                (error) => {
-                    console.error('Error al cargar el modelo ThunderBERojo:', error);
+                    console.error(`Error al cargar el modelo Thunder ${color}:`, error);
                     if (loadingOverlay) {
                         loadingOverlay.innerHTML = '<div style="text-align: center;"><p style="color: #dc143c; font-size: 18px;">Error al cargar el modelo 3D</p><p style="margin-top: 10px;">Por favor, recarga la página</p></div>';
                     }
@@ -1098,7 +1094,7 @@
                 color: 'negro',
                 wheel: 'acero',
                 packages: [],
-                basePrice: 125900
+                basePrice: 89900
             };
 
             document.querySelectorAll('.color-option').forEach((opt) => opt.classList.remove('active'));
@@ -1110,7 +1106,7 @@
             updatePrice();
 
             if (modelLoaded) {
-                updateModelColorAndModel('negro');
+                loadThunderModel('negro');
                 updateModelWheels('acero');
             }
 
@@ -1151,12 +1147,7 @@
             console.log('Parámetro vehiculo:', vehiculo);
 
             // Determinar el nombre del modelo según el parámetro
-            let modelName = 'Thunder Black Edition';
-            if (vehiculo === 'thunder') {
-                modelName = 'Thunder';
-            } else if (vehiculo === 'thunder-be') {
-                modelName = 'Thunder Black Edition';
-            }
+            let modelName = 'Thunder';
 
             console.log('Nombre del modelo determinado:', modelName);
 
