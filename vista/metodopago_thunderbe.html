@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nyura Motors - Métodos de Pago Thunder Black Edition</title>
+    <title>Nyura Motors - Métodos de Pago</title>
     <link rel="stylesheet" href="EstiloPrincipal.css">
     <link rel="stylesheet" href="metodopago.css">
     <link rel="stylesheet" href="header-unique.css">
@@ -29,8 +29,8 @@
                 <div class="payment-section">
                     <div class="payment-scroll-container">
                         <div class="payment-info-header">
-                            <h1 class="product-title">Thunder Black Edition</h1>
-                            <div class="payment-config-details">
+                            <h1 class="product-title" id="paymentModelName">Nyura Nova 2026</h1>
+                            <div class="payment-config-details" id="paymentConfigDetails">
                                 <div class="config-detail-item">
                                     <span class="config-detail-label">Color</span>
                                     <span class="config-detail-value" id="configColor">-</span>
@@ -46,7 +46,7 @@
                             </div>
                             <div class="product-price">
                                 <span class="price-label">Precio total</span>
-                                <span class="price-value" id="paymentTotalPrice">€ 32.490</span>
+                                <span class="price-value" id="paymentTotalPrice">€ 28.900</span>
                             </div>
                         </div>
 
@@ -230,7 +230,7 @@
             <div class="success-details">
                 <div class="success-detail">
                     <span class="detail-label">Modelo</span>
-                    <span class="detail-value">Thunder Black Edition</span>
+                    <span class="detail-value">Nyura Nova 2026</span>
                 </div>
                 <div class="success-detail">
                     <span class="detail-label">Método de pago</span>
@@ -238,7 +238,7 @@
                 </div>
                 <div class="success-detail">
                     <span class="detail-label">Importe</span>
-                    <span class="detail-value" id="successTotalPrice">€ 32.490</span>
+                    <span class="detail-value">€ 28.900</span>
                 </div>
             </div>
             <button type="button" class="success-close-btn" id="closeSuccessModal">Continuar</button>
@@ -287,21 +287,33 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Cargar configuración desde localStorage
             const loadConfiguration = () => {
                 const configData = localStorage.getItem('carConfiguration');
                 if (configData) {
                     const config = JSON.parse(configData);
                     
+                    // Actualizar nombre del modelo
+                    const modelName = document.getElementById('paymentModelName');
+                    if (modelName && config.modelName) {
+                        modelName.textContent = config.modelName;
+                    }
+                    
+                    // Actualizar precio total
+                    const totalPrice = document.getElementById('paymentTotalPrice');
+                    if (totalPrice && config.totalPrice) {
+                        totalPrice.textContent = config.totalPrice;
+                    }
+                    
+                    // Actualizar configuraciones
                     const configColor = document.getElementById('configColor');
                     const configWheels = document.getElementById('configWheels');
                     const configPackages = document.getElementById('configPackages');
-                    const totalPrice = document.getElementById('paymentTotalPrice');
-                    const successTotalPrice = document.getElementById('successTotalPrice');
                     
                     if (configColor) {
                         const colorNames = {
-                            'negro': 'Negro',
-                            'rojo': 'Rojo Racing'
+                            'negro': 'Negro Mate',
+                            'rojo': 'Rojo Passion'
                         };
                         configColor.textContent = config.colorName || colorNames[config.color] || config.color;
                     }
@@ -317,7 +329,8 @@
                     if (configPackages) {
                         const packageNames = {
                             'tech': 'Tech Premium',
-                            'premium': 'Premium Plus'
+                            'premium': 'Premium Plus',
+                            'sport': 'Sport Pack'
                         };
                         if (config.packageNames && config.packageNames.length > 0) {
                             configPackages.textContent = config.packageNames.join(', ');
@@ -328,13 +341,31 @@
                         }
                     }
                     
-                    if (totalPrice && config.totalPrice) {
-                        totalPrice.textContent = config.totalPrice;
-                    }
-                    if (successTotalPrice && config.totalPrice) {
-                        successTotalPrice.textContent = config.totalPrice;
-                    }
+                    // Actualizar visor 3D con el modelo correcto
+                    update3DViewer(config);
                 }
+            };
+            
+            const update3DViewer = (config) => {
+                const container = document.getElementById('paymentCarViewer');
+                if (!container) return;
+                
+                // Limpiar el visor 3D existente
+                const existingCanvas = container.querySelector('canvas');
+                if (existingCanvas) {
+                    existingCanvas.remove();
+                }
+                
+                // Determinar qué modelo cargar según la configuración
+                let modelPath = '../coches/ThunderBE/ThunderBE.glb';
+                if (config.color === 'rojo') {
+                    modelPath = '../coches/ThunderBE/ThunderBERojo.glb';
+                }
+                
+                // Actualizar la función initPaymentCarViewer para usar el modelo correcto
+                window.paymentModelPath = modelPath;
+                window.paymentWheelType = config.wheel || config.llantas || null;
+                window.paymentModelId = config.modeloId || config.modelName || null;
             };
             
             loadConfiguration();
@@ -456,7 +487,7 @@
                                 <label>NIF/DNI</label>
                                 <input type="text" id="leasingDNI" class="form-input-compact" placeholder="12345678A">
                             </div>
-                            <p style="color: var(--payment-text-muted); font-size: 0.8rem; margin: 1rem 0;">Cuota mensual estimada: € 400 | Incluye mantenimiento y seguro.</p>
+                            <p style="color: var(--payment-text-muted); font-size: 0.8rem; margin: 1rem 0;">Cuota mensual estimada: € 450 | Incluye mantenimiento y seguro.</p>
                         `;
                         break;
                 }
@@ -476,7 +507,7 @@
                             <div class="payment-form-compact" id="paymentForm">
                                 <form id="paymentFormElement">
                                     ${formContent}
-                                    <button type="submit" class="pay-btn">Pagar € 32.490</button>
+                                    <button type="submit" class="pay-btn">Pagar € 28.900</button>
                                     <button type="button" class="cancel-btn-compact" id="cancelPayment">Cambiar método</button>
                                     <div class="payment-dropdown-security">
                                         <span>SSL 256-bit</span>
@@ -715,29 +746,100 @@
             function initPaymentCarViewer() {
                 const container = document.getElementById('paymentCarViewer');
                 const loading = document.getElementById('payment3dLoading');
+                const sceneTitle = document.getElementById('sceneTitle');
+                const sceneDescription = document.getElementById('sceneDescription');
                 if (!container || typeof THREE === 'undefined') return;
 
-                const cinematicScenes = [
+                const paymentModelId = String(window.paymentModelId || '').toLowerCase();
+                const isVortex = paymentModelId.includes('vortex');
+                const isAltamira = paymentModelId.includes('altamira');
+                const isSpark = paymentModelId.includes('spark');
+
+                let cinematicScenes = [
                     {
                         title: 'Vista principal',
                         description: '',
-                        camera: new THREE.Vector3(0, 1.5, 5),
+                        camera: new THREE.Vector3(0, 1.5, 4),
                         target: new THREE.Vector3(0, 0.5, 0)
                     },
                     {
                         title: 'Perfil',
                         description: '',
-                        camera: new THREE.Vector3(4, 1.5, 2),
+                        camera: new THREE.Vector3(3, 1.5, 2),
                         target: new THREE.Vector3(0, 0.5, 0)
                     },
                     {
                         title: 'Trasera',
                         description: '',
-                        camera: new THREE.Vector3(0, 1.5, -5),
+                        camera: new THREE.Vector3(0, 1.5, -7),
                         target: new THREE.Vector3(0, 0.5, 0)
                     }
                 ];
-                
+
+                if (isVortex) {
+                    cinematicScenes = [
+                        {
+                            title: 'Vista principal',
+                            description: '',
+                            camera: new THREE.Vector3(0, 2.0, 7.2),
+                            target: new THREE.Vector3(0, 0.75, 0)
+                        },
+                        {
+                            title: 'Perfil SUV',
+                            description: '',
+                            camera: new THREE.Vector3(6.2, 1.9, 2.8),
+                            target: new THREE.Vector3(0, 0.75, 0)
+                        },
+                        {
+                            title: 'Trasera',
+                            description: '',
+                            camera: new THREE.Vector3(0, 2.0, -7.4),
+                            target: new THREE.Vector3(0, 0.75, 0)
+                        }
+                    ];
+                } else if (isAltamira) {
+                    cinematicScenes = [
+                        {
+                            title: 'Vista premium',
+                            description: '',
+                            camera: new THREE.Vector3(0, 2.2, 6.6),
+                            target: new THREE.Vector3(0, 0.8, 0)
+                        },
+                        {
+                            title: 'Lateral',
+                            description: '',
+                            camera: new THREE.Vector3(6.2, 1.9, 2.8),
+                            target: new THREE.Vector3(0, 0.8, 0)
+                        },
+                        {
+                            title: 'Trasera',
+                            description: '',
+                            camera: new THREE.Vector3(0, 2.2, -6.6),
+                            target: new THREE.Vector3(0, 0.8, 0)
+                        }
+                    ];
+                } else if (isSpark) {
+                    cinematicScenes = [
+                        {
+                            title: 'Vista principal',
+                            description: '',
+                            camera: new THREE.Vector3(0, 1.5, 5),
+                            target: new THREE.Vector3(0, 0.5, 0)
+                        },
+                        {
+                            title: 'Perfil',
+                            description: '',
+                            camera: new THREE.Vector3(4, 1.5, 2),
+                            target: new THREE.Vector3(0, 0.5, 0)
+                        },
+                        {
+                            title: 'Trasera',
+                            description: '',
+                            camera: new THREE.Vector3(0, 1.5, -5),
+                            target: new THREE.Vector3(0, 0.5, 0)
+                        }
+                    ];
+                }
                 let currentSceneIndex = 0;
                 let nextSceneIndex = 1;
                 let transitionProgress = 0;
@@ -757,37 +859,18 @@
                 renderer.toneMappingExposure = 1.65;
                 container.appendChild(renderer.domElement);
 
-                scene.add(new THREE.AmbientLight(0xffffff, 0.6));
-                const keyLight = new THREE.DirectionalLight(0xffffff, 0.8);
+                scene.add(new THREE.AmbientLight(0xffffff, 1.2));
+                const keyLight = new THREE.DirectionalLight(0xffffff, 2.0);
                 keyLight.position.set(5, 6, 7);
                 scene.add(keyLight);
-                const fillLight = new THREE.DirectionalLight(0xffffff, 0.3);
+                const fillLight = new THREE.DirectionalLight(0xffffff, 1.0);
                 fillLight.position.set(-5, 3, 5);
                 scene.add(fillLight);
 
                 const controls = new THREE.OrbitControls(camera, renderer.domElement);
                 controls.enabled = false;
 
-                const configData = localStorage.getItem('carConfiguration');
-                let modelPath = '../coches/Thunder/ThunderNegro.glb';
-                let wheelType = null;
-
-                if (configData) {
-                    const config = JSON.parse(configData);
-                    const colorModelMap = {
-                        'negro': '../coches/Thunder/ThunderNegro.glb',
-                        'rojo': '../coches/Thunder/ThunderRojo.glb',
-                        'blanco': '../coches/Thunder/ThunderBlanco.glb',
-                        'gris': '../coches/Thunder/ThunderGris.glb',
-                        'azul': '../coches/Thunder/ThunderAzul.glb'
-                    };
-                    if (config.color && colorModelMap[config.color]) {
-                        modelPath = colorModelMap[config.color];
-                    }
-                    modelPath = config.modelPath || modelPath;
-                    wheelType = config.wheel || config.llantas || null;
-                }
-
+                const modelPath = window.paymentModelPath || '../coches/Nyura Nova/NovaAzul.glb';
                 const isWheelPart = (mesh, material) => {
                     const meshName = (mesh?.name || '').toLowerCase();
                     const matName = (material?.name || '').toLowerCase();
@@ -873,28 +956,64 @@
                 loader.load(modelPath, (gltf) => {
                     const car = gltf.scene;
                     ensureUniqueWheelMaterials(car);
-                    applyWheelType(car, wheelType);
+                    applyWheelType(car, window.paymentWheelType);
                     scene.add(car);
 
                     const box = new THREE.Box3().setFromObject(car);
                     const size = box.getSize(new THREE.Vector3());
                     const center = box.getCenter(new THREE.Vector3());
                     car.position.sub(center);
-                    car.position.x -= 0.69;
-                    car.position.y += 3.65;
-                    car.position.z -= 2.53;
+                    car.position.y += isVortex ? 0.15 : (isSpark ? 0.5 : 0.6);
+
+                    // Aplicar offset específico para Spark
+                    if (isSpark) {
+                        car.position.x += 1;
+                        car.position.y -= -0.1;
+                    }
+
+                    // Aplicar offset específico para Thunder BE
+                    if (!isVortex && !isAltamira && !isSpark) {
+                        car.position.x -= 1.8;
+                        car.position.y += 1.38;
+                        car.position.z -= 4.80;
+
+                        console.log('Modelo Thunder BE:');
+                        console.log('Posición del coche:', car.position);
+                        console.log('Escala del coche:', car.scale);
+                        console.log('Tamaño del coche:', size);
+                        console.log('Centro del coche:', center);
+                        console.log('Posición de la cámara:', cinematicScenes[0].camera);
+                        console.log('Target de la cámara:', cinematicScenes[0].target);
+                    }
 
                     const maxDim = Math.max(size.x, size.y, size.z);
-                    const scaleTarget = 4.2;
+                    const scaleTarget = isVortex ? 3.35 : (isAltamira ? 3.7 : (isSpark ? 4.0 : 5.6));
                     car.scale.multiplyScalar(scaleTarget / maxDim);
 
-                    console.log('Modelo Thunder:');
-                    console.log('Posición del coche:', car.position);
-                    console.log('Escala del coche:', car.scale);
-                    console.log('Tamaño del coche:', size);
-                    console.log('Centro del coche:', center);
-                    console.log('Posición de la cámara:', cinematicScenes[0].camera);
-                    console.log('Target de la cámara:', cinematicScenes[0].target);
+                    console.log('paymentModelId:', paymentModelId);
+                    console.log('isAltamira:', isAltamira);
+                    console.log('isSpark:', isSpark);
+                    console.log('isVortex:', isVortex);
+
+                    if (isSpark) {
+                        console.log('Modelo Spark:');
+                        console.log('Posición del coche:', car.position);
+                        console.log('Escala del coche:', car.scale);
+                        console.log('Tamaño del coche:', size);
+                        console.log('Centro del coche:', center);
+                        console.log('Posición de la cámara:', cinematicScenes[0].camera);
+                        console.log('Target de la cámara:', cinematicScenes[0].target);
+                    }
+
+                    if (isAltamira) {
+                        console.log('Modelo Altamira:');
+                        console.log('Posición del coche:', car.position);
+                        console.log('Escala del coche:', car.scale);
+                        console.log('Tamaño del coche:', size);
+                        console.log('Centro del coche:', center);
+                        console.log('Posición de la cámara:', cinematicScenes[0].camera);
+                        console.log('Target de la cámara:', cinematicScenes[0].target);
+                    }
 
                     camera.position.copy(cinematicScenes[0].camera);
                     controls.target.copy(cinematicScenes[0].target);
@@ -902,6 +1021,12 @@
 
                     if (loading) loading.style.display = 'none';
                 });
+
+                const updateOverlay = () => {
+                    const currentScene = cinematicScenes[currentSceneIndex];
+                    if (sceneTitle) sceneTitle.textContent = currentScene.title;
+                    if (sceneDescription) sceneDescription.textContent = currentScene.description;
+                };
 
                 function animate() {
                     requestAnimationFrame(animate);
@@ -911,6 +1036,7 @@
                         transitionProgress = 0;
                         currentSceneIndex = nextSceneIndex;
                         nextSceneIndex = (nextSceneIndex + 1) % cinematicScenes.length;
+                        console.log('Cambiando a escena:', currentSceneIndex, cinematicScenes[currentSceneIndex].title);
                     }
 
                     const eased = 1 - Math.pow(1 - transitionProgress, 3);
@@ -920,6 +1046,13 @@
                     camera.position.lerpVectors(fromScene.camera, toScene.camera, eased);
                     controls.target.lerpVectors(fromScene.target, toScene.target, eased);
                     controls.update();
+
+                    if (isSpark) {
+                        console.log('Posición cámara:', camera.position);
+                        console.log('Target controls:', controls.target);
+                    }
+
+                    updateOverlay();
                     renderer.render(scene, camera);
                 }
                 animate();

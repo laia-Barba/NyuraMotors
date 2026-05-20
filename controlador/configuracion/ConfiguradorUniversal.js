@@ -381,16 +381,21 @@ class ConfiguradorUniversal {
 
                     localStorage.setItem('carConfiguration', JSON.stringify(configData));
                     
+                    console.log('Guardando configuración - modeloId:', this.modeloId);
+                    
                     const paymentPageMap = {
                         'Vortex': 'metodopago_vortex.html',
                         'Altamira': 'metodopago_altamira.html',
                         'Nova': 'metodopago_nova.html',
                         'Nova Sport': 'metodopago_nova.html',
                         'ThunderBE': 'metodopago_thunder.html',
-                        'Thunder Black Edition': 'metodopago_thunder.html'
+                        'Thunder Black Edition': 'metodopago_thunder.html',
+                        'Daemon': 'metodopago_daemon.html'
                     };
                     
                     const paymentPage = paymentPageMap[this.modeloId] || 'metodopago.html';
+                    console.log('Página de pago seleccionada:', paymentPage);
+                    console.log('¿Existe en el mapa?', paymentPageMap.hasOwnProperty(this.modeloId));
                     window.location.href = paymentPage;
                     return;
                 }
