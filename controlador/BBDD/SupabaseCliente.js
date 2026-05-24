@@ -1,4 +1,5 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+import { savePersistentUser, getPersistentUser, clearPersistentUser } from './AuthPersistencia.js'
 
 
 
@@ -215,6 +216,13 @@ export async function signIn(email, password) {
         }
 
 
+        if (data.user) {
+
+            savePersistentUser(data.user);
+
+        }
+
+
         return { 
 
             success: true, 
@@ -387,6 +395,8 @@ export async function signOut() {
 
         const { error } = await supabase.auth.signOut();
 
+        clearPersistentUser();
+
 
         if (error) {
 
@@ -417,7 +427,32 @@ export async function getCurrentUser() {
 
     try {
 
+        console.log('[SupabaseCliente] getCurrentUser: consultando getSession()', {
+            path: window.location.pathname,
+            origin: window.location.origin
+        });
+
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+
+        console.log('[SupabaseCliente] getCurrentUser: resultado getSession()', {
+            hasSession: !!session,
+            hasUser: !!session?.user,
+            email: session?.user?.email || null,
+            sessionError: sessionError?.message || null
+        });
+
+        if (session?.user) {
+            savePersistentUser(session.user);
+            return session.user;
+        }
+
         const { data: { user }, error } = await supabase.auth.getUser();
+
+        console.log('[SupabaseCliente] getCurrentUser: resultado getUser()', {
+            hasUser: !!user,
+            email: user?.email || null,
+            error: error?.message || null
+        });
 
 
         if (error) {
@@ -426,24 +461,31 @@ export async function getCurrentUser() {
 
             if (error.message?.includes('Auth session missing')) {
 
-                return null;
+                return getPersistentUser();
 
             }
 
             console.error('Error obteniendo usuario actual:', error);
 
-            return null;
+            return getPersistentUser();
 
         }
 
 
-        return user;
+        if (user) {
+
+            savePersistentUser(user);
+
+        }
+
+
+        return user || getPersistentUser();
 
     } catch (error) {
 
         console.error('Error en getCurrentUser:', error);
 
-        return null;
+        return getPersistentUser();
 
     }
 
@@ -866,6 +908,8 @@ export async function logout() {
     try {
         console.log('logout: Cerrando sesión...');
         const { error } = await supabase.auth.signOut();
+
+        clearPersistentUser();
         
         if (error) {
             console.error('Error cerrando sesión:', error);
