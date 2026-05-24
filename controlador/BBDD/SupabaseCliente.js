@@ -25,6 +25,12 @@ function getPublicBaseUrl() {
         return `${origin}/NyuraMotors`;
     }
 
+    // Para Live Server o localhost, verificar si estamos en NyuraMotors subdirectorio
+    const pathname = window.location.pathname;
+    if (pathname.includes('/NyuraMotors/')) {
+        return `${origin}/NyuraMotors`;
+    }
+
     return origin;
 
 }
