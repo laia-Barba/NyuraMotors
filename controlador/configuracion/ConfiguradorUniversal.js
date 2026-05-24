@@ -932,6 +932,7 @@ class ConfiguradorUniversal {
         // Expandir interior para ocupar todo el ancho
         if (layout) {
             layout.style.alignItems = 'stretch';
+            layout.classList.add('interior-active');
         }
         if (interiorView) {
             interiorView.style.flex = '1 1 auto';
@@ -966,6 +967,7 @@ class ConfiguradorUniversal {
         // Restaurar estilos de layout
         if (layout) {
             layout.style.alignItems = '';
+            layout.classList.remove('interior-active');
         }
         if (interiorView) {
             interiorView.style.flex = '';
