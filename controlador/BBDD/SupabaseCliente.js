@@ -10,12 +10,24 @@ export const SUPABASE_URL = 'https://mwxfoiglrdvxmjpfpedp.supabase.co'
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im13eGZvaWdscmR2eG1qcGZwZWRwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAyMTY3NjMsImV4cCI6MjA4NTc5Mjc2M30.PshDX7mDZ2FY5_PMGRHiyAwJLHPF73s_XGYYzL_oUo0'
 
 
-
-
 // Crear cliente de Supabase
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
+function getPublicBaseUrl() {
+
+    const origin = window.location.origin;
+
+    // En GitHub Pages el proyecto vive bajo /<repo>/
+    // Ej: https://laia-barba.github.io/NyuraMotors/
+    // Para este proyecto específico, hardcodeamos el repo name para OAuth
+    if (origin.includes('github.io')) {
+        return `${origin}/NyuraMotors`;
+    }
+
+    return origin;
+
+}
 
 
 // Función para probar la conexión
@@ -32,7 +44,6 @@ export async function testConnection() {
 
             .limit(1);
 
-        
 
         if (error) {
 
@@ -42,7 +53,6 @@ export async function testConnection() {
 
         }
 
-        
 
         console.log('Conexión a Supabase establecida correctamente');
 
@@ -59,9 +69,7 @@ export async function testConnection() {
 }
 
 
-
 // ==================== AUTENTICACIÓN ====================
-
 
 
 // Registro de usuario con email y contraseña
@@ -93,7 +101,6 @@ export async function signUp(email, password, userData) {
         });
 
 
-
         if (authError) {
 
             console.error('Error en auth:', authError);
@@ -101,7 +108,6 @@ export async function signUp(email, password, userData) {
             return { success: false, error: authError.message };
 
         }
-
 
 
         // 2. Crear registro en tabla users (solo si el usuario se creó correctamente)
@@ -120,8 +126,9 @@ export async function signUp(email, password, userData) {
 
                 rol: 'user'
 
-            };
+                // NOTA: Campo 'contrasena' eliminado de la tabla
 
+            };
 
 
             const { error: dbError } = await supabase
@@ -129,7 +136,6 @@ export async function signUp(email, password, userData) {
                 .from('users')
 
                 .insert([userRecord]);
-
 
 
             if (dbError) {
@@ -157,7 +163,6 @@ export async function signUp(email, password, userData) {
         }
 
 
-
         return { 
 
             success: true, 
@@ -169,7 +174,6 @@ export async function signUp(email, password, userData) {
         };
 
 
-
     } catch (error) {
 
         console.error('Error en signUp:', error);
@@ -179,7 +183,6 @@ export async function signUp(email, password, userData) {
     }
 
 }
-
 
 
 // Inicio de sesión
@@ -197,7 +200,6 @@ export async function signIn(email, password) {
         });
 
 
-
         if (error) {
 
             console.error('Error en signIn:', error);
@@ -205,7 +207,6 @@ export async function signIn(email, password) {
             return { success: false, error: error.message };
 
         }
-
 
 
         return { 
@@ -219,7 +220,6 @@ export async function signIn(email, password) {
         };
 
 
-
     } catch (error) {
 
         console.error('Error en signIn:', error);
@@ -229,7 +229,6 @@ export async function signIn(email, password) {
     }
 
 }
-
 
 
 // Inicio de sesión con Google
@@ -244,12 +243,11 @@ export async function signInWithGoogle() {
 
             options: {
 
-                redirectTo: `${window.location.origin}/vista/home.html`
+                redirectTo: `${getPublicBaseUrl()}/vista/home.html`
 
             }
 
         });
-
 
 
         if (error) {
@@ -261,9 +259,7 @@ export async function signInWithGoogle() {
         }
 
 
-
         return { success: true, data };
-
 
 
     } catch (error) {
@@ -275,7 +271,6 @@ export async function signInWithGoogle() {
     }
 
 }
-
 
 
 // Crear perfil de usuario después de OAuth
@@ -297,7 +292,6 @@ export async function createOrUpdateUserProfile(user) {
             .single();
 
 
-
         if (fetchError && fetchError.code !== 'PGRST116') {
 
             console.error('Error verificando usuario existente:', fetchError);
@@ -305,7 +299,6 @@ export async function createOrUpdateUserProfile(user) {
             return { success: false, error: 'Error al verificar perfil' };
 
         }
-
 
 
         // Si no existe, crearlo (sin campo contraseña)
@@ -329,7 +322,6 @@ export async function createOrUpdateUserProfile(user) {
             };
 
 
-
             const { error: insertError } = await supabase
 
                 .from('users')
@@ -337,12 +329,9 @@ export async function createOrUpdateUserProfile(user) {
                 .insert([userRecord]);
 
 
-
             if (insertError) {
 
                 console.error('Error creando perfil de usuario:', insertError);
-
-                
 
                 // Si es error de RLS, intentar con el service role key
 
@@ -354,12 +343,10 @@ export async function createOrUpdateUserProfile(user) {
 
                 }
 
-                
 
                 return { success: false, error: 'Error al crear perfil' };
 
             }
-
 
 
             console.log('Perfil de usuario creado exitosamente');
@@ -375,7 +362,6 @@ export async function createOrUpdateUserProfile(user) {
         }
 
 
-
     } catch (error) {
 
         console.error('Error en createOrUpdateUserProfile:', error);
@@ -387,7 +373,6 @@ export async function createOrUpdateUserProfile(user) {
 }
 
 
-
 // Cerrar sesión
 
 export async function signOut() {
@@ -396,7 +381,6 @@ export async function signOut() {
 
         const { error } = await supabase.auth.signOut();
 
-        
 
         if (error) {
 
@@ -407,9 +391,7 @@ export async function signOut() {
         }
 
 
-
         return { success: true };
-
 
 
     } catch (error) {
@@ -423,7 +405,6 @@ export async function signOut() {
 }
 
 
-
 // Obtener usuario actual
 
 export async function getCurrentUser() {
@@ -432,7 +413,6 @@ export async function getCurrentUser() {
 
         const { data: { user }, error } = await supabase.auth.getUser();
 
-        
 
         if (error) {
 
@@ -450,7 +430,6 @@ export async function getCurrentUser() {
 
         }
 
-        
 
         return user;
 
@@ -465,7 +444,6 @@ export async function getCurrentUser() {
 }
 
 
-
 // Verificar si hay sesión activa
 
 export async function isSessionActive() {
@@ -474,7 +452,6 @@ export async function isSessionActive() {
 
         const { data: { session }, error } = await supabase.auth.getSession();
 
-        
 
         if (error) {
 
@@ -485,9 +462,7 @@ export async function isSessionActive() {
         }
 
 
-
         return !!session;
-
 
 
     } catch (error) {
@@ -501,7 +476,6 @@ export async function isSessionActive() {
 }
 
 
-
 // Escuchar cambios en la autenticación
 
 export function onAuthStateChange(callback) {
@@ -509,7 +483,6 @@ export function onAuthStateChange(callback) {
     return supabase.auth.onAuthStateChange(callback);
 
 }
-
 
 
 // Recuperar contraseña
@@ -520,10 +493,9 @@ export async function resetPassword(email) {
 
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
 
-            redirectTo: `${window.location.origin}/vista/reset-password.html`
+            redirectTo: `${getPublicBaseUrl()}/vista/reset-password.html`
 
         });
-
 
 
         if (error) {
@@ -1597,6 +1569,18 @@ export async function updateModel(id, modelData) {
 // Eliminar un modelo
 export async function deleteModel(id) {
     try {
+        // Primero eliminar todas las configuraciones asociadas al modelo
+        const { error: configError } = await supabase
+            .from('configuraciones')
+            .delete()
+            .eq('modelo_coche_id', id);
+
+        if (configError) {
+            console.error('Error eliminando configuraciones asociadas:', configError);
+            return { success: false, error: 'No se pudieron eliminar las configuraciones asociadas: ' + configError.message };
+        }
+
+        // Luego eliminar el modelo
         const { error } = await supabase
             .from('modelos_coche')
             .delete()

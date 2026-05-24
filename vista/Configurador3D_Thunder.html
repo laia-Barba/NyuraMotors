@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nyura Motors - Configurador 3D</title>
+    <link rel="stylesheet" href="EstiloPrincipal.css">
+    <link rel="stylesheet" href="header-unique.css">
+    <link rel="stylesheet" href="configurador3d.css?v=2">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="home.html"><img src="../Imagenes/LogoBlancoNyura.png" alt="Nyura Motors" class="logo-img"></a>
+            <ul>
+                <li><a href="home.html">Inicio</a></li>
+                <li><a href="modelos.html" id="modelosLink">Modelos</a></li>
+                <li><span class="active">Configurador 3D</span></li>
+                <li><a href="contacto.html">Contacto</a></li>
+                <li id="authMenu"><a href="InicioSesion.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; vertical-align: -2px; margin-right: 6px;"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.41 0-8 2-8 4.5V21h16v-2.5c0-2.5-3.59-4.5-8-4.5Z"/></svg>Iniciar sesión</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="configurator-container" style="margin-top: 60px;">
+        <div class="configurator-layout">
+            <div class="viewer-panel">
+                <div class="camera-selector">
+                    <button class="back-btn" onclick="window.location.href='modelos.html'">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 16px; height: 16px; margin-right: 6px;">
+                            <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                        </svg>
+                        Ver todos los modelos
+                    </button>
+                    <button class="camera-btn active" data-camera="exterior" id="exteriorCameraBtn">Exterior</button>
+                    <button class="camera-btn" data-camera="interior" id="interiorCameraBtn">Interior</button>
+                </div>
+                <div id="canvas-container">
+                    <div class="loading-overlay" id="loadingOverlay">
+                        <div class="loading-spinner"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="interior-view" id="interiorView" style="display: none;">
+                <div class="back-to-exterior">
+                    <button class="back-btn" id="backToExteriorBtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 16px; height: 16px; margin-right: 6px;">
+                            <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                        </svg>
+                        Volver al Exterior
+                    </button>
+                </div>
+                <div id="interior-canvas-container">
+                    <div class="loading-overlay" id="interiorLoadingOverlay">
+                        <div class="loading-spinner"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="config-panel">
+                <div class="config-header">
+                    <h3>Personaliza tu <br> Thunder</h3>
+                    <div class="price-display">
+                        <span class="price-label">Precio</span>
+                        <span class="price-value">89.900 €</span>
+                    </div>
+
+                    <div class="step-indicator">
+                        <div class="step active" data-step="1">
+                            <span class="step-number">1</span>
+                            <span class="step-title">Color</span>
+                        </div>
+                        <div class="step" data-step="2">
+                            <span class="step-number">2</span>
+                            <span class="step-title">Llantas</span>
+                        </div>
+                        <div class="step" data-step="3">
+                            <span class="step-number">3</span>
+                            <span class="step-title">Paquetes</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-content">
+                    <div class="step-panel active" id="step1">
+                        <h4>1. Elige tu Color Exterior</h4>
+                        <div class="color-options">
+                            <div class="color-option active" data-color="negro" title="Negro Mate">
+                                <div class="color-swatch" style="background: linear-gradient(135deg, #1a1a1a, #000000);"></div>
+                                <span>Negro</span>
+                            </div>
+                            <br>
+                            <div class="color-option" data-color="rojo" title="Rojo Passion">
+                                <div class="color-swatch" style="background: linear-gradient(135deg, #dc143c, #8b0000);"></div>
+                                <span>Rojo</span>
+                            </div>
+                            <br>
+                            <div class="color-option" data-color="blanco" title="Blanco Perla">
+                                <div class="color-swatch" style="background: linear-gradient(135deg, #f8f8f8, #e0e0e0);"></div>
+                                <span>Blanco</span>
+                            </div>
+                            <br>
+                            <div class="color-option" data-color="gris" title="Gris Metalizado">
+                                <div class="color-swatch" style="background: linear-gradient(135deg, #6c757d, #495057);"></div>
+                                <span>Gris</span>
+                            </div>
+                            <br>
+                            <div class="color-option" data-color="azul" title="Azul Eléctrico">
+                                <div class="color-swatch" style="background: linear-gradient(135deg, #1f5eff, #0044cc);"></div>
+                                <span>Azul</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-panel" id="step2">
+                        <h4>2. Elige tus Llantas</h4>
+                        <div class="wheel-options">
+                            <div class="wheel-option active" data-wheel="acero">
+                                <div class="wheel-preview">
+                                    <div class="wheel-icon"><img src="../modelo/llantas/llantaacero.png" alt="Llanta Acero" style="width: 100%; height: 100%; object-fit: contain; background: white; border-radius: 4px;"></div>
+                                </div>
+                                <div class="wheel-info">
+                                    <span class="wheel-name">Acero</span>
+                                    <span class="wheel-price">Incluido</span>
+                                </div>
+                            </div>
+                            <div class="wheel-option" data-wheel="sport">
+                                <div class="wheel-preview">
+                                    <div class="wheel-icon"><img src="../modelo/llantas/llantaacero.png" alt="Llanta Sport" style="width: 100%; height: 100%; object-fit: contain; background: white; border-radius: 4px;"></div>
+                                </div>
+                                <div class="wheel-info">
+                                    <span class="wheel-name">Sport</span>
+                                    <span class="wheel-price">+2.500 €</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-panel" id="step3">
+                        <h4>3. Elige tus Paquetes Tecnológicos</h4>
+                        <div class="package-options">
+                            <div class="package-option">
+                                <div class="package-header">
+                                    <input type="checkbox" id="package-premium" class="package-checkbox">
+                                    <label for="package-premium" class="package-label">
+                                        <span class="package-name">Tech Premium</span>
+                                        <span class="package-price">+6.800 €</span>
+                                    </label>
+                                </div>
+                                <div class="package-features">
+                                    <span>• Pantalla 15"</span>
+                                    <span>• Sistema Audio Premium</span>
+                                    <span>• Conducción Autónoma Nivel 2</span>
+                                    <span>• Control por Voz</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="nav-btn nav-prev" id="bottomPrevBtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 16px; height: 16px;">
+                        </svg>
+                        Anterior
+                    </button>
+                    <button class="nav-btn nav-next" id="bottomNextBtn">
+                        Siguiente
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 16px; height: 16px;">
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <img src="../Imagenes/LogoBlancoNyura.png" alt="Nyura Motors" class="logo-img" style="height: 143px; opacity: 0.9;">
+                <p>El futur de la mobilitat elèctrica. Disseny innovador, rendiment superior i tecnologia punta.</p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Paginas de Nyura Motors</h3>
+                <div class="footer-links">
+                    <a href="home.html">Home</a>
+                    <a href="modelos.html">Modelos</a>
+                    <span>Configurador 3D</span>
+                    <a href="contacto.html">Contacto</a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contacte</h3>
+                <p>
+                    contacto@nyuramotors.com<br>
+                    +34 612 345 678<br>
+                    Carrer de Caracas, 11. Sant Andreu, 08030 Barcelona
+                </p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Nyura Motors. Tots els drets reservats.</p>
+        </div>
+    </footer>
+
+    <div id="exitConfirmationPopup" class="exit-confirmation-popup">
+        <div class="popup-content">
+            <h3>¿Salir de vista interior?</h3>
+            <p>¿Estás seguro de que quieres salir de la vista interior y volver a la vista exterior?</p>
+            <div class="popup-buttons">
+                <button class="popup-btn cancel-btn" id="cancelExitBtn">Cancelar</button>
+                <button class="popup-btn confirm-btn" id="confirmExitBtn">Salir</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+    <script type="module">
+        import { getCurrentUser, createOrUpdateUserProfile, onAuthStateChange, signOut, getUserByEmail } from '../controlador/BBDD/SupabaseCliente.js';
+
+        let scene, camera, renderer, model, modelRoot, controls;
+        let isRotating = true;
+        let animationId;
+        let exteriorCamera = null;
+        let savedModelPosition = null;
+        let savedModelRotation = null;
+        let savedModelScale = null;
+        let modelLoaded = false;
+        let originalWheelColors = [];
+        let currentCameraMode = 'exterior';
+        let interiorScene, interiorCamera, interiorRenderer, interiorModel;
+        let interiorLoaded = false;
+        let interiorAnimationId = null;
+        let isDragging = false;
+        let previousMousePosition = { x: 0, y: 0 };
+        let rotationX = 0;
+        let rotationY = Math.PI;
+        let groundMesh = null;
+        let grassTexture = null;
+        let modelScaleFixed = false;
+
+        let currentConfiguration = {
+            color: 'negro',
+            wheel: 'acero',
+            packages: [],
+            basePrice: 89900
+        };
+
+        const prices = {
+            wheels: {
+                acero: 0,
+                sport: 2500
+            },
+            packages: {
+                basic: 3500,
+                premium: 6800,
+                max: 9200
+            }
+        };
+
+        function init() {
+            scene = new THREE.Scene();
+            scene.background = null;
+
+            camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+            camera.position.set(0, 1.5, 5);
+            exteriorCamera = camera.clone();
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            renderer.setClearColor(0x000000, 0);
+            renderer.physicallyCorrectLights = true;
+            renderer.outputEncoding = THREE.sRGBEncoding;
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            renderer.toneMappingExposure = 1.65;
+
+            const container = document.getElementById('canvas-container');
+            container.appendChild(renderer.domElement);
+
+            updateRendererSize();
+            requestAnimationFrame(() => updateRendererSize());
+
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            controls.screenSpacePanning = false;
+            controls.enableRotate = true;
+            controls.enablePan = false;
+            controls.enableZoom = false;
+            controls.minPolarAngle = Math.PI * 0.15;
+            controls.maxPolarAngle = Math.PI * 0.52;
+            controls.autoRotate = false;
+            controls.target.set(0, 0.5, 0);
+            controls.update();
+
+            setupLighting();
+            setupEventListeners();
+            initConfigurationEvents();
+            updatePrice();
+
+            loadThunderModel(currentConfiguration.color);
+
+            animate();
+        }
+
+        function fitCameraToObject(object3D) {
+            const box = new THREE.Box3().setFromObject(object3D);
+            const size = box.getSize(new THREE.Vector3());
+            const center = box.getCenter(new THREE.Vector3());
+
+            controls.target.copy(center);
+
+            const fov = THREE.MathUtils.degToRad(camera.fov);
+            const fitHeightDistance = (size.y / 2) / Math.tan(fov / 2);
+            const fitWidthDistance = (size.x / 2) / (Math.tan(fov / 2) * camera.aspect);
+            const distance = 4.35 * Math.max(fitHeightDistance, fitWidthDistance);
+
+            camera.position.set(center.x, center.y + size.y * 0.5, center.z + distance);
+            camera.near = Math.max(0.01, distance / 100);
+            camera.far = Math.max(1000, distance * 100);
+            camera.updateProjectionMatrix();
+
+            if (!modelScaleFixed) {
+                modelScaleFixed = true;
+            }
+
+            if (controls && controls.enableZoom === false) {
+                const d = camera.position.distanceTo(controls.target);
+                controls.minDistance = d;
+                controls.maxDistance = d;
+            }
+
+            controls.update();
+        }
+
+        function addOrUpdateGroundForObject(object3D) {
+            if (!scene || !object3D) return;
+
+            if (groundMesh) {
+                scene.remove(groundMesh);
+                groundMesh.traverse?.((child) => {
+                    if (child.geometry) child.geometry.dispose();
+                    if (child.material) {
+                        if (Array.isArray(child.material)) child.material.forEach((m) => m.dispose());
+                        else child.material.dispose();
+                    }
+                });
+                groundMesh = null;
+            }
+
+            const box = new THREE.Box3().setFromObject(object3D);
+            const size = box.getSize(new THREE.Vector3());
+            const center = box.getCenter(new THREE.Vector3());
+            const pad = 0.15;
+            const radius = Math.min(3.0, Math.max(1.4, (Math.max(size.x, size.z) / 2) + pad));
+
+            if (!grassTexture) {
+                const textureLoader = new THREE.TextureLoader();
+                grassTexture = textureLoader.load('../Imagenes/grass.jpg', (texture) => {
+                    texture.wrapS = THREE.RepeatWrapping;
+                    texture.wrapT = THREE.RepeatWrapping;
+                    texture.repeat.set(2, 2);
+                });
+            }
+
+            const geometry = new THREE.CircleGeometry(radius, 64);
+            const material = new THREE.MeshStandardMaterial({
+                map: grassTexture,
+                roughness: 0.1,
+                metalness: 0.0
+            });
+
+            const base = new THREE.Mesh(geometry, material);
+            base.rotation.x = -Math.PI / 2;
+            base.receiveShadow = true;
+            base.castShadow = false;
+
+            const ringGeometry = new THREE.RingGeometry(radius * 0.995, radius * 1.01, 128);
+            const ringMaterial = new THREE.MeshBasicMaterial({
+                color: new THREE.Color(1, 0, 0),
+                side: THREE.DoubleSide,
+                toneMapped: false
+            });
+
+            const colorRing = new THREE.Mesh(ringGeometry, ringMaterial);
+            colorRing.rotation.x = -Math.PI / 2;
+            colorRing.position.y = 0.003;
+
+            groundMesh = new THREE.Group();
+            groundMesh.add(base);
+            groundMesh.add(colorRing);
+            groundMesh.position.set(center.x, box.min.y - 0.02, center.z);
+            scene.add(groundMesh);
+        }
+
+        function setupLighting() {
+            scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+
+            const hemiLight = new THREE.HemisphereLight(0xffffff, 0x6b7380, 0.5);
+            hemiLight.position.set(0, 12, 0);
+            scene.add(hemiLight);
+
+            const keyLight = new THREE.DirectionalLight(0xffffff, 1.2);
+            keyLight.position.set(7, 10, 8);
+            keyLight.castShadow = true;
+            keyLight.shadow.mapSize.width = 2048;
+            keyLight.shadow.mapSize.height = 2048;
+            keyLight.shadow.camera.near = 0.5;
+            keyLight.shadow.camera.far = 60;
+            keyLight.shadow.bias = -0.00015;
+            scene.add(keyLight);
+
+            const fillLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            fillLight.position.set(-8, 6, 6);
+            scene.add(fillLight);
+
+            const rimLight = new THREE.DirectionalLight(0xffffff, 0.6);
+            rimLight.position.set(-6, 8, -10);
+            scene.add(rimLight);
+
+            const pointLight = new THREE.PointLight(0xffffff, 0.5, 40);
+            pointLight.position.set(0, 5, 10);
+            scene.add(pointLight);
+        }
+
+        function setupStepNavigation() {
+            const steps = Array.from(document.querySelectorAll('.step-indicator .step'));
+            const panels = Array.from(document.querySelectorAll('.step-panel'));
+            const bottomPrevBtn = document.getElementById('bottomPrevBtn');
+            const bottomNextBtn = document.getElementById('bottomNextBtn');
+
+            if (!steps.length || !panels.length) return;
+
+            const maxStep = Math.max(...steps.map((s) => Number(s.dataset.step) || 0));
+            let currentStep = Number(document.querySelector('.step-indicator .step.active')?.dataset.step || 1);
+            if (!Number.isFinite(currentStep) || currentStep < 1) currentStep = 1;
+
+            const setActiveStep = (stepNumber) => {
+                const step = Math.min(Math.max(1, Number(stepNumber) || 1), maxStep);
+                currentStep = step;
+
+                steps.forEach((s) => s.classList.toggle('active', Number(s.dataset.step) === step));
+                panels.forEach((p) => p.classList.toggle('active', p.id === `step${step}`));
+
+                if (bottomPrevBtn) bottomPrevBtn.disabled = step <= 1;
+                if (bottomNextBtn) {
+                    bottomNextBtn.disabled = false;
+                    if (step >= maxStep) {
+                        bottomNextBtn.textContent = 'Ir a Pago';
+                    } else {
+                        bottomNextBtn.innerHTML = 'Siguiente<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 16px; height: 16px;"></svg>';
+                    }
+                }
+            };
+
+            if (bottomPrevBtn) bottomPrevBtn.addEventListener('click', () => setActiveStep(currentStep - 1));
+            if (bottomNextBtn) {
+                bottomNextBtn.addEventListener('click', () => {
+                    if (currentStep >= maxStep) {
+                        const configData = {
+                            ...currentConfiguration,
+                            totalPrice: document.querySelector('.price-value')?.textContent || '',
+                            modelName: window.currentModelName || 'Thunder',
+                            timestamp: new Date().toISOString()
+                        };
+                        localStorage.setItem('carConfiguration', JSON.stringify(configData));
+                        window.location.href = 'metodopago_thunder.html';
+                    } else {
+                        setActiveStep(currentStep + 1);
+                    }
+                });
+            }
+            steps.forEach((s) => s.addEventListener('click', () => setActiveStep(s.dataset.step)));
+
+            setActiveStep(currentStep);
+        }
+
+        function startIntroAnimation() {
+            if (!modelLoaded) return;
+
+            const duration = 4000;
+            const startTime = Date.now();
+            const root = modelRoot || model;
+            const initialRotation = root.rotation.y;
+            const initialCameraPos = camera.position.clone();
+            const farCameraPos = initialCameraPos.clone().multiplyScalar(2.5);
+            const finalCameraPos = initialCameraPos.clone();
+
+            camera.position.copy(farCameraPos);
+            root.rotation.y = 0;
+
+            function animateIntro() {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+
+                const zoomProgress = Math.min(progress / 0.5, 1);
+                const easedZoom = easeOutCubic(zoomProgress);
+                camera.position.lerpVectors(farCameraPos, finalCameraPos, easedZoom);
+
+                const rotationProgress = Math.min(Math.max((progress - 0.6) / 0.4, 0), 1);
+                const easedRotation = easeOutCubic(rotationProgress);
+                root.rotation.y = initialRotation + (Math.PI * 2 * easedRotation);
+
+                controls.update();
+
+                if (progress < 1) {
+                    requestAnimationFrame(animateIntro);
+                } else {
+                    camera.position.copy(finalCameraPos);
+                    controls.update();
+                }
+            }
+
+            animateIntro();
+        }
+
+        function setupEventListeners() {
+            window.addEventListener('resize', onWindowResize);
+            setupStepNavigation();
+
+            const exteriorBtn = document.getElementById('exteriorCameraBtn');
+            const interiorBtn = document.getElementById('interiorCameraBtn');
+            const backToExteriorBtn = document.getElementById('backToExteriorBtn');
+            const modelosLink = document.getElementById('modelosLink');
+
+            if (exteriorBtn) exteriorBtn.addEventListener('click', showExteriorView);
+            if (interiorBtn) interiorBtn.addEventListener('click', showInteriorView);
+            if (backToExteriorBtn) backToExteriorBtn.addEventListener('click', showExteriorView);
+            if (modelosLink) {
+                modelosLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.location.href = 'home.html#modelos';
+                });
+            }
+        }
+
+        function showExteriorView() {
+            const layout = document.querySelector('.configurator-layout');
+            const viewerPanel = document.querySelector('.viewer-panel');
+            const configPanel = document.querySelector('.config-panel');
+            const interiorView = document.getElementById('interiorView');
+            const exteriorBtn = document.getElementById('exteriorCameraBtn');
+            const interiorBtn = document.getElementById('interiorCameraBtn');
+            const exteriorContainer = document.getElementById('canvas-container');
+            const interiorContainer = document.getElementById('interior-canvas-container');
+
+            viewerPanel.style.display = 'block';
+            if (configPanel) configPanel.style.display = 'block';
+            interiorView.style.display = 'none';
+
+            if (layout) {
+                layout.style.alignItems = '';
+                layout.classList.remove('interior-active');
+            }
+            if (interiorView) {
+                interiorView.style.flex = '';
+                interiorView.style.width = '';
+                interiorView.style.maxWidth = '';
+            }
+
+            exteriorBtn.classList.add('active');
+            interiorBtn.classList.remove('active');
+            currentCameraMode = 'exterior';
+
+            if (interiorAnimationId) {
+                cancelAnimationFrame(interiorAnimationId);
+                interiorAnimationId = null;
+            }
+
+            interiorLoaded = false;
+
+            if (interiorContainer) {
+                interiorContainer.innerHTML = '<div class="loading-overlay" id="interiorLoadingOverlay"><div class="loading-spinner"></div></div>';
+            }
+
+            if (renderer && exteriorContainer && !exteriorContainer.contains(renderer.domElement)) {
+                exteriorContainer.innerHTML = '';
+                exteriorContainer.appendChild(renderer.domElement);
+            }
+
+            if (renderer && exteriorContainer) {
+                const width = Math.max(1, exteriorContainer.clientWidth);
+                const height = Math.max(1, exteriorContainer.clientHeight);
+                renderer.setSize(width, height);
+                camera.aspect = width / height;
+                camera.updateProjectionMatrix();
+            }
+
+            if (controls) {
+                controls.enableRotate = true;
+                controls.enablePan = false;
+                controls.enableZoom = false;
+                controls.object = camera;
+                controls.update();
+            }
+
+            if (exteriorCamera && modelRoot) {
+                camera.position.copy(exteriorCamera.position);
+                camera.rotation.copy(exteriorCamera.rotation);
+                if (!modelScaleFixed) fitCameraToObject(modelRoot);
+            } else if (modelRoot && !modelScaleFixed) {
+                fitCameraToObject(modelRoot);
+            }
+
+            if (modelRoot && savedModelPosition && savedModelRotation && savedModelScale) {
+                modelRoot.position.copy(savedModelPosition);
+                modelRoot.rotation.copy(savedModelRotation);
+                modelRoot.scale.copy(savedModelScale);
+                savedModelPosition = null;
+                savedModelRotation = null;
+                savedModelScale = null;
+            }
+        }
+
+        function showInteriorView() {
+            const layout = document.querySelector('.configurator-layout');
+            const viewerPanel = document.querySelector('.viewer-panel');
+            const configPanel = document.querySelector('.config-panel');
+            const interiorView = document.getElementById('interiorView');
+            const exteriorBtn = document.getElementById('exteriorCameraBtn');
+            const interiorBtn = document.getElementById('interiorCameraBtn');
+
+            viewerPanel.style.display = 'none';
+            if (configPanel) configPanel.style.display = 'none';
+            interiorView.style.display = 'block';
+
+            if (layout) {
+                layout.style.alignItems = 'stretch';
+                layout.classList.add('interior-active');
+            }
+            if (interiorView) {
+                interiorView.style.flex = '1 1 auto';
+                interiorView.style.width = '100%';
+                interiorView.style.maxWidth = '100%';
+            }
+
+            exteriorBtn.classList.remove('active');
+            interiorBtn.classList.add('active');
+            currentCameraMode = 'interior';
+
+            if (!exteriorCamera && camera) {
+                exteriorCamera = camera.clone();
+            }
+
+            if (!interiorLoaded) initInteriorView();
+        }
+
+        function initInteriorView() {
+            const container = document.getElementById('interior-canvas-container');
+            const loadingOverlay = document.getElementById('interiorLoadingOverlay');
+
+            interiorScene = new THREE.Scene();
+            interiorScene.background = null;
+
+            rotationX = 0;
+            rotationY = Math.PI;
+
+            interiorCamera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+            interiorCamera.position.set(1.2, 1.2, 2.5);
+            interiorCamera.lookAt(0, 0.7, 2);
+
+            interiorRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            interiorRenderer.setPixelRatio(window.devicePixelRatio);
+            interiorRenderer.setSize(container.clientWidth, container.clientHeight);
+            interiorRenderer.shadowMap.enabled = true;
+            interiorRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            interiorRenderer.setClearColor(0x000000, 0);
+            interiorRenderer.physicallyCorrectLights = true;
+            interiorRenderer.outputEncoding = THREE.sRGBEncoding;
+            interiorRenderer.toneMapping = THREE.ACESFilmicToneMapping;
+            interiorRenderer.toneMappingExposure = 1.65;
+
+            container.innerHTML = '';
+            container.appendChild(interiorRenderer.domElement);
+
+            const canvas = interiorRenderer.domElement;
+            canvas.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                previousMousePosition = { x: e.clientX, y: e.clientY };
+            });
+            canvas.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                const deltaX = e.clientX - previousMousePosition.x;
+                const deltaY = e.clientY - previousMousePosition.y;
+                rotationY += deltaX * 0.005;
+                rotationX += -deltaY * 0.005;
+                rotationX = Math.max(-Math.PI / 6, Math.min(Math.PI / 6, rotationX));
+                previousMousePosition = { x: e.clientX, y: e.clientY };
+            });
+            canvas.addEventListener('mouseup', () => { isDragging = false; });
+            canvas.addEventListener('mouseleave', () => { isDragging = false; });
+
+            interiorScene.add(new THREE.AmbientLight(0xffffff, 1.2));
+            const interiorDirectional = new THREE.DirectionalLight(0xffffff, 2.0);
+            interiorDirectional.position.set(5, 5, 5);
+            interiorScene.add(interiorDirectional);
+
+            loadThunderInteriorModel();
+
+            if (loadingOverlay) loadingOverlay.style.display = 'none';
+            interiorLoaded = true;
+        }
+
+        function loadThunderInteriorModel() {
+            const loader = new THREE.GLTFLoader();
+            loader.load(
+                '../coches/Thunder/ThunderNegro.glb',
+                (gltf) => {
+                    if (interiorModel) interiorScene.remove(interiorModel);
+
+                    interiorModel = gltf.scene;
+                    interiorModel.position.set(0, 0, 0);
+                    interiorModel.rotation.y = Math.PI;
+
+                    const box = new THREE.Box3().setFromObject(interiorModel);
+                    const size = box.getSize(new THREE.Vector3());
+                    const maxDim = Math.max(size.x, size.y, size.z);
+                    const scale = 8 / maxDim;
+                    interiorModel.scale.multiplyScalar(scale);
+
+                    interiorScene.add(interiorModel);
+                    animateInterior();
+                },
+                (progress) => {
+                    if (progress.total) {
+                        console.log('Interior loading progress:', (progress.loaded / progress.total * 100) + '%');
+                    }
+                },
+                (error) => {
+                    console.error('Error loading interior model:', error);
+                }
+            );
+        }
+
+        function animateInterior() {
+            interiorAnimationId = requestAnimationFrame(animateInterior);
+
+            if (interiorCamera) {
+                const basePosition = new THREE.Vector3(1.2, 1.1, 2.5);
+                interiorCamera.position.copy(basePosition);
+
+                const lookDirection = new THREE.Vector3(0, 0, 1);
+                const upAxis = new THREE.Vector3(0, 1, 0);
+                const yawQuat = new THREE.Quaternion().setFromAxisAngle(upAxis, rotationY);
+                lookDirection.applyQuaternion(yawQuat);
+
+                const rightAxis = new THREE.Vector3(1, 0, 0).applyQuaternion(yawQuat).normalize();
+                lookDirection.applyAxisAngle(rightAxis, rotationX);
+
+                const lookAtPoint = basePosition.clone().add(lookDirection.multiplyScalar(5));
+                interiorCamera.lookAt(lookAtPoint);
+            }
+
+            if (interiorRenderer && interiorScene && interiorCamera) {
+                interiorRenderer.render(interiorScene, interiorCamera);
+            }
+        }
+
+        function updateRendererSize() {
+            if (!renderer || !camera) return;
+
+            let container;
+            if (currentCameraMode === 'interior') {
+                container = document.getElementById('interior-canvas-container');
+            } else {
+                container = document.getElementById('canvas-container');
+            }
+
+            if (!container) return;
+
+            const width = Math.max(1, container.clientWidth);
+            const height = Math.max(1, container.clientHeight);
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+            renderer.setSize(width, height);
+        }
+
+        function onWindowResize() {
+            updateRendererSize();
+            if (modelLoaded && modelRoot && !modelScaleFixed) {
+                fitCameraToObject(modelRoot);
+            }
+        }
+
+        function animate() {
+            animationId = requestAnimationFrame(animate);
+
+            if (isRotating && modelLoaded && currentCameraMode === 'exterior') {
+                const root = modelRoot || model;
+                if (root) root.rotation.y += 0.005;
+            }
+
+            if (currentCameraMode === 'exterior' && controls) controls.update();
+            if (renderer && scene && camera) renderer.render(scene, camera);
+        }
+
+        function updatePrice() {
+            let totalPrice = currentConfiguration.basePrice;
+            totalPrice += prices.wheels[currentConfiguration.wheel] || 0;
+
+            currentConfiguration.packages.forEach((packageId) => {
+                if (prices.packages[packageId]) totalPrice += prices.packages[packageId];
+            });
+
+            const priceElement = document.querySelector('.price-value');
+            if (priceElement) {
+                priceElement.textContent = `${totalPrice.toLocaleString('es-ES')} €`;
+            }
+        }
+
+        function initConfigurationEvents() {
+            document.querySelectorAll('.color-option').forEach((option) => {
+                option.addEventListener('click', function () {
+                    document.querySelectorAll('.color-option').forEach((opt) => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    currentConfiguration.color = this.dataset.color;
+                    updatePrice();
+                    updateModelColorAndModel(this.dataset.color);
+                });
+            });
+
+            document.querySelectorAll('.wheel-option').forEach((option) => {
+                option.addEventListener('click', function () {
+                    document.querySelectorAll('.wheel-option').forEach((opt) => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    currentConfiguration.wheel = this.dataset.wheel;
+                    updatePrice();
+                    updateModelWheels(this.dataset.wheel);
+                });
+            });
+
+            document.querySelectorAll('.package-checkbox').forEach((checkbox) => {
+                checkbox.addEventListener('change', function () {
+                    const packageId = this.id.replace('package-', '');
+                    if (this.checked) {
+                        if (!currentConfiguration.packages.includes(packageId)) {
+                            currentConfiguration.packages.push(packageId);
+                        }
+                    } else {
+                        currentConfiguration.packages = currentConfiguration.packages.filter((p) => p !== packageId);
+                    }
+                    updatePrice();
+                });
+            });
+        }
+
+        function updateModelColorAndModel(color) {
+            if (color === 'negro') {
+                loadThunderModel('negro');
+            } else if (color === 'rojo') {
+                loadThunderModel('rojo');
+            } else if (color === 'blanco') {
+                loadThunderModel('blanco');
+            } else if (color === 'gris') {
+                loadThunderModel('gris');
+            } else if (color === 'azul') {
+                loadThunderModel('azul');
+            }
+        }
+
+        function applyCommonModelSetup(loadedModel, sizeAdjustment = 1) {
+            model = loadedModel;
+            originalWheelColors = [];
+
+            let box = new THREE.Box3().setFromObject(model);
+            let size = box.getSize(new THREE.Vector3());
+            const maxDim = Math.max(size.x, size.y, size.z);
+            const targetMax = 2.6;
+            const scale = targetMax / (maxDim || 1);
+            model.scale.setScalar(scale * sizeAdjustment);
+
+            box = new THREE.Box3().setFromObject(model);
+            const center = box.getCenter(new THREE.Vector3());
+            model.position.sub(center);
+
+            box = new THREE.Box3().setFromObject(model);
+            model.position.y -= box.min.y;
+            model.position.y += 0.8;
+
+            model.traverse((child) => {
+                if (!child.isMesh) return;
+                child.castShadow = true;
+                child.receiveShadow = true;
+                if (!child.material) return;
+
+                if (Array.isArray(child.material)) {
+                    child.material = child.material.map((mat) => mat.clone());
+                } else {
+                    child.material = child.material.clone();
+                }
+
+                const materials = Array.isArray(child.material) ? child.material : [child.material];
+                const meshName = (child.name || '').toLowerCase();
+
+                materials.forEach((mat) => {
+                    const matName = (mat.name || '').toLowerCase();
+                    const isWheel = meshName.includes('wheel') || meshName.includes('rim') || meshName.includes('llanta') || matName.includes('wheel') || matName.includes('rim') || matName.includes('llanta');
+                    const isGlass = mat.transparent === true || (typeof mat.opacity === 'number' && mat.opacity < 0.999) || (typeof mat.transmission === 'number' && mat.transmission > 0) || matName.includes('glass') || matName.includes('window') || meshName.includes('glass') || meshName.includes('window') || meshName.includes('cristal') || meshName.includes('ventana');
+                    const isInterior = meshName.includes('interior') || meshName.includes('cabin') || meshName.includes('cockpit') || meshName.includes('seat') || meshName.includes('asiento') || meshName.includes('seats') || meshName.includes('chair') || meshName.includes('leather') || matName.includes('interior') || matName.includes('seat') || matName.includes('asiento') || matName.includes('leather');
+
+                    if (isWheel && mat.color) {
+                        originalWheelColors.push({ mesh: child, material: mat, originalColor: mat.color.getHex() });
+                    }
+
+                    if (!isGlass && isInterior) {
+                        if (mat.color) mat.color.setHex(0x2b2b2b);
+                        if (typeof mat.roughness === 'number') mat.roughness = Math.max(mat.roughness, 0.85);
+                        if (typeof mat.metalness === 'number') mat.metalness = Math.min(mat.metalness, 0.05);
+                        if (mat.emissive) {
+                            mat.emissive.setHex(0x000000);
+                            mat.emissiveIntensity = 0;
+                        }
+                    }
+
+                    mat.needsUpdate = true;
+                });
+            });
+
+            modelRoot = new THREE.Group();
+            modelRoot.add(model);
+            scene.add(modelRoot);
+            addOrUpdateGroundForObject(modelRoot);
+            modelLoaded = true;
+            fitCameraToObject(modelRoot);
+            requestAnimationFrame(() => {
+                updateRendererSize();
+                fitCameraToObject(modelRoot);
+            });
+            updateModelWheels(currentConfiguration.wheel);
+            startIntroAnimation();
+        }
+
+        function loadThunderModel(color) {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            if (loadingOverlay) {
+                loadingOverlay.style.display = 'flex';
+                loadingOverlay.innerHTML = '<div class="loading-spinner"></div>';
+            }
+
+            if (model && modelRoot) {
+                scene.remove(modelRoot);
+                model = null;
+                modelRoot = null;
+            }
+
+            const colorModelMap = {
+                'negro': 'ThunderNegro.glb',
+                'rojo': 'ThunderRojo.glb',
+                'blanco': 'ThunderBlanco.glb',
+                'gris': 'ThunderGris.glb',
+                'azul': 'ThunderAzul.glb'
+            };
+
+            const modelFile = colorModelMap[color] || 'ThunderNegro.glb';
+            const sizeAdjustment = color === 'negro' ? 0.85 : 1;
+
+            const loader = new THREE.GLTFLoader();
+            loader.load(
+                `../coches/Thunder/${modelFile}`,
+                (gltf) => {
+                    applyCommonModelSetup(gltf.scene, sizeAdjustment);
+                    if (loadingOverlay) loadingOverlay.style.display = 'none';
+                },
+                (xhr) => {
+                    if (xhr.total) console.log((xhr.loaded / xhr.total * 100) + '% cargado');
+                },
+                (error) => {
+                    console.error(`Error al cargar el modelo Thunder ${color}:`, error);
+                    if (loadingOverlay) {
+                        loadingOverlay.innerHTML = '<div style="text-align: center;"><p style="color: #dc143c; font-size: 18px;">Error al cargar el modelo 3D</p><p style="margin-top: 10px;">Por favor, recarga la página</p></div>';
+                    }
+                }
+            );
+        }
+
+        function updateModelWheels(wheelType) {
+            if (!modelLoaded || !model) return;
+
+            model.traverse((child) => {
+                if (!child.isMesh || !child.material) return;
+
+                const meshName = (child.name || '').toLowerCase();
+                const materials = Array.isArray(child.material) ? child.material : [child.material];
+
+                materials.forEach((mat) => {
+                    const matName = (mat.name || '').toLowerCase();
+                    const isWheel = meshName.includes('wheel') || meshName.includes('rim') || meshName.includes('llanta') || matName.includes('wheel') || matName.includes('rim') || matName.includes('llanta');
+
+                    if (!isWheel || !mat.color) return;
+
+                    if (wheelType === 'acero') {
+                        mat.color.setHex(0x000000);
+                        mat.roughness = 1.0;
+                        mat.metalness = 0.0;
+                        if (mat.emissive) {
+                            mat.emissive.setHex(0x000000);
+                            mat.emissiveIntensity = 0;
+                        }
+                        if (typeof mat.envMapIntensity === 'number') mat.envMapIntensity = 0;
+                    } else if (wheelType === 'sport') {
+                        mat.color.setHex(0x333333);
+                        mat.roughness = 0.4;
+                        mat.metalness = 0.7;
+                    }
+
+                    mat.needsUpdate = true;
+                });
+            });
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.textContent = message;
+
+            Object.assign(notification.style, {
+                position: 'fixed',
+                top: '100px',
+                right: '20px',
+                padding: '15px 20px',
+                borderRadius: '8px',
+                color: 'white',
+                fontWeight: '500',
+                zIndex: '10000',
+                transform: 'translateX(100%)',
+                transition: 'transform 0.3s ease',
+                maxWidth: '300px',
+                fontFamily: "'Inter', sans-serif"
+            });
+
+            switch (type) {
+                case 'success':
+                    notification.style.background = 'linear-gradient(135deg, #28a745, #20c997)';
+                    break;
+                case 'error':
+                    notification.style.background = 'linear-gradient(135deg, #dc3545, #c82333)';
+                    break;
+                default:
+                    notification.style.background = 'linear-gradient(135deg, #007bff, #0056b3)';
+            }
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    if (notification.parentNode) notification.parentNode.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        function debugModelStructure() {
+            if (!modelLoaded || !model) {
+                console.log('Modelo no cargado aún');
+                return;
+            }
+
+            let seatCount = 0;
+            let meshCount = 0;
+            model.traverse((child) => {
+                meshCount++;
+                const meshName = (child.name || '').toLowerCase();
+                if (child.isMesh && child.material) {
+                    const materials = Array.isArray(child.material) ? child.material : [child.material];
+                    materials.forEach((mat) => {
+                        const matName = (mat.name || '').toLowerCase();
+                        if (meshName.includes('seat') || meshName.includes('asiento') || meshName.includes('chair') || meshName.includes('leather') || matName.includes('seat') || matName.includes('asiento') || matName.includes('chair') || matName.includes('leather')) {
+                            seatCount++;
+                        }
+                    });
+                }
+            });
+            console.log(`Total meshes: ${meshCount}`);
+            console.log(`Total asientos encontrados: ${seatCount}`);
+        }
+
+        window.resetConfiguration = function () {
+            currentConfiguration = {
+                color: 'negro',
+                wheel: 'acero',
+                packages: [],
+                basePrice: 89900
+            };
+
+            document.querySelectorAll('.color-option').forEach((opt) => opt.classList.remove('active'));
+            document.querySelector('.color-option[data-color="negro"]')?.classList.add('active');
+            document.querySelectorAll('.wheel-option').forEach((opt) => opt.classList.remove('active'));
+            document.querySelector('.wheel-option[data-wheel="acero"]')?.classList.add('active');
+            document.querySelectorAll('.package-checkbox').forEach((cb) => { cb.checked = false; });
+
+            updatePrice();
+
+            if (modelLoaded) {
+                loadThunderModel('negro');
+                updateModelWheels('acero');
+            }
+
+            showNotification('Configuración restablecida', 'info');
+        };
+
+        window.saveConfiguration = function () {
+            const configData = {
+                ...currentConfiguration,
+                timestamp: new Date().toISOString(),
+                totalPrice: document.querySelector('.price-value')?.textContent || ''
+            };
+
+            try {
+                localStorage.setItem('thunderConfiguration', JSON.stringify(configData));
+                showNotification('Configuración guardada correctamente', 'success');
+            } catch (error) {
+                console.warn('No se pudo usar localStorage:', error);
+                showNotification('No se pudo guardar en este entorno', 'error');
+            }
+
+            console.log('Configuración guardada:', configData);
+        };
+
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (!header) return;
+            if (window.scrollY > 50) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
+        });
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Leer parámetro vehiculo de la URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const vehiculo = urlParams.get('vehiculo');
+
+            console.log('URL completa:', window.location.href);
+            console.log('Parámetro vehiculo:', vehiculo);
+
+            // Determinar el nombre del modelo según el parámetro
+            let modelName = 'Thunder';
+
+            console.log('Nombre del modelo determinado:', modelName);
+
+            // Actualizar el título dinámicamente
+            const titleElement = document.querySelector('.config-header h3');
+            if (titleElement) {
+                titleElement.innerHTML = `Personaliza tu <br> ${modelName}`;
+            }
+
+            // Guardar el nombre del modelo para usarlo al guardar la configuración
+            window.currentModelName = modelName;
+
+            const authMenu = document.getElementById('authMenu');
+
+            async function updateAuthMenu(user) {
+                if (!authMenu) return;
+
+                if (user) {
+                    const userData = await getUserByEmail(user.email);
+                    const isAdmin = userData && userData.rol === 'admin';
+                    const displayName = user.user_metadata?.nombre || user.email.split('@')[0];
+
+                    authMenu.innerHTML = `
+                        <div class="auth-dropdown">
+                            <button class="auth-dropdown-toggle" onclick="toggleAuthMenu()">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; vertical-align: -2px; margin-right: 6px;">
+                                    <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.41 0-8 2-8 4.5V21h16v-2.5c0-2.5-3.59-4.5-8-4.5Z"/>
+                                </svg>
+                                ${displayName}
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 12px; height: 12px; margin-left: 4px;">
+                                    <path d="M7 10l5 5-5z"/>
+                                </svg>
+                            </button>
+                            <div class="auth-dropdown-menu" id="authDropdownMenu">
+                                <a href="User/perfil.html">Ver perfil</a>
+                                ${isAdmin ? '<a href="admin/Panel.html" style="color: #dc3545;">Panel de Administrador</a>' : ''}
+                                <a href="#" onclick="handleSignOut()" style="color: #dc3545;">Cerrar sesión</a>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    authMenu.innerHTML = `
+                        <a href="InicioSesion.html">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; vertical-align: -2px; margin-right: 6px;">
+                                <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.41 0-8 2-8 4.5V21h16v-2.5c0-2.5-3.59-4.5-8-4.5Z"/>
+                            </svg>
+                            Iniciar sesión
+                        </a>
+                    `;
+                }
+            }
+
+            window.toggleAuthMenu = function () {
+                const menu = document.getElementById('authDropdownMenu');
+                if (!menu) return;
+                menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+            };
+
+            window.handleSignOut = async function () {
+                try {
+                    const result = await signOut();
+                    if (result.success) {
+                        updateAuthMenu(null);
+                    } else {
+                        alert('Error al cerrar sesión. Intenta de nuevo.');
+                    }
+                } catch (error) {
+                    console.error('Error inesperado al cerrar sesión:', error);
+                    alert('Error inesperado. Intenta de nuevo.');
+                }
+            };
+
+            document.addEventListener('click', (event) => {
+                const dropdown = document.querySelector('.auth-dropdown');
+                if (dropdown && !dropdown.contains(event.target)) {
+                    const menu = document.getElementById('authDropdownMenu');
+                    if (menu) menu.style.display = 'none';
+                }
+            });
+
+            try {
+                const currentUser = await getCurrentUser();
+                await updateAuthMenu(currentUser);
+
+                onAuthStateChange(async (event, session) => {
+                    if (event === 'SIGNED_IN' && session?.user) {
+                        const profileResult = await createOrUpdateUserProfile(session.user);
+                        if (!profileResult.success) {
+                            console.error('Error procesando perfil:', profileResult.error);
+                        }
+                        updateAuthMenu(session.user);
+                    } else if (event === 'SIGNED_OUT') {
+                        updateAuthMenu(null);
+                    }
+                });
+            } catch (error) {
+                console.warn('No se pudo inicializar la autenticación:', error);
+            }
+
+            init();
+
+            setTimeout(() => {
+                debugModelStructure();
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

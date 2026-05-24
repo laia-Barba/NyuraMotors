@@ -10,19 +10,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
   </head>
   <body>
-    <header>
-        <nav>
-            <!-- Logo como imagen -->
-            <a href="../home.html"><img src="../../Imagenes/LogoBlancoNyura.png" alt="Nyura Motors" class="logo-img"></a>
-            
-            <ul>
-                <li><a href="../home.html">Inicio</a></li>
-                <li><a href="../Gama.html">Modelos</a></li>
-                <li><a href="../contacto.html">Contacto</a></li>
-                <li id="authMenu"><a href="../InicioSesion.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; vertical-align: -2px; margin-right: 6px;"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.41 0-8 2-8 4.5V21h16v-2.5c0-2.5-3.59-4.5-8-4.5Z"/></svg>Iniciar sesión</a></li>
-            </ul>
-        </nav>
-    </header>
+    <a href="../home.html" class="back-button">
+        <i class="fas fa-arrow-left"></i>
+        Volver al Inicio
+    </a>
+
     <main class="page">
       <section class="shell">
         <div class="hero">
@@ -85,7 +77,7 @@
             <h2 class="panel__title">Cuenta</h2>
             <div class="account-actions">
               <button class="btn btn--secondary" id="changePasswordBtn">Cambiar contraseña</button>
-              <button class="btn btn--danger" id="deleteAccountBtn">Eliminar Cuenta</button>
+              <button class="btn btn--primary" id="deleteAccountBtn">Eliminar Cuenta</button>
               <button class="btn btn--secondary" id="signOutBtn">Cerrar Sesión</button>
             </div>
             <p class="panel__text" id="accountMessage" style="display: none;"></p>
@@ -93,6 +85,25 @@
         </section>
       </section>
     </main>
+
+    <!-- Modal para editar nombre de configuración -->
+    <div id="editNameModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Cambiar nombre de configuración</h3>
+                <button class="modal-close" onclick="closeEditNameModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <label for="configNameInput">Nuevo nombre:</label>
+                <input type="text" id="configNameInput" class="field__input" placeholder="Introduce el nuevo nombre">
+                <p id="modalError" class="modal-error" style="display: none;"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn--secondary" onclick="closeEditNameModal()">Cancelar</button>
+                <button class="btn btn--primary" onclick="saveConfigName()">Guardar</button>
+            </div>
+        </div>
+    </div>
 
     <footer>
     <div class="footer-content">
@@ -137,7 +148,7 @@
 </footer>
 
 <script type="module">
-        import { getCurrentUser, createOrUpdateUserProfile, onAuthStateChange, signOut, getUserByEmail, getConfiguracionesByUser, deleteConfiguracion, updateUser, updateUserProfile, testUsersTable, logout, deleteAccount, resetPassword } from '../../controlador/BBDD/SupabaseCliente.js';
+        import { getCurrentUser, createOrUpdateUserProfile, onAuthStateChange, signOut, getUserByEmail, getConfiguracionesByUser, deleteConfiguracion, updateUser, updateUserProfile, testUsersTable, logout, deleteAccount, resetPassword, updateConfiguracion } from '../../controlador/BBDD/SupabaseCliente.js';
         
         document.addEventListener('DOMContentLoaded', async function() {
             const profileForm = document.getElementById('profileForm');
@@ -154,6 +165,7 @@
             let currentUser = null;
             let originalUserData = {};
             let changePasswordListenerAttached = false;
+            let currentConfigId = null;
 
             const setAccountMessage = (text) => {
                 if (!accountMessage) return;
@@ -204,20 +216,22 @@
                 inputs.forEach(input => {
                     input.readOnly = false;
                     input.style.backgroundColor = '#ffffff';
+                    input.style.color = '#000000';
                 });
-                
+
                 viewActions.style.display = 'none';
                 editActions.style.display = 'flex';
             }
-            
+
             // Función para desactivar modo edición
             function disableEditMode() {
                 const inputs = profileForm.querySelectorAll('input[type="text"], input[type="tel"], input[type="email"]');
                 inputs.forEach(input => {
                     input.readOnly = true;
                     input.style.backgroundColor = '#f5f5f5';
+                    input.style.color = '';
                 });
-                
+
                 viewActions.style.display = 'flex';
                 editActions.style.display = 'none';
             }
@@ -275,7 +289,19 @@
 
                     cancelBtn.addEventListener('click', function() {
                         if (confirm('¿Estás seguro de que quieres cancelar los cambios?')) {
-                            loadUserData(); // Recargar datos originales
+                            // Restaurar valores originales sin guardar
+                            const nombreInput = profileForm.querySelector('input[name="nombre"]');
+                            const apellidosInput = profileForm.querySelector('input[name="apellidos"]');
+                            const telefonoInput = profileForm.querySelector('input[name="telefono"]');
+
+                            if (originalUserData.nombre) {
+                                const nombreParts = originalUserData.nombre.split(' ');
+                                nombreInput.value = nombreParts[0] || '';
+                                apellidosInput.value = nombreParts.slice(1).join(' ') || '';
+                            }
+                            telefonoInput.value = originalUserData.telefono || '';
+
+                            disableEditMode();
                         }
                     });
                     
@@ -300,10 +326,16 @@
                     
                     configurationsList.innerHTML = configurations.map(config => `
                         <div class="config-item">
-                            <h4>Configuración #${config.id}</h4>
+                            <div class="config-header">
+                                <h4>${config.nombre ? `"${config.nombre}"` : 'Configuración sin nombre'}</h4>
+                                <button class="edit-name-btn" onclick="editConfigName('${config.id}', '${config.nombre || ''}')" title="Cambiar nombre">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
+                            </div>
                             <p>Modelo: ${config.modelo_coche_id}</p>
                             <p>Fecha: ${new Date(config.created_at).toLocaleDateString()}</p>
-                            <button class="btn btn--small btn--danger" onclick="deleteConfiguration(${config.id})">Eliminar</button>
+                            <button class="btn btn--small btn--primary" onclick="deleteConfiguration('${config.id}')">Eliminar</button>
+                            <button class="btn btn--small btn--primary" onclick="visualizarConfiguracion('${config.id}')">Visualizar</button>
                         </div>
                     `).join('');
                     
@@ -370,7 +402,7 @@
                 if (!confirm('¿Estás seguro de que quieres eliminar esta configuración?')) {
                     return;
                 }
-                
+
                 try {
                     await deleteConfiguracion(configId);
                     alert('Configuración eliminada correctamente.');
@@ -378,6 +410,59 @@
                 } catch (error) {
                     console.error('Error eliminando configuración:', error);
                     alert('Error al eliminar la configuración.');
+                }
+            };
+
+            // Función para editar nombre de configuración
+            window.editConfigName = async function(configId, currentName) {
+                currentConfigId = configId;
+                const modal = document.getElementById('editNameModal');
+                const input = document.getElementById('configNameInput');
+                const error = document.getElementById('modalError');
+
+                input.value = currentName || '';
+                error.style.display = 'none';
+                modal.style.display = 'flex';
+                input.focus();
+            };
+
+            // Función para cerrar el modal
+            window.closeEditNameModal = function() {
+                const modal = document.getElementById('editNameModal');
+                const input = document.getElementById('configNameInput');
+                const error = document.getElementById('modalError');
+
+                modal.style.display = 'none';
+                input.value = '';
+                error.style.display = 'none';
+                currentConfigId = null;
+            };
+
+            // Función para guardar el nombre de configuración
+            window.saveConfigName = async function() {
+                const input = document.getElementById('configNameInput');
+                const error = document.getElementById('modalError');
+                const newName = input.value.trim();
+
+                if (newName === '') {
+                    error.textContent = 'El nombre no puede estar vacío.';
+                    error.style.display = 'block';
+                    return;
+                }
+
+                try {
+                    const result = await updateConfiguracion(currentConfigId, { nombre: newName });
+                    if (result.success) {
+                        closeEditNameModal();
+                        await loadConfigurations();
+                    } else {
+                        error.textContent = 'Error al actualizar el nombre: ' + result.error;
+                        error.style.display = 'block';
+                    }
+                } catch (error) {
+                    console.error('Error actualizando nombre de configuración:', error);
+                    error.textContent = 'Error inesperado al actualizar el nombre.';
+                    error.style.display = 'block';
                 }
             };
             
@@ -439,13 +524,6 @@
                 });
             }
             
-            if (cancelBtn) {
-                cancelBtn.addEventListener('click', function() {
-                    if (confirm('¿Estás seguro de que quieres cancelar los cambios?')) {
-                        loadUserData(); // Recargar datos originales
-                    }
-                });
-            }
             
             if (deleteAccountBtn) {
                 deleteAccountBtn.addEventListener('click', handleDeleteAccount);

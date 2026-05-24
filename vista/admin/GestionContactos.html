@@ -9,23 +9,25 @@
     <style>
         /* Estilos específicos para gestión de contactos */
         .contacts-header {
-            background: var(--white);
-            border-radius: var(--border-radius);
-            padding: 2rem;
-            margin: 7rem 0 2rem 0;
-            box-shadow: var(--shadow-light);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
+            text-align: center;
+            margin-bottom: 60px;
+            animation: fadeInDown 0.8s ease;
         }
 
         .contacts-header h1 {
-            color: var(--dark-color);
-            font-size: 2rem;
-            font-weight: 700;
-            font-family: 'Inter', 'Roboto', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            letter-spacing: -1px;
+        }
+
+        .contacts-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
         }
 
         .filter-bar {
@@ -33,35 +35,37 @@
             align-items: center;
             gap: 1rem;
             flex-wrap: wrap;
+            margin-bottom: 20px;
         }
 
         .filter-select {
             padding: 0.5rem 1rem;
-            border: 1px solid rgba(0,0,0,0.1);
-            border-radius: var(--border-radius-small);
-            background: var(--bg-color);
-            color: var(--dark-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
             font-family: 'Inter', 'Roboto', sans-serif;
             font-size: 0.95rem;
             cursor: pointer;
-            transition: var(--transition);
+            transition: all 0.3s ease;
         }
 
         .filter-select:hover {
-            border-color: var(--primary-color);
+            border-color: var(--accent-primary);
         }
 
         .filter-select:focus {
             outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(74, 111, 255, 0.1);
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px var(--focus);
         }
 
         .contacts-table-container {
-            background: var(--white);
-            border-radius: var(--border-radius);
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
             padding: 2rem;
-            box-shadow: var(--shadow-light);
+            box-shadow: var(--shadow-medium);
             overflow-x: auto;
         }
 
@@ -72,12 +76,12 @@
         }
 
         .contacts-table th {
-            background: var(--bg-color);
-            color: var(--dark-color);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
             font-weight: 600;
             text-align: left;
             padding: 1rem;
-            border-bottom: 2px solid var(--primary-color);
+            border-bottom: 2px solid var(--accent-primary);
             font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -85,19 +89,19 @@
 
         .contacts-table td {
             padding: 1rem;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            color: var(--dark-color);
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
             font-size: 0.95rem;
             vertical-align: top;
         }
 
         .contacts-table tr:hover {
-            background: rgba(74, 111, 255, 0.05);
+            background: var(--bg-card-hover);
         }
 
         .contact-email {
             font-weight: 500;
-            color: var(--primary-color);
+            color: var(--accent-primary);
         }
 
         .contact-message {
@@ -116,29 +120,28 @@
         }
 
         .contact-status.nuevo {
-            background: rgba(52, 152, 219, 0.1);
-            color: var(--info-color);
+            background: rgba(29, 161, 242, 0.1);
+            color: var(--accent-primary);
         }
 
         .contact-status.en_progreso {
-            background: rgba(243, 156, 18, 0.1);
-            color: var(--warning-color);
+            background: rgba(255, 173, 31, 0.1);
+            color: var(--accent-warning);
         }
 
         .contact-status.cerrado {
-            background: rgba(39, 174, 96, 0.1);
-            color: var(--success-color);
+            background: rgba(23, 191, 99, 0.1);
+            color: var(--accent-secondary);
         }
 
         .contact-status.clickable {
             cursor: pointer;
             user-select: none;
-            transition: var(--transition);
+            transition: all 0.3s ease;
         }
 
         .contact-status.clickable:hover {
             transform: translateY(-1px);
-            filter: brightness(0.98);
         }
 
         .contact-actions {
@@ -298,10 +301,11 @@
         }
 
         .modal-content {
-            background-color: var(--white);
+            background-color: var(--bg-card);
             margin: 5% auto;
             padding: 2rem;
-            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
             width: 90%;
             max-width: 600px;
             box-shadow: var(--shadow-heavy);
@@ -314,30 +318,30 @@
             align-items: center;
             margin-bottom: 1.5rem;
             padding-bottom: 1rem;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
+            border-bottom: 1px solid var(--border-color);
         }
 
         .modal-header h2 {
-            color: var(--dark-color);
+            color: var(--text-primary);
             font-size: 1.5rem;
             font-weight: 600;
             font-family: 'Inter', 'Roboto', sans-serif;
         }
 
         .close {
-            color: var(--light-color);
+            color: var(--text-secondary);
             font-size: 2rem;
             font-weight: bold;
             cursor: pointer;
-            transition: var(--transition);
+            transition: all 0.3s ease;
         }
 
         .close:hover {
-            color: var(--danger-color);
+            color: var(--accent-danger);
         }
 
         .modal-body {
-            color: var(--dark-color);
+            color: var(--text-primary);
             font-family: 'Inter', 'Roboto', sans-serif;
         }
 
@@ -349,7 +353,7 @@
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 500;
-            color: var(--dark-color);
+            color: var(--text-secondary);
         }
 
         .modal-field input,
@@ -357,8 +361,10 @@
         .modal-field textarea {
             width: 100%;
             padding: 0.75rem;
-            border: 1px solid rgba(0,0,0,0.1);
-            border-radius: var(--border-radius-small);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
             font-family: 'Inter', 'Roboto', sans-serif;
             font-size: 0.95rem;
         }
@@ -438,23 +444,25 @@
     <div class="admin-container">
         <div class="contacts-header">
             <h1>Gestión de Contactos</h1>
-            <div class="filter-bar">
-                <select id="statusFilter" class="filter-select">
-                    <option value="">Todos los estados</option>
-                    <option value="nuevo">Nuevos</option>
-                    <option value="en_progreso">En Progreso</option>
-                    <option value="cerrado">Cerrados</option>
+            <p>Gestiona los mensajes y formularios de contacto recibidos</p>
+        </div>
+
+        <div class="filter-bar">
+            <select id="statusFilter" class="filter-select">
+                <option value="">Todos los estados</option>
+                <option value="nuevo">Nuevos</option>
+                <option value="en_progreso">En Progreso</option>
+                <option value="cerrado">Cerrados</option>
                 </select>
                 <select id="orderFilter" class="filter-select">
                     <option value="desc">Más nuevos primero</option>
                     <option value="asc">Más antiguos primero</option>
                 </select>
             </div>
-        </div>
 
-        <div class="users-info" style="background: var(--white); border-radius: var(--border-radius); padding: 1rem 2rem; margin: 1rem 0; box-shadow: var(--shadow-light); display: flex; justify-content: space-between; align-items: center;">
-            <span id="contactCount" style="color: var(--dark-color); font-weight: 500;">Cargando contactos...</span>
-            <span id="pageInfo" style="color: var(--light-color); font-size: 0.9rem;"></span>
+        <div class="users-info" style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 1rem 2rem; margin: 1rem 0; box-shadow: var(--shadow-medium); display: flex; justify-content: space-between; align-items: center;">
+            <span id="contactCount" style="color: var(--text-primary); font-weight: 500;">Cargando contactos...</span>
+            <span id="pageInfo" style="color: var(--text-secondary); font-size: 0.9rem;"></span>
         </div>
 
         <div id="loadingContacts" class="loading-contacts">

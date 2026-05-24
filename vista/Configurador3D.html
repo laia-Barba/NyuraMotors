@@ -64,7 +64,7 @@
                     <h3>Personaliza tu <br> Thunder Black Edition</h3>
                     <div class="price-display">
                         <span class="price-label">Precio</span>
-                        <span class="price-value">89.900 €</span>
+                        <span class="price-value">125.900 €</span>
                     </div>
 
                     <div class="step-indicator">
@@ -236,7 +236,7 @@
             color: 'negro',
             wheel: 'acero',
             packages: [],
-            basePrice: 89900
+            basePrice: 125900
         };
 
         const prices = {
@@ -393,13 +393,13 @@
         }
 
         function setupLighting() {
-            scene.add(new THREE.AmbientLight(0xffffff, 1.15));
+            scene.add(new THREE.AmbientLight(0xffffff, 0.6));
 
-            const hemiLight = new THREE.HemisphereLight(0xffffff, 0x6b7380, 1.05);
+            const hemiLight = new THREE.HemisphereLight(0xffffff, 0x6b7380, 0.5);
             hemiLight.position.set(0, 12, 0);
             scene.add(hemiLight);
 
-            const keyLight = new THREE.DirectionalLight(0xffffff, 3.4);
+            const keyLight = new THREE.DirectionalLight(0xffffff, 1.2);
             keyLight.position.set(7, 10, 8);
             keyLight.castShadow = true;
             keyLight.shadow.mapSize.width = 2048;
@@ -409,15 +409,15 @@
             keyLight.shadow.bias = -0.00015;
             scene.add(keyLight);
 
-            const fillLight = new THREE.DirectionalLight(0xffffff, 2.2);
+            const fillLight = new THREE.DirectionalLight(0xffffff, 0.8);
             fillLight.position.set(-8, 6, 6);
             scene.add(fillLight);
 
-            const rimLight = new THREE.DirectionalLight(0xffffff, 1.8);
+            const rimLight = new THREE.DirectionalLight(0xffffff, 0.6);
             rimLight.position.set(-6, 8, -10);
             scene.add(rimLight);
 
-            const pointLight = new THREE.PointLight(0xffffff, 1.6, 40);
+            const pointLight = new THREE.PointLight(0xffffff, 0.5, 40);
             pointLight.position.set(0, 5, 10);
             scene.add(pointLight);
         }
@@ -442,11 +442,33 @@
                 panels.forEach((p) => p.classList.toggle('active', p.id === `step${step}`));
 
                 if (bottomPrevBtn) bottomPrevBtn.disabled = step <= 1;
-                if (bottomNextBtn) bottomNextBtn.disabled = step >= maxStep;
+                if (bottomNextBtn) {
+                    bottomNextBtn.disabled = false;
+                    if (step >= maxStep) {
+                        bottomNextBtn.textContent = 'Ir a Pago';
+                    } else {
+                        bottomNextBtn.innerHTML = 'Siguiente<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 16px; height: 16px;"></svg>';
+                    }
+                }
             };
 
             if (bottomPrevBtn) bottomPrevBtn.addEventListener('click', () => setActiveStep(currentStep - 1));
-            if (bottomNextBtn) bottomNextBtn.addEventListener('click', () => setActiveStep(currentStep + 1));
+            if (bottomNextBtn) {
+                bottomNextBtn.addEventListener('click', () => {
+                    if (currentStep >= maxStep) {
+                        const configData = {
+                            ...currentConfiguration,
+                            totalPrice: document.querySelector('.price-value')?.textContent || '',
+                            modelName: window.currentModelName || 'Thunder Black Edition',
+                            timestamp: new Date().toISOString()
+                        };
+                        localStorage.setItem('carConfiguration', JSON.stringify(configData));
+                        window.location.href = 'metodopago_thunderbe.html';
+                    } else {
+                        setActiveStep(currentStep + 1);
+                    }
+                });
+            }
             steps.forEach((s) => s.addEventListener('click', () => setActiveStep(s.dataset.step)));
 
             setActiveStep(currentStep);
@@ -526,7 +548,10 @@
             if (configPanel) configPanel.style.display = 'block';
             interiorView.style.display = 'none';
 
-            if (layout) layout.style.alignItems = '';
+            if (layout) {
+                layout.style.alignItems = '';
+                layout.classList.remove('interior-active');
+            }
             if (interiorView) {
                 interiorView.style.flex = '';
                 interiorView.style.width = '';
@@ -599,7 +624,10 @@
             if (configPanel) configPanel.style.display = 'none';
             interiorView.style.display = 'block';
 
-            if (layout) layout.style.alignItems = 'stretch';
+            if (layout) {
+                layout.style.alignItems = 'stretch';
+                layout.classList.add('interior-active');
+            }
             if (interiorView) {
                 interiorView.style.flex = '1 1 auto';
                 interiorView.style.width = '100%';
@@ -1070,7 +1098,7 @@
                 color: 'negro',
                 wheel: 'acero',
                 packages: [],
-                basePrice: 89900
+                basePrice: 125900
             };
 
             document.querySelectorAll('.color-option').forEach((opt) => opt.classList.remove('active'));
@@ -1115,6 +1143,32 @@
         });
 
         document.addEventListener('DOMContentLoaded', async () => {
+            // Leer parámetro vehiculo de la URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const vehiculo = urlParams.get('vehiculo');
+
+            console.log('URL completa:', window.location.href);
+            console.log('Parámetro vehiculo:', vehiculo);
+
+            // Determinar el nombre del modelo según el parámetro
+            let modelName = 'Thunder Black Edition';
+            if (vehiculo === 'thunder') {
+                modelName = 'Thunder';
+            } else if (vehiculo === 'thunder-be') {
+                modelName = 'Thunder Black Edition';
+            }
+
+            console.log('Nombre del modelo determinado:', modelName);
+
+            // Actualizar el título dinámicamente
+            const titleElement = document.querySelector('.config-header h3');
+            if (titleElement) {
+                titleElement.innerHTML = `Personaliza tu <br> ${modelName}`;
+            }
+
+            // Guardar el nombre del modelo para usarlo al guardar la configuración
+            window.currentModelName = modelName;
+
             const authMenu = document.getElementById('authMenu');
 
             async function updateAuthMenu(user) {

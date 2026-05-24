@@ -13,7 +13,8 @@ class ConfiguradorUniversal {
             'altamira': 'Altamira',
             'nova': 'Nova',
             'nova-sport': 'NovaSport',
-            'spark': 'Spark'
+            'spark': 'Spark',
+            'daemon': 'Daemon'
         };
         this.modeloId = modeloMap[modeloId] || modeloId;
         this.configuracion = null;
@@ -341,14 +342,66 @@ class ConfiguradorUniversal {
             panels.forEach((p) => p.classList.toggle('active', p.id === `step${step}`));
             
             if (bottomPrevBtn) bottomPrevBtn.disabled = step <= 1;
-            if (bottomNextBtn) bottomNextBtn.disabled = step >= maxStep;
+            if (bottomNextBtn) {
+                bottomNextBtn.disabled = false;
+                if (step >= maxStep) {
+                    bottomNextBtn.textContent = 'Ir a Pago';
+                } else {
+                    bottomNextBtn.innerHTML = 'Siguiente';
+                }
+            }
         };
         
         if (bottomPrevBtn) {
             bottomPrevBtn.addEventListener('click', () => setActiveStep(currentStep - 1));
         }
         if (bottomNextBtn) {
-            bottomNextBtn.addEventListener('click', () => setActiveStep(currentStep + 1));
+            bottomNextBtn.addEventListener('click', () => {
+                if (currentStep >= maxStep) {
+                    const color = this.configuracion.colores.find(c => c.id === this.configuracionActual.color);
+                    const llanta = this.configuracion.llantas.find(l => l.id === this.configuracionActual.llantas);
+                    const paquetes = this.configuracionActual.paquetes.map(paqueteId => {
+                        const paquete = this.configuracion.paquetes.find(p => p.id === paqueteId);
+                        return paquete ? paquete.nombre : paqueteId;
+                    });
+
+                    const configData = {
+                        modeloId: this.modeloId,
+                        modelName: this.configuracion.nombre,
+                        color: this.configuracionActual.color,
+                        colorName: color?.nombre || this.configuracionActual.color,
+                        wheel: this.configuracionActual.llantas,
+                        wheelName: llanta?.nombre || this.configuracionActual.llantas,
+                        packages: this.configuracionActual.paquetes,
+                        packageNames: paquetes,
+                        totalPrice: document.querySelector('.price-value')?.textContent || '',
+                        modelPath: color?.modelo || this.currentModelPath || this.configuracion.modelo,
+                        timestamp: new Date().toISOString()
+                    };
+
+                    localStorage.setItem('carConfiguration', JSON.stringify(configData));
+                    
+                    console.log('Guardando configuración - modeloId:', this.modeloId);
+                    
+                    const paymentPageMap = {
+                        'Vortex': 'metodopago_vortex.html',
+                        'Altamira': 'metodopago_altamira.html',
+                        'Nova': 'metodopago_nova.html',
+                        'Nova Sport': 'metodopago_nova.html',
+                        'ThunderBE': 'metodopago_thunder.html',
+                        'Thunder Black Edition': 'metodopago_thunder.html',
+                        'Daemon': 'metodopago_daemon.html'
+                    };
+                    
+                    const paymentPage = paymentPageMap[this.modeloId] || 'metodopago.html';
+                    console.log('Página de pago seleccionada:', paymentPage);
+                    console.log('¿Existe en el mapa?', paymentPageMap.hasOwnProperty(this.modeloId));
+                    window.location.href = paymentPage;
+                    return;
+                }
+
+                setActiveStep(currentStep + 1);
+            });
         }
         
         steps.forEach((s) => {
@@ -697,6 +750,13 @@ class ConfiguradorUniversal {
     updateModelWheels(wheelType) {
         console.log('Cambiando tipo de llantas a:', wheelType);
         if (!this.modelLoaded || !this.model) return;
+
+        // Para Daemon, no cambiar colores de llantas ya que los GLB ya incluyen las llantas correctas
+        const isDaemon = String(this.modeloId || '').toLowerCase() === 'daemon';
+        if (isDaemon) {
+            console.log('Daemon: No se modifican las llantas, se usan los GLB específicos');
+            return;
+        }
         
         let wheelsFound = 0;
         let wheelsChanged = 0;
