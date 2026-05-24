@@ -740,13 +740,16 @@
 
         // Scroll suave a la sección de modelos
 
-        document.getElementById('modelosLink').addEventListener('click', function(e) {
+        const modelosLink = document.getElementById('modelosLink');
+        if (modelosLink) {
+            modelosLink.addEventListener('click', function(e) {
 
-            e.preventDefault();
+                e.preventDefault();
 
-            scrollToModelos();
+                scrollToModelos();
 
-        });
+            });
+        }
 
 
 
