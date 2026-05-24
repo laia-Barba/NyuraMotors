@@ -1189,3 +1189,34 @@ body.payment-page::before {
         transform: none;
     }
 }
+
+/* Botón de volver en el visor 3D de método de pago */
+.back-btn-payment-3d {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(10px);
+    z-index: 100;
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.back-btn-payment-3d:hover {
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateX(-4px);
+}
+
+.back-btn-payment-3d:active {
+    transform: translateX(-2px);
+}
