@@ -1427,7 +1427,6 @@ export async function getModels() {
                 llantas (
                     id,
                     nombre,
-                    medida,
                     precio_extra
                 )
             ),
