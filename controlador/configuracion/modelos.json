@@ -1,0 +1,170 @@
+{
+  "modelos": {
+    "thunderbe": {
+      "nombre": "Thunder Black Edition",
+      "precio": 89900,
+      "moneda": "EUR",
+      "modelo3d": "../coches/ThunderBE/ThunderBE.glb",
+      "colores": [
+        {
+          "id": "negro",
+          "nombre": "Negro Mate",
+          "modelo": "../coches/ThunderBE/ThunderBE.glb",
+          "gradiente": "linear-gradient(135deg, #1a1a1a, #000000)"
+        },
+        {
+          "id": "rojo",
+          "nombre": "Rojo Passion",
+          "modelo": "../coches/ThunderBE/ThunderBERojo.glb",
+          "gradiente": "linear-gradient(135deg, #dc143c, #8b0000)"
+        }
+      ],
+      "llantas": [
+        {
+          "id": "acero",
+          "nombre": "Acero",
+          "precio": 0,
+          "imagen": "../modelo/llantas/llantaacero.png",
+          "modelo": null
+        },
+        {
+          "id": "sport",
+          "nombre": "Sport",
+          "precio": 2500,
+          "imagen": "../modelo/llantas/llantassport.png",
+          "modelo": null
+        }
+      ],
+      "paquetes": [
+        {
+          "id": "premium",
+          "nombre": "Tech Premium",
+          "precio": 6800,
+          "caracteristicas": [
+            "Pantalla 15\"",
+            "Sistema Audio Premium",
+            "Conducción Autónoma Nivel 2",
+            "Control por Voz"
+          ]
+        }
+      ],
+      "camaras": {
+        "exterior": {
+          "posicion": [0, 1.5, 5],
+          "target": [0, 0.5, 0],
+          "fov": 75
+        },
+        "interior": {
+          "posicion": [1.20, 1.1, 2.5],
+          "target": [0, 0.7, 2],
+          "fov": 75
+        }
+      },
+      "escalado": {
+        "exterior": 4.35,
+        "interior": 8
+      }
+    },
+    "terramar": {
+      "nombre": "Terramar",
+      "precio": 75000,
+      "moneda": "EUR",
+      "modelo3d": "../coches/Terramar/TerramarAzul.glb",
+      "colores": [
+        {
+          "id": "azul",
+          "nombre": "Azul Océano",
+          "modelo": "../coches/Terramar/TerramarAzul.glb",
+          "gradiente": "linear-gradient(135deg, #1e40af, #1e3a8a)"
+        },
+        {
+          "id": "gris",
+          "nombre": "Gris Platino",
+          "modelo": "../coches/Terramar/TerramarGris.glb",
+          "gradiente": "linear-gradient(135deg, #6b7280, #4b5563)"
+        },
+        {
+          "id": "negro",
+          "nombre": "Negro Mate",
+          "modelo": "../coches/Terramar/TerramarNegro.glb",
+          "gradiente": "linear-gradient(135deg, #1a1a1a, #000000)"
+        },
+        {
+          "id": "blanco",
+          "nombre": "Blanco Perla",
+          "modelo": "../coches/Terramar/TerramarBlanco.glb",
+          "gradiente": "linear-gradient(135deg, #f8fafc, #e2e8f0)"
+        },
+        {
+          "id": "rojo",
+          "nombre": "Rojo Passion",
+          "modelo": "../coches/Terramar/TerramarRojo.glb",
+          "gradiente": "linear-gradient(135deg, #dc143c, #8b0000)"
+        }
+      ],
+      "llantas": [
+        {
+          "id": "standard",
+          "nombre": "Standard",
+          "precio": 0,
+          "imagen": "../modelo/llantas/llantaacero.png",
+          "modelo": null
+        },
+        {
+          "id": "offroad",
+          "nombre": "Off-Road",
+          "precio": 3200,
+          "imagen": "../modelo/llantas/llantaacero.png",
+          "modelo": null
+        },
+        {
+          "id": "alloy",
+          "nombre": "Alloy Sport",
+          "precio": 4500,
+          "imagen": "../modelo/llantas/llantassport.png",
+          "modelo": null
+        }
+      ],
+      "paquetes": [
+        {
+          "id": "adventure",
+          "nombre": "Adventure Pack",
+          "precio": 5500,
+          "caracteristicas": [
+            "Suspensión Elevada",
+            "Barras de Techo",
+            "Protectores de Cárter",
+            "Modo Off-Road"
+          ]
+        },
+        {
+          "id": "luxury",
+          "nombre": "Luxury Pack",
+          "precio": 8900,
+          "caracteristicas": [
+            "Asientos de Cuero Napa",
+            "Techo Panorámico",
+            "Sistema Audio Bang & Olufsen",
+            "Climatización Quad-Zone"
+          ]
+        }
+      ],
+      "camaras": {
+        "exterior": {
+          "posicion": [0, 1.8, 6],
+          "target": [0, 0.8, 0],
+          "fov": 75
+        },
+        "interior": {
+          "posicion": [1.30, 1.2, 2.8],
+          "target": [0, 0.8, 2.2],
+          "fov": 75
+        }
+      },
+      "escalado": {
+        "exterior": 4.0,
+        "interior": 7.5
+      }
+    }
+  }
+}

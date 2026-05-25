@@ -111,14 +111,20 @@ class Chatbox {
         // Cargar API key de Groq desde archivo JSON
         try {
             const response = await fetch('components/chatbox-config.json');
-            const config = await response.json();
-            this.apiKey = config.GROQ_API_KEY || 'gsk_your_api_key_here';
-            console.log('API Key cargada:', this.apiKey ? 'Sí' : 'No');
-            console.log('API Key length:', this.apiKey.length);
+            if (response.ok) {
+                const config = await response.json();
+                this.apiKey = config.GROQ_API_KEY || null;
+                console.log('API Key cargada desde JSON:', this.apiKey ? 'Sí' : 'No');
+            } else {
+                throw new Error('Archivo JSON no encontrado');
+            }
         } catch (error) {
             console.error('Error cargando configuración:', error);
-            this.apiKey = 'gsk_your_api_key_here';
+            this.apiKey = null;
+            console.log('API Key no disponible - chatbox no funcionará sin configuración');
         }
+        
+        console.log('API Key length:', this.apiKey ? this.apiKey.length : 0);
         
         // Cargar elementos del DOM
         this.chatbox = document.getElementById('chatbox');

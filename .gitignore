@@ -138,11 +138,8 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
-# Ignorar todos los SQL
-*.sql
-
-# Ignorar todos los JSON
-*.json
-
 # Ignorar archivos blend
 *.blend
+
+# Ignorar archivos de configuración con API keys
+vista/components/chatbox-config.json
