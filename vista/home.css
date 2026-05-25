@@ -3022,3 +3022,311 @@ main {
         height: 20px;
     }
 }
+
+/* Responsive mejorado para home.html */
+
+/* Tablet (768px - 1024px) */
+@media (max-width: 1024px) {
+    /* Carrusel 3D */
+    .carousel-3d-container {
+        aspect-ratio: 16/9;
+        min-height: 400px;
+    }
+    
+    .slide-title {
+        font-size: 2rem !important;
+    }
+    
+    .slide-description {
+        font-size: 1rem !important;
+    }
+    
+    /* Fondo poligonal */
+    .polygon-background::before {
+        background-size: 400px 300px, 350px 350px, 300px 250px;
+    }
+    
+    /* Degradados laterales */
+    body::before,
+    body::after {
+        width: 100px;
+    }
+}
+
+/* Mobile (480px - 768px) */
+@media (max-width: 768px) {
+    /* Carrusel 3D */
+    .carousel-3d-container {
+        aspect-ratio: 4/3;
+        min-height: 350px;
+        perspective: 1000px;
+    }
+    
+    .carousel-unique-section {
+        padding: 0 0 3rem 0;
+    }
+    
+    .slide-title {
+        font-size: 1.5rem !important;
+        line-height: 1.2;
+    }
+    
+    .slide-description {
+        font-size: 0.9rem !important;
+        line-height: 1.4;
+    }
+    
+    .slide-text {
+        padding: 1rem;
+    }
+    
+    /* Fondo poligonal */
+    .polygon-background::before {
+        background-size: 300px 200px, 250px 250px, 200px 150px;
+    }
+    
+    /* Degradados laterales */
+    body::before,
+    body::after {
+        width: 60px;
+    }
+    
+    /* Chatbox */
+    .chatbox {
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    .chatbot {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .chatbox-bubble {
+        bottom: 80px;
+        right: 10px;
+        min-width: 280px;
+        max-width: 320px;
+    }
+    
+    .chatbox-bubble-content {
+        padding: 14px 18px;
+        font-size: 0.85rem;
+    }
+    
+    .chatbox-input {
+        font-size: 0.85rem;
+        padding: 6px 10px;
+    }
+}
+
+/* Mobile pequeño (< 480px) */
+@media (max-width: 480px) {
+    /* Carrusel 3D */
+    .carousel-3d-container {
+        aspect-ratio: 3/4;
+        min-height: 300px;
+        perspective: 800px;
+    }
+    
+    .carousel-unique-section {
+        padding: 0 0 2rem 0;
+    }
+    
+    .slide-title {
+        font-size: 1.2rem !important;
+    }
+    
+    .slide-description {
+        font-size: 0.8rem !important;
+    }
+    
+    .slide-text {
+        padding: 0.75rem;
+    }
+    
+    /* Fondo poligonal */
+    .polygon-background::before {
+        background-size: 200px 150px, 180px 180px, 150px 120px;
+    }
+    
+    /* Degradados laterales */
+    body::before,
+    body::after {
+        width: 40px;
+    }
+    
+    /* Chatbox */
+    .chatbox {
+        bottom: 15px;
+        right: 15px;
+    }
+    
+    .chatbot {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .chatbox-bubble {
+        bottom: 70px;
+        right: 5px;
+        min-width: 250px;
+        max-width: 280px;
+    }
+    
+    .chatbox-bubble-content {
+        padding: 12px 16px;
+        font-size: 0.8rem;
+    }
+    
+    .chatbox-input {
+        font-size: 0.8rem;
+        padding: 5px 8px;
+    }
+    
+    .chatbox-send-btn {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+/* Mobile muy pequeño (< 360px) */
+@media (max-width: 360px) {
+    /* Carrusel 3D */
+    .carousel-3d-container {
+        min-height: 250px;
+    }
+    
+    .slide-title {
+        font-size: 1rem !important;
+    }
+    
+    .slide-description {
+        font-size: 0.75rem !important;
+    }
+    
+    /* Chatbox */
+    .chatbot {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .chatbox-bubble {
+        min-width: 220px;
+        max-width: 250px;
+    }
+    
+    .chatbox-bubble-content {
+        padding: 10px 14px;
+        font-size: 0.75rem;
+    }
+}
+
+/* Landscape mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+    .carousel-3d-container {
+        min-height: 200px;
+    }
+    
+    .chatbox {
+        bottom: 10px;
+        right: 10px;
+    }
+    
+    .chatbot {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .chatbox-bubble {
+        bottom: 60px;
+        min-width: 200px;
+        max-width: 250px;
+    }
+}
+
+/* Responsive para secciones de contenido */
+
+/* Tablet (768px - 1024px) */
+@media (max-width: 1024px) {
+    .modelos-section,
+    .quienes-somos-section,
+    .tech-section {
+        padding: 4rem 1.5rem 3rem;
+    }
+    
+    .tech-container {
+        max-width: 900px;
+    }
+    
+    .quienes-somos-container {
+        max-width: 800px;
+    }
+}
+
+/* Mobile (480px - 768px) */
+@media (max-width: 768px) {
+    .modelos-section,
+    .quienes-somos-section,
+    .tech-section {
+        padding: 3rem 1rem 2rem;
+    }
+    
+    .tech-container {
+        max-width: 100%;
+    }
+    
+    .quienes-somos-container {
+        max-width: 100%;
+    }
+    
+    .tech-header {
+        margin-bottom: 2rem;
+    }
+    
+    .tech-header h1 {
+        font-size: 2rem;
+    }
+}
+
+/* Mobile pequeño (< 480px) */
+@media (max-width: 480px) {
+    .modelos-section,
+    .quienes-somos-section,
+    .tech-section {
+        padding: 2rem 0.75rem 1.5rem;
+    }
+    
+    .tech-header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .tech-header h2 {
+        font-size: 1.2rem;
+    }
+    
+    .quienes-somos-text h2 {
+        font-size: 1.5rem;
+    }
+    
+    .quienes-somos-text p {
+        font-size: 0.9rem;
+    }
+}
+
+/* Mobile muy pequeño (< 360px) */
+@media (max-width: 360px) {
+    .modelos-section,
+    .quienes-somos-section,
+    .tech-section {
+        padding: 1.5rem 0.5rem 1rem;
+    }
+    
+    .tech-header h1 {
+        font-size: 1.2rem;
+    }
+    
+    .quienes-somos-text h2 {
+        font-size: 1.2rem;
+    }
+}
