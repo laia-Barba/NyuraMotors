@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="EstiloPrincipal.css">
     <link rel="stylesheet" href="metodopago.css">
     <link rel="stylesheet" href="header-unique.css">
+    <link rel="stylesheet" href="components/modal.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
 </head>
@@ -381,9 +382,10 @@
             if (saveConfigBtn) {
                 saveConfigBtn.addEventListener('click', async function() {
                     try {
+                        const { showAlert } = await import('./components/modal.js');
                         const configData = localStorage.getItem('carConfiguration');
                         if (!configData) {
-                            alert('No hay configuración para guardar');
+                            showAlert('Error', 'No hay configuración para guardar');
                             return;
                         }
 
@@ -394,7 +396,7 @@
                         const user = await getCurrentUser();
                         
                         if (!user) {
-                            alert('Debes iniciar sesión para guardar configuraciones');
+                            showAlert('Error', 'Debes iniciar sesión para guardar configuraciones');
                             return;
                         }
 
@@ -427,13 +429,14 @@
                         const result = await saveConfiguration(configToSave);
 
                         if (result.success) {
-                            alert('Configuración guardada exitosamente');
+                            showAlert('Éxito', 'Configuración guardada exitosamente');
                         } else {
-                            alert('Error al guardar configuración: ' + result.error);
+                            showAlert('Error', 'Error al guardar configuración: ' + result.error);
                         }
                     } catch (error) {
                         console.error('Error guardando configuración:', error);
-                        alert('Error al guardar configuración');
+                        const { showAlert } = await import('./components/modal.js');
+                        showAlert('Error', 'Error al guardar configuración');
                     }
                 });
             }

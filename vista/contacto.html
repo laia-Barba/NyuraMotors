@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="contacto.css" />
     <link rel="stylesheet" href="EstiloPrincipal.css">
     <link rel="stylesheet" href="header-unique.css">
+    <link rel="stylesheet" href="components/modal.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
   </head>
   <body style="background-image: url('../Imagenes/escenario2.png'); background-size: cover; background-position: center; background-attachment: fixed; background-repeat: no-repeat;">
@@ -200,6 +201,7 @@
 </footer>
 <script type="module">
         import { getCurrentUser, createOrUpdateUserProfile, onAuthStateChange, signOut, insertData, getUserByEmail } from '../controlador/BBDD/SupabaseCliente.js';
+        import { showAlert } from '../components/modal.js';
         
         document.addEventListener('DOMContentLoaded', async function() {
             const authMenu = document.getElementById('authMenu');
@@ -272,7 +274,7 @@
                 const currentUser = getCurrentUser();
                 if (currentUser) {
                     const displayName = currentUser.user_metadata?.nombre || currentUser.email.split('@')[0];
-                    alert(`Perfil de ${displayName}\n\nEmail: ${currentUser.email}\nTeléfono: ${currentUser.user_metadata?.telefono || 'No especificado'}`);
+                    showAlert('Perfil', `Perfil de ${displayName}\n\nEmail: ${currentUser.email}\nTeléfono: ${currentUser.user_metadata?.telefono || 'No especificado'}`);
                 }
                 toggleAuthMenu(); // Cerrar el menú
             };
@@ -284,10 +286,10 @@
                     if (result.success) {
                         updateAuthMenu(null);
                     } else {
-                        alert('Error al cerrar sesión. Intenta de nuevo.');
+                        showAlert('Error', 'Error al cerrar sesión. Intenta de nuevo.');
                     }
                 } catch (error) {
-                    alert('Error inesperado. Intenta de nuevo.');
+                    showAlert('Error', 'Error inesperado. Intenta de nuevo.');
                 }
             };
             
@@ -365,7 +367,7 @@
                     
                     // Validar checkbox de privacidad
                     if (!privacyCheck.checked) {
-                        alert('Debes aceptar la política de privacidad para enviar el formulario.');
+                        showAlert('Error', 'Debes aceptar la política de privacidad para enviar el formulario.');
                         return;
                     }
                     
@@ -379,14 +381,14 @@
                     
                     // Validar campos obligatorios
                     if (!nombre || !email || !asunto || !mensaje) {
-                        alert('Por favor, completa todos los campos obligatorios.');
+                        showAlert('Error', 'Por favor, completa todos los campos obligatorios.');
                         return;
                     }
                     
                     // Validar email
                     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                     if (!emailRegex.test(email)) {
-                        alert('Por favor, introduce un email válido.');
+                        showAlert('Error', 'Por favor, introduce un email válido.');
                         return;
                     }
                     
@@ -412,15 +414,15 @@
                         const result = await insertData('form_contacto', contactData);
                         
                         if (result.success) {
-                            alert('¡Formulario enviado correctamente! Nos pondremos en contacto contigo pronto.');
+                            showAlert('Éxito', '¡Formulario enviado correctamente! Nos pondremos en contacto contigo pronto.');
                             contactForm.reset();
                             privacyCheck.checked = false;
                         } else {
-                            alert('Error al enviar el formulario: ' + result.error);
+                            showAlert('Error', 'Error al enviar el formulario: ' + result.error);
                         }
                     } catch (error) {
                         console.error('Error al enviar formulario:', error);
-                        alert('Error inesperado al enviar el formulario. Por favor, intenta de nuevo.');
+                        showAlert('Error', 'Error inesperado al enviar el formulario. Por favor, intenta de nuevo.');
                     } finally {
                         // Rehabilitar botón
                         submitBtn.disabled = false;
@@ -491,6 +493,7 @@
 
     <script type="module">
         import { getCurrentUser, createOrUpdateUserProfile, onAuthStateChange, signOut, insertData, getUserByEmail } from '../controlador/BBDD/SupabaseCliente.js';
+        import { showAlert } from '../components/modal.js';
         
         document.addEventListener('DOMContentLoaded', function() {
             // Variables del DOM
@@ -579,7 +582,7 @@
                     
                     // Validar checkbox de privacidad
                     if (!privacyCheck.checked) {
-                        alert('Debes aceptar la política de privacidad para enviar el formulario.');
+                        showAlert('Error', 'Debes aceptar la política de privacidad para enviar el formulario.');
                         return;
                     }
                     
@@ -604,17 +607,17 @@
                         const result = await insertData('form_contacto', contactData);
                         
                         if (result.success) {
-                            alert('Mensaje enviado correctamente. Nos pondremos en contacto contigo pronto.');
+                            showAlert('Éxito', 'Mensaje enviado correctamente. Nos pondremos en contacto contigo pronto.');
                             contactForm.reset();
                             
                             // Limpiar checkbox
                             privacyCheck.checked = false;
                         } else {
-                            alert('Error al enviar el mensaje: ' + result.error);
+                            showAlert('Error', 'Error al enviar el mensaje: ' + result.error);
                         }
                     } catch (error) {
                         console.error('Error al enviar formulario:', error);
-                        alert('Error inesperado al enviar el mensaje. Por favor, inténtalo de nuevo.');
+                        showAlert('Error', 'Error inesperado al enviar el mensaje. Por favor, inténtalo de nuevo.');
                     } finally {
                         // Rehabilitar botón de envío
                         submitBtn.disabled = false;

@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="Panel.css">
     <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="../components/modal.css">
     <style>
         .admin-container {
             max-width: 1400px;
@@ -444,6 +445,7 @@
 
     <script type="module">
         import { getCurrentUser, getUserByEmail, getUsersForAdmin, getConfiguraciones, getModels, getColores, getLlantas, getPaquetes, deleteConfiguracion } from '../../controlador/BBDD/SupabaseCliente.js';
+        import { showAlert, showConfirm } from '../components/modal.js';
         
         let configurations = [];
         let models = [];
@@ -699,9 +701,9 @@
         }
         
         window.confirmDelete = function(id) {
-            if (confirm('¿Estás seguro de que quieres eliminar esta configuración? Esta acción no se puede deshacer.')) {
+            showConfirm('Eliminar configuración', '¿Estás seguro de que quieres eliminar esta configuración? Esta acción no se puede deshacer.', () => {
                 deleteConfiguration(id);
-            }
+            });
         };
         
         async function deleteConfiguration(id) {

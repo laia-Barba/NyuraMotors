@@ -6,6 +6,7 @@
     <title>Gestión de Usuarios - NyuraMotors</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="Panel.css">
+    <link rel="stylesheet" href="../components/modal.css">
     <style>
         /* Estilos específicos para gestión de usuarios */
         .users-header {
@@ -326,6 +327,7 @@
 
     <script type="module">
         import { getCurrentUser, getUserByEmail, getUsers, getUsersForAdmin, updateUser, updateUserRoleForAdmin, deleteAccount } from '../../controlador/BBDD/SupabaseCliente.js';
+        import { showAlert, showConfirm } from '../components/modal.js';
 
         let currentUser = null;
         let allUsers = [];
@@ -522,51 +524,44 @@
         };
 
         window.changeUserRole = async function(userId, newRole) {
-            if (!confirm(`¿Estás seguro de que quieres cambiar el rol de este usuario a "${newRole}"?`)) {
-                return;
-            }
-
-            try {
-                console.log(`changeUserRole: Cambiando rol de usuario ${userId} a ${newRole}`);
-                const result = await updateUserRoleForAdmin(userId, newRole);
-                
-                if (result.success) {
-                    alert(`Rol del usuario actualizado a "${newRole}" correctamente.`);
-                    console.log('changeUserRole: Rol actualizado exitosamente, recargando usuarios...');
-                    await loadUsers(); // Recargar la lista
-                } else {
-                    console.error('changeUserRole: Error al actualizar rol:', result.error);
-                    alert('Error al actualizar el rol del usuario: ' + result.error);
+            showConfirm('Cambiar rol', `¿Estás seguro de que quieres cambiar el rol de este usuario a "${newRole}"?`, async () => {
+                try {
+                    console.log(`changeUserRole: Cambiando rol de usuario ${userId} a ${newRole}`);
+                    const result = await updateUserRoleForAdmin(userId, newRole);
+                    
+                    if (result.success) {
+                        showAlert('Éxito', `Rol del usuario actualizado a "${newRole}" correctamente.`);
+                        console.log('changeUserRole: Rol actualizado exitosamente, recargando usuarios...');
+                        await loadUsers(); // Recargar la lista
+                    } else {
+                        console.error('changeUserRole: Error al actualizar rol:', result.error);
+                        showAlert('Error', 'Error al actualizar el rol del usuario: ' + result.error);
+                    }
+                } catch (error) {
+                    console.error('changeUserRole: Error inesperado:', error);
+                    showAlert('Error', 'Error inesperado al cambiar el rol del usuario.');
                 }
-            } catch (error) {
-                console.error('changeUserRole: Error inesperado:', error);
-                alert('Error inesperado al cambiar el rol del usuario.');
-            }
+            });
         };
 
         window.deleteUser = async function(userId, userEmail) {
-            if (!confirm(`¿Estás seguro de que quieres eliminar al usuario "${userEmail}"? Esta acción no se puede deshacer.`)) {
-                return;
-            }
-
-            // Confirmación adicional
-            if (!confirm('Esta es tu última oportunidad. ¿Realmente quieres eliminar este usuario permanentemente?')) {
-                return;
-            }
-
-            try {
-                const result = await deleteAccount(userId);
-                
-                if (result.success) {
-                    alert('Usuario eliminado correctamente.');
-                    await loadUsers(); // Recargar la lista
-                } else {
-                    alert('Error al eliminar el usuario: ' + result.error);
-                }
-            } catch (error) {
-                console.error('Error eliminando usuario:', error);
-                alert('Error inesperado al eliminar el usuario.');
-            }
+            showConfirm('Eliminar usuario', `¿Estás seguro de que quieres eliminar al usuario "${userEmail}"? Esta acción no se puede deshacer.`, () => {
+                showConfirm('Confirmar eliminación', 'Esta es tu última oportunidad. ¿Realmente quieres eliminar este usuario permanentemente?', async () => {
+                    try {
+                        const result = await deleteAccount(userId);
+                        
+                        if (result.success) {
+                            showAlert('Éxito', 'Usuario eliminado correctamente.');
+                            await loadUsers(); // Recargar la lista
+                        } else {
+                            showAlert('Error', 'Error al eliminar el usuario: ' + result.error);
+                        }
+                    } catch (error) {
+                        console.error('Error eliminando usuario:', error);
+                        showAlert('Error', 'Error inesperado al eliminar el usuario.');
+                    }
+                });
+            });
         };
     </script>
 </body>
