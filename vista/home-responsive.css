@@ -1,7 +1,53 @@
 /* Responsive Design para home.html */
 
-/* Extra Large Screens (1440px+) */
-@media (min-width: 1440px) {
+/* General image constraints - apply to all screen sizes */
+.quienes-somos-image,
+.tech-image {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+}
+
+.quienes-somos-image img,
+.quienes-somos-image video,
+.tech-image img,
+.tech-image video {
+    max-width: 100% !important;
+    object-fit: cover !important;
+}
+
+/* Extra Large Screens (1920px+) */
+@media (min-width: 1920px) {
+    .carousel-3d-container {
+        min-height: 700px;
+    }
+    
+    .quienes-somos-content {
+        gap: 8rem;
+    }
+    
+    .modelos-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Extra Large Screens (1600px - 1919px) */
+@media (min-width: 1600px) and (max-width: 1919px) {
+    .carousel-3d-container {
+        min-height: 650px;
+    }
+    
+    .quienes-somos-content {
+        gap: 7rem;
+    }
+    
+    .modelos-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Extra Large Screens (1440px - 1599px) */
+@media (min-width: 1440px) and (max-width: 1599px) {
     .carousel-3d-container {
         min-height: 600px;
     }
@@ -26,6 +72,44 @@
     }
 }
 
+/* Common laptop resolution (1280px - 1366px) */
+@media (max-width: 1366px) {
+    .quienes-somos-image {
+        margin-top: 0 !important;
+        transform: none !important;
+    }
+    
+    .quienes-somos-image img,
+    .quienes-somos-image video {
+        height: auto !important;
+        max-height: 350px !important;
+    }
+    
+    .tech-image {
+        margin-top: 0 !important;
+        margin-left: 0 !important;
+        transform: none !important;
+    }
+    
+    .tech-image img,
+    .tech-image video {
+        height: auto !important;
+        max-height: 350px !important;
+    }
+}
+
+@media (max-width: 1280px) {
+    .quienes-somos-image img,
+    .quienes-somos-image video {
+        max-height: 300px !important;
+    }
+    
+    .tech-image img,
+    .tech-image video {
+        max-height: 300px !important;
+    }
+}
+
 /* Medium Screens (992px - 1199px) */
 @media (max-width: 1199px) {
     .carousel-3d-container {
@@ -34,12 +118,45 @@
     }
     
     .quienes-somos-content {
-        grid-template-columns: 1fr;
-        gap: 2rem;
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
     }
     
     .quienes-somos-content .quienes-somos-image {
-        order: -1;
+        order: -1 !important;
+    }
+    
+    .quienes-somos-image {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-top: 0 !important;
+        transform: none !important;
+    }
+    
+    .quienes-somos-image img,
+    .quienes-somos-image video {
+        height: auto !important;
+        max-height: 400px !important;
+    }
+    
+    .tech-content {
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
+    }
+    
+    .tech-image {
+        order: -1 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-top: 0 !important;
+        margin-left: 0 !important;
+        transform: none !important;
+    }
+    
+    .tech-image img,
+    .tech-image video {
+        height: auto !important;
+        max-height: 400px !important;
     }
     
     .modelos-grid {
@@ -77,6 +194,49 @@
     
     .quienes-somos-section {
         padding: 4rem 1.5rem;
+    }
+    
+    .quienes-somos-image {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-top: 0 !important;
+        transform: none !important;
+    }
+    
+    .quienes-somos-text h2 {
+        font-size: 2rem !important;
+    }
+    
+    .subtitle {
+        font-size: 1.1rem !important;
+    }
+    
+    .description {
+        font-size: 0.95rem !important;
+    }
+    
+    .tech-section {
+        padding: 4rem 1.5rem;
+    }
+    
+    .tech-image {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-top: 0 !important;
+        margin-left: 0 !important;
+        transform: none !important;
+    }
+    
+    .modelos-title {
+        font-size: 2rem !important;
+    }
+    
+    .tech-subtitle {
+        font-size: 1.1rem !important;
+    }
+    
+    .tech-description {
+        font-size: 0.95rem !important;
     }
     
     /* Chatbox responsive */
@@ -124,6 +284,63 @@
     
     .quienes-somos-content {
         gap: 1.5rem;
+    }
+    
+    .quienes-somos-image {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-top: 0 !important;
+        transform: none !important;
+    }
+    
+    .quienes-somos-text h2 {
+        font-size: 1.75rem !important;
+    }
+    
+    .subtitle {
+        font-size: 1rem !important;
+    }
+    
+    .description {
+        font-size: 0.9rem !important;
+    }
+    
+    .quienes-somos-image video {
+        width: 100% !important;
+        height: auto !important;
+        max-height: 300px !important;
+        object-fit: cover !important;
+    }
+    
+    .tech-section {
+        padding: 3rem 1rem;
+    }
+    
+    .tech-image {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-top: 0 !important;
+        margin-left: 0 !important;
+        transform: none !important;
+    }
+    
+    .modelos-title {
+        font-size: 1.75rem !important;
+    }
+    
+    .tech-subtitle {
+        font-size: 1rem !important;
+    }
+    
+    .tech-description {
+        font-size: 0.9rem !important;
+    }
+    
+    .tech-image video {
+        width: 100% !important;
+        height: auto !important;
+        max-height: 300px !important;
+        object-fit: cover !important;
     }
     
     /* Chatbox responsive */
@@ -234,6 +451,67 @@
     
     .modelos-grid {
         grid-template-columns: 1fr;
+    }
+    
+    .quienes-somos-section {
+        padding: 2.5rem 1rem;
+    }
+    
+    .quienes-somos-image {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-top: 0 !important;
+        transform: none !important;
+    }
+    
+    .quienes-somos-text h2 {
+        font-size: 1.5rem !important;
+    }
+    
+    .subtitle {
+        font-size: 0.9rem !important;
+    }
+    
+    .description {
+        font-size: 0.85rem !important;
+    }
+    
+    .quienes-somos-image video {
+        width: 100% !important;
+        height: auto !important;
+        max-height: 250px !important;
+        object-fit: cover !important;
+    }
+    
+    .tech-section {
+        padding: 2.5rem 1rem;
+    }
+    
+    .tech-image {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-top: 0 !important;
+        margin-left: 0 !important;
+        transform: none !important;
+    }
+    
+    .modelos-title {
+        font-size: 1.5rem !important;
+    }
+    
+    .tech-subtitle {
+        font-size: 0.9rem !important;
+    }
+    
+    .tech-description {
+        font-size: 0.85rem !important;
+    }
+    
+    .tech-image video {
+        width: 100% !important;
+        height: auto !important;
+        max-height: 250px !important;
+        object-fit: cover !important;
     }
     
     /* Chatbox responsive */
