@@ -128,6 +128,10 @@ class Chatbox {
         this.input = document.getElementById('chatbox-input');
 
         // Event listeners
+        if (this.chatbot) {
+            this.chatbot.addEventListener('click', () => this.toggleBubble());
+        }
+        
         if (this.input) {
             this.input.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
@@ -144,6 +148,35 @@ class Chatbox {
                 this.bubble.style.visibility = 'hidden';
             }
         }, 5000);
+        
+        // Mostrar bocadillo inicialmente
+        setTimeout(() => {
+            if (this.bubble) {
+                this.bubble.style.opacity = '1';
+                this.bubble.style.visibility = 'visible';
+                this.bubble.style.transform = 'translateY(0)';
+            }
+        }, 1000);
+    }
+
+    toggleBubble() {
+        console.log('toggleBubble llamado');
+        if (this.bubble) {
+            const isVisible = this.bubble.style.opacity === '1' || this.bubble.style.visibility === 'visible';
+            console.log('Estado actual:', isVisible ? 'visible' : 'oculto');
+            
+            if (isVisible) {
+                this.bubble.style.opacity = '0';
+                this.bubble.style.visibility = 'hidden';
+                console.log('Ocultando bocadillo');
+            } else {
+                this.bubble.style.opacity = '1';
+                this.bubble.style.visibility = 'visible';
+                console.log('Mostrando bocadillo');
+            }
+        } else {
+            console.log('Bubble no encontrado');
+        }
     }
 
     updateDisplay(content) {

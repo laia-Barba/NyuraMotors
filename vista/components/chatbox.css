@@ -21,8 +21,6 @@
     visibility: hidden;
     transform: translateY(10px);
     transition: all 0.3s ease;
-    animation: bubbleFadeIn 0.5s ease forwards;
-    animation-delay: 1s;
 }
 
 @keyframes bubbleFadeIn {
