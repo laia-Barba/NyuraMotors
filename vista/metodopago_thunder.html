@@ -414,7 +414,8 @@
                             llantas_id: llantasId,
                             precio_total: precioTotal || 0,
                             nombre: config.modelName || 'Configuración',
-                            fecha_creacion: new Date().toISOString()
+                            fecha_creacion: new Date().toISOString(),
+                            paquetes: config.packages || []
                         };
 
                         // Importar y usar la función de guardado

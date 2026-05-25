@@ -1206,6 +1206,11 @@ export async function getConfiguracionesByUser(userId) {
                 precio_total,
                 nombre,
                 fecha_creacion,
+                modelos_coche (
+                    id,
+                    nombre,
+                    Imagenes_Modelos
+                ),
                 configuracion_paquetes (
                     paquete_id,
                     paquetes (
@@ -1284,6 +1289,12 @@ export async function getConfiguracionById(id) {
                 precio_total,
                 nombre,
                 fecha_creacion,
+                modelos_coche (
+                    id,
+                    nombre,
+                    precio,
+                    Imagenes_Modelos
+                ),
                 configuracion_paquetes (
                     paquete_id,
                     paquetes (
@@ -2044,15 +2055,28 @@ async function deleteOldImage(imageUrl, modelName) {
 export async function saveConfiguration(configData) {
     try {
         console.log('saveConfiguration: Guardando configuración:', configData);
+        const paquetes = configData.paquetes || configData.packages || [];
+        const { paquetes: _paquetes, packages: _packages, ...configToInsert } = configData;
         
         const { data, error } = await supabase
             .from('configuraciones')
-            .insert([configData])
+            .insert([configToInsert])
             .select();
         
         if (error) {
             console.error('Error guardando configuración:', error);
             return { success: false, error: error.message };
+        }
+
+        const configuracionId = data?.[0]?.id;
+        if (configuracionId && paquetes.length > 0) {
+            const paqueteIds = await getPaqueteIdsByValores(paquetes);
+            if (paqueteIds.length > 0) {
+                const packageResult = await setConfiguracionPaquetes(configuracionId, paqueteIds);
+                if (!packageResult.success) {
+                    return { success: false, error: packageResult.error?.message || 'Error guardando paquetes' };
+                }
+            }
         }
         
         console.log('Configuración guardada exitosamente:', data);
@@ -2186,6 +2210,52 @@ export async function getLlantaIdByNombre(nombre) {
 // Función para obtener un color interior por defecto
 export async function getDefaultColorInteriorId() {
     return 1;
+}
+
+export async function getPaqueteIdsByValores(valores = []) {
+    try {
+        const packageMap = {
+            'adventure': 'Adventure Pack',
+            'luxury': 'Luxury Pack',
+            'sport': 'Sport Pack',
+            'tech': 'Tech Pack',
+            'premium': 'Tech Premium',
+            'basic': 'Basic Pack',
+            'max': 'Max Pack'
+        };
+        const normalizedValues = (valores || [])
+            .map((value) => String(value || '').trim())
+            .filter(Boolean);
+
+        if (normalizedValues.length === 0) {
+            return [];
+        }
+
+        const { data, error } = await supabase
+            .from('paquetes')
+            .select('id, nombre');
+
+        if (error) {
+            console.error('Error obteniendo paquetes:', error);
+            return [];
+        }
+
+        return normalizedValues
+            .map((value) => {
+                const normalizedValue = value.toLowerCase();
+                const expectedName = packageMap[normalizedValue] || value;
+                const paquete = (data || []).find((item) =>
+                    item.nombre?.toLowerCase() === expectedName.toLowerCase()
+                    || item.nombre?.toLowerCase().includes(normalizedValue)
+                );
+                return paquete?.id;
+            })
+            .filter((id) => Number.isFinite(Number(id)))
+            .map((id) => Number(id));
+    } catch (error) {
+        console.error('Error inesperado obteniendo IDs de paquetes:', error);
+        return [];
+    }
 }
 
 export async function getConfigurationsByUser(userId) {
