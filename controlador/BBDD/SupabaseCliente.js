@@ -1423,6 +1423,7 @@ export async function getModels() {
             precio,
             Imagenes_Modelos,
             descripcion_corta,
+            descripcion_completa,
             activo,
             modelo_colores (
                 color_id,

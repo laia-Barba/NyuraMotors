@@ -46,6 +46,10 @@
             </div>
             <br><br><br><br>
         </section>
+
+        <section class="modelo-detalles-section" aria-label="Detalles del modelo seleccionado">
+            <div class="modelo-detalles-container" id="modeloDetallesContainer"></div>
+        </section>
     </main>
 
     <footer>
@@ -403,6 +407,7 @@
             // Actualizar el DOM
             indicatorsContainer.innerHTML = indicatorsHtml;
             carouselInner.innerHTML = carouselItemsHtml;
+            renderModelDetails(models[0]);
 
             // Re-inicializar el carrusel de Bootstrap
             const carouselElement = document.getElementById('modelosCarousel');
@@ -419,12 +424,96 @@
                     interval: 5000,
                     pause: false
                 });
+
+                carouselElement.addEventListener('slid.bs.carousel', function(e) {
+                    renderModelDetails(models[e.to]);
+                });
             }
 
             // Re-inicializar la navegación de indicadores después de cargar los modelos
             setTimeout(() => {
                 initIndicatorsNavigation();
             }, 100);
+        }
+
+        function formatPrice(value, currency = 'EUR') {
+            if (value === null || value === undefined || value === '') return 'Precio no disponible';
+            return `${Number(value).toLocaleString('es-ES')} ${currency}`;
+        }
+
+        function getRelatedItems(model, relationName, itemName) {
+            return (model[relationName] || [])
+                .map((relation) => relation[itemName])
+                .filter(Boolean);
+        }
+
+        function renderOptionList(items, emptyText, renderItem) {
+            if (!items.length) {
+                return `<p class="modelo-detalles-empty">${emptyText}</p>`;
+            }
+
+            return `<div class="modelo-detalles-options">${items.map(renderItem).join('')}</div>`;
+        }
+
+        function renderModelDetails(model) {
+            const container = document.getElementById('modeloDetallesContainer');
+            if (!container || !model) return;
+
+            const colors = getRelatedItems(model, 'modelo_colores', 'colores');
+            const wheels = getRelatedItems(model, 'modelo_llantas', 'llantas');
+            const packages = getRelatedItems(model, 'modelo_paquetes', 'paquetes');
+            const price = formatPrice(model.precio);
+            const description = model.descripcion_completa || model.descripcion_larga || model.descripcion_corta || 'Descripción completa no disponible.';
+
+            container.innerHTML = `
+                <div class="modelo-detalles-header">
+                    <span class="modelo-detalles-kicker">Modelo seleccionado</span>
+                    <h2>${model.nombre}</h2>
+                    <p>${description}</p>
+                    <div class="modelo-detalles-price">
+                        <span>Precio desde</span>
+                        <strong>${price}</strong>
+                    </div>
+                </div>
+
+                <div class="modelo-detalles-grid">
+                    <article class="modelo-detalles-card">
+                        <h3>Colores disponibles</h3>
+                        ${renderOptionList(colors, 'No hay colores disponibles para este modelo.', (color) => `
+                            <div class="modelo-detalles-option modelo-detalles-color">
+                                <span class="modelo-color-dot" style="background:${color.hex || '#d1d5db'}"></span>
+                                <div>
+                                    <strong>${color.nombre}</strong>
+                                    <span>${formatPrice(color.precio_extra || 0)}</span>
+                                </div>
+                            </div>
+                        `)}
+                    </article>
+
+                    <article class="modelo-detalles-card">
+                        <h3>Llantas disponibles</h3>
+                        ${renderOptionList(wheels, 'No hay llantas disponibles para este modelo.', (wheel) => `
+                            <div class="modelo-detalles-option">
+                                <strong>${wheel.nombre}</strong>
+                                <span>${formatPrice(wheel.precio_extra || 0)}</span>
+                            </div>
+                        `)}
+                    </article>
+
+                    <article class="modelo-detalles-card modelo-detalles-card--wide">
+                        <h3>Paquetes disponibles</h3>
+                        ${renderOptionList(packages, 'No hay paquetes disponibles para este modelo.', (pack) => `
+                            <div class="modelo-detalles-option modelo-detalles-package">
+                                <div>
+                                    <strong>${pack.nombre}</strong>
+                                    <p>${pack.descripcion || 'Sin descripción disponible.'}</p>
+                                </div>
+                                <span>${formatPrice(pack.precio || 0)}</span>
+                            </div>
+                        `)}
+                    </article>
+                </div>
+            `;
         }
 
         // Cargar modelos cuando el DOM esté listo

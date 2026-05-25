@@ -1895,6 +1895,202 @@ main {
   background: linear-gradient(135deg, #2563eb, #1d4ed8);
 }
 
+.modelo-detalles-section {
+  background: #ffffff;
+  padding: 4rem 1.5rem 5rem;
+}
+
+.modelo-detalles-container {
+  max-width: 1180px;
+  margin: 0 auto;
+  color: #101827;
+}
+
+.modelo-detalles-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1.5rem 2rem;
+  align-items: end;
+  margin-bottom: 2rem;
+  padding: 2rem;
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 12% 10%, rgba(59, 130, 246, 0.14), transparent 35%),
+    linear-gradient(135deg, #f8fafc 0%, #eef2f7 100%);
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+}
+
+.modelo-detalles-kicker {
+  display: inline-block;
+  margin-bottom: 0.7rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #2563eb;
+}
+
+.modelo-detalles-header h2 {
+  margin: 0 0 0.9rem;
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(2.2rem, 4vw, 4rem);
+  font-weight: 800;
+  color: #0f172a;
+  text-transform: uppercase;
+}
+
+.modelo-detalles-header p {
+  max-width: 760px;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #475569;
+}
+
+.modelo-detalles-price {
+  min-width: 220px;
+  padding: 1.25rem 1.4rem;
+  border-radius: 22px;
+  background: #0f172a;
+  color: #ffffff;
+  box-shadow: 0 16px 35px rgba(15, 23, 42, 0.22);
+}
+
+.modelo-detalles-price span {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.modelo-detalles-price strong {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.45rem;
+  font-weight: 800;
+}
+
+.modelo-detalles-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.modelo-detalles-card {
+  padding: 1.6rem;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 24px;
+  background: #ffffff;
+  box-shadow: 0 14px 40px rgba(15, 23, 42, 0.07);
+}
+
+.modelo-detalles-card--wide {
+  grid-column: 1 / -1;
+}
+
+.modelo-detalles-card h3 {
+  margin: 0 0 1.2rem;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.modelo-detalles-options {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.modelo-detalles-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 18px;
+  background: #f8fafc;
+  font-family: 'Inter', sans-serif;
+}
+
+.modelo-detalles-option strong {
+  display: block;
+  color: #111827;
+  font-weight: 800;
+}
+
+.modelo-detalles-option span {
+  color: #2563eb;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.modelo-detalles-color {
+  justify-content: flex-start;
+}
+
+.modelo-color-dot {
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  border: 2px solid #ffffff;
+  border-radius: 999px;
+  box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.14), 0 6px 14px rgba(15, 23, 42, 0.14);
+}
+
+.modelo-detalles-package {
+  align-items: flex-start;
+}
+
+.modelo-detalles-package p {
+  margin: 0.35rem 0 0;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+.modelo-detalles-empty {
+  margin: 0;
+  padding: 1rem;
+  border-radius: 18px;
+  background: #f8fafc;
+  color: #64748b;
+  font-family: 'Inter', sans-serif;
+}
+
+@media (max-width: 768px) {
+  .modelo-detalles-section {
+    padding: 3rem 1rem 4rem;
+  }
+
+  .modelo-detalles-header {
+    grid-template-columns: 1fr;
+    padding: 1.4rem;
+  }
+
+  .modelo-detalles-price {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .modelo-detalles-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modelo-detalles-option {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .modelo-detalles-color {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
 /* hover suave de card */
 .vehiculo-card:hover {
   transform: translateY(-6px);
