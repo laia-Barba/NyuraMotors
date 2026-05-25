@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nyura Motors - Home2 Test</title>
+    <link rel="stylesheet" href="vista/EstiloPrincipal.css">
+    <link rel="stylesheet" href="vista/home.css">
+    <link rel="stylesheet" href="vista/header-unique.css">
+    <link rel="stylesheet" href="vista/components/chatbox.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="polygon-background"></div>
+    <div class="polygon-bg-1"></div>
+    <div class="polygon-bg-2"></div>
+    <div class="polygon-bg-3"></div>
+
+    <header-component></header-component>
+
+    <main>
+        <section class="carousel-unique-section">
+            <div class="carousel-3d-container">
+                <div class="carousel-3d-stage" id="carousel3dStage">
+                    <div class="carousel-3d-slide active" data-slide="0">
+                        <div class="slide-content">
+                            <div class="slide-image-wrapper">
+                                <video autoplay muted loop playsinline>
+                                    <source src="Imagenes/paginaInicio/video1.mp4" type="video/mp4">
+                                </video>
+                                <div class="slide-overlay"></div>
+                            </div>
+                            <div class="slide-text">
+                                <h2 class="slide-title">THUNDER BLACK EDITION</h2>
+                                <p class="slide-description">Exclusividad. Precisión. Adrenalina.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="modelos-section">
+            <div class="modelos-container">
+                <h1 class="modelos-title">Gamas</h1>
+                <div class="gamas-container">
+                    <div class="gamas-grid">
+                        <div class="gama-card">
+                            <div class="gama-card__image">
+                                <img src="Imagenes/gamas/electrico.png" alt="Gama Eléctrica">
+                            </div>
+                            <div class="gama-card__info">
+                                <h3>Eléctrico</h3>
+                                <p>Vehículos 100% eléctricos</p>
+                            </div>
+                        </div>
+                        <div class="gama-card">
+                            <div class="gama-card__image">
+                                <img src="Imagenes/gamas/combustion.png" alt="Gama Combustión">
+                            </div>
+                            <div class="gama-card__info">
+                                <h3>Combustión</h3>
+                                <p>Motores de gasolina eficientes</p>
+                            </div>
+                        </div>
+                        <div class="gama-card">
+                            <div class="gama-card__image">
+                                <img src="Imagenes/gamas/R.png" alt="Gama Sport R">
+                            </div>
+                            <div class="gama-card__info">
+                                <h3>Sport R</h3>
+                                <p>Deportivos de altas prestaciones</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <img src="Imagenes/LogoBlancoNyura.png" alt="Nyura Motors" style="height: 143px;">
+                <p>El futur de la mobilitat elèctrica.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Paginas</h3>
+                <div class="footer-links">
+                    <a href="home2.html">Home</a>
+                    <a href="vista/modelos.html">Modelos</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chatbox -->
+    <div id="chatbox" class="chatbox">
+        <div id="chatbox-bubble" class="chatbox-bubble">
+            <div class="chatbox-bubble-content">
+                <div id="chatbox-display" class="chatbox-display">
+                    <p>¡Hola! Estoy aquí para ayudarte.</p>
+                </div>
+                <div class="chatbox-input-wrapper">
+                    <input type="text" id="chatbox-input" placeholder="Escribe tu mensaje..." class="chatbox-input">
+                </div>
+            </div>
+            <div class="chatbox-bubble-arrow"></div>
+        </div>
+        <div id="chatbot" class="chatbot">
+            <img src="Imagenes/bot.png" alt="Asistente Nyura" class="chatbot-image">
+        </div>
+    </div>
+
+    <script type="module" src="vista/components/header-component.js"></script>
+    <script src="vista/components/chatbox.js"></script>
+</body>
+</html>
