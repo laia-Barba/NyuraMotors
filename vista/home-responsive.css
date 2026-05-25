@@ -1,0 +1,512 @@
+/* Responsive Design para home.html */
+
+/* Extra Large Screens (1440px+) */
+@media (min-width: 1440px) {
+    .carousel-3d-container {
+        min-height: 600px;
+    }
+    
+    .quienes-somos-content {
+        gap: 6rem;
+    }
+    
+    .modelos-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Large Screens (1200px - 1439px) */
+@media (max-width: 1439px) {
+    .carousel-3d-container {
+        min-height: 500px;
+    }
+    
+    .quienes-somos-content {
+        gap: 3rem;
+    }
+}
+
+/* Medium Screens (992px - 1199px) */
+@media (max-width: 1199px) {
+    .carousel-3d-container {
+        min-height: 450px;
+        aspect-ratio: 16/9;
+    }
+    
+    .quienes-somos-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .quienes-somos-content .quienes-somos-image {
+        order: -1;
+    }
+    
+    .modelos-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .slide-title {
+        font-size: 2.5rem;
+    }
+    
+    .slide-description {
+        font-size: 1rem;
+    }
+}
+
+/* Tablet Landscape (768px - 991px) */
+@media (max-width: 991px) {
+    .carousel-3d-container {
+        min-height: 400px;
+        aspect-ratio: 16/9;
+    }
+    
+    .slide-title {
+        font-size: 2rem;
+    }
+    
+    .slide-description {
+        font-size: 0.9rem;
+    }
+    
+    .modelos-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+    
+    .quienes-somos-section {
+        padding: 4rem 1.5rem;
+    }
+    
+    /* Chatbox responsive */
+    .chatbox {
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    .chatbot {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .chatbox-bubble {
+        bottom: 80px;
+        right: 10px;
+        min-width: 280px;
+        max-width: 320px;
+    }
+}
+
+/* Tablet Portrait (576px - 767px) */
+@media (max-width: 767px) {
+    .carousel-3d-container {
+        min-height: 350px;
+        aspect-ratio: 4/3;
+    }
+    
+    .slide-title {
+        font-size: 1.5rem;
+    }
+    
+    .slide-description {
+        font-size: 0.85rem;
+    }
+    
+    .modelos-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .quienes-somos-section {
+        padding: 3rem 1rem;
+    }
+    
+    .quienes-somos-content {
+        gap: 1.5rem;
+    }
+    
+    /* Chatbox responsive */
+    .chatbox {
+        bottom: 15px;
+        right: 15px;
+    }
+    
+    .chatbot {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .chatbox-bubble {
+        bottom: 70px;
+        right: 5px;
+        min-width: 250px;
+        max-width: 280px;
+    }
+    
+    .chatbox-bubble-content {
+        padding: 14px 18px;
+        font-size: 0.85rem;
+    }
+    
+    .chatbox-input {
+        font-size: 0.85rem;
+        padding: 6px 10px;
+    }
+    
+    /* Polygon backgrounds - reduce size */
+    .polygon-bg-1,
+    .polygon-bg-2,
+    .polygon-bg-3 {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+/* Mobile Landscape (480px - 575px) */
+@media (max-width: 575px) {
+    .carousel-3d-container {
+        min-height: 300px;
+        aspect-ratio: 1/1;
+    }
+    
+    .slide-title {
+        font-size: 1.25rem;
+    }
+    
+    .slide-description {
+        font-size: 0.8rem;
+    }
+    
+    .quienes-somos-section {
+        padding: 2.5rem 1rem;
+    }
+    
+    /* Chatbox responsive */
+    .chatbox {
+        bottom: 10px;
+        right: 10px;
+    }
+    
+    .chatbot {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .chatbox-bubble {
+        bottom: 60px;
+        right: 0;
+        min-width: 220px;
+        max-width: 260px;
+    }
+    
+    .chatbox-bubble-content {
+        padding: 12px 16px;
+        font-size: 0.8rem;
+    }
+    
+    .chatbox-input {
+        font-size: 0.8rem;
+        padding: 5px 8px;
+    }
+    
+    .chatbox-send-btn {
+        width: 30px;
+        height: 30px;
+        font-size: 0.8rem;
+    }
+}
+
+/* Extra Small Mobile (320px - 479px) */
+@media (max-width: 479px) {
+    .carousel-3d-container {
+        min-height: 250px;
+        aspect-ratio: 1/1;
+    }
+    
+    .slide-title {
+        font-size: 1rem;
+    }
+    
+    .slide-description {
+        font-size: 0.75rem;
+    }
+    
+    .modelos-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Chatbox responsive */
+    .chatbox {
+        bottom: 10px;
+        right: 10px;
+    }
+    
+    .chatbot {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .chatbox-bubble {
+        bottom: 55px;
+        right: 0;
+        min-width: 200px;
+        max-width: 240px;
+    }
+    
+    .chatbox-bubble-content {
+        padding: 10px 14px;
+        font-size: 0.75rem;
+    }
+    
+    .chatbox-input {
+        font-size: 0.75rem;
+        padding: 4px 8px;
+    }
+    
+    /* Hide polygon backgrounds on very small screens */
+    .polygon-bg-1,
+    .polygon-bg-2,
+    .polygon-bg-3 {
+        display: none;
+    }
+}
+
+/* Very Small Mobile (240px - 319px) */
+@media (max-width: 319px) {
+    .carousel-3d-container {
+        min-height: 200px;
+    }
+    
+    .slide-title {
+        font-size: 0.9rem;
+    }
+    
+    .slide-description {
+        font-size: 0.7rem;
+    }
+    
+    /* Chatbox - minimal size */
+    .chatbox {
+        bottom: 5px;
+        right: 5px;
+    }
+    
+    .chatbot {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .chatbox-bubble {
+        bottom: 50px;
+        right: 0;
+        min-width: 180px;
+        max-width: 220px;
+    }
+    
+    .chatbox-bubble-content {
+        padding: 8px 12px;
+        font-size: 0.7rem;
+    }
+    
+    .chatbox-input {
+        font-size: 0.7rem;
+        padding: 3px 6px;
+    }
+}
+
+/* Orientation-specific adjustments */
+@media (max-width: 767px) and (orientation: landscape) {
+    .carousel-3d-container {
+        min-height: 250px;
+        aspect-ratio: 16/9;
+    }
+    
+    .slide-title {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 991px) and (orientation: portrait) {
+    .carousel-3d-container {
+        min-height: 400px;
+        aspect-ratio: 3/4;
+    }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .slide-image-wrapper img,
+    .slide-image-wrapper video {
+        image-rendering: -webkit-optimize-contrast;
+    }
+}
+
+/* Print styles */
+@media print {
+    .chatbox,
+    .polygon-background,
+    .polygon-bg-1,
+    .polygon-bg-2,
+    .polygon-bg-3 {
+        display: none;
+    }
+    
+    .carousel-3d-container {
+        min-height: 300px;
+    }
+}
+
+/* Header Responsive */
+@media (max-width: 991px) {
+    header {
+        padding: 0.5rem 1rem;
+    }
+    
+    header nav {
+        gap: 1rem;
+    }
+    
+    header nav a {
+        font-size: 0.9rem;
+        padding: 0.5rem 0.75rem;
+    }
+}
+
+@media (max-width: 767px) {
+    header {
+        padding: 0.5rem;
+    }
+    
+    header nav {
+        display: none;
+    }
+    
+    /* Mobile menu toggle would go here */
+    
+    header .logo {
+        max-width: 120px;
+    }
+}
+
+@media (max-width: 479px) {
+    header {
+        padding: 0.25rem 0.5rem;
+    }
+    
+    header .logo {
+        max-width: 100px;
+    }
+}
+
+/* Footer Responsive */
+@media (max-width: 1199px) {
+    footer {
+        padding: 3rem 2rem;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        gap: 2rem;
+    }
+    
+    .footer-section {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@media (max-width: 767px) {
+    footer {
+        padding: 2rem 1.5rem;
+    }
+    
+    .footer-section img {
+        height: 100px;
+    }
+    
+    .footer-section h3 {
+        font-size: 1.2rem;
+    }
+    
+    .footer-links a {
+        font-size: 0.9rem;
+        padding: 0.5rem;
+    }
+}
+
+@media (max-width: 479px) {
+    footer {
+        padding: 1.5rem 1rem;
+    }
+    
+    .footer-section img {
+        height: 80px;
+    }
+    
+    .footer-section h3 {
+        font-size: 1rem;
+    }
+    
+    .footer-links a {
+        font-size: 0.85rem;
+        padding: 0.4rem;
+    }
+}
+
+/* General typography responsive */
+@media (max-width: 767px) {
+    h1, h2, h3 {
+        font-size: 0.9em;
+    }
+    
+    p {
+        font-size: 0.9em;
+    }
+}
+
+@media (max-width: 479px) {
+    h1, h2, h3 {
+        font-size: 0.8em;
+    }
+    
+    p {
+        font-size: 0.85em;
+    }
+}
+
+/* Images and videos responsive */
+@media (max-width: 767px) {
+    img, video {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+/* Buttons responsive */
+@media (max-width: 767px) {
+    .btn, button {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 479px) {
+    .btn, button {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.85rem;
+    }
+}
+
+/* Spacing responsive */
+@media (max-width: 767px) {
+    section {
+        padding: 3rem 1.5rem;
+    }
+}
+
+@media (max-width: 479px) {
+    section {
+        padding: 2rem 1rem;
+    }
+}
