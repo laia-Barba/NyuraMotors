@@ -34,6 +34,7 @@ export const MODELOS_CONFIG = {
             descripcion: 'SUV eléctrico con autonomía extendida y diseño futurista',
             modelo: '../coches/Terramar/TerramarBlanco.glb',
             escalado: { modelo: 2.1, camera: 4 },
+            offset: { x: 0, y: 0.0, z: 0 },
             colores: [
                 { id: 'blanco', nombre: 'Blanco', hex: '#f8f8f8', material: 'carroceria', modelo: '../coches/Terramar/TerramarBlanco.glb' },
                 { id: 'azul', nombre: 'Azul', hex: '#1f5eff', material: 'carroceria', modelo: '../coches/Terramar/TerramarAzul.glb' },
@@ -72,6 +73,7 @@ export const MODELOS_CONFIG = {
             descripcion: 'SUV premium con lujo y tecnología avanzada',
             modelo: '../coches/Nyura Altamira/Altamira_Blanco.glb',
             escalado: { modelo: 4.75, camera: 2.8, plataforma: 1.4 },
+            offset: { x: 0, y: 0.0, z: 0 },
             colores: [
                 { id: 'blanco', nombre: 'Blanco', hex: '#f8f8f8', material: 'carroceria', modelo: '../coches/Nyura Altamira/Altamira_Blanco.glb' },
                 { id: 'negro', nombre: 'Negro', hex: '#1a1a1a', material: 'carroceria', modelo: '../coches/Nyura Altamira/Altamira_Negro.glb' },
@@ -108,6 +110,7 @@ export const MODELOS_CONFIG = {
             descripcion: 'Compacto eficiente con motor de gasolina de última generación',
             modelo: '../coches/Nyura Nova/NovaBlanco.glb',
             escalado: { modelo: 2.0, camera: 4.5, plataforma: 1 },
+            offset: { x: 0, y: -0.1, z: 0 },
             colores: [
                 { id: 'blanco', nombre: 'Blanco', hex: '#f8f8f8', material: 'carroceria', modelo: '../coches/Nyura Nova/NovaBlanco.glb' },
                 { id: 'negro', nombre: 'Negro', hex: '#1a1a1a', material: 'carroceria', modelo: '../coches/Nyura Nova/NovaNegro.glb' },
@@ -145,6 +148,7 @@ export const MODELOS_CONFIG = {
             descripcion: 'Deportivo de alto rendimiento con aerodinámica avanzada',
             modelo: '../coches/Nova Sport/NovaBlancoSport.glb',
             escalado: { modelo: 2.0, camera: 4.5, plataforma: 1 },
+            offset: { x: 0, y: -0.1, z: 0 },
             colores: [
                 { id: 'blanco', nombre: 'Blanco', hex: '#f8f8f8', material: 'carroceria', modelo: '../coches/Nova Sport/NovaBlancoSport.glb' },
                 { id: 'negro', nombre: 'Negro', hex: '#1a1a1a', material: 'carroceria', modelo: '../coches/Nova Sport/NovaNegroSport.glb' },
@@ -182,7 +186,7 @@ export const MODELOS_CONFIG = {
             descripcion: 'Compacto ágil y eficiente perfecto para la ciudad',
             modelo: '../coches/Spark/SparkBlanco.glb',
             escalado: { modelo: 2.0, camera: 2.2, plataforma: 1 },
-            offset: { x: 0.45, y: -0.10, z: 0 },
+            offset: { x: 0.45, y: 0.0, z: 0 },
             colores: [
                 { id: 'blanco', nombre: 'Blanco', hex: '#f8f8f8', material: 'carroceria', modelo: '../coches/Spark/SparkBlanco.glb' },
                 { id: 'negro', nombre: 'Negro', hex: '#1a1a1a', material: 'carroceria', modelo: '../coches/Spark/SparkNegro.glb' },
@@ -220,7 +224,7 @@ export const MODELOS_CONFIG = {
             descripcion: 'El deportivo eléctrico con diseño agresivo y rendimiento excepcional',
             modelo: '../coches/Daemon/DeamonBlanco.glb',
             escalado: { modelo: 2.0, camera: 3.6, plataforma: 1 },
-            offset: { x: 0, y: -0.01, z: 0 },
+            offset: { x: 0, y: -0.1, z: 0 },
             colores: [
                 { id: 'blanco', nombre: 'Blanco', hex: '#f8f8f8', material: 'carroceria', modelo: '../coches/Daemon/DeamonBlanco.glb' },
                 { id: 'negro', nombre: 'Negro', hex: '#1a1a1a', material: 'carroceria', modelo: '../coches/Daemon/DeamonNegro.glb' },

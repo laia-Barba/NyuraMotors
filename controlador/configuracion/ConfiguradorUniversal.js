@@ -212,8 +212,8 @@ class ConfiguradorUniversal {
         this.controls.enableRotate = true;
         this.controls.enablePan = false;
         this.controls.enableZoom = false;
-        this.controls.minPolarAngle = Math.PI * 0.15;
-        this.controls.maxPolarAngle = Math.PI * 0.52;
+        this.controls.minPolarAngle = Math.PI * 0.43;
+        this.controls.maxPolarAngle = Math.PI * 0.43;
         this.controls.autoRotate = false;
         this.controls.target.set(...this.configuracion.camaras.exterior.target);
         this.controls.update();
@@ -262,7 +262,7 @@ class ConfiguradorUniversal {
 
         // Luz direccional principal
         const directionalLight = new THREE.DirectionalLight(0xffffff, directionalIntensity);
-        directionalLight.position.set(5, 10, 7.5);
+        directionalLight.position.set(5, 15, 5);
         directionalLight.castShadow = true;
         directionalLight.shadow.mapSize.width = 2048;
         directionalLight.shadow.mapSize.height = 2048;
@@ -272,6 +272,7 @@ class ConfiguradorUniversal {
         directionalLight.shadow.camera.right = 10;
         directionalLight.shadow.camera.top = 10;
         directionalLight.shadow.camera.bottom = -10;
+        directionalLight.shadow.bias = -0.00015;
         this.scene.add(directionalLight);
 
         // Luz de relleno desde arriba
@@ -473,6 +474,13 @@ class ConfiguradorUniversal {
                     this.scene.add(this.model);
                     this.currentModelPath = modeloPath;
 
+                    // Configurar sombras en todos los meshes del modelo
+                    this.model.traverse((child) => {
+                        if (!child.isMesh) return;
+                        child.castShadow = true;
+                        child.receiveShadow = true;
+                    });
+
                     this.ensureUniqueWheelMaterials();
 
                     // Guardar colores originales de las llantas
@@ -488,7 +496,8 @@ class ConfiguradorUniversal {
                     // Ajustar cámara
                     this.fitCameraToObject(this.model);
 
-                    this.addOrUpdateGroundForObject(this.modelRoot);
+                    // this.addOrUpdateGroundForObject(this.modelRoot); // Eliminada la plataforma con grass.jpg
+                    this.addShadowPlane(); // Añadir plano invisible para recibir sombras
 
                     // Ajuste fino por modelo (sin afectar a la plataforma)
                     this.aplicarOffsetModelo();
@@ -564,6 +573,22 @@ class ConfiguradorUniversal {
         this.camera.updateProjectionMatrix();
         
         this.controls.update();
+    }
+
+    addShadowPlane() {
+        if (!this.scene) return;
+
+        // Crear plano invisible para recibir sombras
+        const planeGeometry = new THREE.PlaneGeometry(200, 200);
+        const planeMaterial = new THREE.ShadowMaterial({
+            opacity: 0.7,
+            transparent: true
+        });
+        const shadowPlane = new THREE.Mesh(planeGeometry, planeMaterial);
+        shadowPlane.rotation.x = -Math.PI / 2;
+        shadowPlane.position.y = 0;
+        shadowPlane.receiveShadow = true;
+        this.scene.add(shadowPlane);
     }
 
     addOrUpdateGroundForObject(object3D) {

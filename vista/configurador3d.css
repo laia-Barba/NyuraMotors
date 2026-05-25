@@ -2,41 +2,10 @@
 
 /* Fondo de modelos aplicado al body del configurador */
 body {
-    background: radial-gradient(1200px 600px at 70% 50%, rgba(255, 255, 255, 0.06), transparent 60%),
-        linear-gradient(135deg, #05070b 0%, #0b0f18 45%, #070a10 100%);
+    background: url('../Imagenes/escenario13.png') center center / cover fixed no-repeat;
     color: #ffffff;
     position: relative;
     overflow: hidden;
-}
-
-/* Animación de fondo del configurador */
-@keyframes configurador-bg-pan {
-    0% {
-        transform: translate3d(-6%, -4%, 0) scale(1);
-        opacity: 0.65;
-    }
-    50% {
-        transform: translate3d(6%, 4%, 0) scale(1.05);
-        opacity: 0.95;
-    }
-    100% {
-        transform: translate3d(-6%, -4%, 0) scale(1);
-        opacity: 0.65;
-    }
-}
-
-body::before {
-    content: '';
-    position: absolute;
-    inset: -30% -20% -30% -20%;
-    background:
-        radial-gradient(700px 500px at 25% 30%, rgba(0, 212, 255, 0.18), transparent 65%),
-        radial-gradient(820px 520px at 78% 46%, rgba(220, 20, 60, 0.16), transparent 66%),
-        radial-gradient(560px 420px at 65% 80%, rgba(255, 255, 255, 0.10), transparent 70%);
-    pointer-events: none;
-    filter: blur(2px);
-    animation: configurador-bg-pan 12s ease-in-out infinite;
-    z-index: 0;
 }
 
 /* Estilos del header del home para el configurador */
@@ -133,6 +102,7 @@ nav a:hover::after {
     width: 100%;
     height: 100%;
     background: transparent;
+    z-index: 0;
 }
 
 #canvas-container canvas {
@@ -142,6 +112,8 @@ nav a:hover::after {
     width: 100%;
     height: 100%;
     transform: translateX(-230px);
+    background: transparent !important;
+    z-index: 1;
 }
 
 /* Panel derecho - Configuración */
@@ -825,7 +797,7 @@ box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 10;
     color: white;
     font-family: 'Inter', sans-serif;
 }

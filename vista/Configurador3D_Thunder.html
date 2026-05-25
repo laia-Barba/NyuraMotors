@@ -318,8 +318,8 @@
             controls.enableRotate = true;
             controls.enablePan = false;
             controls.enableZoom = false;
-            controls.minPolarAngle = Math.PI * 0.15;
-            controls.maxPolarAngle = Math.PI * 0.52;
+            controls.minPolarAngle = Math.PI * 0.43;
+            controls.maxPolarAngle = Math.PI * 0.43;
             controls.autoRotate = false;
             controls.target.set(0, 0.5, 0);
             controls.update();
@@ -362,6 +362,22 @@
             }
 
             controls.update();
+        }
+
+        function addShadowPlane() {
+            if (!scene) return;
+
+            // Crear plano invisible para recibir sombras
+            const planeGeometry = new THREE.PlaneGeometry(100, 100);
+            const planeMaterial = new THREE.ShadowMaterial({
+                opacity: 0.3,
+                transparent: true
+            });
+            const shadowPlane = new THREE.Mesh(planeGeometry, planeMaterial);
+            shadowPlane.rotation.x = -Math.PI / 2;
+            shadowPlane.position.y = 0;
+            shadowPlane.receiveShadow = true;
+            scene.add(shadowPlane);
         }
 
         function addOrUpdateGroundForObject(object3D) {
@@ -907,7 +923,7 @@
 
             box = new THREE.Box3().setFromObject(model);
             model.position.y -= box.min.y;
-            model.position.y += 0.8;
+            model.position.y += 0.0;
 
             model.traverse((child) => {
                 if (!child.isMesh) return;
@@ -951,7 +967,8 @@
             modelRoot = new THREE.Group();
             modelRoot.add(model);
             scene.add(modelRoot);
-            addOrUpdateGroundForObject(modelRoot);
+            // addOrUpdateGroundForObject(modelRoot); // Eliminada la plataforma con grass.jpg
+            addShadowPlane(); // Añadir plano invisible para recibir sombras
             modelLoaded = true;
             fitCameraToObject(modelRoot);
             requestAnimationFrame(() => {
