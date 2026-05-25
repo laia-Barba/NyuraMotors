@@ -226,16 +226,25 @@
                         if (priceElement) {
                             priceElement.textContent = `${daemonModel.precio.toLocaleString('es-ES')} €`;
                         }
+                        return daemonModel.precio;
                     }
                 }
+                return null;
             } catch (error) {
                 console.error('Error cargando precio desde BD:', error);
+                return null;
             }
         }
         
-        window.configurador = new ConfiguradorUniversal('daemon');
-        window.configurador.init();
-        loadPriceFromDB();
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const precioBase = await loadPriceFromDB();
+                window.configurador = new ConfiguradorUniversal('daemon', precioBase);
+                await window.configurador.init();
+            } catch (error) {
+                console.error('Error al inicializar configurador Daemon:', error);
+            }
+        });
     </script>
 
     <!-- Header Component -->

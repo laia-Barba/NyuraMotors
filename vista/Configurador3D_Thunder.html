@@ -226,14 +226,23 @@
                         if (priceElement) {
                             priceElement.textContent = `${thunderModel.precio.toLocaleString('es-ES')} €`;
                         }
+                        // Actualizar el precio base en la configuración global
+                        if (window.currentConfiguration) {
+                            window.currentConfiguration.basePrice = thunderModel.precio;
+                        }
+                        return thunderModel.precio;
                     }
                 }
+                return null;
             } catch (error) {
                 console.error('Error cargando precio desde BD:', error);
+                return null;
             }
         }
         
-        document.addEventListener('DOMContentLoaded', loadPriceFromDB);
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadPriceFromDB();
+        });
     </script>
 
     <script type="module">
@@ -259,7 +268,7 @@
         let grassTexture = null;
         let modelScaleFixed = false;
 
-        let currentConfiguration = {
+        window.currentConfiguration = {
             color: 'negro',
             wheel: 'acero',
             packages: [],
@@ -320,7 +329,7 @@
             initConfigurationEvents();
             updatePrice();
 
-            loadThunderModel(currentConfiguration.color);
+            loadThunderModel(window.currentConfiguration.color);
 
             animate();
         }
@@ -480,7 +489,7 @@
                 bottomNextBtn.addEventListener('click', () => {
                     if (currentStep >= maxStep) {
                         const configData = {
-                            ...currentConfiguration,
+                            ...window.currentConfiguration,
                             totalPrice: document.querySelector('.price-value')?.textContent || '',
                             modelName: window.currentModelName || 'Thunder',
                             timestamp: new Date().toISOString()
@@ -818,10 +827,10 @@
         }
 
         function updatePrice() {
-            let totalPrice = currentConfiguration.basePrice;
-            totalPrice += prices.wheels[currentConfiguration.wheel] || 0;
+            let totalPrice = window.currentConfiguration.basePrice;
+            totalPrice += prices.wheels[window.currentConfiguration.wheel] || 0;
 
-            currentConfiguration.packages.forEach((packageId) => {
+            window.currentConfiguration.packages.forEach((packageId) => {
                 if (prices.packages[packageId]) totalPrice += prices.packages[packageId];
             });
 
@@ -836,7 +845,7 @@
                 option.addEventListener('click', function () {
                     document.querySelectorAll('.color-option').forEach((opt) => opt.classList.remove('active'));
                     this.classList.add('active');
-                    currentConfiguration.color = this.dataset.color;
+                    window.currentConfiguration.color = this.dataset.color;
                     updatePrice();
                     updateModelColorAndModel(this.dataset.color);
                 });
@@ -846,7 +855,7 @@
                 option.addEventListener('click', function () {
                     document.querySelectorAll('.wheel-option').forEach((opt) => opt.classList.remove('active'));
                     this.classList.add('active');
-                    currentConfiguration.wheel = this.dataset.wheel;
+                    window.currentConfiguration.wheel = this.dataset.wheel;
                     updatePrice();
                     updateModelWheels(this.dataset.wheel);
                 });
@@ -856,11 +865,11 @@
                 checkbox.addEventListener('change', function () {
                     const packageId = this.id.replace('package-', '');
                     if (this.checked) {
-                        if (!currentConfiguration.packages.includes(packageId)) {
-                            currentConfiguration.packages.push(packageId);
+                        if (!window.currentConfiguration.packages.includes(packageId)) {
+                            window.currentConfiguration.packages.push(packageId);
                         }
                     } else {
-                        currentConfiguration.packages = currentConfiguration.packages.filter((p) => p !== packageId);
+                        window.currentConfiguration.packages = window.currentConfiguration.packages.filter((p) => p !== packageId);
                     }
                     updatePrice();
                 });
@@ -949,7 +958,7 @@
                 updateRendererSize();
                 fitCameraToObject(modelRoot);
             });
-            updateModelWheels(currentConfiguration.wheel);
+            updateModelWheels(window.currentConfiguration.wheel);
             startIntroAnimation();
         }
 
@@ -1102,7 +1111,7 @@
         }
 
         window.resetConfiguration = function () {
-            currentConfiguration = {
+            window.currentConfiguration = {
                 color: 'negro',
                 wheel: 'acero',
                 packages: [],
@@ -1127,7 +1136,7 @@
 
         window.saveConfiguration = function () {
             const configData = {
-                ...currentConfiguration,
+                ...window.currentConfiguration,
                 timestamp: new Date().toISOString(),
                 totalPrice: document.querySelector('.price-value')?.textContent || ''
             };

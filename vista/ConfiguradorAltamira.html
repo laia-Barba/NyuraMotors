@@ -282,19 +282,22 @@
                         if (priceElement) {
                             priceElement.textContent = `${altamiraModel.precio.toLocaleString('es-ES')} €`;
                         }
+                        return altamiraModel.precio;
                     }
                 }
+                return null;
             } catch (error) {
                 console.error('Error cargando precio desde BD:', error);
+                return null;
             }
         }
         
         // Inicializar el configurador para Altamira
         document.addEventListener('DOMContentLoaded', async () => {
             try {
-                const configurador = await ConfiguradorUniversal.crear('altamira');
+                const precioBase = await loadPriceFromDB();
+                const configurador = await ConfiguradorUniversal.crear('altamira', precioBase);
                 console.log('Configurador Altamira inicializado correctamente');
-                loadPriceFromDB();
             } catch (error) {
                 console.error('Error al inicializar configurador Altamira:', error);
             }

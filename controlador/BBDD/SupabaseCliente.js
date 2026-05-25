@@ -2039,3 +2039,171 @@ async function deleteOldImage(imageUrl, modelName) {
         console.warn('Error eliminando imagen vieja:', error);
     }
 }
+
+// CONFIGURACIONES
+export async function saveConfiguration(configData) {
+    try {
+        console.log('saveConfiguration: Guardando configuración:', configData);
+        
+        const { data, error } = await supabase
+            .from('configuraciones')
+            .insert([configData])
+            .select();
+        
+        if (error) {
+            console.error('Error guardando configuración:', error);
+            return { success: false, error: error.message };
+        }
+        
+        console.log('Configuración guardada exitosamente:', data);
+        return { success: true, data };
+    } catch (error) {
+        console.error('Error inesperado guardando configuración:', error);
+        return { success: false, error: 'Error inesperado' };
+    }
+}
+
+// Función para obtener el ID del modelo basado en el nombre
+export async function getModeloIdByNombre(nombre) {
+    try {
+        const modelMap = {
+            'nova sport': 9,
+            'novasport': 9,
+            'nova': 10,
+            'vortex': 11,
+            'terramar': 11,
+            'spark': 12,
+            'altamira': 13,
+            'thunder black edition': 15,
+            'thunderbe': 15,
+            'thunder be': 15,
+            'thunder': 14,
+            'daemon': 16
+        };
+        const normalizedName = String(nombre || '').toLowerCase().replace(/^nyura\s+/, '').replace(/\s+2026$/, '').trim();
+        if (modelMap[normalizedName]) {
+            return modelMap[normalizedName];
+        }
+
+        const { data, error } = await supabase
+            .from('modelos_coche')
+            .select('id')
+            .ilike('nombre', `%${nombre}%`)
+            .limit(1);
+        
+        if (error) {
+            console.error('Error obteniendo ID del modelo:', error);
+            return null;
+        }
+        
+        return data?.[0]?.id || null;
+    } catch (error) {
+        console.error('Error inesperado obteniendo ID del modelo:', error);
+        return null;
+    }
+}
+
+// Función para obtener el ID del color basado en el nombre
+export async function getColorIdByNombre(nombre) {
+    try {
+        const colorMap = {
+            'negro': 1,
+            'negro mate': 1,
+            'gris': 2,
+            'gris platino': 2,
+            'rojo': 3,
+            'rojo passion': 3,
+            'rojo racing': 3,
+            'azul': 4,
+            'azul océano': 4,
+            'azul oceano': 4,
+            'blanco': 5,
+            'blanco perla': 5,
+            'cherry': 6
+        };
+        const normalizedName = String(nombre || '').toLowerCase().trim();
+        if (colorMap[normalizedName]) {
+            return colorMap[normalizedName];
+        }
+
+        const { data, error } = await supabase
+            .from('colores')
+            .select('id')
+            .ilike('nombre', `%${nombre}%`)
+            .limit(1);
+        
+        if (error) {
+            console.error('Error obteniendo ID del color:', error);
+            return 1;
+        }
+        
+        return data?.[0]?.id || 1;
+    } catch (error) {
+        console.error('Error inesperado obteniendo ID del color:', error);
+        return 1;
+    }
+}
+
+// Función para obtener el ID de las llantas basado en el nombre
+export async function getLlantaIdByNombre(nombre) {
+    try {
+        const llantaMap = {
+            'de serie': 1,
+            'serie': 1,
+            'original': 1,
+            'standard': 1,
+            'acero': 2,
+            'sport': 3,
+            'pack dark': 4,
+            'dark': 4,
+            'off-road': 5,
+            'offroad': 5,
+            'off road': 5
+        };
+        const normalizedName = String(nombre || '').toLowerCase().trim();
+        if (llantaMap[normalizedName]) {
+            return llantaMap[normalizedName];
+        }
+
+        const { data, error } = await supabase
+            .from('llantas')
+            .select('id')
+            .ilike('nombre', `%${nombre}%`)
+            .limit(1);
+        
+        if (error) {
+            console.error('Error obteniendo ID de las llantas:', error);
+            return 1;
+        }
+        
+        return data?.[0]?.id || 1;
+    } catch (error) {
+        console.error('Error inesperado obteniendo ID de las llantas:', error);
+        return 1;
+    }
+}
+
+// Función para obtener un color interior por defecto
+export async function getDefaultColorInteriorId() {
+    return 1;
+}
+
+export async function getConfigurationsByUser(userId) {
+    try {
+        const { data, error } = await supabase
+            .from('configuraciones')
+            .select('*')
+            .eq('user_id', userId)
+            .order('fecha_creacion', { ascending: false });
+        
+        if (error) {
+            console.error('Error obteniendo configuraciones:', error);
+            return { success: false, error: error.message };
+        }
+        
+        return { success: true, data };
+    } catch (error) {
+        console.error('Error inesperado obteniendo configuraciones:', error);
+        return { success: false, error: 'Error inesperado' };
+    }
+}

@@ -144,12 +144,20 @@
                 </div>
 
                 <div class="product-section">
-                    <button class="back-btn-payment-3d" onclick="history.back()">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 20px; height: 20px; margin-right: 6px;">
-                            <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
-                        </svg>
-                        Volver
-                    </button>
+                    <div class="payment-buttons">
+                        <button class="back-btn-payment-3d" onclick="history.back()">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 20px; height: 20px; margin-right: 6px;">
+                                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                            </svg>
+                            Volver
+                        </button>
+                        <button class="save-config-btn" id="saveConfigBtn">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 20px; height: 20px; margin-right: 6px;">
+                                <path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/>
+                            </svg>
+                            Guardar configuración
+                        </button>
+                    </div>
                     <div class="product-3d-viewer" id="paymentCarViewer">
                         <div class="payment-3d-loading" id="payment3dLoading">Cargando modelo 3D...</div>
                     </div>
@@ -261,6 +269,34 @@
                 if (configData) {
                     const config = JSON.parse(configData);
                     
+                    // Actualizar nombre del modelo
+                    const productName = document.getElementById('productName');
+                    if (productName && config.modelName) {
+                        // Mapeo de nombres de modelos a nombres de archivos de imagen
+                        const imageMap = {
+                            'Nova': 'Nova',
+                            'Nova Sport': 'NovaSport',
+                            'Vortex': 'Vortex',
+                            'Thunder': 'Thunder',
+                            'ThunderBE': 'ThunderBE',
+                            'Thunder Black Edition': 'ThunderBE',
+                            'Altamira': 'Altamira',
+                            'Daemon': 'daemon',
+                            'Spark': 'Spark'
+                        };
+                        const imageName = imageMap[config.modelName] || config.modelName;
+                        productName.innerHTML = `
+                            <img src="../Imagenes/imagenesmodelos/${imageName}.png" alt="Nyura ${config.modelName}">
+                            Nyura ${config.modelName} 2026
+                        `;
+                    }
+                    
+                    // Actualizar precio base
+                    const productPrice = document.getElementById('productPrice');
+                    if (productPrice && config.basePrice) {
+                        productPrice.textContent = config.basePrice;
+                    }
+                    
                     const configColor = document.getElementById('configColor');
                     const configWheels = document.getElementById('configWheels');
                     const configPackages = document.getElementById('configPackages');
@@ -323,7 +359,6 @@
                     }
                     
                     // Actualizar precio en product-info
-                    const productPrice = document.getElementById('productPrice');
                     if (productPrice && config.totalPrice) {
                         productPrice.textContent = config.totalPrice;
                     }
@@ -338,6 +373,67 @@
             };
             
             loadConfiguration();
+
+            // Botón de guardar configuración
+            const saveConfigBtn = document.getElementById('saveConfigBtn');
+            if (saveConfigBtn) {
+                saveConfigBtn.addEventListener('click', async function() {
+                    try {
+                        const configData = localStorage.getItem('carConfiguration');
+                        if (!configData) {
+                            alert('No hay configuración para guardar');
+                            return;
+                        }
+
+                        const config = JSON.parse(configData);
+                        
+                        // Obtener usuario actual
+                        const { getCurrentUser } = await import('../controlador/BBDD/SupabaseCliente.js');
+                        const user = await getCurrentUser();
+                        
+                        if (!user) {
+                            alert('Debes iniciar sesión para guardar configuraciones');
+                            return;
+                        }
+
+                        // Preparar datos para guardar
+                        const { getModeloIdByNombre, getColorIdByNombre, getLlantaIdByNombre, getDefaultColorInteriorId } = await import('../controlador/BBDD/SupabaseCliente.js');
+                        
+                        // Obtener IDs de la base de datos
+                        const modeloCocheId = await getModeloIdByNombre(config.modelName);
+                        const colorExteriorId = await getColorIdByNombre(config.colorName);
+                        const llantasId = await getLlantaIdByNombre(config.wheelName || config.wheelsName || config.wheel || config.wheels);
+                        const colorInteriorId = await getDefaultColorInteriorId();
+                        const precioTotal = typeof config.totalPrice === 'number'
+                            ? config.totalPrice
+                            : Number(String(config.totalPrice || '0').replace(/[^\d,.-]/g, '').replace(/\./g, '').replace(',', '.'));
+                        
+                        const configToSave = {
+                            user_id: user.id,
+                            modelo_coche_id: modeloCocheId,
+                            color_exterior_id: colorExteriorId,
+                            color_interior_id: colorInteriorId,
+                            llantas_id: llantasId,
+                            precio_total: precioTotal || 0,
+                            nombre: config.modelName || 'Configuración',
+                            fecha_creacion: new Date().toISOString()
+                        };
+
+                        // Importar y usar la función de guardado
+                        const { saveConfiguration } = await import('../controlador/BBDD/SupabaseCliente.js');
+                        const result = await saveConfiguration(configToSave);
+
+                        if (result.success) {
+                            alert('Configuración guardada exitosamente');
+                        } else {
+                            alert('Error al guardar configuración: ' + result.error);
+                        }
+                    } catch (error) {
+                        console.error('Error guardando configuración:', error);
+                        alert('Error al guardar configuración');
+                    }
+                });
+            }
 
             const paymentOptions = document.querySelectorAll('.payment-option');
             const radioInputs = document.querySelectorAll('input[name="payment"]');

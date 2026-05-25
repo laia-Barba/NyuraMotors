@@ -292,19 +292,22 @@
                         if (priceElement) {
                             priceElement.textContent = `${vortexModel.precio.toLocaleString('es-ES')} €`;
                         }
+                        return vortexModel.precio;
                     }
                 }
+                return null;
             } catch (error) {
                 console.error('Error cargando precio desde BD:', error);
+                return null;
             }
         }
         
         // Inicializar configurador para Terramar
         document.addEventListener('DOMContentLoaded', async () => {
             try {
-                const configurador = await ConfiguradorUniversal.crear('terramar');
+                const precioBase = await loadPriceFromDB();
+                const configurador = await ConfiguradorUniversal.crear('terramar', precioBase);
                 window.configurador = configurador;
-                loadPriceFromDB();
             } catch (error) {
                 console.error('Error al inicializar configurador:', error);
             }

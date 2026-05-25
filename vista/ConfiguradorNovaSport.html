@@ -205,16 +205,25 @@
                         if (priceElement) {
                             priceElement.textContent = `${novaSportModel.precio.toLocaleString('es-ES')} €`;
                         }
+                        return novaSportModel.precio;
                     }
                 }
+                return null;
             } catch (error) {
                 console.error('Error cargando precio desde BD:', error);
+                return null;
             }
         }
         
-        window.configurador = new ConfiguradorUniversal('nova-sport');
-        window.configurador.init();
-        loadPriceFromDB();
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const precioBase = await loadPriceFromDB();
+                window.configurador = new ConfiguradorUniversal('nova-sport', precioBase);
+                await window.configurador.init();
+            } catch (error) {
+                console.error('Error al inicializar configurador Nova Sport:', error);
+            }
+        });
     </script>
 
     <!-- Header Component -->
