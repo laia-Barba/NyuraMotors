@@ -852,7 +852,7 @@
                     {
                         title: 'Vista premium',
                         description: '',
-                        camera: new THREE.Vector3(0, 1.5, 5),
+                        camera: new THREE.Vector3(0, 2.5, 5),
                         target: new THREE.Vector3(0, 0.5, 0)
                     },
                     {
@@ -870,9 +870,9 @@
                 ];
                 
                 let currentSceneIndex = 0;
-                let nextSceneIndex = 1;
+                let nextSceneIndex = 0;
                 let transitionProgress = 0;
-                const transitionSpeed = 0.005;
+                const transitionSpeed = 0;
 
                 const scene = new THREE.Scene();
                 const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
@@ -891,6 +891,9 @@
                 scene.add(new THREE.AmbientLight(0xffffff, 1.0));
                 const keyLight = new THREE.DirectionalLight(0xffffff, 1.2);
                 keyLight.position.set(5, 6, 7);
+                keyLight.castShadow = true;
+                keyLight.shadow.mapSize.width = 1024;
+                keyLight.shadow.mapSize.height = 1024;
                 scene.add(keyLight);
                 const fillLight = new THREE.DirectionalLight(0xffffff, 0.6);
                 fillLight.position.set(-5, 3, 5);
@@ -997,14 +1000,37 @@
                     applyWheelType(car, wheelType);
                     scene.add(car);
 
+                    // Añadir sombra debajo del coche
+                    const shadowGeometry = new THREE.PlaneGeometry(10, 10);
+                    const shadowMaterial = new THREE.ShadowMaterial({
+                        opacity: 0.5,
+                        color: 0x000000
+                    });
+                    const shadowPlane = new THREE.Mesh(shadowGeometry, shadowMaterial);
+                    shadowPlane.rotation.x = -Math.PI / 2;
+                    shadowPlane.position.y = -2.5;
+                    shadowPlane.receiveShadow = true;
+                    scene.add(shadowPlane);
+
+                    // Activar sombras en el coche
+                    car.traverse((child) => {
+                        if (child.isMesh) {
+                            child.castShadow = true;
+                            child.receiveShadow = true;
+                        }
+                    });
+
                     const box = new THREE.Box3().setFromObject(car);
                     const size = box.getSize(new THREE.Vector3());
                     const center = box.getCenter(new THREE.Vector3());
                     car.position.sub(center);
-                    car.position.y += 2.5;
+                    car.position.y += 1.5;
+                    car.position.x += 0.5;
+                    car.rotation.y = -0.9;
+                    car.rotation.x = -0.3;
 
                     const maxDim = Math.max(size.x, size.y, size.z);
-                    const scaleTarget = 4.2;
+                    const scaleTarget = 5.2;
                     car.scale.multiplyScalar(scaleTarget / maxDim);
 
                     console.log('Modelo Altamira:');
