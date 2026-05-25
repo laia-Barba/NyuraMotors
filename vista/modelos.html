@@ -463,7 +463,7 @@
             const wheels = getRelatedItems(model, 'modelo_llantas', 'llantas');
             const packages = getRelatedItems(model, 'modelo_paquetes', 'paquetes');
             const price = formatPrice(model.precio);
-            const description = model.descripcion_completa || model.descripcion_larga || model.descripcion_corta || 'Descripción completa no disponible.';
+            const description = model.descripcion || model.descripcion_corta || 'Descripción completa no disponible.';
 
             container.innerHTML = `
                 <div class="modelo-detalles-header">
