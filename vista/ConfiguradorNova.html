@@ -60,7 +60,7 @@
                         Nova</h3>
                     <div class="price-display">
                         <span class="price-label">Precio</span>
-                        <span class="price-value">-</span>
+                        <span class="price-value">21.700 €</span>
                     </div>
 
                     <div class="step-indicator">
@@ -260,11 +260,31 @@
     <script type="module" src="../controlador/configuracion/ConfiguradorUniversal.js"></script>
     <script type="module">
         import { ConfiguradorUniversal } from '../controlador/configuracion/ConfiguradorUniversal.js';
+        import { getModels } from '../controlador/BBDD/SupabaseCliente.js';
+        
+        // Cargar precio desde la base de datos
+        async function loadPriceFromDB() {
+            try {
+                const result = await getModels();
+                if (result.success && result.data) {
+                    const novaModel = result.data.find(m => m.nombre.toLowerCase().includes('nova') && !m.nombre.toLowerCase().includes('sport'));
+                    if (novaModel && novaModel.precio) {
+                        const priceElement = document.querySelector('.price-value');
+                        if (priceElement) {
+                            priceElement.textContent = `${novaModel.precio.toLocaleString('es-ES')} €`;
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Error cargando precio desde BD:', error);
+            }
+        }
 
         document.addEventListener('DOMContentLoaded', async () => {
             try {
                 await ConfiguradorUniversal.crear('nova');
                 console.log('Configurador Nova inicializado correctamente');
+                loadPriceFromDB();
             } catch (error) {
                 console.error('Error al inicializar configurador Nova:', error);
             }

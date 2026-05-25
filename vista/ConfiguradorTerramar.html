@@ -62,7 +62,7 @@
                         Vortex</h3>
                     <div class="price-display">
                         <span class="price-label">Precio</span>
-                        <span class="price-value">-</span>
+                        <span class="price-value">42.900 €</span>
                     </div>
                     
                     <!-- Indicador de Pasos -->
@@ -279,12 +279,32 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <script type="module">
         import { ConfiguradorUniversal } from '../controlador/configuracion/ConfiguradorUniversal.js';
+        import { getModels } from '../controlador/BBDD/SupabaseCliente.js';
+        
+        // Cargar precio desde la base de datos
+        async function loadPriceFromDB() {
+            try {
+                const result = await getModels();
+                if (result.success && result.data) {
+                    const vortexModel = result.data.find(m => m.nombre.toLowerCase().includes('vortex') || m.nombre.toLowerCase().includes('terramar'));
+                    if (vortexModel && vortexModel.precio) {
+                        const priceElement = document.querySelector('.price-value');
+                        if (priceElement) {
+                            priceElement.textContent = `${vortexModel.precio.toLocaleString('es-ES')} €`;
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Error cargando precio desde BD:', error);
+            }
+        }
         
         // Inicializar configurador para Terramar
         document.addEventListener('DOMContentLoaded', async () => {
             try {
                 const configurador = await ConfiguradorUniversal.crear('terramar');
                 window.configurador = configurador;
+                loadPriceFromDB();
             } catch (error) {
                 console.error('Error al inicializar configurador:', error);
             }

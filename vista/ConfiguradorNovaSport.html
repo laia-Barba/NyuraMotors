@@ -60,7 +60,7 @@
                         Nova Sport</h3>
                     <div class="price-display">
                         <span class="price-label">Precio</span>
-                        <span class="price-value">-</span>
+                        <span class="price-value">39.450 €</span>
                     </div>
 
                     <div class="step-indicator">
@@ -192,9 +192,29 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <script type="module">
         import { ConfiguradorUniversal } from '../controlador/configuracion/ConfiguradorUniversal.js';
+        import { getModels } from '../controlador/BBDD/SupabaseCliente.js';
+        
+        // Cargar precio desde la base de datos
+        async function loadPriceFromDB() {
+            try {
+                const result = await getModels();
+                if (result.success && result.data) {
+                    const novaSportModel = result.data.find(m => m.nombre.toLowerCase().includes('nova') && m.nombre.toLowerCase().includes('sport'));
+                    if (novaSportModel && novaSportModel.precio) {
+                        const priceElement = document.querySelector('.price-value');
+                        if (priceElement) {
+                            priceElement.textContent = `${novaSportModel.precio.toLocaleString('es-ES')} €`;
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Error cargando precio desde BD:', error);
+            }
+        }
         
         window.configurador = new ConfiguradorUniversal('nova-sport');
         window.configurador.init();
+        loadPriceFromDB();
     </script>
 
     <!-- Header Component -->

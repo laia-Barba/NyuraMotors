@@ -60,7 +60,7 @@
                         Spark</h3>
                     <div class="price-display">
                         <span class="price-label">Precio</span>
-                        <span class="price-value">-</span>
+                        <span class="price-value">72.300 €</span>
                     </div>
 
                     <div class="step-indicator">
@@ -189,9 +189,29 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <script type="module">
         import { ConfiguradorUniversal } from '../controlador/configuracion/ConfiguradorUniversal.js';
+        import { getModels } from '../controlador/BBDD/SupabaseCliente.js';
+        
+        // Cargar precio desde la base de datos
+        async function loadPriceFromDB() {
+            try {
+                const result = await getModels();
+                if (result.success && result.data) {
+                    const sparkModel = result.data.find(m => m.nombre.toLowerCase().includes('spark'));
+                    if (sparkModel && sparkModel.precio) {
+                        const priceElement = document.querySelector('.price-value');
+                        if (priceElement) {
+                            priceElement.textContent = `${sparkModel.precio.toLocaleString('es-ES')} €`;
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Error cargando precio desde BD:', error);
+            }
+        }
         
         window.configurador = new ConfiguradorUniversal('spark');
         window.configurador.init();
+        loadPriceFromDB();
     </script>
 
     <!-- Header Component -->

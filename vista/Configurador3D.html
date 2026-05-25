@@ -53,7 +53,7 @@
                     <h3>Personaliza tu <br> Thunder Black Edition</h3>
                     <div class="price-display">
                         <span class="price-label">Precio</span>
-                        <span class="price-value">125.900 €</span>
+                        <span class="price-value">79.200 €</span>
                     </div>
 
                     <div class="step-indicator">
@@ -196,6 +196,30 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+    <script type="module">
+        import { getModels } from '../controlador/BBDD/SupabaseCliente.js';
+        
+        // Cargar precio desde la base de datos
+        async function loadPriceFromDB() {
+            try {
+                const result = await getModels();
+                if (result.success && result.data) {
+                    const thunderBEModel = result.data.find(m => m.nombre.toLowerCase().includes('thunder') && m.nombre.toLowerCase().includes('black'));
+                    if (thunderBEModel && thunderBEModel.precio) {
+                        const priceElement = document.querySelector('.price-value');
+                        if (priceElement) {
+                            priceElement.textContent = `${thunderBEModel.precio.toLocaleString('es-ES')} €`;
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Error cargando precio desde BD:', error);
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', loadPriceFromDB);
+    </script>
 
     <script type="module">
 

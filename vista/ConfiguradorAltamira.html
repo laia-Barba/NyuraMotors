@@ -62,7 +62,7 @@
                         Altamira</h3>
                     <div class="price-display">
                         <span class="price-label">Precio</span>
-                        <span class="price-value">-</span>
+                        <span class="price-value">29.790 €</span>
                     </div>
                     
                     <!-- Indicador de Pasos -->
@@ -269,12 +269,32 @@
     <script type="module" src="../controlador/configuracion/ConfiguradorUniversal.js"></script>
     <script type="module">
         import { ConfiguradorUniversal } from '../controlador/configuracion/ConfiguradorUniversal.js';
+        import { getModels } from '../controlador/BBDD/SupabaseCliente.js';
+        
+        // Cargar precio desde la base de datos
+        async function loadPriceFromDB() {
+            try {
+                const result = await getModels();
+                if (result.success && result.data) {
+                    const altamiraModel = result.data.find(m => m.nombre.toLowerCase().includes('altamira'));
+                    if (altamiraModel && altamiraModel.precio) {
+                        const priceElement = document.querySelector('.price-value');
+                        if (priceElement) {
+                            priceElement.textContent = `${altamiraModel.precio.toLocaleString('es-ES')} €`;
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Error cargando precio desde BD:', error);
+            }
+        }
         
         // Inicializar el configurador para Altamira
         document.addEventListener('DOMContentLoaded', async () => {
             try {
                 const configurador = await ConfiguradorUniversal.crear('altamira');
                 console.log('Configurador Altamira inicializado correctamente');
+                loadPriceFromDB();
             } catch (error) {
                 console.error('Error al inicializar configurador Altamira:', error);
             }

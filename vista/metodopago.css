@@ -14,8 +14,10 @@
 }
 
 body.payment-page {
-    background: radial-gradient(1200px 600px at 70% 50%, rgba(255, 255, 255, 0.06), transparent 60%),
+    background: url('../Imagenes/Escenario9.png') center center no-repeat,
+        radial-gradient(1200px 600px at 70% 50%, rgba(255, 255, 255, 0.06), transparent 60%),
         linear-gradient(135deg, #05070b 0%, #0b0f18 45%, #070a10 100%);
+    background-size: 100% 100%;
     color: var(--payment-text);
     min-height: 100vh;
     position: relative;
@@ -45,7 +47,7 @@ body.payment-page::before {
     width: 100%;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 550px 1fr;
+    grid-template-columns: 450px 1fr;
     gap: 2rem;
     align-items: start;
 }
@@ -57,6 +59,94 @@ body.payment-page::before {
     border-radius: 0;
     padding: 0;
     backdrop-filter: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    position: relative;
+}
+
+.product-info {
+    background: #000811;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 16px;
+    padding: 0.75rem;
+    backdrop-filter: blur(10px);
+    max-width: 280px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+}
+
+.product-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.product-title img {
+    width: 180px;
+    height: 90px;
+    object-fit: contain;
+}
+
+.product-price {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 0.5rem;
+}
+
+.price-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.15rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.price-value {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0rem;
+    font-weight: 700;
+    color: #4A6FFF;
+}
+
+.product-packs {
+    margin-top: 0.5rem;
+}
+
+.packs-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 0.4rem;
+}
+
+.packs-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.packs-list li {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.8);
+    padding: 0.3rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.packs-list li:last-child {
+    border-bottom: none;
 }
 
 .product-image,
@@ -293,14 +383,14 @@ body.payment-page::before {
 
 /* Sección de Pago (Derecha) */
 .payment-section {
-    background: transparent;
-    border: none;
-    border-radius: 0;
-    padding: 0;
-    backdrop-filter: none;
+    background: #000811;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 16px;
+    padding: 1.5rem;
+    backdrop-filter: blur(10px);
     position: sticky;
     top: 2rem;
-    height: calc(100vh - 4rem);
+    max-height: calc(100vh - 4rem);
     overflow: hidden;
 }
 
@@ -393,22 +483,23 @@ body.payment-page::before {
 .payment-methods-compact {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.5rem;
     margin-bottom: 0;
 }
 
 .payment-option {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    padding: 1rem;
-    background: rgba(255, 255, 255, 0.1);
+    gap: 0.75rem;
+    padding: 0.1rem 0.5rem;
+    background: #050E19;
     border: 2px solid rgba(255, 255, 255, 0.2);
-    border-radius: 12px;
+    border-radius: 10px;
     cursor: pointer;
     transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.1);
     position: relative;
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    min-height: 78px;
 }
 
 .payment-option:hover {
@@ -461,22 +552,22 @@ body.payment-page::before {
 }
 
 .option-icon {
-    width: 60px;
-    height: 40px;
+    width: 48px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 8px;
-    background: rgba(255, 255, 255, 0.16);
-    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: none !important;
+    border: none !important;
     padding: 0;
     overflow: hidden;
 }
 
 .option-icon svg {
-    width: 32px;
-    height: 32px;
-    color: var(--payment-text);
+    width: 24px;
+    height: 24px;
+    color: #ffffff;
 }
 
 .payment-logo {
@@ -490,17 +581,38 @@ body.payment-page::before {
     flex: 1;
 }
 
+.option-image {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0;
+    overflow: hidden;
+}
+
+.option-image img {
+    width: 32px;
+    height: 20px;
+    object-fit: contain;
+    border-radius: 4px;
+}
+
+.option-image svg {
+    width: 24px;
+    height: 24px;
+    color: var(--payment-text);
+}
+
 .option-info h3 {
     font-family: 'Poppins', sans-serif;
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 600;
-    margin: 0 0 0.25rem 0;
+    margin: 0 0 0.2rem 0;
     color: var(--payment-text);
 }
 
 .option-info p {
     font-family: 'Inter', sans-serif;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: var(--payment-text-muted);
     margin: 0;
 }
@@ -1193,7 +1305,7 @@ body.payment-page::before {
 /* Botón de volver en el visor 3D de método de pago */
 .back-btn-payment-3d {
     position: absolute;
-    top: 20px;
+    top: 0;
     right: 20px;
     padding: 0.5rem 1rem;
     background: rgba(255, 255, 255, 0.1);
