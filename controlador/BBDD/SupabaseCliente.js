@@ -1,4 +1,5 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+import { savePersistentUser, getPersistentUser, clearPersistentUser } from './AuthPersistencia.js'
 
 
 
@@ -215,6 +216,13 @@ export async function signIn(email, password) {
         }
 
 
+        if (data.user) {
+
+            savePersistentUser(data.user);
+
+        }
+
+
         return { 
 
             success: true, 
@@ -387,6 +395,8 @@ export async function signOut() {
 
         const { error } = await supabase.auth.signOut();
 
+        clearPersistentUser();
+
 
         if (error) {
 
@@ -417,7 +427,32 @@ export async function getCurrentUser() {
 
     try {
 
+        console.log('[SupabaseCliente] getCurrentUser: consultando getSession()', {
+            path: window.location.pathname,
+            origin: window.location.origin
+        });
+
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+
+        console.log('[SupabaseCliente] getCurrentUser: resultado getSession()', {
+            hasSession: !!session,
+            hasUser: !!session?.user,
+            email: session?.user?.email || null,
+            sessionError: sessionError?.message || null
+        });
+
+        if (session?.user) {
+            savePersistentUser(session.user);
+            return session.user;
+        }
+
         const { data: { user }, error } = await supabase.auth.getUser();
+
+        console.log('[SupabaseCliente] getCurrentUser: resultado getUser()', {
+            hasUser: !!user,
+            email: user?.email || null,
+            error: error?.message || null
+        });
 
 
         if (error) {
@@ -426,24 +461,31 @@ export async function getCurrentUser() {
 
             if (error.message?.includes('Auth session missing')) {
 
-                return null;
+                return getPersistentUser();
 
             }
 
             console.error('Error obteniendo usuario actual:', error);
 
-            return null;
+            return getPersistentUser();
 
         }
 
 
-        return user;
+        if (user) {
+
+            savePersistentUser(user);
+
+        }
+
+
+        return user || getPersistentUser();
 
     } catch (error) {
 
         console.error('Error en getCurrentUser:', error);
 
-        return null;
+        return getPersistentUser();
 
     }
 
@@ -866,6 +908,8 @@ export async function logout() {
     try {
         console.log('logout: Cerrando sesión...');
         const { error } = await supabase.auth.signOut();
+
+        clearPersistentUser();
         
         if (error) {
             console.error('Error cerrando sesión:', error);
@@ -1162,6 +1206,11 @@ export async function getConfiguracionesByUser(userId) {
                 precio_total,
                 nombre,
                 fecha_creacion,
+                modelos_coche (
+                    id,
+                    nombre,
+                    Imagenes_Modelos
+                ),
                 configuracion_paquetes (
                     paquete_id,
                     paquetes (
@@ -1240,6 +1289,12 @@ export async function getConfiguracionById(id) {
                 precio_total,
                 nombre,
                 fecha_creacion,
+                modelos_coche (
+                    id,
+                    nombre,
+                    precio,
+                    Imagenes_Modelos
+                ),
                 configuracion_paquetes (
                     paquete_id,
                     paquetes (
@@ -1383,7 +1438,6 @@ export async function getModels() {
                 llantas (
                     id,
                     nombre,
-                    medida,
                     precio_extra
                 )
             ),
@@ -1994,5 +2048,232 @@ async function deleteOldImage(imageUrl, modelName) {
         }
     } catch (error) {
         console.warn('Error eliminando imagen vieja:', error);
+    }
+}
+
+// CONFIGURACIONES
+export async function saveConfiguration(configData) {
+    try {
+        console.log('saveConfiguration: Guardando configuración:', configData);
+        const paquetes = configData.paquetes || configData.packages || [];
+        const { paquetes: _paquetes, packages: _packages, ...configToInsert } = configData;
+        
+        const { data, error } = await supabase
+            .from('configuraciones')
+            .insert([configToInsert])
+            .select();
+        
+        if (error) {
+            console.error('Error guardando configuración:', error);
+            return { success: false, error: error.message };
+        }
+
+        const configuracionId = data?.[0]?.id;
+        if (configuracionId && paquetes.length > 0) {
+            const paqueteIds = await getPaqueteIdsByValores(paquetes);
+            if (paqueteIds.length > 0) {
+                const packageResult = await setConfiguracionPaquetes(configuracionId, paqueteIds);
+                if (!packageResult.success) {
+                    return { success: false, error: packageResult.error?.message || 'Error guardando paquetes' };
+                }
+            }
+        }
+        
+        console.log('Configuración guardada exitosamente:', data);
+        return { success: true, data };
+    } catch (error) {
+        console.error('Error inesperado guardando configuración:', error);
+        return { success: false, error: 'Error inesperado' };
+    }
+}
+
+// Función para obtener el ID del modelo basado en el nombre
+export async function getModeloIdByNombre(nombre) {
+    try {
+        const modelMap = {
+            'nova sport': 9,
+            'novasport': 9,
+            'nova': 10,
+            'vortex': 11,
+            'terramar': 11,
+            'spark': 12,
+            'altamira': 13,
+            'thunder black edition': 15,
+            'thunderbe': 15,
+            'thunder be': 15,
+            'thunder': 14,
+            'daemon': 16
+        };
+        const normalizedName = String(nombre || '').toLowerCase().replace(/^nyura\s+/, '').replace(/\s+2026$/, '').trim();
+        if (modelMap[normalizedName]) {
+            return modelMap[normalizedName];
+        }
+
+        const { data, error } = await supabase
+            .from('modelos_coche')
+            .select('id')
+            .ilike('nombre', `%${nombre}%`)
+            .limit(1);
+        
+        if (error) {
+            console.error('Error obteniendo ID del modelo:', error);
+            return null;
+        }
+        
+        return data?.[0]?.id || null;
+    } catch (error) {
+        console.error('Error inesperado obteniendo ID del modelo:', error);
+        return null;
+    }
+}
+
+// Función para obtener el ID del color basado en el nombre
+export async function getColorIdByNombre(nombre) {
+    try {
+        const colorMap = {
+            'negro': 1,
+            'negro mate': 1,
+            'gris': 2,
+            'gris platino': 2,
+            'rojo': 3,
+            'rojo passion': 3,
+            'rojo racing': 3,
+            'azul': 4,
+            'azul océano': 4,
+            'azul oceano': 4,
+            'blanco': 5,
+            'blanco perla': 5,
+            'cherry': 6
+        };
+        const normalizedName = String(nombre || '').toLowerCase().trim();
+        if (colorMap[normalizedName]) {
+            return colorMap[normalizedName];
+        }
+
+        const { data, error } = await supabase
+            .from('colores')
+            .select('id')
+            .ilike('nombre', `%${nombre}%`)
+            .limit(1);
+        
+        if (error) {
+            console.error('Error obteniendo ID del color:', error);
+            return 1;
+        }
+        
+        return data?.[0]?.id || 1;
+    } catch (error) {
+        console.error('Error inesperado obteniendo ID del color:', error);
+        return 1;
+    }
+}
+
+// Función para obtener el ID de las llantas basado en el nombre
+export async function getLlantaIdByNombre(nombre) {
+    try {
+        const llantaMap = {
+            'de serie': 1,
+            'serie': 1,
+            'original': 1,
+            'standard': 1,
+            'acero': 2,
+            'sport': 3,
+            'pack dark': 4,
+            'dark': 4,
+            'off-road': 5,
+            'offroad': 5,
+            'off road': 5
+        };
+        const normalizedName = String(nombre || '').toLowerCase().trim();
+        if (llantaMap[normalizedName]) {
+            return llantaMap[normalizedName];
+        }
+
+        const { data, error } = await supabase
+            .from('llantas')
+            .select('id')
+            .ilike('nombre', `%${nombre}%`)
+            .limit(1);
+        
+        if (error) {
+            console.error('Error obteniendo ID de las llantas:', error);
+            return 1;
+        }
+        
+        return data?.[0]?.id || 1;
+    } catch (error) {
+        console.error('Error inesperado obteniendo ID de las llantas:', error);
+        return 1;
+    }
+}
+
+// Función para obtener un color interior por defecto
+export async function getDefaultColorInteriorId() {
+    return 1;
+}
+
+export async function getPaqueteIdsByValores(valores = []) {
+    try {
+        const packageMap = {
+            'adventure': 'Adventure Pack',
+            'luxury': 'Luxury Pack',
+            'sport': 'Sport Pack',
+            'tech': 'Tech Pack',
+            'premium': 'Tech Premium',
+            'basic': 'Basic Pack',
+            'max': 'Max Pack'
+        };
+        const normalizedValues = (valores || [])
+            .map((value) => String(value || '').trim())
+            .filter(Boolean);
+
+        if (normalizedValues.length === 0) {
+            return [];
+        }
+
+        const { data, error } = await supabase
+            .from('paquetes')
+            .select('id, nombre');
+
+        if (error) {
+            console.error('Error obteniendo paquetes:', error);
+            return [];
+        }
+
+        return normalizedValues
+            .map((value) => {
+                const normalizedValue = value.toLowerCase();
+                const expectedName = packageMap[normalizedValue] || value;
+                const paquete = (data || []).find((item) =>
+                    item.nombre?.toLowerCase() === expectedName.toLowerCase()
+                    || item.nombre?.toLowerCase().includes(normalizedValue)
+                );
+                return paquete?.id;
+            })
+            .filter((id) => Number.isFinite(Number(id)))
+            .map((id) => Number(id));
+    } catch (error) {
+        console.error('Error inesperado obteniendo IDs de paquetes:', error);
+        return [];
+    }
+}
+
+export async function getConfigurationsByUser(userId) {
+    try {
+        const { data, error } = await supabase
+            .from('configuraciones')
+            .select('*')
+            .eq('user_id', userId)
+            .order('fecha_creacion', { ascending: false });
+        
+        if (error) {
+            console.error('Error obteniendo configuraciones:', error);
+            return { success: false, error: error.message };
+        }
+        
+        return { success: true, data };
+    } catch (error) {
+        console.error('Error inesperado obteniendo configuraciones:', error);
+        return { success: false, error: 'Error inesperado' };
     }
 }

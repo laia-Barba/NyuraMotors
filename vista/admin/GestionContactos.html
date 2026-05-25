@@ -6,6 +6,7 @@
     <title>Gestión de Contactos - NyuraMotors</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="Panel.css">
+    <link rel="stylesheet" href="../components/modal.css">
     <style>
         /* Estilos específicos para gestión de contactos */
         .contacts-header {
@@ -573,6 +574,7 @@
 
     <script type="module">
         import { supabase, getCurrentUser, getUserByEmail, getFormContactos, getContactoById, updateContacto, deleteContacto, SUPABASE_URL } from '../../controlador/BBDD/SupabaseCliente.js';
+        import { showAlert, showConfirm } from '../components/modal.js';
 
         let currentUser = null;
         let allContacts = [];
@@ -816,7 +818,7 @@
                 }
             } catch (error) {
                 console.error('Error al cargar contacto:', error);
-                alert('Error al cargar el contacto.');
+                showAlert('Error', 'Error al cargar el contacto.');
             }
         };
 
@@ -835,15 +837,15 @@
                 const result = await updateContacto(currentContactId, { estado: newStatus });
                 
                 if (result.success) {
-                    alert('Estado actualizado correctamente.');
+                    showAlert('Éxito', 'Estado actualizado correctamente.');
                     closeModal('statusModal');
                     await loadContacts(); // Recargar la lista
                 } else {
-                    alert('Error al actualizar el estado: ' + result.error);
+                    showAlert('Error', 'Error al actualizar el estado: ' + result.error);
                 }
             } catch (error) {
                 console.error('Error actualizando estado:', error);
-                alert('Error inesperado al actualizar el estado.');
+                showAlert('Error', 'Error inesperado al actualizar el estado.');
             }
         };
 
@@ -872,7 +874,7 @@
             const message = document.getElementById('replyMessage').value;
 
             if (!message.trim()) {
-                alert('Por favor, escribe un mensaje antes de enviar.');
+                showAlert('Error', 'Por favor, escribe un mensaje antes de enviar.');
                 return;
             }
 
@@ -882,7 +884,7 @@
                 
                 if (sessionError || !session?.access_token) {
                     console.error('sendReply: No hay sesión activa:', sessionError);
-                    alert('No hay sesión activa. Por favor, inicia sesión de nuevo.');
+                    showAlert('Error', 'No hay sesión activa. Por favor, inicia sesión de nuevo.');
                     return;
                 }
 
@@ -897,7 +899,7 @@
                     
                     if (refreshError || !refreshData.session?.access_token) {
                         console.error('sendReply: No se pudo refrescar el token:', refreshError);
-                        alert('Tu sesión ha expirado. Por favor, inicia sesión de nuevo.');
+                        showAlert('Error', 'Tu sesión ha expirado. Por favor, inicia sesión de nuevo.');
                         return;
                     }
                     
@@ -940,42 +942,37 @@
 
                 if (!response.ok) {
                     console.error('sendReply: Error en respuesta:', data);
-                    alert(`Error al enviar el email: ${data.message || 'Error desconocido'}`);
+                    showAlert('Error', `Error al enviar el email: ${data.message || 'Error desconocido'}`);
                     return;
                 }
 
                 console.log('sendReply: Email enviado:', data);
-                alert('Email enviado correctamente.');
+                showAlert('Éxito', 'Email enviado correctamente.');
                 closeModal('replyModal');
             } catch (err) {
                 console.error('sendReply: Error inesperado:', err);
-                alert('Error inesperado al enviar el email.');
+                showAlert('Error', 'Error inesperado al enviar el email.');
             }
         };
 
         window.deleteContact = async function(contactId, email) {
-            if (!confirm(`¿Estás seguro de que quieres eliminar el contacto de "${email}"? Esta acción no se puede deshacer.`)) {
-                return;
-            }
-
-            // Confirmación adicional
-            if (!confirm('Esta es tu última oportunidad. ¿Realmente quieres eliminar este contacto permanentemente?')) {
-                return;
-            }
-
-            try {
-                const result = await deleteContacto(contactId);
-                
-                if (result.success) {
-                    alert('Contacto eliminado correctamente.');
-                    await loadContacts(); // Recargar la lista
-                } else {
-                    alert('Error al eliminar el contacto: ' + result.error);
-                }
-            } catch (error) {
-                console.error('Error eliminando contacto:', error);
-                alert('Error inesperado al eliminar el contacto.');
-            }
+            showConfirm('Eliminar contacto', `¿Estás seguro de que quieres eliminar el contacto de "${email}"? Esta acción no se puede deshacer.`, () => {
+                showConfirm('Confirmar eliminación', 'Esta es tu última oportunidad. ¿Realmente quieres eliminar este contacto permanentemente?', async () => {
+                    try {
+                        const result = await deleteContacto(contactId);
+                        
+                        if (result.success) {
+                            showAlert('Éxito', 'Contacto eliminado correctamente.');
+                            await loadContacts(); // Recargar la lista
+                        } else {
+                            showAlert('Error', 'Error al eliminar el contacto: ' + result.error);
+                        }
+                    } catch (error) {
+                        console.error('Error eliminando contacto:', error);
+                        showAlert('Error', 'Error inesperado al eliminar el contacto.');
+                    }
+                });
+            });
         };
 
         window.closeModal = function(modalId) {

@@ -7,49 +7,18 @@
     <link rel="stylesheet" href="EstiloPrincipal.css">
     <link rel="stylesheet" href="metodopago.css">
     <link rel="stylesheet" href="header-unique.css">
+    <link rel="stylesheet" href="components/modal.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
 </head>
 <body class="payment-page">
-    <header>
-        <nav>
-            <a href="home.html"><img src="../Imagenes/LogoBlancoNyura.png" alt="Nyura Motors" class="logo-img"></a>
-            <ul>
-                <li><a href="home.html">Inicio</a></li>
-                <li><a href="modelos.html">Modelos</a></li>
-                <li><a href="contacto.html">Contacto</a></li>
-                <li id="authMenu"><a href="InicioSesion.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; vertical-align: -2px; margin-right: 6px;"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.41 0-8 2-8 4.5V21h16v-2.5c0-2.5-3.59-4.5-8-4.5Z"/></svg>Iniciar sesión</a></li>
-            </ul>
-        </nav>
-    </header>
+    <header-component></header-component>
 
     <main>
         <section class="payment-layout">
             <div class="payment-container">
                 <div class="payment-section">
                     <div class="payment-scroll-container">
-                        <div class="payment-info-header">
-                            <h1 class="product-title">Altamira</h1>
-                            <div class="payment-config-details">
-                                <div class="config-detail-item">
-                                    <span class="config-detail-label">Color</span>
-                                    <span class="config-detail-value" id="configColor">-</span>
-                                </div>
-                                <div class="config-detail-item">
-                                    <span class="config-detail-label">Llantas</span>
-                                    <span class="config-detail-value" id="configWheels">-</span>
-                                </div>
-                                <div class="config-detail-item">
-                                    <span class="config-detail-label">Paquetes</span>
-                                    <span class="config-detail-value" id="configPackages">-</span>
-                                </div>
-                            </div>
-                            <div class="product-price">
-                                <span class="price-label">Precio total</span>
-                                <span class="price-value" id="paymentTotalPrice">€ 54.900</span>
-                            </div>
-                        </div>
-
                         <div class="payment-header">
                             <h2 class="payment-title">Métodos de Pago</h2>
                             <p class="payment-subtitle">Selecciona cómo quieres pagar</p>
@@ -62,16 +31,34 @@
                                 <label for="method-card"></label>
                             </div>
                             <div class="option-icon card">
-                                <img src="../Imagenes/pagos/visa.png" alt="Tarjeta Visa" class="payment-logo">
+                                <svg viewBox="0 0 24 24" fill="currentColor" style="width: 24px; height: 24px; color: #ffffff; background: none !important;">
+                                    <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+                                </svg>
                             </div>
                             <div class="option-info">
-                                <h3>Tarjeta</h3>
+                                <h3>Card</h3>
                                 <p>Visa, Mastercard, Amex</p>
                             </div>
-                            <div class="option-arrow">
-                                <svg viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+                            <div class="option-image">
+                                <img src="../Imagenes/pagos/visa.png" alt="Visa" class="payment-logo">
+                                <img src="../Imagenes/pagos/mastercard.png" alt="Mastercard" class="payment-logo">
+                                <img src="../Imagenes/pagos/amex.png" alt="Amex" class="payment-logo">
+                            </div>
+                        </div>
+
+                        <div class="payment-option" data-method="transferencia">
+                            <div class="option-radio">
+                                <input type="radio" name="payment" id="method-transferencia" value="transferencia">
+                                <label for="method-transferencia"></label>
+                            </div>
+                            <div class="option-icon transferencia">
+                                <svg viewBox="0 0 24 24" fill="currentColor" class="payment-logo">
+                                    <path d="M4 10v7h3v-7H4zm6 0v7h3v-7h-3zM2 22h19v-3H2v3zm14-12v7h3v-7h-3zm-4.5-9L2 6v2h19V6l-9.5-5z"/>
                                 </svg>
+                            </div>
+                            <div class="option-info">
+                                <h3>Transferencia</h3>
+                                <p>Transferencia bancaria</p>
                             </div>
                         </div>
 
@@ -81,54 +68,36 @@
                                 <label for="method-paypal"></label>
                             </div>
                             <div class="option-icon paypal">
-                                <img src="../Imagenes/pagos/paypal.png" alt="PayPal" class="payment-logo">
+                                <svg viewBox="0 0 24 24" fill="currentColor" class="payment-logo">
+                                    <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+                                </svg>
                             </div>
                             <div class="option-info">
                                 <h3>PayPal</h3>
                                 <p>Pago rápido protegido</p>
                             </div>
-                            <div class="option-arrow">
-                                <svg viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
-                                </svg>
+                            <div class="option-image">
+                                <img src="../Imagenes/pagos/paypal.png" alt="PayPal" class="payment-logo">
                             </div>
                         </div>
 
-                        <div class="payment-option" data-method="bizum">
+                        <div class="payment-option" data-method="wallets">
                             <div class="option-radio">
-                                <input type="radio" name="payment" id="method-bizum" value="bizum">
-                                <label for="method-bizum"></label>
+                                <input type="radio" name="payment" id="method-wallets" value="wallets">
+                                <label for="method-wallets"></label>
                             </div>
-                            <div class="option-icon bizum">
-                                <img src="../Imagenes/pagos/bizum.png" alt="Bizum" class="payment-logo">
-                            </div>
-                            <div class="option-info">
-                                <h3>Bizum</h3>
-                                <p>Pago instantáneo</p>
-                            </div>
-                            <div class="option-arrow">
-                                <svg viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+                            <div class="option-icon wallets">
+                                <svg viewBox="0 0 24 24" fill="currentColor" class="payment-logo">
+                                    <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
                                 </svg>
                             </div>
-                        </div>
-
-                        <div class="payment-option" data-method="financing">
-                            <div class="option-radio">
-                                <input type="radio" name="payment" id="method-financing" value="financing">
-                                <label for="method-financing"></label>
-                            </div>
-                            <div class="option-icon financing">
-                                <img src="../Imagenes/pagos/financiacion.png" alt="Financiación" class="payment-logo">
-                            </div>
                             <div class="option-info">
-                                <h3>Financiación</h3>
-                                <p>Hasta 60 meses</p>
+                                <h3>Digital wallets</h3>
+                                <p>Apple Pay, Google Pay</p>
                             </div>
-                            <div class="option-arrow">
-                                <svg viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
-                                </svg>
+                            <div class="option-image">
+                                <img src="../Imagenes/pagos/googlepay.png" alt="Google Pay" class="payment-logo">
+                                <img src="../Imagenes/pagos/applepay.png" alt="Apple Pay" class="payment-logo">
                             </div>
                         </div>
 
@@ -138,35 +107,16 @@
                                 <label for="method-crypto"></label>
                             </div>
                             <div class="option-icon crypto">
-                                <img src="../Imagenes/pagos/criptomonedas.png" alt="Criptomonedas" class="payment-logo">
+                                <svg viewBox="0 0 24 24" fill="currentColor" class="payment-logo">
+                                    <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+                                </svg>
                             </div>
                             <div class="option-info">
                                 <h3>Cripto</h3>
                                 <p>BTC, ETH, USDT</p>
                             </div>
-                            <div class="option-arrow">
-                                <svg viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
-                                </svg>
-                            </div>
-                        </div>
-
-                        <div class="payment-option" data-method="leasing">
-                            <div class="option-radio">
-                                <input type="radio" name="payment" id="method-leasing" value="leasing">
-                                <label for="method-leasing"></label>
-                            </div>
-                            <div class="option-icon leasing">
-                                <img src="../Imagenes/pagos/alquiler.png" alt="Alquiler" class="payment-logo">
-                            </div>
-                            <div class="option-info">
-                                <h3>Leasing</h3>
-                                <p>Alquiler flexible</p>
-                            </div>
-                            <div class="option-arrow">
-                                <svg viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
-                                </svg>
+                            <div class="option-image">
+                                <img src="../Imagenes/pagos/criptomonedas.png" alt="Cripto" class="payment-logo">
                             </div>
                         </div>
                     </div>
@@ -195,8 +145,36 @@
                 </div>
 
                 <div class="product-section">
+                    <div class="payment-buttons">
+                        <button class="back-btn-payment-3d" onclick="history.back()">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 20px; height: 20px; margin-right: 6px;">
+                                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                            </svg>
+                            Volver
+                        </button>
+                        <button class="save-config-btn" id="saveConfigBtn">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 20px; height: 20px; margin-right: 6px;">
+                                <path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/>
+                            </svg>
+                            Guardar configuración
+                        </button>
+                    </div>
                     <div class="product-3d-viewer" id="paymentCarViewer">
                         <div class="payment-3d-loading" id="payment3dLoading">Cargando modelo 3D...</div>
+                    </div>
+                    <div class="product-info">
+                        <h2 class="product-title" id="productName">
+                            <img src="../Imagenes/imagenesmodelos/altamira.png" alt="Nyura Altamira">
+                            Nyura Altamira 2026
+                        </h2>
+                        <div class="product-price">
+                            <span class="price-label">Precio</span>
+                            <span class="price-value" id="productPrice">€ 29.900</span>
+                        </div>
+                        <div class="product-packs">
+                            <h3 class="packs-title">Packs incluidos</h3>
+                            <ul class="packs-list" id="packsList"></ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -292,6 +270,34 @@
                 if (configData) {
                     const config = JSON.parse(configData);
                     
+                    // Actualizar nombre del modelo
+                    const productName = document.getElementById('productName');
+                    if (productName && config.modelName) {
+                        // Mapeo de nombres de modelos a nombres de archivos de imagen
+                        const imageMap = {
+                            'Nova': 'Nova',
+                            'Nova Sport': 'NovaSport',
+                            'Vortex': 'Vortex',
+                            'Thunder': 'Thunder',
+                            'ThunderBE': 'ThunderBE',
+                            'Thunder Black Edition': 'ThunderBE',
+                            'Altamira': 'Altamira',
+                            'Daemon': 'daemon',
+                            'Spark': 'Spark'
+                        };
+                        const imageName = imageMap[config.modelName] || config.modelName;
+                        productName.innerHTML = `
+                            <img src="../Imagenes/imagenesmodelos/${imageName}.png" alt="Nyura ${config.modelName}">
+                            Nyura ${config.modelName} 2026
+                        `;
+                    }
+                    
+                    // Actualizar precio base
+                    const productPrice = document.getElementById('productPrice');
+                    if (productPrice && config.basePrice) {
+                        productPrice.textContent = config.basePrice;
+                    }
+                    
                     const configColor = document.getElementById('configColor');
                     const configWheels = document.getElementById('configWheels');
                     const configPackages = document.getElementById('configPackages');
@@ -330,6 +336,34 @@
                         }
                     }
                     
+                    // Actualizar lista de packs en product-info
+                    const packsList = document.getElementById('packsList');
+                    if (packsList) {
+                        packsList.innerHTML = '';
+                        if (config.packageNames && config.packageNames.length > 0) {
+                            config.packageNames.forEach(packName => {
+                                const li = document.createElement('li');
+                                li.textContent = packName;
+                                packsList.appendChild(li);
+                            });
+                        } else if (config.packages && config.packages.length > 0) {
+                            config.packages.forEach(pack => {
+                                const li = document.createElement('li');
+                                li.textContent = packageNames[pack] || pack;
+                                packsList.appendChild(li);
+                            });
+                        } else {
+                            const li = document.createElement('li');
+                            li.textContent = 'Ninguno';
+                            packsList.appendChild(li);
+                        }
+                    }
+                    
+                    // Actualizar precio en product-info
+                    if (productPrice && config.totalPrice) {
+                        productPrice.textContent = config.totalPrice;
+                    }
+                    
                     if (totalPrice && config.totalPrice) {
                         totalPrice.textContent = config.totalPrice;
                     }
@@ -340,6 +374,70 @@
             };
             
             loadConfiguration();
+
+            // Botón de guardar configuración
+            const saveConfigBtn = document.getElementById('saveConfigBtn');
+            if (saveConfigBtn) {
+                saveConfigBtn.addEventListener('click', async function() {
+                    try {
+                        const { showAlert } = await import('./components/modal.js');
+                        const configData = localStorage.getItem('carConfiguration');
+                        if (!configData) {
+                            showAlert('Error', 'No hay configuración para guardar');
+                            return;
+                        }
+
+                        const config = JSON.parse(configData);
+                        
+                        // Obtener usuario actual
+                        const { getCurrentUser } = await import('../controlador/BBDD/SupabaseCliente.js');
+                        const user = await getCurrentUser();
+                        
+                        if (!user) {
+                            showAlert('Error', 'Debes iniciar sesión para guardar configuraciones');
+                            return;
+                        }
+
+                        // Preparar datos para guardar
+                        const { getModeloIdByNombre, getColorIdByNombre, getLlantaIdByNombre, getDefaultColorInteriorId } = await import('../controlador/BBDD/SupabaseCliente.js');
+                        
+                        // Obtener IDs de la base de datos
+                        const modeloCocheId = await getModeloIdByNombre(config.modelName);
+                        const colorExteriorId = await getColorIdByNombre(config.colorName);
+                        const llantasId = await getLlantaIdByNombre(config.wheelName || config.wheelsName || config.wheel || config.wheels);
+                        const colorInteriorId = await getDefaultColorInteriorId();
+                        const precioTotal = typeof config.totalPrice === 'number'
+                            ? config.totalPrice
+                            : Number(String(config.totalPrice || '0').replace(/[^\d,.-]/g, '').replace(/\./g, '').replace(',', '.'));
+                        
+                        const configToSave = {
+                            user_id: user.id,
+                            modelo_coche_id: modeloCocheId,
+                            color_exterior_id: colorExteriorId,
+                            color_interior_id: colorInteriorId,
+                            llantas_id: llantasId,
+                            precio_total: precioTotal || 0,
+                            nombre: config.modelName || 'Configuración',
+                            fecha_creacion: new Date().toISOString(),
+                            paquetes: config.packages || []
+                        };
+
+                        // Importar y usar la función de guardado
+                        const { saveConfiguration } = await import('../controlador/BBDD/SupabaseCliente.js');
+                        const result = await saveConfiguration(configToSave);
+
+                        if (result.success) {
+                            showAlert('Éxito', 'Configuración guardada exitosamente');
+                        } else {
+                            showAlert('Error', 'Error al guardar configuración: ' + result.error);
+                        }
+                    } catch (error) {
+                        console.error('Error guardando configuración:', error);
+                        const { showAlert } = await import('./components/modal.js');
+                        showAlert('Error', 'Error al guardar configuración');
+                    }
+                });
+            }
 
             const paymentOptions = document.querySelectorAll('.payment-option');
             const radioInputs = document.querySelectorAll('input[name="payment"]');
@@ -354,23 +452,27 @@
                 switch(method) {
                     case 'card':
                         formContent = `
+                            <div class="form-group-compact">
+                                <label>Número de tarjeta</label>
+                                <input type="text" id="cardNumber" class="form-input-compact" placeholder="1234 5678 9012 3456" maxlength="19">
+                                <span class="field-error" id="cardNumberError"></span>
+                            </div>
                             <div class="form-row-compact">
-                                <div class="form-group-compact">
-                                    <label>Número de tarjeta</label>
-                                    <input type="text" id="cardNumber" class="form-input-compact" placeholder="1234 5678 9012 3456" maxlength="19">
-                                </div>
                                 <div class="form-group-compact small">
                                     <label>MM/YY</label>
                                     <input type="text" id="expiry" class="form-input-compact" placeholder="MM/YY" maxlength="5">
+                                    <span class="field-error" id="expiryError"></span>
                                 </div>
                                 <div class="form-group-compact small">
                                     <label>CVV</label>
                                     <input type="text" id="cvv" class="form-input-compact" placeholder="123" maxlength="4">
+                                    <span class="field-error" id="cvvError"></span>
                                 </div>
                             </div>
                             <div class="form-group-compact">
                                 <label>Nombre en la tarjeta</label>
                                 <input type="text" id="cardName" class="form-input-compact" placeholder="TITULAR DE LA TARJETA">
+                                <span class="field-error" id="cardNameError"></span>
                             </div>
                         `;
                         break;
@@ -379,17 +481,24 @@
                             <div class="form-group-compact">
                                 <label>Email de PayPal</label>
                                 <input type="email" id="paypalEmail" class="form-input-compact" placeholder="tu@email.com">
+                                <span class="field-error" id="paypalEmailError"></span>
                             </div>
                             <p style="color: var(--payment-text-muted); font-size: 0.8rem; margin: 1rem 0;">Serás redirigido a PayPal para completar el pago de forma segura.</p>
                         `;
                         break;
-                    case 'bizum':
+                    case 'transferencia':
                         formContent = `
                             <div class="form-group-compact">
-                                <label>Número de teléfono</label>
-                                <input type="tel" id="bizumPhone" class="form-input-compact" placeholder="+34 600 000 000" maxlength="12">
+                                <label>IBAN del banco</label>
+                                <input type="text" id="transferIban" class="form-input-compact" placeholder="ES91 0000 0000 0000 0000 0000" maxlength="24">
+                                <span class="field-error" id="transferIbanError"></span>
                             </div>
-                            <p style="color: var(--payment-text-muted); font-size: 0.8rem; margin: 1rem 0;">Recibirás una notificación en tu teléfono para confirmar el pago.</p>
+                            <div class="form-group-compact">
+                                <label>Nombre del titular</label>
+                                <input type="text" id="transferName" class="form-input-compact" placeholder="Nombre del titular de la cuenta">
+                                <span class="field-error" id="transferNameError"></span>
+                            </div>
+                            <p style="color: var(--payment-text-muted); font-size: 0.8rem; margin: 1rem 0;">Realiza la transferencia al siguiente IBAN: ES91 0000 0000 0000 0000 0000 (Nyura Motors)</p>
                         `;
                         break;
                     case 'financing':
@@ -426,10 +535,12 @@
                                     <option value="eth">Ethereum (ETH)</option>
                                     <option value="usdt">Tether (USDT)</option>
                                 </select>
+                                <span class="field-error" id="cryptoCurrencyError"></span>
                             </div>
                             <div class="form-group-compact">
                                 <label>Dirección de wallet</label>
                                 <input type="text" id="cryptoWallet" class="form-input-compact" placeholder="0x...">
+                                <span class="field-error" id="cryptoWalletError"></span>
                             </div>
                             <p style="color: var(--payment-text-muted); font-size: 0.8rem; margin: 1rem 0;">El pago se procesará a través de nuestra pasarela de criptomonedas segura.</p>
                         `;
@@ -526,7 +637,7 @@
                     
                     const method = option.getAttribute('data-method');
                     let isValid = true;
-                    let errorMessage = '';
+                    const fieldErrors = {};
 
                     switch(method) {
                         case 'card':
@@ -537,67 +648,61 @@
                             
                             if (!cardNumber.value.trim()) {
                                 isValid = false;
-                                errorMessage = 'Por favor, introduce el número de tarjeta';
-                            } else if (!expiry.value.trim()) {
+                                fieldErrors['cardNumber'] = 'Por favor, introduce el número de tarjeta';
+                            }
+                            if (!expiry.value.trim()) {
                                 isValid = false;
-                                errorMessage = 'Por favor, introduce la fecha de expiración';
-                            } else if (!cvv.value.trim()) {
+                                fieldErrors['expiry'] = 'Por favor, introduce la fecha de expiración';
+                            }
+                            if (!cvv.value.trim()) {
                                 isValid = false;
-                                errorMessage = 'Por favor, introduce el CVV';
-                            } else if (!cardName.value.trim()) {
+                                fieldErrors['cvv'] = 'Por favor, introduce el CVV';
+                            }
+                            if (!cardName.value.trim()) {
                                 isValid = false;
-                                errorMessage = 'Por favor, introduce el nombre del titular';
+                                fieldErrors['cardName'] = 'Por favor, introduce el nombre del titular';
+                            }
+                            break;
+                        case 'transferencia':
+                            const transferIban = dropdown.querySelector('#transferIban');
+                            const transferName = dropdown.querySelector('#transferName');
+                            
+                            if (!transferIban.value.trim()) {
+                                isValid = false;
+                                fieldErrors['transferIban'] = 'Por favor, introduce el IBAN';
+                            }
+                            if (!transferName.value.trim()) {
+                                isValid = false;
+                                fieldErrors['transferName'] = 'Por favor, introduce el nombre del titular';
                             }
                             break;
                         case 'paypal':
                             const paypalEmail = dropdown.querySelector('#paypalEmail');
                             if (!paypalEmail.value.trim() || !paypalEmail.value.includes('@')) {
                                 isValid = false;
-                                errorMessage = 'Por favor, introduce un email válido';
-                            }
-                            break;
-                        case 'bizum':
-                            const bizumPhone = dropdown.querySelector('#bizumPhone');
-                            if (!bizumPhone.value.trim() || bizumPhone.value.length < 9) {
-                                isValid = false;
-                                errorMessage = 'Por favor, introduce un número de teléfono válido';
-                            }
-                            break;
-                        case 'financing':
-                            const financingDNI = dropdown.querySelector('#financingDNI');
-                            if (!financingDNI.value.trim()) {
-                                isValid = false;
-                                errorMessage = 'Por favor, introduce tu NIF/DNI';
+                                fieldErrors['paypalEmail'] = 'Por favor, introduce un email válido';
                             }
                             break;
                         case 'crypto':
                             const cryptoWallet = dropdown.querySelector('#cryptoWallet');
                             if (!cryptoWallet.value.trim() || cryptoWallet.value.length < 20) {
                                 isValid = false;
-                                errorMessage = 'Por favor, introduce una dirección de wallet válida';
-                            }
-                            break;
-                        case 'leasing':
-                            const leasingDNI = dropdown.querySelector('#leasingDNI');
-                            if (!leasingDNI.value.trim()) {
-                                isValid = false;
-                                errorMessage = 'Por favor, introduce tu NIF/DNI';
+                                fieldErrors['cryptoWallet'] = 'Por favor, introduce una dirección de wallet válida';
                             }
                             break;
                     }
 
                     if (!isValid) {
-                        const errorNotification = document.getElementById('errorNotification');
-                        const errorMessageElement = document.getElementById('errorMessage');
-                        
-                        if (errorNotification && errorMessageElement) {
-                            errorMessageElement.textContent = errorMessage;
-                            errorNotification.setAttribute('aria-hidden', 'false');
-                            
-                            setTimeout(() => {
-                                errorNotification.setAttribute('aria-hidden', 'true');
-                            }, 4000);
-                        }
+                        // Mostrar errores inline en los campos correspondientes
+                        Object.keys(fieldErrors).forEach(fieldId => {
+                            const errorElement = document.getElementById(fieldId + 'Error');
+                            const inputElement = document.getElementById(fieldId);
+                            if (errorElement && inputElement) {
+                                errorElement.textContent = fieldErrors[fieldId];
+                                errorElement.classList.add('visible');
+                                inputElement.classList.add('error');
+                            }
+                        });
                         return;
                     }
                     
@@ -618,11 +723,35 @@
                 });
 
                 const cardNumberInput = dropdown.querySelector('#cardNumber');
-                cardNumberInput.addEventListener('input', function(e) {
-                    let value = e.target.value.replace(/\s/g, '').replace(/\D/g, '');
-                    let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
-                    e.target.value = formattedValue;
+                if (cardNumberInput) {
+                    cardNumberInput.addEventListener('input', function(e) {
+                        let value = e.target.value.replace(/\s/g, '').replace(/\D/g, '');
+                        let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+                        e.target.value = formattedValue;
+                        clearFieldError('cardNumber');
+                    });
+                }
+
+                // Limpiar errores cuando el usuario empieza a escribir
+                const inputs = dropdown.querySelectorAll('.form-input-compact');
+                inputs.forEach(input => {
+                    input.addEventListener('input', function() {
+                        const fieldId = this.id;
+                        clearFieldError(fieldId);
+                    });
                 });
+
+                function clearFieldError(fieldId) {
+                    const errorElement = document.getElementById(fieldId + 'Error');
+                    const inputElement = document.getElementById(fieldId);
+                    if (errorElement) {
+                        errorElement.textContent = '';
+                        errorElement.classList.remove('visible');
+                    }
+                    if (inputElement) {
+                        inputElement.classList.remove('error');
+                    }
+                }
 
                 const expiryInput = dropdown.querySelector('#expiry');
                 expiryInput.addEventListener('input', function(e) {
@@ -756,14 +885,14 @@
                 renderer.physicallyCorrectLights = true;
                 renderer.outputEncoding = THREE.sRGBEncoding;
                 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-                renderer.toneMappingExposure = 1.65;
+                renderer.toneMappingExposure = 1.8;
                 container.appendChild(renderer.domElement);
 
-                scene.add(new THREE.AmbientLight(0xffffff, 0.6));
-                const keyLight = new THREE.DirectionalLight(0xffffff, 0.8);
+                scene.add(new THREE.AmbientLight(0xffffff, 1.0));
+                const keyLight = new THREE.DirectionalLight(0xffffff, 1.2);
                 keyLight.position.set(5, 6, 7);
                 scene.add(keyLight);
-                const fillLight = new THREE.DirectionalLight(0xffffff, 0.3);
+                const fillLight = new THREE.DirectionalLight(0xffffff, 0.6);
                 fillLight.position.set(-5, 3, 5);
                 scene.add(fillLight);
 
@@ -924,5 +1053,9 @@
             }
         });
     </script>
+
+    <!-- Header Component -->
+    <script type="module" src="components/header-component.js?v=3"></script>
+
 </body>
 </html>

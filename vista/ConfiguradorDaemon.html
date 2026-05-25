@@ -6,22 +6,11 @@
     <title>Nyura Motors - Configurador 3D Daemon</title>
     <link rel="stylesheet" href="EstiloPrincipal.css">
     <link rel="stylesheet" href="header-unique.css">
-    <link rel="stylesheet" href="configurador3d.css">
+    <link rel="stylesheet" href="configurador3d.css?v=3">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <nav>
-            <a href="home.html"><img src="../Imagenes/LogoBlancoNyura.png" alt="Nyura Motors" class="logo-img"></a>
-            <ul>
-                <li><a href="home.html">Inicio</a></li>
-                <li><a href="modelos.html" id="modelosLink">Modelos</a></li>
-                <li><span class="active">Configurador 3D</span></li>
-                <li><a href="contacto.html">Contacto</a></li>
-                <li id="authMenu"><a href="InicioSesion.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; vertical-align: -2px; margin-right: 6px;"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.41 0-8 2-8 4.5V21h16v-2.5c0-2.5-3.59-4.5-8-4.5Z"/></svg>Iniciar sesión</a></li>
-            </ul>
-        </nav>
-    </header>
+    <header-component></header-component>
 
     <main class="configurator-container" style="margin-top: 60px;">
         <div class="configurator-layout">
@@ -70,7 +59,7 @@
                         Daemon</h3>
                     <div class="price-display">
                         <span class="price-label">Precio</span>
-                        <span class="price-value">-</span>
+                        <span class="price-value">53.000 €</span>
                     </div>
 
                     <div class="step-indicator">
@@ -224,9 +213,42 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <script type="module">
         import { ConfiguradorUniversal } from '../controlador/configuracion/ConfiguradorUniversal.js';
+        import { getModels } from '../controlador/BBDD/SupabaseCliente.js';
         
-        window.configurador = new ConfiguradorUniversal('daemon');
-        window.configurador.init();
+        // Cargar precio desde la base de datos
+        async function loadPriceFromDB() {
+            try {
+                const result = await getModels();
+                if (result.success && result.data) {
+                    const daemonModel = result.data.find(m => m.nombre.toLowerCase().includes('daemon'));
+                    if (daemonModel && daemonModel.precio) {
+                        const priceElement = document.querySelector('.price-value');
+                        if (priceElement) {
+                            priceElement.textContent = `${daemonModel.precio.toLocaleString('es-ES')} €`;
+                        }
+                        return daemonModel.precio;
+                    }
+                }
+                return null;
+            } catch (error) {
+                console.error('Error cargando precio desde BD:', error);
+                return null;
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const precioBase = await loadPriceFromDB();
+                window.configurador = new ConfiguradorUniversal('daemon', precioBase);
+                await window.configurador.init();
+            } catch (error) {
+                console.error('Error al inicializar configurador Daemon:', error);
+            }
+        });
     </script>
+
+    <!-- Header Component -->
+    <script type="module" src="components/header-component.js?v=3"></script>
+
 </body>
 </html>

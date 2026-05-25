@@ -6,6 +6,7 @@
     <title>Mi Perfil - Nyura Motors</title>
     <link rel="stylesheet" href="../EstiloPrincipal.css">
     <link rel="stylesheet" href="./perfil.css" />
+    <link rel="stylesheet" href="../components/modal.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
   </head>
@@ -148,7 +149,8 @@
 </footer>
 
 <script type="module">
-        import { getCurrentUser, createOrUpdateUserProfile, onAuthStateChange, signOut, getUserByEmail, getConfiguracionesByUser, deleteConfiguracion, updateUser, updateUserProfile, testUsersTable, logout, deleteAccount, resetPassword, updateConfiguracion } from '../../controlador/BBDD/SupabaseCliente.js';
+        import { getCurrentUser, createOrUpdateUserProfile, onAuthStateChange, signOut, getUserByEmail, getConfiguracionesByUser, getConfiguracionById, deleteConfiguracion, updateUser, updateUserProfile, testUsersTable, logout, deleteAccount, resetPassword, updateConfiguracion } from '../../controlador/BBDD/SupabaseCliente.js';
+        import { showAlert, showConfirm } from '../components/modal.js';
         
         document.addEventListener('DOMContentLoaded', async function() {
             const profileForm = document.getElementById('profileForm');
@@ -288,7 +290,7 @@
                     });
 
                     cancelBtn.addEventListener('click', function() {
-                        if (confirm('¿Estás seguro de que quieres cancelar los cambios?')) {
+                        showConfirm('Cancelar cambios', '¿Estás seguro de que quieres cancelar los cambios?', () => {
                             // Restaurar valores originales sin guardar
                             const nombreInput = profileForm.querySelector('input[name="nombre"]');
                             const apellidosInput = profileForm.querySelector('input[name="apellidos"]');
@@ -302,7 +304,7 @@
                             telefonoInput.value = originalUserData.telefono || '';
 
                             disableEditMode();
-                        }
+                        });
                     });
                     
                     // Cargar configuraciones del usuario
@@ -310,7 +312,7 @@
                     
                 } catch (error) {
                     console.error('Error cargando datos del usuario:', error);
-                    alert('Error al cargar tu perfil. Por favor, recarga la página.');
+                    showAlert('Error', 'Error al cargar tu perfil. Por favor, recarga la página.');
                 }
             }
             
@@ -324,20 +326,40 @@
                         return;
                     }
                     
-                    configurationsList.innerHTML = configurations.map(config => `
+                    configurationsList.innerHTML = configurations.map(config => {
+                        const modelName = config.modelos_coche?.nombre || config.nombre || 'Modelo desconocido';
+                        const modelImage = config.modelos_coche?.Imagenes_Modelos || '../../Imagenes/LogoBlancoNyura.png';
+                        const totalPrice = new Intl.NumberFormat('es-ES', {
+                            style: 'currency',
+                            currency: 'EUR'
+                        }).format(Number(config.precio_total || 0));
+                        const creationDate = config.fecha_creacion
+                            ? new Date(config.fecha_creacion).toLocaleDateString('es-ES')
+                            : 'Sin fecha';
+
+                        return `
                         <div class="config-item">
+                            <div class="config-image-wrap">
+                                <img class="config-image" src="${modelImage}" alt="${modelName}">
+                            </div>
                             <div class="config-header">
                                 <h4>${config.nombre ? `"${config.nombre}"` : 'Configuración sin nombre'}</h4>
                                 <button class="edit-name-btn" onclick="editConfigName('${config.id}', '${config.nombre || ''}')" title="Cambiar nombre">
                                     <i class="fas fa-pencil-alt"></i>
                                 </button>
                             </div>
-                            <p>Modelo: ${config.modelo_coche_id}</p>
-                            <p>Fecha: ${new Date(config.created_at).toLocaleDateString()}</p>
-                            <button class="btn btn--small btn--primary" onclick="deleteConfiguration('${config.id}')">Eliminar</button>
-                            <button class="btn btn--small btn--primary" onclick="visualizarConfiguracion('${config.id}')">Visualizar</button>
+                            <div class="config-details">
+                                <p><span>Modelo</span>${modelName}</p>
+                                <p><span>Precio total</span>${totalPrice}</p>
+                                <p><span>Fecha</span>${creationDate}</p>
+                            </div>
+                            <div class="config-actions">
+                                <button class="btn btn--small btn--primary" onclick="deleteConfiguration('${config.id}')">Eliminar</button>
+                                <button class="btn btn--small btn--primary" onclick="visualizarConfiguracion('${config.id}')">Visualizar</button>
+                            </div>
                         </div>
-                    `).join('');
+                    `;
+                    }).join('');
                     
                 } catch (error) {
                     console.error('Error cargando configuraciones:', error);
@@ -358,14 +380,14 @@
                     
                     // Validar campos
                     if (!nombreCompleto.trim() || !telefono.trim() || !email.trim()) {
-                        alert('Por favor, completa todos los campos obligatorios.');
+                        showAlert('Error', 'Por favor, completa todos los campos obligatorios.');
                         return;
                     }
                     
                     // Validar email
                     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                     if (!emailRegex.test(email)) {
-                        alert('Por favor, introduce un email válido.');
+                        showAlert('Error', 'Por favor, introduce un email válido.');
                         return;
                     }
                     
@@ -380,17 +402,17 @@
                     
                     if (!result.success) {
                         console.error('Error actualizando perfil:', result.error);
-                        alert('Error al actualizar tu perfil: ' + result.error);
+                        showAlert('Error', 'Error al actualizar tu perfil: ' + result.error);
                         return;
                     }
                     
-                    alert('¡Perfil actualizado correctamente!');
+                    showAlert('Éxito', '¡Perfil actualizado correctamente!');
                     originalUserData = { nombre: nombreCompleto, telefono, email };
                     disableEditMode(); // Volver al modo vista
                     
                 } catch (error) {
                     console.error('Error guardando perfil:', error);
-                    alert('Error inesperado al guardar tu perfil.');
+                    showAlert('Error', 'Error inesperado al guardar tu perfil.');
                 } finally {
                     saveBtn.disabled = false;
                     saveBtn.textContent = 'Guardar Cambios';
@@ -399,17 +421,89 @@
             
             // Función para eliminar configuración
             window.deleteConfiguration = async function(configId) {
-                if (!confirm('¿Estás seguro de que quieres eliminar esta configuración?')) {
-                    return;
-                }
+                showConfirm('Eliminar configuración', '¿Estás seguro de que quieres eliminar esta configuración?', async () => {
+                    try {
+                        await deleteConfiguracion(configId);
+                        showAlert('Éxito', 'Configuración eliminada correctamente.');
+                        await loadConfigurations();
+                    } catch (error) {
+                        console.error('Error eliminando configuración:', error);
+                        showAlert('Error', 'Error al eliminar la configuración.');
+                    }
+                });
+            };
 
+            window.visualizarConfiguracion = async function(configId) {
                 try {
-                    await deleteConfiguracion(configId);
-                    alert('Configuración eliminada correctamente.');
-                    await loadConfigurations();
+                    const config = await getConfiguracionById(configId);
+                    if (!config) {
+                        showAlert('Error', 'No se pudo cargar la configuración.');
+                        return;
+                    }
+
+                    const modelName = config.modelos_coche?.nombre || config.nombre || 'Modelo desconocido';
+                    const modelKey = modelName
+                        .replace(/^Nyura\s+/i, '')
+                        .replace(/\s+2026$/i, '')
+                        .trim();
+                    const colorMap = {
+                        1: { id: 'negro', name: 'Negro' },
+                        2: { id: 'gris', name: 'Gris' },
+                        3: { id: 'rojo', name: 'Rojo' },
+                        4: { id: 'azul', name: 'Azul' },
+                        5: { id: 'blanco', name: 'Blanco' },
+                        6: { id: 'cherry', name: 'Cherry' }
+                    };
+                    const wheelMap = {
+                        1: { id: 'original', name: 'De serie' },
+                        2: { id: 'acero', name: 'Acero' },
+                        3: { id: 'sport', name: 'Sport' },
+                        4: { id: 'dark', name: 'Pack dark' },
+                        5: { id: 'offroad', name: 'OFF-ROAD' }
+                    };
+                    const color = colorMap[config.color_exterior_id] || colorMap[1];
+                    const wheel = wheelMap[config.llantas_id] || wheelMap[1];
+                    const packageNames = (config.configuracion_paquetes || [])
+                        .map(item => item.paquetes?.nombre)
+                        .filter(Boolean);
+                    const packageIds = (config.configuracion_paquetes || [])
+                        .map(item => item.paquete_id)
+                        .filter(Boolean);
+
+                    const carConfiguration = {
+                        modeloId: modelKey,
+                        modelName: modelKey,
+                        color: color.id,
+                        colorName: color.name,
+                        wheel: wheel.id,
+                        wheelName: wheel.name,
+                        wheels: wheel.id,
+                        wheelsName: wheel.name,
+                        packages: packageIds,
+                        packageNames,
+                        basePrice: Number(config.modelos_coche?.precio || 0),
+                        totalPrice: Number(config.precio_total || 0),
+                        timestamp: new Date().toISOString()
+                    };
+
+                    localStorage.setItem('carConfiguration', JSON.stringify(carConfiguration));
+
+                    const paymentPageMap = {
+                        'Vortex': '../metodopago_vortex.html',
+                        'Altamira': '../metodopago_altamira.html',
+                        'Nova': '../metodopago_nova.html',
+                        'Nova Sport': '../metodopago_nova.html',
+                        'ThunderBE': '../metodopago_thunder.html',
+                        'Thunder Black Edition': '../metodopago_thunder.html',
+                        'Thunder': '../metodopago_thunder.html',
+                        'Daemon': '../metodopago_daemon.html',
+                        'Spark': '../metodopago.html'
+                    };
+
+                    window.location.href = paymentPageMap[modelKey] || '../metodopago.html';
                 } catch (error) {
-                    console.error('Error eliminando configuración:', error);
-                    alert('Error al eliminar la configuración.');
+                    console.error('Error visualizando configuración:', error);
+                    showAlert('Error', 'Error al visualizar la configuración.');
                 }
             };
 
@@ -469,51 +563,42 @@
             // Función para eliminar cuenta
             window.handleDeleteAccount = async function() {
                 if (!currentUser) {
-                    alert('No se puede eliminar la cuenta. Usuario no encontrado.');
+                    showAlert('Error', 'No se puede eliminar la cuenta. Usuario no encontrado.');
                     return;
                 }
                 
                 // Confirmación con contraseña
-                const confirmDelete = confirm('¿Estás seguro de que quieres eliminar tu cuenta? Esta acción no se puede deshacer y se eliminarán todos tus datos permanentemente.');
-                
-                if (!confirmDelete) {
-                    return;
-                }
-                
-                // Segunda confirmación
-                const finalConfirm = confirm('Esta es tu última oportunidad. ¿Realmente quieres eliminar tu cuenta permanentemente?');
-                
-                if (!finalConfirm) {
-                    return;
-                }
-                
-                try {
-                    console.log('Eliminando cuenta del usuario:', currentUser.id);
-                    
-                    const result = await deleteAccount(currentUser.id);
-                    
-                    if (result.success) {
-                        // Cerrar sesión localmente después de eliminar la cuenta
-                        //await logout();
-                        
-                        //alert('Tu cuenta ha sido eliminada exitosamente. Serás redirigido a la página de inicio.');
-                        
-                        // Forzar redirección después de un pequeño delay
-                        setTimeout(() => {
-                            window.location.href = '../home.html';
-                            // Si no funciona, intentar con replace
-                            setTimeout(() => {
-                                window.location.replace('../home.html');
-                            }, 500);
-                        }, 100);
-                    } else {
-                        console.error('Error eliminando cuenta:', result.error);
-                        alert('Error al eliminar tu cuenta: ' + result.error);
-                    }
-                } catch (error) {
-                    console.error('Error inesperado eliminando cuenta:', error);
-                    alert('Error inesperado al eliminar tu cuenta. Por favor, contacta al soporte.');
-                }
+                showConfirm('Eliminar cuenta', '¿Estás seguro de que quieres eliminar tu cuenta? Esta acción no se puede deshacer y se eliminarán todos tus datos permanentemente.', () => {
+                    showConfirm('Confirmar eliminación', 'Esta es tu última oportunidad. ¿Realmente quieres eliminar tu cuenta permanentemente?', async () => {
+                        try {
+                            console.log('Eliminando cuenta del usuario:', currentUser.id);
+                            
+                            const result = await deleteAccount(currentUser.id);
+                            
+                            if (result.success) {
+                                // Cerrar sesión localmente después de eliminar la cuenta
+                                //await logout();
+                                
+                                //showAlert('Éxito', 'Tu cuenta ha sido eliminada exitosamente. Serás redirigido a la página de inicio.');
+                                
+                                // Forzar redirección después de un pequeño delay
+                                setTimeout(() => {
+                                    window.location.href = '../home.html';
+                                    // Si no funciona, intentar con replace
+                                    setTimeout(() => {
+                                        window.location.replace('../home.html');
+                                    }, 500);
+                                }, 100);
+                            } else {
+                                console.error('Error eliminando cuenta:', result.error);
+                                showAlert('Error', 'Error al eliminar tu cuenta: ' + result.error);
+                            }
+                        } catch (error) {
+                            console.error('Error inesperado eliminando cuenta:', error);
+                            showAlert('Error', 'Error inesperado al eliminar tu cuenta. Por favor, contacta al soporte.');
+                        }
+                    });
+                });
             };
             
             // Event listeners

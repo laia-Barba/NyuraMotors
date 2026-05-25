@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="EstiloPrincipal.css">
     <link rel="stylesheet" href="auth.css">
     <link rel="stylesheet" href="header-unique.css">
+    <link rel="stylesheet" href="components/modal.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
     <style>
         main { margin-top: 0; }
@@ -197,7 +198,8 @@
                 
                 // Validar términos
                 if (!termsCheckbox.checked) {
-                    alert('Debes aceptar los términos y condiciones para registrarte');
+                    const { showAlert } = await import('components/modal.js');
+                    showAlert('Error', 'Debes aceptar los términos y condiciones para registrarte');
                     hasErrors = true;
                 }
                 
@@ -217,7 +219,8 @@
                         const result = await signUp(userData.email, userData.contrasena, userData);
                         
                         if (result.success) {
-                            alert(result.message || 'Registro exitoso');
+                            const { showAlert } = await import('components/modal.js');
+                            showAlert('Éxito', result.message || 'Registro exitoso');
                             // Redirigir a página de confirmación o login
                             window.location.href = 'InicioSesion.html';
                         } else {
@@ -230,7 +233,8 @@
                         }
                     } catch (error) {
                         console.error('Error en registro:', error);
-                        alert('Error inesperado durante el registro');
+                        const { showAlert } = await import('components/modal.js');
+                        showAlert('Error', 'Error inesperado durante el registro');
                     } finally {
                         submitBtn.disabled = !termsCheckbox.checked;
                         submitBtn.textContent = 'Crear cuenta';
@@ -378,13 +382,15 @@
                 
                 // Validar fortaleza de contraseña
                 if (!validatePasswords()) {
-                    alert('La contraseña debe cumplir con todos los requisitos de seguridad.');
+                    const { showAlert } = await import('components/modal.js');
+                    showAlert('Error', 'La contraseña debe cumplir con todos los requisitos de seguridad.');
                     return;
                 }
                 
                 // Validar que las contraseñas coincidan
                 if (passwordInput.value !== passwordRepeatInput.value) {
-                    alert('Las contraseñas no coinciden.');
+                    const { showAlert } = await import('components/modal.js');
+                    showAlert('Error', 'Las contraseñas no coinciden.');
                     return;
                 }
                 
@@ -404,14 +410,17 @@
                     const result = await signUp(userData.email, userData.contrasena, userData.nombre, userData.telefono);
                     
                     if (result.success) {
-                        alert('Cuenta creada exitosamente. Por favor, verifica tu email.');
+                        const { showAlert } = await import('components/modal.js');
+                        showAlert('Éxito', 'Cuenta creada exitosamente. Por favor, verifica tu email.');
                         window.location.href = 'InicioSesion.html';
                     } else {
-                        alert('Error al crear cuenta: ' + result.error);
+                        const { showAlert } = await import('components/modal.js');
+                        showAlert('Error', 'Error al crear cuenta: ' + result.error);
                     }
                 } catch (error) {
                     console.error('Error en registro:', error);
-                    alert('Error inesperado durante el registro.');
+                    const { showAlert } = await import('components/modal.js');
+                    showAlert('Error', 'Error inesperado durante el registro.');
                 } finally {
                     submitBtn.disabled = false;
                     submitBtn.textContent = 'Crear cuenta';

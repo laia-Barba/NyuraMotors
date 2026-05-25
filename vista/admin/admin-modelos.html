@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="Panel.css">
     <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="../components/modal.css">
     <style>
         .admin-container {
             max-width: 1400px;
@@ -42,6 +43,7 @@
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 2rem;
             margin-bottom: 2rem;
+            align-items: stretch;
         }
         
         .model-card {
@@ -52,6 +54,9 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(20px);
             transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
         
         .model-card:hover {
@@ -65,9 +70,11 @@
             object-fit: cover;
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
         }
-        
         .model-content {
             padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
         
         .model-name {
@@ -118,6 +125,8 @@
         .model-actions {
             display: flex;
             gap: 0.75rem;
+            margin-top: auto;
+            padding-top: 1rem;
         }
         
         .btn-edit, .btn-delete {
@@ -334,6 +343,7 @@
 
     <script type="module">
         import { getCurrentUser, onAuthStateChange, getModels, createModel, updateModel, deleteModel, toggleModelStatus, getColores, setModelColors, uploadModelImage, getLlantas, setModelLlantas, getPaquetes, setModelPaquetes } from '../../controlador/BBDD/SupabaseCliente.js';
+        import { showAlert, showConfirm } from '../components/modal.js';
         
         let currentEditingId = null;
         let models = [];
@@ -567,7 +577,6 @@
                                     ${model.modelo_llantas.map(ml => `
                                         <div class="color-item">
                                             <span class="color-name">${ml.llantas.nombre}</span>
-                                            ${ml.llantas.medida ? `<span class="color-price">${ml.llantas.medida}</span>` : ''}
                                             ${ml.llantas.precio_extra > 0 ? `<span class="color-price">+${formatPrice(ml.llantas.precio_extra)}</span>` : ''}
                                         </div>
                                     `).join('')}
@@ -880,9 +889,9 @@
         }
         
         function confirmDelete(id) {
-            if (confirm('¿Estás seguro de que quieres eliminar este modelo? Esta acción no se puede deshacer.')) {
+            showConfirm('Eliminar modelo', '¿Estás seguro de que quieres eliminar este modelo? Esta acción no se puede deshacer.', () => {
                 deleteModelFromUI(id);
-            }
+            });
         }
         
         // Exportar funciones al ámbito global para onclick

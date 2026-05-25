@@ -6,7 +6,7 @@
 import { MODELOS_CONFIG } from './modelosConfig.js';
 
 class ConfiguradorUniversal {
-    constructor(modeloId) {
+    constructor(modeloId, precioBase = null) {
         // Mapeo de modelos para asegurar IDs correctos
         const modeloMap = {
             'terramar': 'Vortex',
@@ -23,7 +23,7 @@ class ConfiguradorUniversal {
             llantas: null,
             paquetes: []
         };
-        this.precioBase = 0;
+        this.precioBase = precioBase || 0;
         
         // Variables de Three.js
         this.scene = null;
@@ -155,7 +155,10 @@ class ConfiguradorUniversal {
                 throw new Error(`Modelo ${this.modeloId} no encontrado`);
             }
             
-            this.precioBase = this.configuracion.precio;
+            // Solo usar el precio del JSON si no se ha pasado desde la base de datos
+            if (this.precioBase === 0) {
+                this.precioBase = this.configuracion.precio;
+            }
             this.configuracionActual.color = this.configuracion.colores[0].id;
             this.configuracionActual.llantas = this.configuracion.llantas?.[0]?.id || 'original';
             
@@ -374,7 +377,8 @@ class ConfiguradorUniversal {
                         wheelName: llanta?.nombre || this.configuracionActual.llantas,
                         packages: this.configuracionActual.paquetes,
                         packageNames: paquetes,
-                        totalPrice: document.querySelector('.price-value')?.textContent || '',
+                        basePrice: this.precioBase,
+                        totalPrice: this.calcularPrecioTotal(),
                         modelPath: color?.modelo || this.currentModelPath || this.configuracion.modelo,
                         timestamp: new Date().toISOString()
                     };
@@ -907,6 +911,26 @@ class ConfiguradorUniversal {
         }
     }
     
+    calcularPrecioTotal() {
+        let precioTotal = this.precioBase;
+        
+        // Sumar precio de llantas
+        const llanta = this.configuracion.llantas.find(l => l.id === this.configuracionActual.llantas);
+        if (llanta) {
+            precioTotal += llanta.precio;
+        }
+        
+        // Sumar precio de paquetes
+        this.configuracionActual.paquetes.forEach(paqueteId => {
+            const paquete = this.configuracion.paquetes.find(p => p.id === paqueteId);
+            if (paquete) {
+                precioTotal += paquete.precio;
+            }
+        });
+        
+        return precioTotal;
+    }
+    
     formatearPrecio(precio) {
         return new Intl.NumberFormat('es-ES', {
             style: 'currency',
@@ -932,6 +956,7 @@ class ConfiguradorUniversal {
         // Expandir interior para ocupar todo el ancho
         if (layout) {
             layout.style.alignItems = 'stretch';
+            layout.classList.add('interior-active');
         }
         if (interiorView) {
             interiorView.style.flex = '1 1 auto';
@@ -966,6 +991,7 @@ class ConfiguradorUniversal {
         // Restaurar estilos de layout
         if (layout) {
             layout.style.alignItems = '';
+            layout.classList.remove('interior-active');
         }
         if (interiorView) {
             interiorView.style.flex = '';
@@ -1232,8 +1258,8 @@ class ConfiguradorUniversal {
     }
     
     // Método estático para inicializar el configurador
-    static async crear(modeloId) {
-        const configurador = new ConfiguradorUniversal(modeloId);
+    static async crear(modeloId, precioBase = null) {
+        const configurador = new ConfiguradorUniversal(modeloId, precioBase);
         await configurador.init();
         return configurador;
     }
