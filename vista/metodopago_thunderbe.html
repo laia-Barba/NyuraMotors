@@ -381,23 +381,27 @@
                 switch(method) {
                     case 'card':
                         formContent = `
+                            <div class="form-group-compact">
+                                <label>Número de tarjeta</label>
+                                <input type="text" id="cardNumber" class="form-input-compact" placeholder="1234 5678 9012 3456" maxlength="19">
+                                <span class="field-error" id="cardNumberError"></span>
+                            </div>
                             <div class="form-row-compact">
-                                <div class="form-group-compact">
-                                    <label>Número de tarjeta</label>
-                                    <input type="text" id="cardNumber" class="form-input-compact" placeholder="1234 5678 9012 3456" maxlength="19">
-                                </div>
                                 <div class="form-group-compact small">
                                     <label>MM/YY</label>
                                     <input type="text" id="expiry" class="form-input-compact" placeholder="MM/YY" maxlength="5">
+                                    <span class="field-error" id="expiryError"></span>
                                 </div>
                                 <div class="form-group-compact small">
                                     <label>CVV</label>
                                     <input type="text" id="cvv" class="form-input-compact" placeholder="123" maxlength="4">
+                                    <span class="field-error" id="cvvError"></span>
                                 </div>
                             </div>
                             <div class="form-group-compact">
                                 <label>Nombre en la tarjeta</label>
                                 <input type="text" id="cardName" class="form-input-compact" placeholder="TITULAR DE LA TARJETA">
+                                <span class="field-error" id="cardNameError"></span>
                             </div>
                         `;
                         break;
@@ -406,17 +410,24 @@
                             <div class="form-group-compact">
                                 <label>Email de PayPal</label>
                                 <input type="email" id="paypalEmail" class="form-input-compact" placeholder="tu@email.com">
+                                <span class="field-error" id="paypalEmailError"></span>
                             </div>
                             <p style="color: var(--payment-text-muted); font-size: 0.8rem; margin: 1rem 0;">Serás redirigido a PayPal para completar el pago de forma segura.</p>
                         `;
                         break;
-                    case 'bizum':
+                    case 'transferencia':
                         formContent = `
                             <div class="form-group-compact">
-                                <label>Número de teléfono</label>
-                                <input type="tel" id="bizumPhone" class="form-input-compact" placeholder="+34 600 000 000" maxlength="12">
+                                <label>IBAN del banco</label>
+                                <input type="text" id="transferIban" class="form-input-compact" placeholder="ES91 0000 0000 0000 0000 0000" maxlength="24">
+                                <span class="field-error" id="transferIbanError"></span>
                             </div>
-                            <p style="color: var(--payment-text-muted); font-size: 0.8rem; margin: 1rem 0;">Recibirás una notificación en tu teléfono para confirmar el pago.</p>
+                            <div class="form-group-compact">
+                                <label>Nombre del titular</label>
+                                <input type="text" id="transferName" class="form-input-compact" placeholder="Nombre del titular de la cuenta">
+                                <span class="field-error" id="transferNameError"></span>
+                            </div>
+                            <p style="color: var(--payment-text-muted); font-size: 0.8rem; margin: 1rem 0;">Realiza la transferencia al siguiente IBAN: ES91 0000 0000 0000 0000 0000 (Nyura Motors)</p>
                         `;
                         break;
                     case 'financing':
@@ -453,10 +464,12 @@
                                     <option value="eth">Ethereum (ETH)</option>
                                     <option value="usdt">Tether (USDT)</option>
                                 </select>
+                                <span class="field-error" id="cryptoCurrencyError"></span>
                             </div>
                             <div class="form-group-compact">
                                 <label>Dirección de wallet</label>
                                 <input type="text" id="cryptoWallet" class="form-input-compact" placeholder="0x...">
+                                <span class="field-error" id="cryptoWalletError"></span>
                             </div>
                             <p style="color: var(--payment-text-muted); font-size: 0.8rem; margin: 1rem 0;">El pago se procesará a través de nuestra pasarela de criptomonedas segura.</p>
                         `;
@@ -553,7 +566,7 @@
                     
                     const method = option.getAttribute('data-method');
                     let isValid = true;
-                    let errorMessage = '';
+                    const fieldErrors = {};
 
                     switch(method) {
                         case 'card':
@@ -564,67 +577,61 @@
                             
                             if (!cardNumber.value.trim()) {
                                 isValid = false;
-                                errorMessage = 'Por favor, introduce el número de tarjeta';
-                            } else if (!expiry.value.trim()) {
+                                fieldErrors['cardNumber'] = 'Por favor, introduce el número de tarjeta';
+                            }
+                            if (!expiry.value.trim()) {
                                 isValid = false;
-                                errorMessage = 'Por favor, introduce la fecha de expiración';
-                            } else if (!cvv.value.trim()) {
+                                fieldErrors['expiry'] = 'Por favor, introduce la fecha de expiración';
+                            }
+                            if (!cvv.value.trim()) {
                                 isValid = false;
-                                errorMessage = 'Por favor, introduce el CVV';
-                            } else if (!cardName.value.trim()) {
+                                fieldErrors['cvv'] = 'Por favor, introduce el CVV';
+                            }
+                            if (!cardName.value.trim()) {
                                 isValid = false;
-                                errorMessage = 'Por favor, introduce el nombre del titular';
+                                fieldErrors['cardName'] = 'Por favor, introduce el nombre del titular';
+                            }
+                            break;
+                        case 'transferencia':
+                            const transferIban = dropdown.querySelector('#transferIban');
+                            const transferName = dropdown.querySelector('#transferName');
+                            
+                            if (!transferIban.value.trim()) {
+                                isValid = false;
+                                fieldErrors['transferIban'] = 'Por favor, introduce el IBAN';
+                            }
+                            if (!transferName.value.trim()) {
+                                isValid = false;
+                                fieldErrors['transferName'] = 'Por favor, introduce el nombre del titular';
                             }
                             break;
                         case 'paypal':
                             const paypalEmail = dropdown.querySelector('#paypalEmail');
                             if (!paypalEmail.value.trim() || !paypalEmail.value.includes('@')) {
                                 isValid = false;
-                                errorMessage = 'Por favor, introduce un email válido';
-                            }
-                            break;
-                        case 'bizum':
-                            const bizumPhone = dropdown.querySelector('#bizumPhone');
-                            if (!bizumPhone.value.trim() || bizumPhone.value.length < 9) {
-                                isValid = false;
-                                errorMessage = 'Por favor, introduce un número de teléfono válido';
-                            }
-                            break;
-                        case 'financing':
-                            const financingDNI = dropdown.querySelector('#financingDNI');
-                            if (!financingDNI.value.trim()) {
-                                isValid = false;
-                                errorMessage = 'Por favor, introduce tu NIF/DNI';
+                                fieldErrors['paypalEmail'] = 'Por favor, introduce un email válido';
                             }
                             break;
                         case 'crypto':
                             const cryptoWallet = dropdown.querySelector('#cryptoWallet');
                             if (!cryptoWallet.value.trim() || cryptoWallet.value.length < 20) {
                                 isValid = false;
-                                errorMessage = 'Por favor, introduce una dirección de wallet válida';
-                            }
-                            break;
-                        case 'leasing':
-                            const leasingDNI = dropdown.querySelector('#leasingDNI');
-                            if (!leasingDNI.value.trim()) {
-                                isValid = false;
-                                errorMessage = 'Por favor, introduce tu NIF/DNI';
+                                fieldErrors['cryptoWallet'] = 'Por favor, introduce una dirección de wallet válida';
                             }
                             break;
                     }
 
                     if (!isValid) {
-                        const errorNotification = document.getElementById('errorNotification');
-                        const errorMessageElement = document.getElementById('errorMessage');
-                        
-                        if (errorNotification && errorMessageElement) {
-                            errorMessageElement.textContent = errorMessage;
-                            errorNotification.setAttribute('aria-hidden', 'false');
-                            
-                            setTimeout(() => {
-                                errorNotification.setAttribute('aria-hidden', 'true');
-                            }, 4000);
-                        }
+                        // Mostrar errores inline en los campos correspondientes
+                        Object.keys(fieldErrors).forEach(fieldId => {
+                            const errorElement = document.getElementById(fieldId + 'Error');
+                            const inputElement = document.getElementById(fieldId);
+                            if (errorElement && inputElement) {
+                                errorElement.textContent = fieldErrors[fieldId];
+                                errorElement.classList.add('visible');
+                                inputElement.classList.add('error');
+                            }
+                        });
                         return;
                     }
                     
@@ -645,11 +652,35 @@
                 });
 
                 const cardNumberInput = dropdown.querySelector('#cardNumber');
-                cardNumberInput.addEventListener('input', function(e) {
-                    let value = e.target.value.replace(/\s/g, '').replace(/\D/g, '');
-                    let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
-                    e.target.value = formattedValue;
+                if (cardNumberInput) {
+                    cardNumberInput.addEventListener('input', function(e) {
+                        let value = e.target.value.replace(/\s/g, '').replace(/\D/g, '');
+                        let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+                        e.target.value = formattedValue;
+                        clearFieldError('cardNumber');
+                    });
+                }
+
+                // Limpiar errores cuando el usuario empieza a escribir
+                const inputs = dropdown.querySelectorAll('.form-input-compact');
+                inputs.forEach(input => {
+                    input.addEventListener('input', function() {
+                        const fieldId = this.id;
+                        clearFieldError(fieldId);
+                    });
                 });
+
+                function clearFieldError(fieldId) {
+                    const errorElement = document.getElementById(fieldId + 'Error');
+                    const inputElement = document.getElementById(fieldId);
+                    if (errorElement) {
+                        errorElement.textContent = '';
+                        errorElement.classList.remove('visible');
+                    }
+                    if (inputElement) {
+                        inputElement.classList.remove('error');
+                    }
+                }
 
                 const expiryInput = dropdown.querySelector('#expiry');
                 expiryInput.addEventListener('input', function(e) {

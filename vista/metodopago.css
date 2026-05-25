@@ -939,6 +939,26 @@ body.payment-page::before {
     box-shadow: 0 15px 40px rgba(74, 111, 255, 0.4);
 }
 
+/* Mensajes de error inline en campos */
+.field-error {
+    display: block;
+    color: #ef4444;
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+    min-height: 1rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.field-error.visible {
+    opacity: 1;
+}
+
+.form-input-compact.error {
+    border-color: #ef4444 !important;
+    background: rgba(239, 68, 68, 0.05);
+}
+
 /* Notificación de Error */
 .error-notification {
     position: fixed;
