@@ -296,7 +296,7 @@
             exteriorCamera = camera.clone();
 
             renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
             renderer.shadowMap.enabled = true;
             renderer.shadowMap.type = THREE.PCFSoftShadowMap;
             renderer.setClearColor(0x000000, 0);
@@ -692,7 +692,7 @@
             interiorCamera.lookAt(0, 0.7, 2);
 
             interiorRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            interiorRenderer.setPixelRatio(window.devicePixelRatio);
+            interiorRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
             interiorRenderer.setSize(container.clientWidth, container.clientHeight);
             interiorRenderer.shadowMap.enabled = true;
             interiorRenderer.shadowMap.type = THREE.PCFSoftShadowMap;

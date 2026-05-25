@@ -132,6 +132,30 @@ body > .polygon-background {
     pointer-events: none;
 }
 
+/* Desactivar animaciones de fondo en dispositivos con bajo rendimiento */
+@media (prefers-reduced-motion: reduce) {
+    .polygon-background,
+    .polygon-background::before,
+    .polygon-background::after,
+    .polygon-bg-1,
+    .polygon-bg-2,
+    .polygon-bg-3 {
+        animation: none !important;
+    }
+}
+
+/* Optimización: desactivar animaciones en pantallas pequeñas */
+@media (max-width: 1366px) {
+    .polygon-background,
+    .polygon-background::before,
+    .polygon-background::after,
+    .polygon-bg-1,
+    .polygon-bg-2,
+    .polygon-bg-3 {
+        animation: none !important;
+    }
+}
+
 body > .polygon-background::before {
     content: '';
     position: absolute;

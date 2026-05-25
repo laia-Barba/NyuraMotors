@@ -189,7 +189,8 @@ class ConfiguradorUniversal {
         
         // Configurar renderer
         this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        this.renderer.setPixelRatio(window.devicePixelRatio);
+        // Optimización: limitar pixelRatio para mejorar rendimiento en ordenadores básicos
+        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         this.renderer.shadowMap.enabled = true;
         this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         this.renderer.setClearColor(0x000000, 0);
@@ -1065,7 +1066,8 @@ class ConfiguradorUniversal {
         
         // Crear renderer independiente para interior
         this.interiorRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        this.interiorRenderer.setPixelRatio(window.devicePixelRatio);
+        // Optimización: limitar pixelRatio para mejorar rendimiento en ordenadores básicos
+        this.interiorRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         this.interiorRenderer.setSize(container.clientWidth, container.clientHeight);
         this.interiorRenderer.shadowMap.enabled = true;
         this.interiorRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -1237,19 +1239,27 @@ class ConfiguradorUniversal {
         const animate = () => {
             this.animationId = requestAnimationFrame(animate);
 
+            let needsRender = false;
+
             // Rotación automática del modelo (solo en vista exterior)
             if (this.isRotating && this.modelLoaded && this.currentCameraMode === 'exterior') {
                 const root = this.modelRoot || this.model;
                 if (root) {
                     root.rotation.y += 0.005;
+                    needsRender = true;
                 }
             }
             
             if (this.controls) {
                 this.controls.update();
+                // Solo renderizar si los controles están activos (usuario interactuando)
+                if (this.controls.enableDamping) {
+                    needsRender = true;
+                }
             }
             
-            if (this.renderer && this.scene && this.camera) {
+            // Solo renderizar si hay cambios o si está rotando
+            if (needsRender && this.renderer && this.scene && this.camera) {
                 this.renderer.render(this.scene, this.camera);
             }
         };

@@ -272,7 +272,8 @@
             exteriorCamera = camera.clone();
 
             renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            renderer.setPixelRatio(window.devicePixelRatio);
+            // Optimización: limitar pixelRatio para mejorar rendimiento en ordenadores básicos
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
             renderer.shadowMap.enabled = true;
             renderer.shadowMap.type = THREE.PCFSoftShadowMap;
             renderer.setClearColor(0x000000, 0);
@@ -797,13 +798,28 @@
         function animate() {
             animationId = requestAnimationFrame(animate);
 
+            let needsRender = false;
+
             if (isRotating && modelLoaded && currentCameraMode === 'exterior') {
                 const root = modelRoot || model;
-                if (root) root.rotation.y += 0.005;
+                if (root) {
+                    root.rotation.y += 0.005;
+                    needsRender = true;
+                }
             }
 
-            if (currentCameraMode === 'exterior' && controls) controls.update();
-            if (renderer && scene && camera) renderer.render(scene, camera);
+            if (currentCameraMode === 'exterior' && controls) {
+                controls.update();
+                // Solo renderizar si los controles están activos (usuario interactuando)
+                if (controls.enableDamping) {
+                    needsRender = true;
+                }
+            }
+
+            // Solo renderizar si hay cambios o si está rotando
+            if (needsRender && renderer && scene && camera) {
+                renderer.render(scene, camera);
+            }
         }
 
         function updatePrice() {
