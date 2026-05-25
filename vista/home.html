@@ -16,6 +16,8 @@
 
     <link rel="stylesheet" href="header-unique.css">
 
+    <link rel="stylesheet" href="components/chatbox.css">
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
 
 </head>
@@ -1539,6 +1541,31 @@
 
     <!-- Header Component -->
     <script type="module" src="components/header-component.js?v=3"></script>
+
+    <!-- Chatbox Component -->
+    <div id="chatbox-container"></div>
+    <script>
+        // Cargar HTML del chatbox y luego inicializar el JavaScript
+        fetch('components/chatbox.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('chatbox-container').innerHTML = html;
+                // Esperar un momento para que el DOM se actualice
+                setTimeout(() => {
+                    // Cargar el JavaScript después de que el HTML esté disponible
+                    const script = document.createElement('script');
+                    script.src = 'components/chatbox.js';
+                    script.onload = () => {
+                        console.log('Chatbox inicializado correctamente');
+                    };
+                    script.onerror = () => {
+                        console.error('Error cargando chatbox.js');
+                    };
+                    document.body.appendChild(script);
+                }, 100);
+            })
+            .catch(error => console.error('Error cargando chatbox:', error));
+    </script>
 
 </body>
 
