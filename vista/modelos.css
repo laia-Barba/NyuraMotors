@@ -1896,12 +1896,24 @@ main {
 }
 
 .modelo-detalles-section {
-  background: #ffffff;
-  padding: 4rem 1.5rem 5rem;
+  /*background: #ffffff;
+  padding: 4rem 1.5rem 5rem;*/
+  padding: 6rem 2rem;
+    background: linear-gradient(135deg, 
+        rgba(0, 0, 0, 0.7) 0%, 
+        rgba(0, 0, 0, 0.5) 50%, 
+        rgba(0, 0, 0, 0.7) 100%),
+        url('../Imagenes/paginaInicio/Fondo14.jpg');
+    background-size: cover, cover;
+    background-position: center, center;
+    background-repeat: no-repeat, no-repeat;
+    background-attachment: fixed, fixed;
+    position: relative;
+    overflow: hidden;
 }
 
 .modelo-detalles-container {
-  max-width: 1180px;
+  max-width: 1500px;
   margin: 0 auto;
   color: #101827;
 }
@@ -1916,7 +1928,7 @@ main {
   border-radius: 28px;
   background:
     radial-gradient(circle at 12% 10%, rgba(59, 130, 246, 0.14), transparent 35%),
-    linear-gradient(135deg, #f8fafc 0%, #eef2f7 100%);
+    linear-gradient(135deg, rgb(172, 178, 185) 0%, rgb(172, 178, 185));
   box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
 }
 
@@ -1985,7 +1997,7 @@ main {
   padding: 1.6rem;
   border: 1px solid rgba(15, 23, 42, 0.08);
   border-radius: 24px;
-  background: #ffffff;
+  background: rgb(172, 178, 185);
   box-shadow: 0 14px 40px rgba(15, 23, 42, 0.07);
 }
 
