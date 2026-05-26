@@ -330,7 +330,7 @@ body {
 }
 
 .config-item {
-  padding: 20px;
+  padding: 0;
   background: var(--bg-card-config);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-sm);
@@ -342,27 +342,75 @@ body {
 .config-item:hover {
   background: var(--bg-card-hover-config);
   border-color: var(--accent-primary);
-  transform: translateY(-2px);
 }
 
-.config-item h4 {
-  margin: 0 0 12px 0;
+.config-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.config-header:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.config-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+}
+
+.config-header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.config-title {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.config-title h4 {
+  margin: 0;
   font-size: 1.1rem;
   font-weight: 600;
   color: var(--text-primary);
 }
 
+.config-model {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.config-price {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--accent-primary);
+}
+
+.config-chevron {
+  font-size: 14px;
+  color: var(--text-secondary);
+  transition: transform 0.3s ease;
+}
+
 .config-image-wrap {
-  width: 100%;
-  height: 150px;
-  margin-bottom: 16px;
-  border-radius: 14px;
+  width: 100px;
+  height: 60px;
+  border-radius: 10px;
   overflow: hidden;
   background: rgba(5, 8, 18, 0.45);
   border: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .config-image {
@@ -372,24 +420,49 @@ body {
   display: block;
 }
 
-.config-header {
+.config-details {
+  padding: 0 20px 20px;
+  border-top: 1px solid var(--border-color);
+}
+
+.config-info {
+  padding: 16px 0;
+  display: grid;
+  gap: 8px;
+}
+
+.config-info p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 12px;
+}
+
+.config-info p span {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.config-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .edit-name-btn {
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
   color: var(--text-primary);
-  padding: 6px 10px;
+  padding: 8px 12px;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 6px;
+  font-size: 0.85rem;
 }
 
 .edit-name-btn:hover {
@@ -402,40 +475,9 @@ body {
   font-size: 14px;
 }
 
-.config-item p {
-  margin: 0 0 8px 0;
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-}
-
-.config-details {
-  display: grid;
-  gap: 10px;
-  margin: 14px 0 18px;
-}
-
-.config-details p {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin: 0;
-  padding: 10px 12px;
-  background: rgba(15, 20, 25, 0.42);
-  border-radius: 10px;
-  color: var(--text-primary);
-  font-weight: 600;
-}
-
 .config-details span {
   color: var(--text-secondary);
   font-weight: 500;
-}
-
-.config-details p:nth-child(2) {
-  color: #ffffff;
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.34), rgba(118, 75, 162, 0.34));
-  border: 1px solid rgba(102, 126, 234, 0.28);
 }
 
 .config-actions {

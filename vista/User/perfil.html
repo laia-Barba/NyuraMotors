@@ -339,23 +339,34 @@
 
                         return `
                         <div class="config-item">
-                            <div class="config-image-wrap">
-                                <img class="config-image" src="${modelImage}" alt="${modelName}">
+                            <div class="config-header" onclick="toggleConfigDetails('${config.id}')">
+                                <div class="config-header-left">
+                                    <div class="config-image-wrap">
+                                        <img class="config-image" src="${modelImage}" alt="${modelName}">
+                                    </div>
+                                    <div class="config-title">
+                                        <h4>${config.nombre ? `"${config.nombre}"` : 'Configuración sin nombre'}</h4>
+                                        <span class="config-model">${modelName}</span>
+                                    </div>
+                                </div>
+                                <div class="config-header-right">
+                                    <span class="config-price">${totalPrice}</span>
+                                    <i class="fas fa-chevron-down config-chevron" id="chevron-${config.id}"></i>
+                                </div>
                             </div>
-                            <div class="config-header">
-                                <h4>${config.nombre ? `"${config.nombre}"` : 'Configuración sin nombre'}</h4>
-                                <button class="edit-name-btn" onclick="editConfigName('${config.id}', '${config.nombre || ''}')" title="Cambiar nombre">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </button>
-                            </div>
-                            <div class="config-details">
-                                <p><span>Modelo</span>${modelName}</p>
-                                <p><span>Precio total</span>${totalPrice}</p>
-                                <p><span>Fecha</span>${creationDate}</p>
-                            </div>
-                            <div class="config-actions">
-                                <button class="btn btn--small btn--primary" onclick="deleteConfiguration('${config.id}')">Eliminar</button>
-                                <button class="btn btn--small btn--primary" onclick="visualizarConfiguracion('${config.id}')">Visualizar</button>
+                            <div class="config-details" id="details-${config.id}" style="display: none;">
+                                <div class="config-info">
+                                    <p><span>Modelo</span>${modelName}</p>
+                                    <p><span>Precio total</span>${totalPrice}</p>
+                                    <p><span>Fecha</span>${creationDate}</p>
+                                </div>
+                                <div class="config-actions">
+                                    <button class="edit-name-btn" onclick="event.stopPropagation(); editConfigName('${config.id}', '${config.nombre || ''}')" title="Cambiar nombre">
+                                        <i class="fas fa-pencil-alt"></i> Cambiar nombre
+                                    </button>
+                                    <button class="btn btn--small btn--secondary" onclick="event.stopPropagation(); deleteConfiguration('${config.id}')">Eliminar</button>
+                                    <button class="btn btn--small btn--primary" onclick="event.stopPropagation(); visualizarConfiguracion('${config.id}')">Visualizar</button>
+                                </div>
                             </div>
                         </div>
                     `;
@@ -419,6 +430,22 @@
                 }
             }
             
+            // Función para toggle detalles de configuración
+            window.toggleConfigDetails = function(configId) {
+                const details = document.getElementById(`details-${configId}`);
+                const chevron = document.getElementById(`chevron-${configId}`);
+                
+                if (details.style.display === 'none') {
+                    details.style.display = 'block';
+                    chevron.classList.remove('fa-chevron-down');
+                    chevron.classList.add('fa-chevron-up');
+                } else {
+                    details.style.display = 'none';
+                    chevron.classList.remove('fa-chevron-up');
+                    chevron.classList.add('fa-chevron-down');
+                }
+            };
+
             // Función para eliminar configuración
             window.deleteConfiguration = async function(configId) {
                 showConfirm('Eliminar configuración', '¿Estás seguro de que quieres eliminar esta configuración?', async () => {
