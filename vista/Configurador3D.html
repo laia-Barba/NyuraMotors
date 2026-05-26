@@ -79,11 +79,13 @@
                             <div class="color-option active" data-color="negro" title="Negro Mate">
                                 <div class="color-swatch" style="background: linear-gradient(135deg, #1a1a1a, #000000);"></div>
                                 <span>Negro</span>
+                                <span class="color-price-extra" data-color="negro"></span>
                             </div>
                             <br>
                             <div class="color-option" data-color="rojo" title="Rojo Passion">
                                 <div class="color-swatch" style="background: linear-gradient(135deg, #dc143c, #8b0000);"></div>
                                 <span>Rojo</span>
+                                <span class="color-price-extra" data-color="rojo"></span>
                             </div>
                         </div>
                     </div>
@@ -200,16 +202,62 @@
     <script type="module">
         import { getModels } from '../controlador/BBDD/SupabaseCliente.js';
         
-        // Cargar precio desde la base de datos
+        // Cargar precio y colores desde la base de datos
         async function loadPriceFromDB() {
+            console.log('loadPriceFromDB: Iniciando carga de precios desde BD');
             try {
                 const result = await getModels();
+                console.log('loadPriceFromDB: Resultado de getModels:', result);
                 if (result.success && result.data) {
+                    console.log('Modelos disponibles:', result.data.map(m => ({ nombre: m.nombre, precio: m.precio })));
                     const thunderBEModel = result.data.find(m => m.nombre.toLowerCase().includes('thunder') && m.nombre.toLowerCase().includes('black'));
+                    console.log('Modelo Thunder BE encontrado:', thunderBEModel);
                     if (thunderBEModel && thunderBEModel.precio) {
+                        // Guardar el precio base y colores en window para que estén disponibles
+                        window.thunderBasePrice = thunderBEModel.precio;
+                        console.log('Precio base establecido:', window.thunderBasePrice);
+                        
+                        // Cargar colores y sus precios extra
+                        window.colorPrices = {};
+                        if (thunderBEModel.modelo_colores && thunderBEModel.modelo_colores.length > 0) {
+                            thunderBEModel.modelo_colores.forEach(mc => {
+                                if (mc.colores) {
+                                    const colorName = mc.colores.nombre.toLowerCase();
+                                    window.colorPrices[colorName] = mc.colores.precio_extra || 0;
+                                }
+                            });
+                        }
+                        
+                        // Mapeo de colores del HTML a colores de la BD
+                        window.colorNameMapping = {
+                            'rojo': 'cherry',
+                            'negro': 'negro'
+                        };
+                        
+                        console.log('Precios de colores:', window.colorPrices);
+                        console.log('Mapeo de colores:', window.colorNameMapping);
+                        
+                        // Actualizar los precios extra en el DOM
+                        document.querySelectorAll('.color-price-extra').forEach(el => {
+                            const colorName = el.dataset.color;
+                            const mappedColor = window.colorNameMapping && window.colorNameMapping[colorName] ? window.colorNameMapping[colorName] : colorName;
+                            const extraPrice = window.colorPrices && window.colorPrices[mappedColor] ? window.colorPrices[mappedColor] : 0;
+                            if (extraPrice > 0) {
+                                el.textContent = `+${extraPrice.toLocaleString('es-ES')} €`;
+                            } else {
+                                el.textContent = '';
+                            }
+                        });
+                        
+                        // Actualizar el precio en el DOM
                         const priceElement = document.querySelector('.price-value');
                         if (priceElement) {
                             priceElement.textContent = `${thunderBEModel.precio.toLocaleString('es-ES')} €`;
+                        }
+                        
+                        // Actualizar el precio base en la configuración global si existe
+                        if (window.currentConfiguration) {
+                            window.currentConfiguration.basePrice = thunderBEModel.precio;
                         }
                     }
                 }
@@ -248,7 +296,7 @@
             color: 'negro',
             wheel: 'acero',
             packages: [],
-            basePrice: 125900
+            basePrice: window.thunderBasePrice || 79200
         };
 
         const prices = {
@@ -840,6 +888,14 @@
 
         function updatePrice() {
             let totalPrice = currentConfiguration.basePrice;
+            
+            // Añadir precio extra del color usando el mapeo
+            const colorName = currentConfiguration.color.toLowerCase();
+            const mappedColor = window.colorNameMapping && window.colorNameMapping[colorName] ? window.colorNameMapping[colorName] : colorName;
+            if (window.colorPrices && window.colorPrices[mappedColor]) {
+                totalPrice += window.colorPrices[mappedColor];
+            }
+            
             totalPrice += prices.wheels[currentConfiguration.wheel] || 0;
 
             currentConfiguration.packages.forEach((packageId) => {

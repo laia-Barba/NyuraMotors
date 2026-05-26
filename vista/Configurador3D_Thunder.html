@@ -79,26 +79,31 @@
                             <div class="color-option active" data-color="negro" title="Negro Mate">
                                 <div class="color-swatch" style="background: linear-gradient(135deg, #1a1a1a, #000000);"></div>
                                 <span>Negro</span>
+                                <span class="color-price-extra" data-color="negro"></span>
                             </div>
                             <br>
                             <div class="color-option" data-color="rojo" title="Rojo Passion">
                                 <div class="color-swatch" style="background: linear-gradient(135deg, #dc143c, #8b0000);"></div>
                                 <span>Rojo</span>
+                                <span class="color-price-extra" data-color="rojo"></span>
                             </div>
                             <br>
                             <div class="color-option" data-color="blanco" title="Blanco Perla">
                                 <div class="color-swatch" style="background: linear-gradient(135deg, #f8f8f8, #e0e0e0);"></div>
                                 <span>Blanco</span>
+                                <span class="color-price-extra" data-color="blanco"></span>
                             </div>
                             <br>
                             <div class="color-option" data-color="gris" title="Gris Metalizado">
                                 <div class="color-swatch" style="background: linear-gradient(135deg, #6c757d, #495057);"></div>
                                 <span>Gris</span>
+                                <span class="color-price-extra" data-color="gris"></span>
                             </div>
                             <br>
                             <div class="color-option" data-color="azul" title="Azul Eléctrico">
                                 <div class="color-swatch" style="background: linear-gradient(135deg, #1f5eff, #0044cc);"></div>
                                 <span>Azul</span>
+                                <span class="color-price-extra" data-color="azul"></span>
                             </div>
                         </div>
                     </div>
@@ -213,30 +218,64 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 
     <script type="module">
-        import { getModels } from '../controlador/BBDD/SupabaseCliente.js';
+        import { getModels, getColores } from '../controlador/BBDD/SupabaseCliente.js';
         
-        // Cargar precio desde la base de datos
+        // Cargar precio y colores desde la base de datos
         async function loadPriceFromDB() {
             try {
                 const result = await getModels();
                 if (result.success && result.data) {
                     const thunderModel = result.data.find(m => m.nombre.toLowerCase().includes('thunder') && !m.nombre.toLowerCase().includes('black'));
                     if (thunderModel && thunderModel.precio) {
+                        // Guardar el precio base y colores en window para que estén disponibles
+                        window.thunderBasePrice = thunderModel.precio;
+                        
+                        // Cargar colores y sus precios extra
+                        window.colorPrices = {};
+                        if (thunderModel.modelo_colores && thunderModel.modelo_colores.length > 0) {
+                            thunderModel.modelo_colores.forEach(mc => {
+                                if (mc.colores) {
+                                    const colorName = mc.colores.nombre.toLowerCase();
+                                    window.colorPrices[colorName] = mc.colores.precio_extra || 0;
+                                }
+                            });
+                        }
+                        
+                        // Mapeo de colores del HTML a colores de la BD
+                        window.colorNameMapping = {
+                            'rojo': 'rojo',
+                            'negro': 'negro',
+                            'blanco': 'blanco',
+                            'gris': 'gris',
+                            'azul': 'azul'
+                        };
+                        
+                        // Actualizar los precios extra en el DOM
+                        document.querySelectorAll('.color-price-extra').forEach(el => {
+                            const colorName = el.dataset.color;
+                            const mappedColor = window.colorNameMapping && window.colorNameMapping[colorName] ? window.colorNameMapping[colorName] : colorName;
+                            const extraPrice = window.colorPrices && window.colorPrices[mappedColor] ? window.colorPrices[mappedColor] : 0;
+                            if (extraPrice > 0) {
+                                el.textContent = `+${extraPrice.toLocaleString('es-ES')} €`;
+                            } else {
+                                el.textContent = '';
+                            }
+                        });
+                        
+                        // Actualizar el precio en el DOM
                         const priceElement = document.querySelector('.price-value');
                         if (priceElement) {
                             priceElement.textContent = `${thunderModel.precio.toLocaleString('es-ES')} €`;
                         }
-                        // Actualizar el precio base en la configuración global
+                        
+                        // Actualizar el precio base en la configuración global si existe
                         if (window.currentConfiguration) {
                             window.currentConfiguration.basePrice = thunderModel.precio;
                         }
-                        return thunderModel.precio;
                     }
                 }
-                return null;
             } catch (error) {
                 console.error('Error cargando precio desde BD:', error);
-                return null;
             }
         }
         
@@ -272,7 +311,7 @@
             color: 'negro',
             wheel: 'acero',
             packages: [],
-            basePrice: 89900
+            basePrice: window.thunderBasePrice || 89900
         };
 
         const prices = {
@@ -844,6 +883,14 @@
 
         function updatePrice() {
             let totalPrice = window.currentConfiguration.basePrice;
+            
+            // Añadir precio extra del color usando el mapeo
+            const colorName = window.currentConfiguration.color.toLowerCase();
+            const mappedColor = window.colorNameMapping && window.colorNameMapping[colorName] ? window.colorNameMapping[colorName] : colorName;
+            if (window.colorPrices && window.colorPrices[mappedColor]) {
+                totalPrice += window.colorPrices[mappedColor];
+            }
+            
             totalPrice += prices.wheels[window.currentConfiguration.wheel] || 0;
 
             window.currentConfiguration.packages.forEach((packageId) => {

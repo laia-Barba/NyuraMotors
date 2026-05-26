@@ -355,6 +355,15 @@ nav a:hover::after {
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
 }
 
+.color-price-extra {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #fbbf24;
+    text-align: center;
+    margin-top: 4px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
 /* Opciones de llantas */
 .wheel-options {
     display: flex;

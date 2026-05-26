@@ -961,12 +961,12 @@
 
                 const applyWheelType = (car, wheelType) => {
                     // Para Daemon, no modificar colores de llantas ya que los GLB ya incluyen las llantas correctas
-                    if (paymentModelId.includes('daemon')) {
+                    if (paymentModelId && (paymentModelId.toLowerCase().includes('daemon') || paymentModelId.toLowerCase().includes('daemon'))) {
                         console.log('Daemon: No se modifican las llantas, se usan los GLB específicos');
                         return;
                     }
 
-                    if (!wheelType || wheelType === 'original') return;
+                    if (!wheelType || wheelType === 'original' || wheelType === 'serie') return;
 
                     car.traverse((child) => {
                         if (!child.isMesh || !child.material) return;
@@ -1022,6 +1022,19 @@
                     });
                     
                     scene.add(car);
+
+                    // Aplicar configuración desde localStorage
+                    const configData = localStorage.getItem('carConfiguration');
+                    let wheelType = null;
+                    
+                    if (configData) {
+                        const config = JSON.parse(configData);
+                        wheelType = config.wheel || config.llantas || config.wheels || null;
+                    }
+
+                    // Aplicar tipo de ruedas
+                    ensureUniqueWheelMaterials(car);
+                    applyWheelType(car, wheelType);
 
                     const box = new THREE.Box3().setFromObject(car);
                     const size = box.getSize(new THREE.Vector3());

@@ -270,6 +270,19 @@
                 if (configData) {
                     const config = JSON.parse(configData);
                     
+                    // Determinar qué modelo cargar según la configuración
+                    let modelPath = '../coches/Nyura Altamira/Altamira_Negro.glb';
+                    if (config.color === 'rojo') {
+                        modelPath = '../coches/Nyura Altamira/Altamira_Rojo.glb';
+                    } else if (config.color === 'blanco') {
+                        modelPath = '../coches/Nyura Altamira/Altamira_Blanco.glb';
+                    } else if (config.color === 'gris') {
+                        modelPath = '../coches/Nyura Altamira/Altamira_Gris.glb';
+                    }
+                    
+                    window.paymentModelPath = modelPath;
+                    window.paymentWheelType = config.wheel || config.llantas || null;
+                    
                     // Actualizar nombre del modelo
                     const productName = document.getElementById('productName');
                     if (productName && config.modelName) {
@@ -896,14 +909,8 @@
                 controls.enabled = false;
 
                 const configData = localStorage.getItem('carConfiguration');
-                let modelPath = '../coches/Nyura Altamira/Altamira_Blanco.glb';
-                let wheelType = null;
-                
-                if (configData) {
-                    const config = JSON.parse(configData);
-                    modelPath = config.modelPath || modelPath;
-                    wheelType = config.wheel || config.llantas || null;
-                }
+                let modelPath = window.paymentModelPath || '../coches/Nyura Altamira/Altamira_Negro.glb';
+                let wheelType = window.paymentWheelType || null;
 
                 const isWheelPart = (mesh, material) => {
                     const meshName = (mesh?.name || '').toLowerCase();
@@ -939,7 +946,7 @@
                 };
 
                 const applyWheelType = (car, wheelType) => {
-                    if (!wheelType || wheelType === 'original') return;
+                    if (!wheelType || wheelType === 'original' || wheelType === 'serie') return;
 
                     car.traverse((child) => {
                         if (!child.isMesh || !child.material) return;
@@ -999,6 +1006,19 @@
                     });
                     
                     scene.add(car);
+
+                    // Aplicar configuración desde localStorage
+                    const configData = localStorage.getItem('carConfiguration');
+                    let wheelType = null;
+                    
+                    if (configData) {
+                        const config = JSON.parse(configData);
+                        wheelType = config.wheel || config.llantas || config.wheels || null;
+                    }
+
+                    // Aplicar tipo de ruedas
+                    ensureUniqueWheelMaterials(car);
+                    applyWheelType(car, wheelType);
 
                     const box = new THREE.Box3().setFromObject(car);
                     const size = box.getSize(new THREE.Vector3());
