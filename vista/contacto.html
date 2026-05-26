@@ -101,7 +101,7 @@
 
           <div class="panel panel--form">
             <h2 class="panel__title">Envíanos un mensaje</h2>
-            <form class="form" action="#" method="post" novalidate>
+            <form class="form" action="javascript:void(0)" novalidate>
               <div class="form__row">
                 <label class="field">
                   <span class="field__label">Nombre</span>
@@ -201,7 +201,7 @@
 </footer>
 <script type="module">
         import { getCurrentUser, createOrUpdateUserProfile, onAuthStateChange, signOut, insertData, getUserByEmail } from '../controlador/BBDD/SupabaseCliente.js';
-        import { showAlert } from '../components/modal.js';
+        import { showAlert } from './components/modal.js';
         
         document.addEventListener('DOMContentLoaded', async function() {
             const authMenu = document.getElementById('authMenu');
@@ -460,177 +460,6 @@
                 }
             });
         });
-    </script>
-
-    <!-- Script para scroll a modelos -->
-    <script>
-        // Función para redirigir a home con scroll a modelos
-        document.getElementById('modelosLink').addEventListener('click', function(e) {
-            e.preventDefault();
-            // Redirigir al home con parámetro para scroll
-            window.location.href = 'home.html#modelos';
-        });
-    </script>
-</main>
-
-    <!-- Popup Modal -->
-    <div id="legalModal" class="modal-overlay" style="display: none;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="modalTitle" class="modal-title">Título</h2>
-                <button class="modal-close" onclick="closeModal()">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div id="modalContent" class="modal-text">
-                    <!-- Content will be loaded here -->
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="modal-accept" onclick="acceptTerms()">Aceptar</button>
-            </div>
-        </div>
-    </div>
-
-    <script type="module">
-        import { getCurrentUser, createOrUpdateUserProfile, onAuthStateChange, signOut, insertData, getUserByEmail } from '../controlador/BBDD/SupabaseCliente.js';
-        import { showAlert } from '../components/modal.js';
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            // Variables del DOM
-            const authMenu = document.getElementById('authMenu');
-            const contactForm = document.getElementById('contactForm');
-            const privacyCheck = document.getElementById('privacyCheck');
-            const submitBtn = document.getElementById('submitBtn');
-            
-            // Verificar estado inicial de autenticación
-            getCurrentUser().then(user => {
-                updateAuthMenu(user);
-                if (user) {
-                    autoFillUserData(user);
-                }
-            });
-            
-            // Escuchar cambios en la autenticación
-            onAuthStateChange((user) => {
-                updateAuthMenu(user);
-                if (user) {
-                    autoFillUserData(user);
-                }
-            });
-            
-            function updateAuthMenu(user) {
-                if (user) {
-                    authMenu.innerHTML = `
-                        <div class="auth-dropdown">
-                            <button class="auth-dropdown-toggle">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; vertical-align: -2px; margin-right: 6px;">
-                                    <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.41 0-8 2-8 4.5V21h16v-2.5c0-2.5-3.59-4.5-8-4.5Z"/>
-                                </svg>
-                                Mi cuenta
-                            </button>
-                            <div class="auth-dropdown-menu">
-                                <a href="#">Cerrar sesión</a>
-                            </div>
-                        </div>
-                    `;
-                } else {
-                    authMenu.innerHTML = `
-                        <a href="InicioSesion.html">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; vertical-align: -2px; margin-right: 6px;">
-                                <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.41 0-8 2-8 4.5V21h16v-2.5c0-2.5-3.59-4.5-8-4.5Z"/>
-                            </svg>
-                            Iniciar sesión
-                        </a>
-                    `;
-                }
-            }
-            
-            function autoFillUserData(user) {
-                if (!user) return;
-                
-                // Obtener datos completos del usuario
-                getUserByEmail(user.email).then(userData => {
-                    if (userData && userData.length > 0) {
-                        const userInfo = userData[0];
-                        
-                        // Rellenar campos del formulario
-                        const nombreInput = document.getElementById('nombre');
-                        const apellidosInput = document.getElementById('apellidos');
-                        const emailInput = document.getElementById('email');
-                        
-                        if (nombreInput && userInfo.nombre) {
-                            nombreInput.value = userInfo.nombre;
-                        }
-                        
-                        if (apellidosInput && userInfo.apellidos) {
-                            apellidosInput.value = userInfo.apellidos;
-                        }
-                        
-                        if (emailInput && user.email) {
-                            emailInput.value = user.email;
-                            emailInput.readOnly = true;
-                            emailInput.style.backgroundColor = 'rgba(255, 255, 255, 0.08)';
-                        }
-                    }
-                });
-            }
-            
-            // Event listener para el formulario de contacto
-            if (contactForm) {
-                contactForm.addEventListener('submit', async function(e) {
-                    e.preventDefault();
-                    
-                    // Validar checkbox de privacidad
-                    if (!privacyCheck.checked) {
-                        showAlert('Error', 'Debes aceptar la política de privacidad para enviar el formulario.');
-                        return;
-                    }
-                    
-                    // Recoger datos del formulario
-                    const formData = new FormData(contactForm);
-                    const contactData = {
-                        nombre: formData.get('nombre') || '',
-                        apellidos: formData.get('apellidos') || '',
-                        email: formData.get('email') || '',
-                        telefono: formData.get('telefono') || '',
-                        asunto: formData.get('asunto') || '',
-                        mensaje: formData.get('mensaje') || '',
-                        fecha_envio: new Date().toISOString()
-                    };
-                    
-                    try {
-                        // Deshabilitar botón de envío
-                        submitBtn.disabled = true;
-                        submitBtn.textContent = 'Enviando...';
-                        
-                        // Insertar datos en la base de datos
-                        const result = await insertData('form_contacto', contactData);
-                        
-                        if (result.success) {
-                            showAlert('Éxito', 'Mensaje enviado correctamente. Nos pondremos en contacto contigo pronto.');
-                            contactForm.reset();
-                            
-                            // Limpiar checkbox
-                            privacyCheck.checked = false;
-                        } else {
-                            showAlert('Error', 'Error al enviar el mensaje: ' + result.error);
-                        }
-                    } catch (error) {
-                        console.error('Error al enviar formulario:', error);
-                        showAlert('Error', 'Error inesperado al enviar el mensaje. Por favor, inténtalo de nuevo.');
-                    } finally {
-                        // Rehabilitar botón de envío
-                        submitBtn.disabled = false;
-                        submitBtn.textContent = 'Enviar';
-                    }
-                });
-            }
-            
-            window.handleSignOut = async function() {
-                await signOut();
-                window.location.href = 'home.html';
-            };
-        });
 
         // Modal functions
         window.openPrivacyModal = function() {
@@ -721,6 +550,25 @@
             }
         });
     </script>
+</main>
+
+    <!-- Popup Modal -->
+    <div id="legalModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle" class="modal-title">Título</h2>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="modalContent" class="modal-text">
+                    <!-- Content will be loaded here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-accept" onclick="acceptTerms()">Aceptar</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Header Component -->
     <script type="module" src="components/header-component.js?v=3"></script>
