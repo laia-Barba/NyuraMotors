@@ -159,8 +159,8 @@ body.payment-page::before {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 2rem;
-    margin-top: 7rem;
+    margin-bottom: 0rem;
+    margin-top: 10rem;
     position: relative;
 }
 

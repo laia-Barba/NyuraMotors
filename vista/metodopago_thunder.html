@@ -846,32 +846,6 @@
                 const loading = document.getElementById('payment3dLoading');
                 if (!container || typeof THREE === 'undefined') return;
 
-                const cinematicScenes = [
-                    {
-                        title: 'Vista principal',
-                        description: '',
-                        camera: new THREE.Vector3(0, 1.5, 5),
-                        target: new THREE.Vector3(0, 0.5, 0)
-                    },
-                    {
-                        title: 'Perfil',
-                        description: '',
-                        camera: new THREE.Vector3(4, 1.5, 2),
-                        target: new THREE.Vector3(0, 0.5, 0)
-                    },
-                    {
-                        title: 'Trasera',
-                        description: '',
-                        camera: new THREE.Vector3(0, 1.5, -5),
-                        target: new THREE.Vector3(0, 0.5, 0)
-                    }
-                ];
-                
-                let currentSceneIndex = 0;
-                let nextSceneIndex = 1;
-                let transitionProgress = 0;
-                const transitionSpeed = 0.005;
-
                 const scene = new THREE.Scene();
                 const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
                 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -888,11 +862,29 @@
 
                 scene.add(new THREE.AmbientLight(0xffffff, 1.0));
                 const keyLight = new THREE.DirectionalLight(0xffffff, 1.2);
-                keyLight.position.set(5, 6, 7);
+                keyLight.position.set(-5, 6, 7);
+                keyLight.castShadow = true;
+                keyLight.shadow.mapSize.width = 2048;
+                keyLight.shadow.mapSize.height = 2048;
+                keyLight.shadow.camera.near = 0.5;
+                keyLight.shadow.camera.far = 50;
+                keyLight.shadow.camera.left = -10;
+                keyLight.shadow.camera.right = 10;
+                keyLight.shadow.camera.top = 10;
+                keyLight.shadow.camera.bottom = -10;
                 scene.add(keyLight);
                 const fillLight = new THREE.DirectionalLight(0xffffff, 0.6);
                 fillLight.position.set(-5, 3, 5);
                 scene.add(fillLight);
+
+                // Añadir plano para recibir sombras
+                const planeGeometry = new THREE.PlaneGeometry(50, 50);
+                const planeMaterial = new THREE.ShadowMaterial({ opacity: 0.5 });
+                const plane = new THREE.Mesh(planeGeometry, planeMaterial);
+                plane.rotation.x = -Math.PI / 2;
+                plane.position.y = 0.1;
+                plane.receiveShadow = true;
+                scene.add(plane);
 
                 const controls = new THREE.OrbitControls(camera, renderer.domElement);
                 controls.enabled = false;
@@ -1001,32 +993,30 @@
                 const loader = new THREE.GLTFLoader();
                 loader.load(modelPath, (gltf) => {
                     const car = gltf.scene;
-                    ensureUniqueWheelMaterials(car);
-                    applyWheelType(car, wheelType);
+                    
+                    // Habilitar sombras en el modelo
+                    car.traverse((child) => {
+                        if (child.isMesh) {
+                            child.castShadow = true;
+                            child.receiveShadow = true;
+                        }
+                    });
+                    
                     scene.add(car);
 
                     const box = new THREE.Box3().setFromObject(car);
                     const size = box.getSize(new THREE.Vector3());
                     const center = box.getCenter(new THREE.Vector3());
                     car.position.sub(center);
-                    car.position.x -= 0.69;
-                    car.position.y += 3.65;
-                    car.position.z -= 2.53;
+                    car.position.x += 1;
+                    car.position.y += 3.6;
 
                     const maxDim = Math.max(size.x, size.y, size.z);
                     const scaleTarget = 4.2;
                     car.scale.multiplyScalar(scaleTarget / maxDim);
 
-                    console.log('Modelo Thunder:');
-                    console.log('Posición del coche:', car.position);
-                    console.log('Escala del coche:', car.scale);
-                    console.log('Tamaño del coche:', size);
-                    console.log('Centro del coche:', center);
-                    console.log('Posición de la cámara:', cinematicScenes[0].camera);
-                    console.log('Target de la cámara:', cinematicScenes[0].target);
-
-                    camera.position.copy(cinematicScenes[0].camera);
-                    controls.target.copy(cinematicScenes[0].target);
+                    camera.position.set(3, 1.5, 6.5);
+                    controls.target.set(0, 0.5, 0);
                     controls.update();
 
                     if (loading) loading.style.display = 'none';
@@ -1034,21 +1024,6 @@
 
                 function animate() {
                     requestAnimationFrame(animate);
-
-                    transitionProgress += transitionSpeed;
-                    if (transitionProgress >= 1) {
-                        transitionProgress = 0;
-                        currentSceneIndex = nextSceneIndex;
-                        nextSceneIndex = (nextSceneIndex + 1) % cinematicScenes.length;
-                    }
-
-                    const eased = 1 - Math.pow(1 - transitionProgress, 3);
-                    const fromScene = cinematicScenes[currentSceneIndex];
-                    const toScene = cinematicScenes[nextSceneIndex];
-
-                    camera.position.lerpVectors(fromScene.camera, toScene.camera, eased);
-                    controls.target.lerpVectors(fromScene.target, toScene.target, eased);
-                    controls.update();
                     renderer.render(scene, camera);
                 }
                 animate();
