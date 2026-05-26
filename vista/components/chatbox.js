@@ -147,22 +147,8 @@ class Chatbox {
             });
         }
 
-        // Ocultar bocadillo después de 5 segundos
-        setTimeout(() => {
-            if (this.bubble) {
-                this.bubble.style.opacity = '0';
-                this.bubble.style.visibility = 'hidden';
-            }
-        }, 5000);
-        
-        // Mostrar bocadillo inicialmente
-        setTimeout(() => {
-            if (this.bubble) {
-                this.bubble.style.opacity = '1';
-                this.bubble.style.visibility = 'visible';
-                this.bubble.style.transform = 'translateY(0)';
-            }
-        }, 1000);
+        // Bocadillo permanece cerrado por defecto
+        // Solo se abre al hacer clic en el bot
     }
 
     toggleBubble() {
