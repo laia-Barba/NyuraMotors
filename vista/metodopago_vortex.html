@@ -295,7 +295,8 @@
                     // Actualizar precio base
                     const productPrice = document.getElementById('productPrice');
                     if (productPrice && config.basePrice) {
-                        productPrice.textContent = config.basePrice;
+                        const price = config.basePrice.toString();
+                        productPrice.textContent = price.includes('€') ? price : `${price} €`;
                     }
                     
                     const configColor = document.getElementById('configColor');
@@ -363,14 +364,17 @@
                     
                     // Actualizar precio en product-info
                     if (productPrice && config.totalPrice) {
-                        productPrice.textContent = config.totalPrice;
+                        const price = config.totalPrice.toString();
+                        productPrice.textContent = price.includes('€') ? price : `${price} €`;
                     }
                     
                     if (totalPrice && config.totalPrice) {
-                        totalPrice.textContent = config.totalPrice;
+                        const price = config.totalPrice.toString();
+                        totalPrice.textContent = price.includes('€') ? price : `${price} €`;
                     }
                     if (successTotalPrice && config.totalPrice) {
-                        successTotalPrice.textContent = config.totalPrice;
+                        const price = config.totalPrice.toString();
+                        successTotalPrice.textContent = price.includes('€') ? price : `${price} €`;
                     }
                 }
             };

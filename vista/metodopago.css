@@ -361,7 +361,7 @@ body.payment-page::before {
     font-family: 'Poppins', sans-serif;
     font-size: 2rem;
     font-weight: 800;
-    color: var(--payment-accent);
+    color: #ffffff;
 }
 
 .product-features {
@@ -913,7 +913,7 @@ body.payment-page::before {
 .detail-value {
     font-family: 'Poppins', sans-serif;
     font-size: 0.95rem;
-    color: var(--payment-text);
+    color: #ffffff;
     font-weight: 700;
 }
 
